@@ -11,9 +11,15 @@
   },
   {
    "id": "sata",
-   "name": "Фарбопульти SATA та інші",
+   "name": "Фарбопульти SATA",
    "icon": "🔫",
-   "count": 13
+   "count": 2
+  },
+  {
+   "id": "china",
+   "name": "Фарбопульти Китай",
+   "icon": "🇨🇳",
+   "count": 11
   },
   {
    "id": "acc",
@@ -203,7 +209,7 @@
   {
    "id": "sata-jet-x-pro",
    "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category_name": "Фарбопульти SATA",
    "name": "SATA jet X DIGITAL pro 1.2 / 1.3 RP I",
    "description": "Преміум-пістолет SATA з цифровим манометром adam X pro на рукоятці (показує фактичний і цільовий тиск — за даними SATA). Дюзи 1.2 або 1.3 RP I.",
    "price_eur": 750,
@@ -225,7 +231,7 @@
   {
    "id": "sata-100b",
    "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category_name": "Фарбопульти SATA",
    "name": "SATAjet 100 B RP 1.4",
    "description": "Пістолет SATA з технологією RP і дюзою 1.4. Мікрометр повітря на корпусі, регулювання факела та подачі матеріалу — за даними SATA.",
    "price_eur": 300,
@@ -244,8 +250,8 @@
   },
   {
    "id": "gun-primer-17-pps",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Ґрунтовочний фарбопульт 1.7 (PPS)",
    "description": "Ґрунтовочний фарбопульт з дюзою 1.7, працює на системі PPS.",
    "price_eur": 85,
@@ -264,8 +270,8 @@
   },
   {
    "id": "gun-hvlp-13",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт HVLP 1.3",
    "description": "Фарбопульт HVLP з дюзою 1.3.",
    "price_eur": 80,
@@ -284,8 +290,8 @@
   },
   {
    "id": "gun-mini-08",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Міні-джет HVLP 0.8",
    "description": "Міні-джет HVLP з дюзою 0.8.",
    "price_eur": 40,
@@ -304,8 +310,8 @@
   },
   {
    "id": "gun-pps-set",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульти на PPS-системі 1.3 / 1.4 / 1.7 / 1.8",
    "description": "Усі на PPS-системі, дюзи 1.3, 1.4, 1.7 або 1.8. Частина вже продана — наявність уточнюйте.",
    "price_eur": null,
@@ -326,8 +332,8 @@
   },
   {
    "id": "gun-ntools-tested",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт NTools (відтестований)",
    "description": "Відтестовано — відео в коментарях до поста. На повітряній голові — напис NTools.",
    "price_eur": null,
@@ -346,8 +352,8 @@
   },
   {
    "id": "gun-372",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт ELITE",
    "description": "Комплектація — як на фото в пості. На деталях видно напис ELITE.",
    "price_eur": null,
@@ -366,8 +372,8 @@
   },
   {
    "id": "gun-373",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт LISSON (фіолетовий)",
    "description": "Комплектація — як на фото в пості. На деталях видно напис LISSON.",
    "price_eur": null,
@@ -386,8 +392,8 @@
   },
   {
    "id": "gun-374",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт з чорною рукояткою",
    "description": "Комплектація — як на фото в пості.",
    "price_eur": null,
@@ -406,8 +412,8 @@
   },
   {
    "id": "gun-375",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт NTools (чорний)",
    "description": "Комплектація — як на фото в пості. На деталях видно напис NTools.",
    "price_eur": null,
@@ -426,8 +432,8 @@
   },
   {
    "id": "gun-376",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт NTools (кольоровий дизайн)",
    "description": "Комплектація — як на фото в пості. На деталях видно напис NTools.",
    "price_eur": null,
@@ -446,8 +452,8 @@
   },
   {
    "id": "gun-377",
-   "category": "sata",
-   "category_name": "Фарбопульти SATA та інші",
+   "category": "china",
+   "category_name": "Фарбопульти Китай",
    "name": "Фарбопульт (червоний дизайн)",
    "description": "Комплектація — як на фото в пості.",
    "price_eur": null,
