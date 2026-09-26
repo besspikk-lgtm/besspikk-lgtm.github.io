@@ -89,7 +89,7 @@
       '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img src="' + p.photo + '" alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400"></button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
       '<div class="card__body">' +
-        '<span class="card__cat">' + esc(p.category_name) + '</span>' +
+        '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + '</span>' +
         '<button class="card__name" type="button" data-open="' + p.id + '">' + esc(p.name) + '</button>' +
         '<div class="card__foot">' + pillHTML(p) + stockHTML(p) +
         (!hasPrice(p) && p.price_uah_original ? '<span class="uah">у пості: ' + esc(p.price_uah_original) + '</span>' : '') +
@@ -127,6 +127,13 @@
     showModal('#pmodal');
     document.title = p.name + ' — ' + CONFIG.siteName;
   }
+  function tdsHTML(p) {
+    var t = p.tds; if (!t || !t.rows) return '';
+    return '<details class="tds" open><summary><span class="emo">📄</span> Технічні дані (ТДС)</summary>' +
+      '<dl class="tds__dl">' + t.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
+      '<p class="tds__src"><a href="' + esc(t.url) + '" target="_blank" rel="noopener" data-tds-link>' + esc(t.label) + ' ↗</a>' +
+      (t.edition ? ' <span>· ' + esc(t.edition) + '</span>' : '') + '<br><span>Коротко нашими словами за даними виробника; у разі розбіжностей діє оригінал.</span></p></details>';
+  }
   function renderProduct() {
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
@@ -152,6 +159,7 @@
           '<a class="btn btn--o" href="' + CONFIG.viber + '">🟣 Viber</a>' +
           '<a class="btn btn--o" href="' + CONFIG.instagram + '" target="_blank" rel="noopener">📸 Instagram</a>' +
         '</div>' +
+        tdsHTML(p) +
         '<p class="pm__note">' + esc(p.price_note || '') + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
       '</div>';
   }
