@@ -415,3 +415,4 @@ html{scroll-padding-top:104px}
   .brands__row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .brandcard{height:84px;padding:6px 10px;border-radius:14px}
 }
+@media (max-width:420px){.brands__ttl{white-space:normal;letter-spacing:.08em}}
