@@ -124,10 +124,31 @@
     var chip = $('.chip.on'); if (chip && chip.scrollIntoView && window.innerWidth < 900) { var c = $('#chips'); c.scrollLeft = chip.offsetLeft - 16; }
   }
 
+  /* ---------- analytics (GoatCounter events; silently no-op if blocked) ---------- */
+  var gcQueue = [], gcTimer = null, gcTries = 0;
+  function gcReady() { return !!(window.goatcounter && typeof window.goatcounter.count === 'function'); }
+  function gcSend(ev) { try { window.goatcounter.count(ev); } catch (e) {} }
+  function gcFlush() {
+    gcTimer = null;
+    if (gcReady()) { var q = gcQueue; gcQueue = []; q.forEach(gcSend); return; }
+    if (++gcTries > 40) { gcQueue = []; return; } // ~12 s: script blocked or offline — drop quietly
+    gcTimer = setTimeout(gcFlush, 300);
+  }
+  function track(path, title) {
+    var ev = { path: path, title: title, event: true };
+    try {
+      if (gcReady()) { gcSend(ev); return; }
+      gcQueue.push(ev); // count.js loads async — e.g. direct #/p/… link opened before it arrived
+      if (!gcTimer) { gcTries = 0; gcTimer = setTimeout(gcFlush, 300); }
+    } catch (e) {}
+  }
+
   /* ---------- product modal ---------- */
   var pmState = { id: null, vi: 0, qty: 1 };
+  var trackedOpen = null; // product id already counted for the current modal open
   function openProduct(id) {
     var p = byId[id]; if (!p) return;
+    if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); }
     pmState = { id: id, vi: 0, qty: 1 };
     renderProduct();
     showModal('#pmodal');
@@ -166,7 +187,7 @@
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button></div>' +
         '<div class="cactions">' +
-          '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener">🤖 Замовити через бота</a>' +
+          '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">🤖 Замовити через бота</a>' +
           '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Telegram</a>' +
           '<a class="btn btn--o" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?')) + '" target="_blank" rel="noopener">🟢 WhatsApp</a>' +
           '<a class="btn btn--o" href="' + CONFIG.viber + '">🟣 Viber</a>' +
@@ -267,7 +288,7 @@
   }
   function hideModal() {
     if (!openModalEl) return;
-    openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = '';
+    openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = 'Alex_bes😈 — каталог: Meiji, SATA, Palinal, інструмент для малярів';
     if (/^#\/p\/|^#cart/.test(location.hash)) history.replaceState(null, '', lastListHash);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
@@ -282,6 +303,7 @@
     if ((m = h.match(/^#\/p\/([\w-]+)/))) { openProduct(m[1]); return; }
     if (h === '#cart') { renderCart(); showModal('#cmodal'); return; }
     if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
+    trackedOpen = null;
     if (h === '#how') { $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'how'); }); return; }
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'catalog'); });
     var prevCat = state.cat;
@@ -295,6 +317,7 @@
   document.addEventListener('click', function (e) {
     var t = e.target.closest('button, a'); if (!t) { if (e.target.hasAttribute && e.target.hasAttribute('data-close')) hideModal(); return; }
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
+    if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
     if (t.hasAttribute('data-open')) { location.hash = '#/p/' + t.getAttribute('data-open'); return; }
     if (t.hasAttribute('data-add')) {
       var p = byId[t.getAttribute('data-add')];
