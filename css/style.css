@@ -417,3 +417,5 @@ html{scroll-padding-top:104px}
 @keyframes promoBlink{0%,100%{opacity:1}50%{opacity:.25}}
 @keyframes promoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
 @media (max-width:760px){.promo{font-size:12px;padding:5px 10px;top:8px;left:8px}}
+/* gold «ХІТ» variant — same blink/pulse animation */
+.promo--hit{color:var(--navy-text);background:linear-gradient(180deg,var(--yellow-hi),var(--yellow2));box-shadow:0 0 0 2px var(--navy-text),0 0 0 4px var(--yellow),0 4px 14px rgba(6,36,87,.45)}

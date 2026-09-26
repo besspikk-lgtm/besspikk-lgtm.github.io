@@ -84,8 +84,11 @@
     }
     return list;
   }
-  var PROMO = { 'sata-jet-x-pro': 'Акція' };
-  function promoHTML(p) { return PROMO[p.id] ? '<span class="promo">🔥 ' + PROMO[p.id] + '</span>' : ''; }
+  var PROMO = { 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  function promoHTML(p) {
+    var t = PROMO[p.id]; if (!t) return '';
+    return t === 'ХІТ' ? '<span class="promo promo--hit">⭐ ' + t + '</span>' : '<span class="promo">🔥 ' + t + '</span>';
+  }
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +

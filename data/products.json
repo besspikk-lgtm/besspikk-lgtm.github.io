@@ -3548,8 +3548,8 @@
    "category": "tools",
    "category_name": "Інструмент і обладнання",
    "name": "Іонний антистатичний пістолет EASY PAINT",
-   "description": "Іонний / антистатичний пістолет. На корпусі — бренд EASY PAINT.",
-   "price_eur": 308,
+   "description": "Іонний антистатичний пістолет EASY PAINT для підготовки поверхні перед фарбуванням. Підключається до лінії стисненого повітря: високовольтний іонізатор насичує струмінь повітря іонами, які знімають статичний заряд із деталі й одночасно здувають пил. Після обробки пил і ворсинки менше притягуються до поверхні, тож у фарбі менше включень і менше переробок — особливо на пластикових деталях.",
+   "price_eur": 311,
    "price_label": null,
    "variants": null,
    "price_note": "Пост 336 (01.09.2026): 308€ · 360$ · 16 000 грн",
@@ -3558,9 +3558,9 @@
     "https://t.me/alex_bes_shoping/336",
     "https://t.me/alex_bes_shoping/276"
    ],
-   "photo": "img/p/antistatic-easy-paint.webp",
+   "photo": "img/p/antistatic-easy-paint.webp?v=2",
    "photo_is_placeholder": false,
-   "photo_source": "tg-prices/product-photos/antistatic/tg336_1.jpg",
+   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
    "in_stock": "В наявності",
    "flag": null
   },
