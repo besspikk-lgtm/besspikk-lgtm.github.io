@@ -400,3 +400,18 @@ html{scroll-padding-top:104px}
 .tgpromo__go{flex:none;margin-left:6px;padding:6px 12px;border-radius:10px;font-weight:800;font-size:13px;color:var(--navy-text);background:linear-gradient(180deg,var(--yellow-hi),var(--yellow2))}
 @media (max-width:760px){.tgpromo{justify-content:flex-start;padding:6px 12px}.tgpromo__go{margin-left:auto}}
 @media (max-width:760px){.tgpromo__txt b{white-space:normal;font-size:13.5px}.tgpromo__sub{font-size:12px}.tgpromo__go{padding:6px 10px;font-size:12.5px}.tgpromo__ico{width:28px;height:28px}}
+
+/* brand logos (Meiji / Palinal) above the intro */
+.brands{display:flex;align-items:center;gap:10px 18px;margin:0 0 16px}
+.brands__ttl{margin:0;font-size:12.5px;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:800;white-space:nowrap}
+.brands__row{display:grid;grid-template-columns:repeat(2,minmax(0,280px));gap:14px}
+.brandcard{display:flex;align-items:center;justify-content:center;height:104px;padding:9px 20px;background:#fff;border-radius:16px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.6),0 8px 22px rgba(0,0,0,.3);transition:transform .15s,box-shadow .15s}
+.brandcard img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
+.brandcard:hover{text-decoration:none;transform:translateY(-2px);box-shadow:0 0 0 2px var(--yellow),0 10px 26px rgba(0,0,0,.4)}
+.brandcard:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+@media (max-width:760px){
+  .brands{flex-direction:column;align-items:stretch;gap:8px;margin-bottom:14px}
+  .brands__row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .brandcard{height:84px;padding:6px 10px;border-radius:14px}
+}

@@ -318,6 +318,17 @@
     }
     if (t.hasAttribute('data-share')) { window.open('https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
     if (t.id === 'more') { renderMore(); return; }
+    if (t.hasAttribute('data-brand')) {
+      // brand logo cards: Meiji -> category, Palinal -> search across all Palinal categories
+      e.preventDefault();
+      var bq = t.getAttribute('data-brand-q') || '', bh = t.getAttribute('href') || '#/';
+      $('#q').value = bq; state.q = bq;
+      if ((location.hash || '#/') !== bh) history.pushState(null, '', bh);
+      route();
+      var res = $('.results'), hdr = $('.hdr');
+      if (res) window.scrollTo({ top: Math.max(0, res.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0) - 12), behavior: 'smooth' });
+      return;
+    }
     if (t.hasAttribute('data-focus-search')) { e.preventDefault(); if (location.hash !== '#/' && !/^#\/c\//.test(location.hash)) location.hash = '#/'; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function () { $('#q').focus(); }, 250); return; }
   });
   document.addEventListener('input', function (e) {
