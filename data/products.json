@@ -73,13 +73,7 @@
    "id": "tools",
    "name": "Інструмент і обладнання",
    "icon": "🛠️",
-   "count": 9
-  },
-  {
-   "id": "instruments",
-   "name": "Інструменти",
-   "icon": "🔨",
-   "count": 2
+   "count": 11
   }
  ],
  "products": [
@@ -3763,42 +3757,6 @@
    "flag": null
   },
   {
-   "id": "pdr-set",
-   "category": "instruments",
-   "category_name": "Інструменти",
-   "name": "Набір для ПДР",
-   "description": "Набір для ПДР — ремонту вм’ятин без фарбування. У комплекті молоток із двома змінними бойками (прозорий жовтий і чорний), осаджувач з помаранчевою ручкою та 8 змінних насадок різної форми на різьбі. Ручка молотка з гумовим покриттям.",
-   "price_eur": 10,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Ціна від Alex (26.09.2026)",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/pdr-set.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
-   "in_stock": "В наявності",
-   "flag": null
-  },
-  {
-   "id": "pdr-hook",
-   "category": "instruments",
-   "category_name": "Інструменти",
-   "name": "Гак для ПДР",
-   "description": "Гак для ПДР — ремонту вм’ятин без фарбування. Довгий металевий стрижень із вигнутим кінцем і різьбою під насадки, зручна ручка трикутної форми. У комплекті 12 змінних насадок різної форми.",
-   "price_eur": 20,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Ціна від Alex (26.09.2026)",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/pdr-hook.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
-   "in_stock": "В наявності",
-   "flag": null
-  },
-  {
    "id": "pal-075-0020-5l",
    "category": "rozch",
    "category_name": "Palinal розчинники та добавки",
@@ -4037,6 +3995,42 @@
    "flag": null,
    "code": "PALINAL POLYPAL 607",
    "brand": "Palinal"
+  },
+  {
+   "id": "pdr-set",
+   "category": "tools",
+   "category_name": "Інструмент і обладнання",
+   "name": "Набір для ПДР",
+   "description": "Набір для ПДР — ремонту вм’ятин без фарбування. У комплекті молоток із двома змінними бойками (прозорий жовтий і чорний), осаджувач з помаранчевою ручкою та 8 змінних насадок різної форми на різьбі. Ручка молотка з гумовим покриттям.",
+   "price_eur": 10,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (26.09.2026)",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/pdr-set.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
+   "in_stock": "В наявності",
+   "flag": null
+  },
+  {
+   "id": "pdr-hook",
+   "category": "tools",
+   "category_name": "Інструмент і обладнання",
+   "name": "Гак для ПДР",
+   "description": "Гак для ПДР — ремонту вм’ятин без фарбування. Довгий металевий стрижень із вигнутим кінцем і різьбою під насадки, зручна ручка трикутної форми. У комплекті 12 змінних насадок різної форми.",
+   "price_eur": 20,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (26.09.2026)",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/pdr-hook.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
+   "in_stock": "В наявності",
+   "flag": null
   },
   {
    "id": "pal-923-smart-5l",
