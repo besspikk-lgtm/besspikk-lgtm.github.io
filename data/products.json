@@ -67,13 +67,13 @@
    "id": "tools",
    "name": "Інструмент і обладнання",
    "icon": "🛠️",
-   "count": 12
+   "count": 9
   },
   {
    "id": "3m",
    "name": "3M",
    "icon": "🔴",
-   "count": 4
+   "count": 3
   }
  ],
  "products": [
@@ -528,9 +528,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/358"
    ],
-   "photo": "img/p/meiji-cup.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/meiji-cup.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://www.meijiair.co.jp/uploads/product/picture/gun/6CP.jpg",
    "in_stock": "В наявності",
    "flag": null
   },
@@ -548,9 +548,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/358"
    ],
-   "photo": "img/p/pps-adapter.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pps-adapter.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://macsalesco.com/products/mmm-26046",
    "in_stock": "В наявності",
    "flag": null
   },
@@ -568,9 +568,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/358"
    ],
-   "photo": "img/p/meiji-nozzle.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/meiji-nozzle.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://spraygunsusa.com/products/meiji-finer-core-1-5-replacement-nozzle",
    "in_stock": "В наявності",
    "flag": null
   },
@@ -1420,9 +1420,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/147"
    ],
-   "photo": "img/p/pal-923-mat5.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pal-923-mat5.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://www.palinal.com/products/car-refinish/voc-840-clear-coats-special-finish/923mat5-48.html",
    "in_stock": "В наявності",
    "flag": null,
    "code": "923.MAT5",
@@ -1816,9 +1816,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/383"
    ],
-   "photo": "img/p/pal-844-1k.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pal-844-1k.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://palinal.ru/.content/images/palinal844.20001.jpg",
    "in_stock": "В наявності",
    "flag": null,
    "code": "844.2000",
@@ -2025,9 +2025,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/383"
    ],
-   "photo": "img/p/pal-hydropal-filler.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pal-hydropal-filler.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://www.palinal.com/products/car-refinish/insulating-fillers/100f7035-35.html",
    "in_stock": "В наявності",
    "flag": null,
    "code": "100F7035",
@@ -2091,9 +2091,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/383"
    ],
-   "photo": "img/p/pal-fast-air.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pal-fast-air.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://www.palinal.com/products/car-refinish/filling-fillers/8736005-271.html",
    "in_stock": "В наявності",
    "flag": null,
    "code": "873.6005",
@@ -2169,9 +2169,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/383"
    ],
-   "photo": "img/p/pal-873-ff90.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pal-873-ff90.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://www.palinal.com/products/car-refinish/filling-fillers/873ff90-41.html",
    "in_stock": "В наявності",
    "flag": null,
    "code": "873.FF90",
@@ -2247,9 +2247,9 @@
    "source": [
     "https://t.me/alex_bes_shoping/145"
    ],
-   "photo": "img/p/pal-862-7777.webp",
-   "photo_is_placeholder": true,
-   "photo_source": null,
+   "photo": "img/p/pal-862-7777.webp?v=2",
+   "photo_is_placeholder": false,
+   "photo_source": "https://www.palinal.com/products/car-refinish/putties/8627777-95.html",
    "in_stock": "В наявності",
    "flag": null,
    "tds": {
@@ -3155,26 +3155,6 @@
    "code": "Washer"
   },
   {
-   "id": "devilbiss-proair3",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
-   "name": "DeVilbiss PROAIR-3 — блок підготовки повітря",
-   "description": "Трьохступеневий блок підготовки повітря DeVilbiss PROAIR-3 з манометром.",
-   "price_eur": null,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 189: «У наявності, ціна 🔥» — ціну уточнюйте",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/189"
-   ],
-   "photo": "img/p/devilbiss-proair3.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/189 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null
-  },
-  {
    "id": "baishangsi-sander",
    "category": "tools",
    "category_name": "Інструмент і обладнання",
@@ -3236,46 +3216,6 @@
    "flag": null
   },
   {
-   "id": "plastic-cutter",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
-   "name": "Пластиковий ніж-різак",
-   "description": "Пластиковий ніж-різак із захищеним лезом. Фасовка 10 шт.",
-   "price_eur": null,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 349 (10.09.2026)",
-   "price_uah_original": "50 грн / шт (фасовка 10 шт)",
-   "source": [
-    "https://t.me/alex_bes_shoping/349"
-   ],
-   "photo": "img/p/plastic-cutter.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/349 (фото 0)",
-   "in_stock": "Наявність уточнюйте",
-   "flag": null
-  },
-  {
-   "id": "carsystem-suit",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
-   "name": "Малярний комбінезон CARSYSTEM (M, XL)",
-   "description": "Залишилося 2 шт: розміри M і XL.",
-   "price_eur": 120,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 218 (03.07.2026)",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/218"
-   ],
-   "photo": "img/p/carsystem-suit.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/218 (фото 1)",
-   "in_stock": "Наявність уточнюйте",
-   "flag": null
-  },
-  {
    "id": "3m-accuspray-hg14",
    "category": "3m",
    "category_name": "3M",
@@ -3314,26 +3254,6 @@
    "photo": "img/p/3m-soft-abrasives.webp",
    "photo_is_placeholder": false,
    "photo_source": "https://t.me/alex_bes_shoping/207 (фото v0)",
-   "in_stock": "Наявність уточнюйте",
-   "flag": null
-  },
-  {
-   "id": "3m-suit-xl",
-   "category": "3m",
-   "category_name": "3M",
-   "name": "Малярний комбінезон 3M, розмір XL",
-   "description": "Комбінезон, розмір XL.",
-   "price_eur": 38,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 263 (30.07.2026)",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/263"
-   ],
-   "photo": "img/p/3m-suit-xl.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/263 (фото 0)",
    "in_stock": "Наявність уточнюйте",
    "flag": null
   },
