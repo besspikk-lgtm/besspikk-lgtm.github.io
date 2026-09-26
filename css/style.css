@@ -410,3 +410,10 @@ html{scroll-padding-top:104px}
 }
 @media (max-width:420px){.brands__ttl{letter-spacing:.08em}}
 @media (hover:none){.brandcard:hover{transform:none;background:transparent;box-shadow:none}.brandcard:hover img{filter:none}}
+/* blinking promo badge */
+.pm__img{position:relative}
+.promo{position:absolute;top:10px;left:10px;z-index:2;padding:6px 12px;border-radius:999px;font-weight:900;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:#fff;
+  background:linear-gradient(180deg,#ff3b3b,#d10000);box-shadow:0 0 0 2px var(--yellow),0 4px 14px rgba(255,0,0,.55);animation:promoBlink 1s steps(1,end) infinite, promoPulse 1s ease-in-out infinite}
+@keyframes promoBlink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes promoPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@media (max-width:760px){.promo{font-size:12px;padding:5px 10px;top:8px;left:8px}}

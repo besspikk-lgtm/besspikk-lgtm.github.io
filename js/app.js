@@ -84,10 +84,12 @@
     }
     return list;
   }
+  var PROMO = { 'sata-jet-x-pro': 'Акція' };
+  function promoHTML(p) { return PROMO[p.id] ? '<span class="promo">🔥 ' + PROMO[p.id] + '</span>' : ''; }
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
-      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img src="' + p.photo + '" alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400"></button>' +
+      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img src="' + p.photo + '" alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + '</span>' +
@@ -151,7 +153,7 @@
     var src = (p.source || []).filter(function (u) { return /^https:\/\/t\.me\//.test(u); })[0];
     var tgAsk = 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?'));
     $('#pm').innerHTML =
-      '<div class="pm__img"><img src="' + p.photo + '" alt="' + esc(p.name) + '"></div>' +
+      '<div class="pm__img"><img src="' + p.photo + '" alt="' + esc(p.name) + '">' + promoHTML(p) + '</div>' +
       '<div class="pm__info">' +
         '<span class="pm__cat">' + esc(p.category_name) + '</span>' +
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
