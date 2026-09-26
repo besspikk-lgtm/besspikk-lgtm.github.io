@@ -19,7 +19,7 @@
    "id": "acc",
    "name": "Манометри, PPS та аксесуари",
    "icon": "⚙️",
-   "count": 6
+   "count": 5
   },
   {
    "id": "lak",
@@ -566,39 +566,6 @@
    "photo_is_placeholder": false,
    "photo_source": "https://spraygunsusa.com/products/meiji-finer-core-1-5-replacement-nozzle",
    "in_stock": "В наявності",
-   "flag": null
-  },
-  {
-   "id": "solid-nt05-eps",
-   "category": "acc",
-   "category_name": "Манометри, PPS та аксесуари",
-   "name": "SOLID NT05-EPS — система підготовки ЛФМ",
-   "description": "Комплектація: мірний стакан 1 шт, запірне кільце 1 шт, 50 вкладишів, 50 фільтрів, 20 пробок, 5 мішалок. Окремо є PPS-перехідники NT05: для ONETECH / WALCOM, DeVilbiss, IWATA SUPERNOVA, SATA.",
-   "price_eur": 29.35,
-   "price_label": null,
-   "variants": [
-    {
-     "label": "400 мл · фільтр 125 мк",
-     "price_eur": 29.35
-    },
-    {
-     "label": "600 мл · фільтр 125 / 190 мк",
-     "price_eur": 34.0
-    },
-    {
-     "label": "800 мл · фільтр 125 / 190 мк",
-     "price_eur": 38.0
-    }
-   ],
-   "price_note": "Пост 193 (16.06.2026). При замовленні від 10 ящиків — знижка.",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/193"
-   ],
-   "photo": "img/p/solid-nt05-eps.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/193 (фото 0)",
-   "in_stock": "Наявність уточнюйте",
    "flag": null
   },
   {
