@@ -134,6 +134,12 @@
       '<p class="tds__src">' + (t.url ? '<a href="' + esc(t.url) + '" target="_blank" rel="noopener" data-tds-link>' + esc(t.label) + ' ↗</a>' +
       (t.edition ? ' <span>· ' + esc(t.edition) + '</span>' : '') + '<br>' : '') + '<span>Коротко нашими словами за даними технічного паспорта виробника' + (t.url ? '; у разі розбіжностей діє оригінал.' : '.') + '</span></p></details>';
   }
+  function specsHTML(p) {
+    var s = p.specs; if (!s || !s.rows) return '';
+    return '<details class="tds specs" open><summary><span class="emo">⚙️</span> Технічні характеристики</summary>' +
+      '<dl class="tds__dl specs__dl">' + s.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
+      (s.src ? '<p class="tds__src specs__src"><span>' + esc(s.src) + '</span></p>' : '') + '</details>';
+  }
   function renderProduct() {
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
@@ -159,7 +165,7 @@
           '<a class="btn btn--o" href="' + CONFIG.viber + '">🟣 Viber</a>' +
           '<a class="btn btn--o" href="' + CONFIG.instagram + '" target="_blank" rel="noopener">📸 Instagram</a>' +
         '</div>' +
-        tdsHTML(p) +
+        specsHTML(p) + tdsHTML(p) +
         '<p class="pm__note">' + esc(p.price_note || '') + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
       '</div>';
   }
