@@ -254,7 +254,7 @@
   function hideModal() {
     if (!openModalEl) return;
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = '';
-    document.title = 'Alex_bes😈 — каталог: Meiji, SATA, Palinal, 3M, інструмент для малярів';
+    document.title = 'Alex_bes😈 — каталог: Meiji, SATA, Palinal, інструмент для малярів';
     if (/^#\/p\/|^#cart/.test(location.hash)) history.replaceState(null, '', lastListHash);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }

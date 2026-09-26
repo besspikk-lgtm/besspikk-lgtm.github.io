@@ -68,12 +68,6 @@
    "name": "Інструмент і обладнання",
    "icon": "🛠️",
    "count": 9
-  },
-  {
-   "id": "3m",
-   "name": "3M",
-   "icon": "🔴",
-   "count": 3
   }
  ],
  "products": [
@@ -3213,68 +3207,6 @@
    "photo_is_placeholder": false,
    "photo_source": "https://t.me/alex_bes_shoping/277 (фото 0)",
    "in_stock": "В наявності",
-   "flag": null
-  },
-  {
-   "id": "3m-accuspray-hg14",
-   "category": "3m",
-   "category_name": "3M",
-   "name": "3M Accuspray HG14 — ґрунтовочний фарбопульт",
-   "description": "Ґрунтовочний під «мокряки» і наповнювачі, під стандартну PPS-систему. Голови HVLP 1.4 / 1.8 / 2.0.",
-   "price_eur": 200,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пости 120 і 132 (березень 2026). У підписі — модель 16566 HG14, на коробці — 16577.",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/120",
-    "https://t.me/alex_bes_shoping/132"
-   ],
-   "photo": "img/p/3m-accuspray-hg14.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/120 (фото 0)",
-   "in_stock": "Наявність уточнюйте",
-   "flag": null
-  },
-  {
-   "id": "3m-soft-abrasives",
-   "category": "3m",
-   "category_name": "3M",
-   "name": "3M абразиви на м’якій підкладці P400–P2000",
-   "description": "Оригінал 3M, 2025 рік виготовлення. Зернистість P400, P600, P800, P1000, P1500, P2000. Опт від 100 шт — ціну уточнюйте.",
-   "price_eur": 4.5,
-   "price_label": "1 шт (роздріб)",
-   "variants": null,
-   "price_note": "Пости 207 і 217 (червень 2026): роздріб 4,5€ від 1 шт",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/207",
-    "https://t.me/alex_bes_shoping/217"
-   ],
-   "photo": "img/p/3m-soft-abrasives.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/207 (фото v0)",
-   "in_stock": "Наявність уточнюйте",
-   "flag": null
-  },
-  {
-   "id": "3m-pps-organizer",
-   "category": "3m",
-   "category_name": "3M",
-   "name": "3M органайзер під PPS",
-   "description": "Органайзер (диспенсер) під PPS від 3M.",
-   "price_eur": null,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 427 (25.09.2026): «яка ціна влаштує?» — ціну уточнюйте",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/427"
-   ],
-   "photo": "img/p/3m-pps-organizer.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/427 (фото 0)",
-   "in_stock": "Наявність уточнюйте",
    "flag": null
   },
   {
