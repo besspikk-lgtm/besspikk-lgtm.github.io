@@ -74,6 +74,12 @@
    "name": "Інструмент і обладнання",
    "icon": "🛠️",
    "count": 9
+  },
+  {
+   "id": "instruments",
+   "name": "Інструменти",
+   "icon": "🔨",
+   "count": 1
   }
  ],
  "products": [
@@ -3753,6 +3759,24 @@
    "photo": "img/p/sanding-block-kit-7.webp",
    "photo_is_placeholder": false,
    "photo_source": "https://t.me/alex_bes_shoping/277 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null
+  },
+  {
+   "id": "pdr-set",
+   "category": "instruments",
+   "category_name": "Інструменти",
+   "name": "Набір для ПДР",
+   "description": "Набір для ПДР — ремонту вм’ятин без фарбування. У комплекті молоток із двома змінними бойками (прозорий жовтий і чорний), осаджувач з помаранчевою ручкою та 8 змінних насадок різної форми на різьбі. Ручка молотка з гумовим покриттям.",
+   "price_eur": 10,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (26.09.2026)",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/pdr-set.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
    "in_stock": "В наявності",
    "flag": null
   },
