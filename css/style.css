@@ -287,18 +287,13 @@ html{scroll-padding-top:104px}
 .cartbtn{background:var(--yellow);box-shadow:0 4px 16px rgba(255,215,0,.3)}
 .cartbtn .badge{box-shadow:0 0 0 2px var(--bg2)}
 
-/* hero: flag band */
+/* hero: intro card (flag graphic removed) */
 .intro{position:relative;overflow:hidden;border-radius:18px;padding:20px 22px 22px;margin-bottom:14px;
   background:linear-gradient(180deg,#0a63cc 0%,var(--blue) 58%,#004a9e 100%);box-shadow:0 10px 30px rgba(0,0,0,.3)}
 .intro::before{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--yellow-hi),var(--yellow),var(--yellow2))}
-.intro::after{content:"";position:absolute;right:22px;top:50%;width:96px;height:64px;margin-top:-36px;border-radius:4px;
-  background:linear-gradient(180deg,var(--blue2) 50%,var(--yellow) 50%);box-shadow:0 0 0 2px rgba(255,255,255,.25),0 6px 18px rgba(0,0,0,.3);
-  -webkit-mask:linear-gradient(90deg,#000 0 100%);transform-origin:left center;animation:uaWave 4s ease-in-out infinite}
-.intro h1,.intro p{position:relative;z-index:1;max-width:calc(100% - 130px)}
+.intro h1,.intro p{position:relative;z-index:1}
 .intro h1{color:#fff;margin:0 0 4px}
 .intro p{color:#eaf2ff;margin:0}
-@keyframes uaWave{0%,100%{transform:perspective(300px) rotateY(0) skewY(0)}50%{transform:perspective(300px) rotateY(-14deg) skewY(-3deg)}}
-@media (prefers-reduced-motion:reduce){.intro::after{animation:none}}
 
 /* chips & side */
 .chip{background:var(--blue);border-color:#2f73d0;color:#fff}
@@ -367,9 +362,6 @@ html{scroll-padding-top:104px}
   .hdr::after{height:11px;background-size:auto 11px}
   .main{padding-top:24px}
   .intro{padding:16px 16px 18px}
-  .intro::after{width:62px;height:42px;right:14px;top:18px;margin-top:0}
-  .intro h1{max-width:calc(100% - 80px)}
-  .intro p{max-width:none}
   .ftr::before{height:20px;background-size:auto 14px}
 }
 .side{top:112px}
@@ -401,18 +393,20 @@ html{scroll-padding-top:104px}
 @media (max-width:760px){.tgpromo{justify-content:flex-start;padding:6px 12px}.tgpromo__go{margin-left:auto}}
 @media (max-width:760px){.tgpromo__txt b{white-space:normal;font-size:13.5px}.tgpromo__sub{font-size:12px}.tgpromo__go{padding:6px 10px;font-size:12.5px}.tgpromo__ico{width:28px;height:28px}}
 
-/* brand logos (Meiji / Palinal) above the intro */
-.brands{display:flex;align-items:center;gap:10px 18px;margin:0 0 16px}
-.brands__ttl{margin:0;font-size:12.5px;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:800;white-space:nowrap}
-.brands__row{display:grid;grid-template-columns:repeat(2,minmax(0,280px));gap:14px}
-.brandcard{display:flex;align-items:center;justify-content:center;height:104px;padding:9px 20px;background:#fff;border-radius:16px;
-  box-shadow:0 0 0 1px rgba(255,255,255,.6),0 8px 22px rgba(0,0,0,.3);transition:transform .15s,box-shadow .15s}
-.brandcard img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain}
-.brandcard:hover{text-decoration:none;transform:translateY(-2px);box-shadow:0 0 0 2px var(--yellow),0 10px 26px rgba(0,0,0,.4)}
+/* brand logos (Meiji / Palinal) above the intro: centered title, transparent logos straight on the navy bg */
+.brands{display:flex;flex-direction:column;align-items:center;gap:10px;margin:0 0 16px}
+.brands__ttl{margin:0;font-size:12.5px;line-height:1.2;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:800;text-align:center}
+.brands__row{display:grid;grid-template-columns:repeat(2,minmax(0,300px));gap:18px;justify-content:center;width:100%}
+.brandcard{display:flex;align-items:center;justify-content:center;height:124px;padding:6px 12px;border-radius:16px;background:transparent;
+  transition:transform .15s,background-color .15s,box-shadow .15s}
+.brandcard img{display:block;width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;transition:filter .15s}
+.brandcard:hover{text-decoration:none;transform:translateY(-2px);background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,215,0,.55)}
+.brandcard:hover img{filter:brightness(1.06) drop-shadow(0 6px 14px rgba(0,0,0,.35))}
 .brandcard:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
 @media (max-width:760px){
-  .brands{flex-direction:column;align-items:stretch;gap:8px;margin-bottom:14px}
+  .brands{gap:8px;margin-bottom:14px}
   .brands__row{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-  .brandcard{height:84px;padding:6px 10px;border-radius:14px}
+  .brandcard{height:92px;padding:4px 6px;border-radius:14px}
 }
-@media (max-width:420px){.brands__ttl{white-space:normal;letter-spacing:.08em}}
+@media (max-width:420px){.brands__ttl{letter-spacing:.08em}}
+@media (hover:none){.brandcard:hover{transform:none;background:transparent;box-shadow:none}.brandcard:hover img{filter:none}}
