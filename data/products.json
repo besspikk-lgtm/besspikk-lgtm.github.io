@@ -79,7 +79,7 @@
    "id": "instruments",
    "name": "Інструменти",
    "icon": "🔨",
-   "count": 1
+   "count": 2
   }
  ],
  "products": [
@@ -3775,6 +3775,24 @@
    "price_uah_original": null,
    "source": [],
    "photo": "img/p/pdr-set.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
+   "in_stock": "В наявності",
+   "flag": null
+  },
+  {
+   "id": "pdr-hook",
+   "category": "instruments",
+   "category_name": "Інструменти",
+   "name": "Гак для ПДР",
+   "description": "Гак для ПДР — ремонту вм’ятин без фарбування. Довгий металевий стрижень із вигнутим кінцем і різьбою під насадки, зручна ручка трикутної форми. У комплекті 12 змінних насадок різної форми.",
+   "price_eur": 20,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (26.09.2026)",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/pdr-hook.webp",
    "photo_is_placeholder": false,
    "photo_source": "фото Alex (надіслане в чат, 26.09.2026)",
    "in_stock": "В наявності",
