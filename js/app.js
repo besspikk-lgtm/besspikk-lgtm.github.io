@@ -2,7 +2,10 @@
 (function () {
   'use strict';
   var CONFIG = {
-    orderTelegram: 'https://t.me/AlexBes26_discount', // куди відкривається Telegram з кошика
+    orderTelegram: 'https://t.me/alex_bespik', // особистий Telegram для замовлень
+    whatsapp: 'https://wa.me/380995264262',
+    viber: 'viber://chat?number=%2B380995264262',
+    instagram: 'https://ig.me/m/alex_bespik',
     phone: '+380995264262', phoneLabel: '099 526 42 62',
     siteName: 'Alex_bes😈'
   };
@@ -130,7 +133,12 @@
         '<p class="pm__desc">' + esc(p.description) + '</p>' +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button></div>' +
-        '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Запитати в Telegram</a>' +
+        '<div class="cactions">' +
+          '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Telegram</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?')) + '" target="_blank" rel="noopener">🟢 WhatsApp</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.viber + '">🟣 Viber</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.instagram + '" target="_blank" rel="noopener">📸 Instagram</a>' +
+        '</div>' +
         '<p class="pm__note">' + esc(p.price_note || '') + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
       '</div>';
   }
@@ -194,13 +202,15 @@
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
       '</div>' +
       '<div class="cactions">' +
-        '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати замовлення в Telegram</button>' +
-        '<button class="btn btn--b" type="button" data-share>Поділитися в Telegram</button>' +
+        '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати в Telegram</button>' +
+        '<button class="btn btn--y" type="button" data-wa>🟢 WhatsApp</button>' +
+        '<button class="btn btn--y" type="button" data-viber>🟣 Viber</button>' +
+        '<button class="btn btn--b" type="button" data-ig>📸 Instagram</button>' +
         '<button class="btn btn--o" type="button" data-copy>📋 Скопіювати текст</button>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">📞 Подзвонити ' + CONFIG.phoneLabel + '</a>' +
       '</div>' +
       '<details class="preview"><summary>Текст замовлення</summary><pre id="otext"></pre></details>' +
-      '<p class="cnote" style="margin-top:10px">«Надіслати» копіює текст і відкриває Telegram — вставте його в чат. «Поділитися» відкриває вибір чату з уже вставленим текстом.</p>';
+      '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У WhatsApp текст підставиться сам, у Telegram, Viber та Instagram — текст копіюється, просто вставте його в чат.</p>';
     $('#otext').textContent = orderText();
   }
   function copyText(t) {
@@ -265,6 +275,13 @@
       var w = window.open(CONFIG.orderTelegram, '_blank', 'noopener');
       copyText(orderText()).then(function (ok) { toast(ok ? 'Текст скопійовано — вставте його в чат Telegram ✅' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
       if (!w) location.href = CONFIG.orderTelegram;
+      return;
+    }
+    if (t.hasAttribute('data-wa')) { window.open(CONFIG.whatsapp + '?text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
+    if (t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) {
+      var isV = t.hasAttribute('data-viber'), app = isV ? 'Viber' : 'Instagram';
+      copyText(orderText()).then(function (ok) { toast(ok ? 'Текст скопійовано — вставте його в чат ' + app + ' ✅' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
+      if (isV) location.href = CONFIG.viber; else window.open(CONFIG.instagram, '_blank', 'noopener');
       return;
     }
     if (t.hasAttribute('data-share')) { window.open('https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
