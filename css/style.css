@@ -369,3 +369,12 @@ html{scroll-padding-top:104px}
 }
 .side{top:112px}
 .how__card{padding:0;border:2px solid transparent;background:linear-gradient(var(--surface),var(--surface)) padding-box,var(--frame) border-box}
+
+/* categories as a tile grid (all visible at once) */
+.chips{display:none;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;overflow:visible;margin:0;padding:4px 0 14px}
+.chip{display:flex;align-items:center;justify-content:space-between;gap:6px;white-space:normal;line-height:1.2;border-radius:14px;padding:10px 12px;font-size:13.5px;min-height:48px;text-align:left}
+.chip small{flex:none;background:rgba(255,255,255,.16);border-radius:999px;padding:2px 8px;margin-left:0;font-size:12px;opacity:1}
+.chip.on small{background:rgba(6,36,87,.15)}
+.chip[data-cat="all"]{grid-column:1/-1;justify-content:center;gap:10px}
+@media (min-width:600px){.chips{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:899px){.chips{display:grid}}
