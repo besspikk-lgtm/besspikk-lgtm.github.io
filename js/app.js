@@ -131,8 +131,8 @@
     var t = p.tds; if (!t || !t.rows) return '';
     return '<details class="tds" open><summary><span class="emo">📄</span> Технічні дані (ТДС)</summary>' +
       '<dl class="tds__dl">' + t.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
-      '<p class="tds__src"><a href="' + esc(t.url) + '" target="_blank" rel="noopener" data-tds-link>' + esc(t.label) + ' ↗</a>' +
-      (t.edition ? ' <span>· ' + esc(t.edition) + '</span>' : '') + '<br><span>Коротко нашими словами за даними виробника; у разі розбіжностей діє оригінал.</span></p></details>';
+      '<p class="tds__src">' + (t.url ? '<a href="' + esc(t.url) + '" target="_blank" rel="noopener" data-tds-link>' + esc(t.label) + ' ↗</a>' +
+      (t.edition ? ' <span>· ' + esc(t.edition) + '</span>' : '') + '<br>' : '') + '<span>Коротко нашими словами за даними технічного паспорта виробника' + (t.url ? '; у разі розбіжностей діє оригінал.' : '.') + '</span></p></details>';
   }
   function renderProduct() {
     var p = byId[pmState.id];
