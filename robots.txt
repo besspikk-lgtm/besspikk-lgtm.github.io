@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://besspikk-lgtm.github.io/sitemap.xml
