@@ -3,6 +3,7 @@
   'use strict';
   var CONFIG = {
     orderTelegram: 'https://t.me/alex_bespik', // особистий Telegram для замовлень
+    orderBot: 'https://t.me/AlexBes_order_bot',
     whatsapp: 'https://wa.me/380995264262',
     viber: 'viber://chat?number=%2B380995264262',
     instagram: 'https://ig.me/m/alex_bespik',
@@ -160,6 +161,7 @@
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button></div>' +
         '<div class="cactions">' +
+          '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener">🤖 Замовити через бота</a>' +
           '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Telegram</a>' +
           '<a class="btn btn--o" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?')) + '" target="_blank" rel="noopener">🟢 WhatsApp</a>' +
           '<a class="btn btn--o" href="' + CONFIG.viber + '">🟣 Viber</a>' +
@@ -229,6 +231,7 @@
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
       '</div>' +
       '<div class="cactions">' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=order" target="_blank" rel="noopener">🤖 Бот для замовлень</a>' +
         '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати в Telegram</button>' +
         '<button class="btn btn--y" type="button" data-wa>🟢 WhatsApp</button>' +
         '<button class="btn btn--y" type="button" data-viber>🟣 Viber</button>' +
