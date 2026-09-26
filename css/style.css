@@ -237,3 +237,7 @@ details.preview pre{white-space:pre-wrap;background:var(--bg2);padding:10px;bord
   .cform{grid-template-columns:1fr}
   .cactions{grid-template-columns:1fr}
 }
+
+.more{display:block;margin:20px auto 0;min-width:240px}
+.more[hidden]{display:none}
+.stock--out{color:#ff8a80} .stock--out::before{background:#ff8a80;box-shadow:none}

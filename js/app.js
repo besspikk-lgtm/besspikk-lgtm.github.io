@@ -42,7 +42,7 @@
   }
   function stockHTML(p) {
     var s = p.in_stock || '';
-    var cls = /наявн/i.test(s) && !/уточн/i.test(s) ? '' : /дороз/i.test(s) ? ' stock--way' : ' stock--ask';
+    var cls = /немає/i.test(s) ? ' stock--out' : /наявн/i.test(s) && !/уточн/i.test(s) ? '' : /дороз|замовл/i.test(s) ? ' stock--way' : ' stock--ask';
     return '<span class="stock' + cls + '">' + esc(s) + '</span>';
   }
 
@@ -60,7 +60,7 @@
   function norm(s) { return String(s).toLowerCase().replace(/[’'`ʼ]/g, '').replace(/ґ/g, 'г'); }
   var index = {};
   PRODUCTS.forEach(function (p) {
-    var t = norm([p.name, p.category_name, p.description].join(' '));
+    var t = norm([p.name, p.code || '', p.brand || '', p.category_name, p.description].join(' '));
     index[p.id] = t + ' ' + t.replace(/[.\-\/]/g, '');
   });
   function filtered() {
@@ -70,14 +70,16 @@
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
     var order = {}; CATS.forEach(function (c, i) { order[c.id] = i; });
+    var oos = function (p) { return /немає/i.test(p.in_stock || '') ? 1 : 0; };
     var pr = function (p) { return hasPrice(p) ? p.price_eur : null; };
     if (state.sort === 'pa' || state.sort === 'pd') {
       var dir = state.sort === 'pa' ? 1 : -1;
-      list.sort(function (a, b) { var x = pr(a), y = pr(b); if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1; return (x - y) * dir; });
+      list.sort(function (a, b) { if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1; return (x - y) * dir; });
     } else if (state.sort === 'na') {
-      list.sort(function (a, b) { return a.name.localeCompare(b.name, 'uk'); });
+      list.sort(function (a, b) { return oos(a) - oos(b) || a.name.localeCompare(b.name, 'uk'); });
     } else {
-      list.sort(function (a, b) { return order[a.category] - order[b.category]; });
+      list.forEach(function (p, i) { p._i = i; });
+      list.sort(function (a, b) { return oos(a) - oos(b) || order[a.category] - order[b.category] || a._i - b._i; });
     }
     return list;
   }
@@ -94,9 +96,20 @@
         '</div>' +
       '</div></div></li>';
   }
+  var PAGE = 48, curList = [], shown = 0, io = null;
+  function renderMore() {
+    var next = curList.slice(shown, shown + PAGE);
+    $('#grid').insertAdjacentHTML('beforeend', next.map(function (p, i) { return cardHTML(p, shown + i); }).join(''));
+    shown += next.length;
+    var more = $('#more');
+    more.hidden = shown >= curList.length;
+    more.textContent = 'Показати ще (' + (curList.length - shown) + ')';
+  }
   function renderGrid() {
     var list = filtered();
-    $('#grid').innerHTML = list.map(cardHTML).join('');
+    curList = list; shown = 0;
+    $('#grid').innerHTML = '';
+    renderMore();
     $('#empty').hidden = list.length > 0;
     var title = state.cat === 'all' ? 'Усі товари' : catById[state.cat].name;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + catById[state.cat].name : '');
@@ -249,9 +262,11 @@
     if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     if (h === '#how') { $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'how'); }); return; }
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'catalog'); });
+    var prevCat = state.cat;
     if ((m = h.match(/^#\/c\/([\w-]+)/)) && catById[m[1]]) state.cat = m[1]; else state.cat = 'all';
     lastListHash = h;
     renderGrid();
+    if (prevCat !== state.cat && window.scrollY > $('#catalog').offsetTop + 40) window.scrollTo(0, Math.max(0, $('#catalog').offsetTop - ($('.hdr') ? $('.hdr').offsetHeight : 0)));
   }
 
   /* ---------- events ---------- */
@@ -285,6 +300,7 @@
       return;
     }
     if (t.hasAttribute('data-share')) { window.open('https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
+    if (t.id === 'more') { renderMore(); return; }
     if (t.hasAttribute('data-focus-search')) { e.preventDefault(); if (location.hash !== '#/' && !/^#\/c\//.test(location.hash)) location.hash = '#/'; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function () { $('#q').focus(); }, 250); return; }
   });
   document.addEventListener('input', function (e) {
@@ -305,6 +321,10 @@
 
   /* ---------- init ---------- */
   renderCats(); updateBadges();
+  if ('IntersectionObserver' in window) {
+    io = new IntersectionObserver(function (en) { if (en[0].isIntersecting && shown < curList.length) renderMore(); }, { rootMargin: '600px 0px' });
+    io.observe($('#more'));
+  }
   var upd = $('#upd'); if (upd) upd.textContent = new Date(DATA.updated || Date.now()).toLocaleDateString('uk-UA');
   route();
 })();
