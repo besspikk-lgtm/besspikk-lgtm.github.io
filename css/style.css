@@ -610,3 +610,70 @@ body.has-cmpbar{padding-bottom:calc(68px + 64px + env(safe-area-inset-bottom))}
 .vids__list--v{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .vids__list--v .vid__play{width:42px;height:42px}
 .vids__list--v .vid__ext{text-align:center;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:clip}
+
+/* ===== головний банер-карусель (02.10.2026): 🔧 кузовні роботи + 🔥 Акції + ✅ Новинки — обгортає старий .hero ===== */
+.bnr__track{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.bnr__track::-webkit-scrollbar{display:none}
+.bnr__slide{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column}
+.bnr__slide .hero__btn{margin-top:auto}
+.bnr__slide .hero__frame{margin-bottom:12px}
+.bnr__tag{position:absolute;top:7px;right:8px;z-index:1;max-width:calc(100% - 16px);padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;line-height:1.25;
+  color:var(--navy-text);background:linear-gradient(180deg,var(--yellow-hi),var(--yellow2));box-shadow:0 2px 10px rgba(0,0,0,.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bnr__promo{display:flex;flex-direction:column;aspect-ratio:1672/948;color:var(--text);padding:12px 14px 20px;
+  background:radial-gradient(420px 220px at 100% 0%,rgba(255,215,0,.16),transparent 60%),linear-gradient(160deg,var(--surface2),var(--bg2) 75%);
+  box-shadow:inset 0 0 0 1.5px var(--line),0 10px 30px rgba(0,0,0,.3)}
+.bnr__promo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;background:linear-gradient(90deg,var(--yellow-hi),var(--yellow),var(--yellow2))}
+.bnr__promo:hover{text-decoration:none}
+.bnr__slide--new .bnr__promo{background:radial-gradient(420px 220px at 100% 0%,rgba(57,255,20,.12),transparent 60%),linear-gradient(160deg,var(--surface2),var(--bg2) 75%)}
+.bnr__head{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px}
+.bnr__ttl{font-size:24px;font-weight:900;color:var(--yellow);text-shadow:0 0 14px rgba(255,215,0,.35)}
+.bnr__slide--new .bnr__ttl{color:#7dff6a;text-shadow:0 0 12px rgba(57,255,20,.45)}
+.bnr__sub{font-size:13.5px;color:var(--muted);font-weight:600}
+.bnr__items{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:10px}
+.bnr__items--1{grid-template-columns:minmax(0,1fr)}
+.bnr__items--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.bnr__it{display:flex;flex-direction:column;gap:5px;min-height:0;min-width:0}
+.bnr__it img{flex:1;min-height:0;width:100%;object-fit:contain;background:#fff;border-radius:10px;box-shadow:0 0 0 1.5px var(--line)}
+.bnr__nm{font-size:12px;font-weight:700;line-height:1.25;color:var(--text2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bnr__items--1 .bnr__it{flex-direction:row;align-items:center;gap:12px}
+.bnr__items--1 .bnr__it img{flex:0 0 auto;height:100%;width:auto;aspect-ratio:1}
+.bnr__items--1 .bnr__nm{font-size:16px;-webkit-line-clamp:4}
+.bnr__dots{display:flex;justify-content:center;gap:4px;margin-top:6px}
+.bnr__dot{width:28px;height:24px;padding:0;border:0;background:none;display:grid;place-items:center}
+.bnr__dot::before{content:"";width:9px;height:9px;border-radius:999px;background:rgba(180,199,230,.45);transition:width .25s,background .25s}
+.bnr__dot.on::before{width:22px;background:var(--yellow)}
+.bnr__dot:focus-visible{outline:2px solid var(--yellow);outline-offset:-2px;border-radius:8px}
+@media (max-width:760px){
+  .bnr__slide .hero__frame{margin-bottom:10px}
+  .bnr__promo{padding:10px 12px 16px}
+  .bnr__ttl{font-size:20px}
+  .bnr__sub{font-size:12.5px}
+  .bnr__items{gap:8px;margin-top:8px}
+  .bnr__nm{font-size:11px}
+  .bnr__items--1 .bnr__nm{font-size:14px}
+  .bnr__tag{font-size:10.5px;padding:3px 8px;top:5px;right:6px}
+}
+@media (prefers-reduced-motion:reduce){.bnr__track{scroll-behavior:auto}.bnr__dot::before{transition:none}}
+
+/* ===== міні-плеєр «🎸 Радіо ROKS» (js/radio.js): ліворуч унизу, над нижнім меню і над панеллю порівняння ===== */
+.radio{position:fixed;left:16px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:43;display:flex;align-items:center;gap:2px;
+  background:rgba(8,18,38,.94);border:1.5px solid var(--yellow);border-radius:999px;padding:3px;box-shadow:0 8px 24px rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+.radio button{border:0;background:none;color:var(--text);font-weight:800;border-radius:999px}
+.radio__play{display:flex;align-items:center;gap:7px;height:36px;padding:0 12px 0 4px;font-size:13.5px;white-space:nowrap}
+.radio__ico{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:var(--navy-text);font-size:11px;letter-spacing:-1px;line-height:1}
+.radio__play:hover .radio__ico{background:var(--yellow-hi)}
+.radio__volbtn{width:34px;height:36px;font-size:15px;font-family:"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif}
+.radio button:focus-visible{outline:2px solid var(--yellow);outline-offset:1px}
+.radio__vol{position:absolute;left:0;bottom:calc(100% + 8px);padding:10px 14px;border-radius:14px;background:rgba(8,18,38,.97);border:1.5px solid var(--line);box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.radio__vol input{width:170px;accent-color:var(--yellow)}
+.radio[data-state="on"]{box-shadow:0 0 0 3px rgba(255,215,0,.18),0 8px 24px rgba(0,0,0,.45)}
+.radio[data-state="on"] .radio__txt{color:var(--yellow)}
+.radio[data-state="err"] .radio__ico{background:#ff6b6b;color:#fff}
+@media (min-width:761px){.radio{left:auto;right:20px}.radio__vol{left:auto;right:0}}
+@media (max-width:760px){
+  .radio{left:10px;bottom:calc(76px + env(safe-area-inset-bottom))}
+  body.has-cmpbar .radio{bottom:calc(128px + env(safe-area-inset-bottom))}
+  .radio__play{height:32px;font-size:12.5px;padding-right:10px}
+  .radio__ico{width:26px;height:26px}
+  .radio__volbtn{height:32px;width:30px}
+}

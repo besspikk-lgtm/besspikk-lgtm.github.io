@@ -55,7 +55,7 @@
 </script>
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
-<link rel="stylesheet" href="css/style.css?v=31">
+<link rel="stylesheet" href="css/style.css?v=32">
 </head>
 <body>
 <div class="uastripe" aria-hidden="true"></div>
@@ -103,13 +103,20 @@
       </a>
     </div>
   </section>
-  <section class="hero" aria-label="Кузовні роботи Alex_bes">
+  <section class="hero bnr" id="bnr" aria-roledescription="карусель" aria-label="Акції, новинки та кузовні роботи Alex_bes">
     <h1 class="sr-only">Alex_bes — фарбопульти Meiji, SATA, автоемалі Palinal, інструмент для маляра та кузовні роботи</h1>
-    <div class="hero__frame">
-      <img class="hero__img" src="img/banner-bodywork.webp?v=1" width="1672" height="940" decoding="async" fetchpriority="high"
-        alt="Alex_bes — кузовні роботи любої складності під ключ. Телефон +380 (50) 540 73 35 — запис та консультація. Маляр фарбує авто фарбопультом Meiji">
+    <div class="bnr__track" id="bnr-track" aria-live="off">
+      <div class="bnr__slide" data-slide="body" role="group" aria-roledescription="слайд" aria-label="🔧 Кузовний ремонт / битки з США">
+        <div class="hero__frame">
+          <img class="hero__img" src="img/banner-bodywork.webp?v=1" width="1672" height="940" decoding="async" fetchpriority="high"
+            alt="Alex_bes — кузовні роботи любої складності під ключ. Телефон +380 (50) 540 73 35 — запис та консультація. Маляр фарбує авто фарбопультом Meiji">
+          <span class="bnr__tag">🔧 Кузовний ремонт / битки з США</span>
+        </div>
+        <a class="btn btn--y hero__btn" href="https://t.me/alex_bespik" target="_blank" rel="noopener" data-consult>💬 Отримати консультацію</a>
+      </div>
+      <!-- слайди «🔥 Акції» і «✅ Новинки» додає js/app.js (renderBanner) з товарів з позначкою; без таких товарів слайд не показується -->
     </div>
-    <a class="btn btn--y hero__btn" href="https://t.me/alex_bespik" target="_blank" rel="noopener" data-consult>💬 Отримати консультацію</a>
+    <div class="bnr__dots" id="bnr-dots" role="group" aria-label="Слайди банера" hidden></div>
   </section>
   <div class="chips" id="chips" role="tablist" aria-label="Категорії"></div>
   <div class="layout">
@@ -290,12 +297,20 @@
   <button class="cmpbar__x" type="button" data-cmp-clear aria-label="Очистити порівняння">✕</button>
 </div>
 
+<!-- Радіо ROKS (js/radio.js): офіційний потік online.radioroks.ua -->
+<div class="radio" id="radio" hidden>
+  <button class="radio__play" type="button" id="radio-btn" aria-pressed="false" aria-label="Увімкнути Радіо ROKS"><span class="radio__ico" aria-hidden="true">▶&#xFE0E;</span><span class="radio__txt"><span class="emo">🎸</span> Радіо ROKS</span></button>
+  <button class="radio__volbtn" type="button" id="radio-volbtn" aria-label="Гучність" aria-expanded="false"><span aria-hidden="true">🔊</span></button>
+  <div class="radio__vol" id="radio-vol" hidden><input type="range" id="radio-range" min="0" max="100" step="5" value="70" aria-label="Гучність Радіо ROKS"></div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script src="data/products.js?v=23"></script>
 <script src="js/media.js?v=2"></script>
-<script src="js/app.js?v=30"></script>
+<script src="js/app.js?v=31"></script>
 <script type="module" src="js/fb.js?v=3"></script>
+<script src="js/radio.js?v=1"></script>
 <script data-goatcounter="https://alexbes.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>

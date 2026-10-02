@@ -864,7 +864,7 @@
     PRODUCTS.forEach(function (p) { byId[p.id] = p; indexProduct(p); });
     CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; });
     splitCart(allLines()); saveCart(true); updateBadges();
-    renderCats();
+    renderCats(); renderBanner();
     renderGrid(); cmpSync();
     if (openModalEl && openModalEl === $('#pmodal') && pmState.id) { if (byId[pmState.id]) renderProduct(); else hideModal(); }
     else if (openModalEl && openModalEl === $('#cmodal')) renderCart();
@@ -905,8 +905,80 @@
   // last known Firestore overrides (no photos) — applied instantly so hidden/edited items don't flash; refreshed by js/fb.js
   try { var cachedRemote = load('alexbes_remote', null); if (cachedRemote && Array.isArray(cachedRemote.docs)) applyRemote(cachedRemote.docs); } catch (e) {}
 
+  /* ---------- головний банер-карусель (02.10.2026): 🔧 кузовні роботи (статичний слайд з index.html) + 🔥 Акції + ✅ Новинки ----------
+     Слайди акцій/новинок будуються лише з реальних товарів з позначкою «Акція» / «Новинка»; немає таких — слайду немає.
+     Свайп — нативний scroll-snap; автопрокрутка ~5 с, пауза при дотику/наведенні/фокусі, поза екраном і у фоновій вкладці;
+     prefers-reduced-motion — без автопрокрутки й анімації (лише свайп і крапки). */
+  function plural(n, a, b, c) { var m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; }
+  var bnr = { el: $('#bnr'), track: $('#bnr-track'), dots: $('#bnr-dots'), i: 0, timer: null, hold: false, holdT: null, vis: true,
+    rm: window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false } };
+  function bnrPromoSlide(kind, list) {
+    var sale = kind === 'sale', n = list.length, href = '#/c/' + kind;
+    var ttl = sale ? '🔥 Акції' : '✅ Новинки';
+    var sub = n + ' ' + plural(n, 'товар', 'товари', 'товарів') + ' з позначкою «' + (sale ? 'Акція' : 'Новинка') + '»';
+    var items = list.slice(0, 3).map(function (p) {
+      return '<span class="bnr__it"><img ' + mainImg(p) + ' alt="" loading="lazy" width="200" height="200"><span class="bnr__nm">' + esc(p.name) + '</span></span>';
+    }).join('');
+    return '<div class="bnr__slide bnr__slide--' + kind + '" data-slide="' + kind + '" role="group" aria-roledescription="слайд" aria-label="' + ttl + '">' +
+      '<a class="hero__frame bnr__promo" href="' + href + '" data-go-chips="' + href + '">' +
+        '<span class="bnr__head"><b class="bnr__ttl">' + ttl + '</b><span class="bnr__sub">' + esc(sub) + '</span></span>' +
+        '<span class="bnr__items bnr__items--' + Math.min(n, 3) + '">' + items + '</span>' +
+      '</a>' +
+      '<a class="btn btn--y hero__btn" href="' + href + '" data-go-chips="' + href + '">' + (sale ? 'Дивитись усі акції' : 'Дивитись усі новинки') + ' (' + n + ') →</a>' +
+    '</div>';
+  }
+  function renderBanner() {
+    if (!bnr || !bnr.track) return; // applyRemote() from cache runs before this block is initialised; init calls renderBanner() again
+    $$('.bnr__slide[data-slide="sale"], .bnr__slide[data-slide="new"]', bnr.track).forEach(function (s) { s.remove(); });
+    var sale = PRODUCTS.filter(isSale), nw = PRODUCTS.filter(isNew);
+    var html = (sale.length ? bnrPromoSlide('sale', sale) : '') + (nw.length ? bnrPromoSlide('new', nw) : '');
+    if (html) bnr.track.insertAdjacentHTML('beforeend', html);
+    var n = bnrSlides().length;
+    bnr.dots.innerHTML = n > 1 ? bnrSlides().map(function (s, i) { return '<button class="bnr__dot" type="button" data-bnr-dot="' + i + '" aria-label="Слайд ' + (i + 1) + ': ' + esc(s.getAttribute('aria-label')) + '"></button>'; }).join('') : '';
+    bnr.dots.hidden = n < 2;
+    if (bnr.i >= n) bnr.i = 0;
+    bnrGo(bnr.i, true); fillPhotos(); bnrPlan();
+  }
+  function bnrSlides() { return $$('.bnr__slide', bnr.track); }
+  function bnrGo(i, instant) {
+    var sl = bnrSlides(), n = sl.length; if (!n) return;
+    bnr.i = (i + n) % n;
+    bnr.track.scrollTo({ left: bnr.i * bnr.track.clientWidth, behavior: instant || bnr.rm.matches ? 'auto' : 'smooth' });
+    bnrDots();
+  }
+  function bnrDots() { $$('.bnr__dot', bnr.dots).forEach(function (d, k) { d.classList.toggle('on', k === bnr.i); d.setAttribute('aria-current', k === bnr.i ? 'true' : 'false'); }); }
+  function bnrPlan() {
+    clearTimeout(bnr.timer); bnr.timer = null;
+    if (bnr.rm.matches || bnr.hold || !bnr.vis || document.hidden || bnrSlides().length < 2) return;
+    bnr.timer = setTimeout(function () { bnrGo(bnr.i + 1); bnrPlan(); }, 5000);
+  }
+  function bnrHold(on, resumeMs) {
+    clearTimeout(bnr.holdT);
+    if (on) { bnr.hold = true; bnrPlan(); return; }
+    bnr.holdT = setTimeout(function () { bnr.hold = false; bnrPlan(); }, resumeMs || 0);
+  }
+  if (bnr.track) {
+    var bnrRaf = 0;
+    bnr.track.addEventListener('scroll', function () { // swipe -> current dot
+      if (bnrRaf) return;
+      bnrRaf = requestAnimationFrame(function () { bnrRaf = 0; var w = bnr.track.clientWidth || 1, k = Math.round(bnr.track.scrollLeft / w); if (k !== bnr.i) { bnr.i = k; bnrDots(); bnrPlan(); } });
+    }, { passive: true });
+    bnr.track.addEventListener('touchstart', function () { bnrHold(true); }, { passive: true });
+    bnr.track.addEventListener('touchend', function () { bnrHold(false, 7000); }, { passive: true });
+    bnr.track.addEventListener('touchcancel', function () { bnrHold(false, 7000); }, { passive: true });
+    bnr.el.addEventListener('mouseenter', function () { bnrHold(true); });
+    bnr.el.addEventListener('mouseleave', function () { bnrHold(false, 1500); });
+    bnr.el.addEventListener('focusin', function () { bnrHold(true); });
+    bnr.el.addEventListener('focusout', function () { bnrHold(false, 3000); });
+    bnr.dots.addEventListener('click', function (e) { var d = e.target.closest('[data-bnr-dot]'); if (d) { bnrGo(+d.getAttribute('data-bnr-dot')); bnrPlan(); } });
+    document.addEventListener('visibilitychange', bnrPlan);
+    if (bnr.rm.addEventListener) bnr.rm.addEventListener('change', bnrPlan);
+    window.addEventListener('resize', function () { bnrGo(bnr.i, true); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { bnr.vis = en[0].isIntersecting; bnrPlan(); }, { threshold: 0.25 }).observe(bnr.el);
+  }
+
   /* ---------- init ---------- */
-  renderCats(); updateBadges(); cmpSync();
+  renderCats(); renderBanner(); updateBadges(); cmpSync();
   stat('views'); // візит: раз за сесію вкладки на добу
   if ('IntersectionObserver' in window) {
     io = new IntersectionObserver(function (en) { if (en[0].isIntersecting && shown < curList.length) renderMore(); }, { rootMargin: '600px 0px' });
