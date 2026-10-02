@@ -8,7 +8,8 @@
     viber: 'viber://chat?number=%2B380995264262',
     instagram: 'https://ig.me/m/alex_bespik',
     phone: '+380995264262', phoneLabel: '099 526 42 62',
-    siteName: 'Alex_bes😈'
+    siteName: 'Alex_bes😈',
+    homeTitle: 'Купити фарбопульт Meiji, SATA, Palinal — Чернівці, Україна | Alex_bes😈'
   };
   var DATA = window.ALEXBES_DATA || { categories: [], products: [] };
   var PRODUCTS = DATA.products, CATS = DATA.categories;
@@ -158,6 +159,27 @@
     more.hidden = shown >= curList.length;
     more.textContent = 'Показати ще (' + (curList.length - shown) + ')';
   }
+  /* short SEO intro line under the section title (one per category; hidden for «Усі товари» and search) */
+  var CAT_INTRO = {
+    sale: 'Товари з позначкою «Акція». Ціну і наявність підтверджуємо при замовленні.',
+    meiji: 'Японські фарбопульти Meiji від офіційного представника в Україні: FINER-CORE, FINER III, F410, міні-джет FINER SPOT. Дюзу і систему (HVLP / SP) підберемо в Telegram.',
+    sata: 'Фарбопульти SATA з технологією RP: SATAjet X DIGITAL pro та SATAjet 100 B.',
+    china: 'Бюджетні китайські фарбопульти, зокрема NTools: HVLP, міні-джети та ґрунтовочні на PPS-системі.',
+    acc: 'Манометри Meiji (електронний і механічний), бачки, додаткові дюзи та перехідники PPS.',
+    lak: 'Лаки Palinal серій 223 і 923: акрилові 2K, HS і UHS, матові — є комплекти 5 л + 2,5 л затверджувача.',
+    emal2k: 'Palinal автоемаль 2K Multicryl 900 у готових кольорах RAL, VW, MERC, FORD та інших — глянцеве покриття без лаку.',
+    baza: 'Базові фарби Palinal під лак у готових кольорах, банка 1 л — наносяться під 2K лак.',
+    grunt: 'Ґрунти Palinal: акрилові наповнювачі 5:1, «мокрий по мокрому», епоксидний, по пластику та Wash Primer.',
+    shpak: 'Шпаклівки Palinal: універсальна, полегшена, з алюмінієм, по пластику та розпилювальна.',
+    rozch: 'Розчинники Palinal Multicryl (швидкий, стандартний, повільний), антисилікони та добавки для переходів.',
+    savex: 'Розчинники та знежирювачі Savex (виробництво Литва): акрилові, для металіків, 646, 647 і GUN CLEANER.',
+    tools: 'Інструмент для маляра: антистатичний пістолет EASY PAINT, шліфування, пінники й помпи, змішувальні системи Palinal та інструмент для ПДР.'
+  };
+  function listTitle() {
+    if (state.cat === 'all') return CONFIG.homeTitle;
+    if (state.cat === 'sale') return 'Акції — ' + CONFIG.siteName;
+    return catById[state.cat].name + ' — купити в Україні | ' + CONFIG.siteName;
+  }
   function renderGrid() {
     var list = filtered();
     curList = list; shown = 0;
@@ -168,6 +190,8 @@
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
+    var ci = $('#catintro'); if (ci) { var it = !state.q && CAT_INTRO[state.cat]; ci.textContent = it || ''; ci.hidden = !it; }
+    if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
     var chip = $('.chip.on'); if (chip && chip.scrollIntoView && window.innerWidth < 900) { var c = $('#chips'); c.scrollLeft = chip.offsetLeft - 16; }
   }
@@ -397,7 +421,7 @@
     if (!openModalEl) return;
     stopMedia();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
-    document.title = 'Alex_bes😈 — каталог: Meiji, SATA, Palinal, інструмент для малярів';
+    document.title = listTitle();
     if (/^#\/p\/|^#cart/.test(location.hash)) history.replaceState(null, '', lastListHash);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
