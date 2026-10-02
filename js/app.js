@@ -92,7 +92,7 @@
   /* ---------- catalog render ---------- */
   function renderCats() {
     var total = PRODUCTS.length;
-    var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }].concat(CATS);
+    var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }, { id: 'sale', name: '🔥 Акції', count: PRODUCTS.filter(isSale).length }].concat(CATS);
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '"><span>' + esc(c.name) + '</span><span class="n">' + c.count + '</span></a></li>';
     }).join('');
@@ -110,7 +110,8 @@
   function filtered() {
     var toks = norm(state.q).split(/\s+/).filter(Boolean);
     var list = PRODUCTS.filter(function (p) {
-      if (state.cat !== 'all' && p.category !== state.cat) return false;
+      if (state.cat === 'sale') { if (!isSale(p)) return false; }
+      else if (state.cat !== 'all' && p.category !== state.cat) return false;
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
     var order = {}; CATS.forEach(function (c, i) { order[c.id] = i; });
@@ -128,8 +129,10 @@
     return list;
   }
   var PROMO = { 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
+  function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
   function promoHTML(p) {
-    var t = p.promo != null ? p.promo : PROMO[p.id]; if (!t) return '';
+    var t = promoOf(p); if (!t) return '';
     return t === 'ХІТ' ? '<span class="promo promo--hit">⭐ ' + t + '</span>' : '<span class="promo">🔥 ' + t + '</span>';
   }
   function cardHTML(p, i) {
@@ -161,8 +164,9 @@
     $('#grid').innerHTML = '';
     renderMore();
     $('#empty').hidden = list.length > 0;
-    var title = state.cat === 'all' ? 'Усі товари' : catById[state.cat].name;
-    if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + catById[state.cat].name : '');
+    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'all' ? '' : catById[state.cat].name;
+    var title = state.cat === 'all' ? 'Усі товари' : cn;
+    if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
     var chip = $('.chip.on'); if (chip && chip.scrollIntoView && window.innerWidth < 900) { var c = $('#chips'); c.scrollLeft = chip.offsetLeft - 16; }
@@ -414,9 +418,10 @@
     if (openModalEl) { stopMedia(); openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     trackedOpen = null;
     if (h === '#how') { $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'how'); }); return; }
-    $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'catalog'); });
+    var navOn = /^#\/c\/sale/.test(h) ? 'sale' : 'catalog';
+    $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === navOn); });
     var prevCat = state.cat;
-    if ((m = h.match(/^#\/c\/([\w-]+)/)) && catById[m[1]]) state.cat = m[1]; else state.cat = 'all';
+    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale')) state.cat = m[1]; else state.cat = 'all';
     lastListHash = h;
     renderGrid();
     if (prevCat !== state.cat && window.scrollY > $('#catalog').offsetTop + 40) window.scrollTo(0, Math.max(0, $('#catalog').offsetTop - ($('.hdr') ? $('.hdr').offsetHeight : 0)));
@@ -471,7 +476,7 @@
       if (res) window.scrollTo({ top: Math.max(0, res.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0) - 12), behavior: 'smooth' });
       return;
     }
-    if (t.hasAttribute('data-go-chips')) { e.preventDefault(); if (location.hash !== '#/' && location.hash !== '') location.hash = '#/'; setTimeout(function () { var c = $('#chips'), hd = $('.hdr'); if (c) window.scrollTo({ top: Math.max(0, c.getBoundingClientRect().top + window.scrollY - (hd ? hd.offsetHeight : 0) - 12), behavior: 'smooth' }); }, 80); return; }
+    if (t.hasAttribute('data-go-chips')) { e.preventDefault(); var to = t.getAttribute('data-go-chips') || '#/'; if (location.hash !== to && !(to === '#/' && location.hash === '')) location.hash = to; setTimeout(function () { var c = to === '#/' ? $('#chips') : ($('#restitle').parentElement || $('#restitle')), hd = $('.hdr'); if (c) window.scrollTo({ top: Math.max(0, c.getBoundingClientRect().top + window.scrollY - (hd ? hd.offsetHeight : 0) - 12), behavior: 'smooth' }); }, 80); return; }
     if (t.hasAttribute('data-focus-search')) { e.preventDefault(); if (location.hash !== '#/' && !/^#\/c\//.test(location.hash)) location.hash = '#/'; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function () { $('#q').focus(); }, 250); return; }
   });
   document.addEventListener('input', function (e) {

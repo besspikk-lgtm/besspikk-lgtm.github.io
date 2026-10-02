@@ -503,3 +503,6 @@ html{scroll-padding-top:104px}
 .moti h3{color:var(--text);margin:0 0 10px;font-size:20px}
 .moti p{margin:0 0 10px;line-height:1.5;font-size:16px}
 .moti__sign{color:var(--yellow);font-weight:800;margin-top:14px!important}
+
+.chip[data-cat="sale"]:not(.on){background:linear-gradient(180deg,#e53935,#b71c1c);border-color:#ff6f61;color:#fff}
+.chip[data-cat="sale"]{grid-column:1/-1;justify-content:center;gap:10px}
