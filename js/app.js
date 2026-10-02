@@ -93,7 +93,7 @@
   /* ---------- catalog render ---------- */
   function renderCats() {
     var total = PRODUCTS.length;
-    var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }, { id: 'sale', name: '🔥 Акції', count: PRODUCTS.filter(isSale).length }].concat(CATS);
+    var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }, { id: 'sale', name: '🔥 Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: '✅ Новинки', count: PRODUCTS.filter(isNew).length }].concat(CATS);
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '"><span>' + esc(c.name) + '</span><span class="n">' + c.count + '</span></a></li>';
     }).join('');
@@ -112,6 +112,7 @@
     var toks = norm(state.q).split(/\s+/).filter(Boolean);
     var list = PRODUCTS.filter(function (p) {
       if (state.cat === 'sale') { if (!isSale(p)) return false; }
+      else if (state.cat === 'new') { if (!isNew(p)) return false; }
       else if (state.cat !== 'all' && p.category !== state.cat) return false;
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
@@ -132,6 +133,7 @@
   var PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
+  function isNew(p) { return /новинк/i.test(promoOf(p) || ''); }
   function promoHTML(p) {
     var t = promoOf(p); if (!t) return '';
     if (t === 'ХІТ') return '<span class="promo promo--hit">⭐ ' + t + '</span>';
@@ -164,6 +166,7 @@
   /* short SEO intro line under the section title (one per category; hidden for «Усі товари» and search) */
   var CAT_INTRO = {
     sale: 'Товари з позначкою «Акція». Ціну і наявність підтверджуємо при замовленні.',
+    new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     meiji: 'Японські фарбопульти Meiji від офіційного представника в Україні: FINER-CORE, FINER III, F410, міні-джет FINER SPOT. Дюзу і систему (HVLP / SP) підберемо в Telegram.',
     sata: 'Фарбопульти SATA з технологією RP: SATAjet X DIGITAL pro та SATAjet 100 B.',
     china: 'Бюджетні китайські фарбопульти, зокрема NTools: HVLP, міні-джети та ґрунтовочні на PPS-системі.',
@@ -180,6 +183,7 @@
   function listTitle() {
     if (state.cat === 'all') return CONFIG.homeTitle;
     if (state.cat === 'sale') return 'Акції — ' + CONFIG.siteName;
+    if (state.cat === 'new') return 'Новинки — ' + CONFIG.siteName;
     return catById[state.cat].name + ' — купити в Україні | ' + CONFIG.siteName;
   }
   function renderGrid() {
@@ -188,7 +192,7 @@
     $('#grid').innerHTML = '';
     renderMore();
     $('#empty').hidden = list.length > 0;
-    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'all' ? '' : catById[state.cat].name;
+    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'new' ? '✅ Новинки' : state.cat === 'all' ? '' : catById[state.cat].name;
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
@@ -447,7 +451,7 @@
     var navOn = /^#\/c\/sale/.test(h) ? 'sale' : 'catalog';
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === navOn); });
     var prevCat = state.cat;
-    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale')) state.cat = m[1]; else state.cat = 'all';
+    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new')) state.cat = m[1]; else state.cat = 'all';
     lastListHash = h;
     renderGrid();
     if (prevCat !== state.cat && window.scrollY > $('#catalog').offsetTop + 40) window.scrollTo(0, Math.max(0, $('#catalog').offsetTop - ($('.hdr') ? $('.hdr').offsetHeight : 0)));

@@ -505,7 +505,7 @@ html{scroll-padding-top:104px}
 .moti__sign{color:var(--yellow);font-weight:800;margin-top:14px!important}
 
 .chip[data-cat="sale"]:not(.on){background:linear-gradient(180deg,#e53935,#b71c1c);border-color:#ff6f61;color:#fff}
-.chip[data-cat="sale"]{grid-column:1/-1;justify-content:center;gap:10px}
+.chip[data-cat="sale"],.chip[data-cat="new"]{justify-content:center;gap:10px}
 
 /* SEO: per-category intro line under the section title + short text block before the footer (02.10.2026) */
 .catintro{margin:-6px 0 14px;color:var(--muted);font-size:14px;line-height:1.5;max-width:760px}
@@ -537,3 +537,4 @@ html{scroll-padding-top:104px}
 .promo--new{color:#eaffef;background:rgba(0,40,15,.85);border:2px solid #39ff14;text-transform:none;text-shadow:0 0 4px #39ff14,0 0 10px #39ff14;
   box-shadow:0 0 6px #39ff14,0 0 14px #39ff14,0 0 28px rgba(57,255,20,.7),inset 0 0 8px rgba(57,255,20,.6);animation:neonBlink 1s ease-in-out infinite, promoPulse 1s ease-in-out infinite}
 @keyframes neonBlink{0%,100%{opacity:1;box-shadow:0 0 6px #39ff14,0 0 16px #39ff14,0 0 32px rgba(57,255,20,.8),inset 0 0 8px rgba(57,255,20,.6)}50%{opacity:.45;box-shadow:0 0 2px #39ff14,0 0 4px rgba(57,255,20,.4),inset 0 0 2px rgba(57,255,20,.3)}}
+.chip[data-cat="new"]:not(.on){background:linear-gradient(180deg,#1fbf55,#0e8a3a);border-color:#39ff14;color:#fff;box-shadow:0 0 8px rgba(57,255,20,.45)}
