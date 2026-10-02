@@ -55,7 +55,7 @@
 </script>
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
-<link rel="stylesheet" href="css/style.css?v=29">
+<link rel="stylesheet" href="css/style.css?v=30">
 </head>
 <body>
 <div class="uastripe" aria-hidden="true"></div>
@@ -276,11 +276,25 @@
   </div>
 </div>
 
+<!-- spray-gun comparison (up to 3, js/app.js) -->
+<div class="modal modal--cmp" id="cmpmodal" hidden>
+  <div class="modal__bg" data-close></div>
+  <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="cmp-ttl">
+    <button class="modal__x" type="button" data-close aria-label="Закрити">✕</button>
+    <h2 id="cmp-ttl">⚖️ Порівняння фарбопультів</h2>
+    <div id="cmpbody"></div>
+  </div>
+</div>
+<div class="cmpbar" id="cmpbar" hidden>
+  <button class="cmpbar__go" type="button" data-open-cmp><span class="emo">⚖️</span><span>Порівняння (<b data-cmp-count>0</b>)</span><span class="cmpbar__arr">→ Показати</span></button>
+  <button class="cmpbar__x" type="button" data-cmp-clear aria-label="Очистити порівняння">✕</button>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script src="data/products.js?v=22"></script>
 <script src="js/media.js?v=1"></script>
-<script src="js/app.js?v=28"></script>
+<script src="js/app.js?v=29"></script>
 <script type="module" src="js/fb.js?v=3"></script>
 <script data-goatcounter="https://alexbes.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>

@@ -167,6 +167,7 @@
         '<div class="card__foot">' + pillHTML(p) + stockHTML(p) +
         (!hasPrice(p) && p.price_uah_original ? '<span class="uah">у пості: ' + esc(p.price_uah_original) + '</span>' : '') +
         '</div>' +
+        (isGun(p) ? cmpBtnHTML(p, 'cmpt--card') : '') +
       '</div></div></li>';
   }
   var PAGE = 48, curList = [], shown = 0, io = null;
@@ -381,7 +382,7 @@
         stockHTML(p) +
         '<p class="pm__desc">' + esc(uahText(p.description)) + '</p>' + videosHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
-        '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button></div>' +
+        '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
         '<div class="cactions">' +
           '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">🤖 Замовити через бота</a>' +
           '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Telegram</a>' +
@@ -545,7 +546,7 @@
     stopMedia();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = listTitle();
-    if (/^#\/p\/|^#cart/.test(location.hash)) history.replaceState(null, '', lastListHash);
+    if (/^#\/p\/|^#cart|^#compare/.test(location.hash)) history.replaceState(null, '', lastListHash);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   var tt;
@@ -562,6 +563,7 @@
       return;
     }
     if (h === '#cart') { renderCart(); showModal('#cmodal'); return; }
+    if (h === '#compare') { if (!$('#grid').children.length) renderGrid(); renderCompare(); showModal('#cmpmodal'); track('порівняння', 'Порівняння фарбопультів (' + cmpList().length + ')'); return; }
     if (openModalEl) { stopMedia(); openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     trackedOpen = null;
     if (h === '#how') { $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'how'); }); return; }
@@ -572,6 +574,165 @@
     lastListHash = h;
     renderGrid();
     if (prevCat !== state.cat && window.scrollY > $('#catalog').offsetTop + 40) window.scrollTo(0, Math.max(0, $('#catalog').offsetTop - ($('.hdr') ? $('.hdr').offsetHeight : 0)));
+  }
+
+  /* ---------- порівняння фарбопультів (до 3 шт., localStorage) ----------
+     Характеристики НЕ вигадуємо: лише те, що є в назві, описі та p.specs.rows товару. Немає значення — «—». */
+  var CMP_MAX = 3, CMP_KEY = 'alexbes_compare';
+  var GUN_CATS = { meiji: 1, sata: 1, china: 1 }; // Фарбопульти Meiji / SATA / Китай (NTools тощо)
+  function isGun(p) { return !!p && !!GUN_CATS[p.category]; }
+  var cmpIds = (function () { var a = load(CMP_KEY, []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, CMP_MAX) : []; })();
+  function cmpList() { return cmpIds.filter(function (id) { return isGun(byId[id]); }); }
+  function cmpHas(id) { return cmpList().indexOf(id) >= 0; }
+  function cmpSave() { cmpIds = cmpList(); save(CMP_KEY, cmpIds); }
+  var N_RE = '\\d+(?:[.,]\\d+)?';
+  var LOW = '[а-яіїєґ\'’ʼ]*';
+  function specRows(p, labelRe, skipRe) { return ((p.specs && p.specs.rows) || []).filter(function (r) { return r && labelRe.test(r[0]) && !(skipRe && skipRe.test(r[0])); }); }
+  function uniq(a) { var o = []; a.forEach(function (x) { if (o.indexOf(x) < 0) o.push(x); }); return o; }
+  function comma(s) { return String(s).replace('.', ','); }
+  function numOf(s) { return parseFloat(String(s).replace(',', '.')); }
+  // числа з одиницею в рядку специфікації: "SP — 2,0 бар · HVLP — 1,8 бар (…)", "1,0 — 200 · … · 2,5 — 340 мм", "1,5–2,0 бар"
+  function numVals(v, unitRe) {
+    v = String(v).replace(/\([^)]*\)/g, ' ');
+    var re = new RegExp('(?:\\b(SP|HVLP|LVLP|RP)\\s*[—–-]\\s*)?(?:^|[^\\d.,])(' + N_RE + ')(?:\\s*[–-]\\s*(' + N_RE + '))?(?=\\s*(?:' + unitRe + ')?\\s*(?:·|;|,\\s|$))', 'g');
+    var out = [], m;
+    while ((m = re.exec(v))) out.push({ pre: m[1] || '', a: m[2], b: m[3] || '' });
+    return out;
+  }
+  function fmtVals(vals, unit) {
+    if (!vals.length) return '';
+    if (vals.every(function (x) { return x.pre && !x.b; })) return uniq(vals.map(function (x) { return x.pre + ' ' + x.a; })).join(' · ') + ' ' + unit;
+    var singles = uniq(vals.filter(function (x) { return !x.b; }).map(function (x) { return x.a; }));
+    var ranges = uniq(vals.filter(function (x) { return x.b; }).map(function (x) { return x.a + '–' + x.b; }));
+    var s = '';
+    if (singles.length > 2) {
+      var ns = singles.map(numOf), lo = singles[ns.indexOf(Math.min.apply(null, ns))], hi = singles[ns.indexOf(Math.max.apply(null, ns))];
+      s = lo + '–' + hi;
+    } else s = singles.join(' / ');
+    if (s && ranges.length) return s + ' ' + unit + ' (діапазон ' + ranges.join(', ') + ')';
+    return (s || ranges.join(', ')) + ' ' + unit;
+  }
+  function rowNum(p, labelRe, unitRe, unit, skipRe) {
+    var vals = [];
+    specRows(p, labelRe, skipRe).forEach(function (r) { vals = vals.concat(numVals(r[1], unitRe)); });
+    return fmtVals(vals, unit);
+  }
+  function descNum(p, re, unit) { var m = String(p.description || '').match(re); return m ? (m[1] ? 'до ' : '') + comma(m[2]) + ' ' + unit : ''; } // re: (до)? (число)
+  function gunSpecs(p) {
+    var name = String(p.name || ''), desc = String(p.description || ''), rows = (p.specs && p.specs.rows) || [];
+    var all = name + ' . ' + desc + ' . ' + rows.map(function (r) { return r[0] + ': ' + r[1]; }).join(' . ');
+    var S = {};
+    // система розпилу
+    var sysSrc = name + ' . ' + desc + ' . ' + specRows(p, /систем|виконан|модель|серія/i).map(function (r) { return r[0] + ' ' + r[1]; }).join(' . ');
+    var SYS = [['HVLP', /\bHVLP\b/], ['LVLP', /\bLVLP\b/], ['RP', /\bRP\b/], ['Trans-Tech', /\bTrans[- ]?Tech\b/i], ['SP', /\bSP\b/], ['EV', /\bEV\b/], ['EVW', /\bEVW\b/]];
+    S.system = SYS.filter(function (s) { return s[1].test(sysSrc); }).map(function (s) { return s[0]; }).join(' · '); // фіксований порядок
+    // дюза / сопло, мм
+    var nz = [];
+    function addNz(s) { var x = numOf(s); if (x >= 0.2 && x <= 3.5) nz.push(x); }
+    specRows(p, /дюз|сопл/i).forEach(function (r) { (String(r[1]).match(/\d[.,]\d/g) || []).forEach(addNz); });
+    var nm, nre = /(?:^|[\s(\/])(\d[.,]\d)(?=$|[\s)\/,])/g; while ((nm = nre.exec(name))) addNz(nm[1]);
+    var NZ1 = '\\d[.,]\\d', dre = new RegExp('(?:дюз|сопл)' + LOW + '\\s*(?:[—:–-]\\s*)?(?:від\\s+)?(' + NZ1 + '(?:\\s*(?:мм)?\\s*(?:,\\s|\\/|·|або|та|і|до|–|-)\\s*' + NZ1 + ')*)', 'gi');
+    while ((nm = dre.exec(desc))) (nm[1].match(/\d[.,]\d/g) || []).forEach(addNz);
+    nz = uniq(nz).sort(function (a, b) { return a - b; });
+    S.nozzle = nz.map(function (x) { return x.toFixed(1).replace('.', ','); }).join(' / ');
+    // подача фарби
+    var feed = [];
+    if (/гравітац/i.test(all)) feed.push('гравітаційна');
+    var pos = (name + ' . ' + desc + ' . ' + specRows(p, /подача|бачок/i).map(function (r) { return r[1]; }).join(' . ')).match(/(верхн|бічн|нижн)[а-яії]*\s+(?:пластиков[а-яії]*\s+)?бач/i);
+    if (pos) feed.push({ 'верхн': 'верхній бачок', 'бічн': 'бічний бачок', 'нижн': 'нижній бачок' }[pos[1].toLowerCase()]);
+    S.feed = feed.join(', ');
+    // бачок: комплектація, об'єм, з'єднання
+    var cupRow = specRows(p, /^бачок/i).map(function (r) { return r[1]; }).join(' . ');
+    var cup = [];
+    if (/без\s+бачка/i.test(desc)) cup.push('без бачка');
+    else if (/не\s+входить/i.test(cupRow)) cup.push('не входить');
+    else if (/у\s+комплекті[^.]{0,40}бач|бач[а-яії]*[^.]{0,30}у\s+комплекті|комплектує[^.]{0,40}бачк/i.test(desc + ' . ' + rows.map(function (r) { return r[1]; }).join(' . '))) cup.push('у комплекті');
+    else if (/опційно/i.test(cupRow)) cup.push('опційно');
+    var vol = cupRow.match(/(\d+(?:[.,]\d+)?)\s*л(?![а-яіїєґa-z])/i); if (vol) cup.push(comma(vol[1]) + ' л');
+    if (/\bQCC\b/.test(all)) cup.push('QCC');
+    if (/перехідник\s+PPS/i.test(desc)) cup.push('перехідник PPS — опція'); else if (/\bPPS\b/.test(all)) cup.push('PPS');
+    S.cup = cup.join(' · ');
+    // тиск, витрати, факел, відстань, вага
+    S.pressure = rowNum(p, /тиск/i, 'бар', 'бар') || descNum(p, /тиск\S*\s+(до\s+)?(\d+(?:[.,]\d+)?)\s*бар/i, 'бар');
+    S.air = rowNum(p, /витрата\s+повітря/i, 'л\\/хв', 'л/хв') || descNum(p, /витрат\S*\s+повітря\s+(до\s+)?(\d+(?:[.,]\d+)?)\s*л\/хв/i, 'л/хв');
+    S.paint = rowNum(p, /витрата\s+фарби/i, 'мл\\/хв', 'мл/хв');
+    S.width = rowNum(p, /ширина\s+факела/i, 'мм', 'мм');
+    S.dist = rowNum(p, /відстань/i, 'мм', 'мм');
+    var wRows = specRows(p, /^вага/i);
+    S.weight = rowNum(p, /^вага/i, 'г', 'г') || descNum(p, /ваг[аиу]\s+()(\d+)\s*г(?![а-яіїєґ])/i, 'г');
+    if (S.weight && wRows.some(function (r) { return /корпус/i.test(r[0]); })) S.weight += ' (корпус)';
+    // водні фарби (рядок «Бачок» не враховуємо — там мова про бачок, а не пістолет)
+    var noCup = name + ' . ' + desc + ' . ' + rows.filter(function (r) { return !/^бачок/i.test(r[0]); }).map(function (r) { return r[0] + ': ' + r[1]; }).join(' . ');
+    S.water = (specRows(p, /водні\s+фарби/i).some(function (r) { return /^так/i.test(r[1]); }) || /для\s+водн|водн[а-яії]*\s+(?:та|і)\s+сольвентн|водні\s+бази|водних\s+баз|підходить\s+для\s+водн/i.test(noCup)) ? 'так' : '';
+    // особливості
+    var feat = [];
+    if (/міні-?джет/i.test(all)) feat.push('міні-джет');
+    if (/ґрунтовоч/i.test(name + desc) || specRows(p, /призначення/i).some(function (r) { return /ґрунт/i.test(r[1]); })) feat.push('для ґрунтів');
+    if (/локальн/i.test(all)) feat.push('локальний ремонт');
+    if (/цифров\S*\s+(?:манометр|блок)/i.test(all)) feat.push('цифровий манометр');
+    if (/розрізн\S*\s+дюз/i.test(all)) feat.push('розрізна дюза');
+    if (/MMFT/.test(all)) feat.push('MMFT');
+    S.feat = feat.join(', ');
+    return S;
+  }
+  var CMP_ROWS = [
+    ['system', 'Система'], ['nozzle', 'Дюза, мм'], ['feed', 'Подача фарби'], ['cup', 'Бачок'], ['pressure', 'Тиск'],
+    ['air', 'Витрата повітря'], ['paint', 'Витрата фарби'], ['width', 'Ширина факела'], ['dist', 'Відстань розпилення'],
+    ['weight', 'Вага'], ['water', 'Водні фарби'], ['feat', 'Особливості']
+  ];
+  function cmpBtnHTML(p, cls) {
+    var on = cmpHas(p.id);
+    return '<button class="cmpt' + (cls ? ' ' + cls : '') + (on ? ' on' : '') + '" type="button" data-cmp="' + esc(p.id) + '" aria-pressed="' + on + '" title="Порівняти фарбопульти (до ' + CMP_MAX + ')">' + (on ? '✓ У порівнянні' : '⚖️ Порівняти') + '</button>';
+  }
+  function cmpSync() {
+    var list = cmpList(), n = list.length;
+    $$('[data-cmp]').forEach(function (b) {
+      var on = list.indexOf(b.getAttribute('data-cmp')) >= 0;
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); b.textContent = on ? '✓ У порівнянні' : '⚖️ Порівняти';
+    });
+    var bar = $('#cmpbar');
+    if (bar) { $$('[data-cmp-count]', bar).forEach(function (x) { x.textContent = n; }); bar.hidden = n === 0; }
+    document.body.classList.toggle('has-cmpbar', n > 0);
+  }
+  function toggleCmp(id) {
+    var p = byId[id]; if (!isGun(p)) return;
+    var list = cmpList(), i = list.indexOf(id);
+    if (i >= 0) { list.splice(i, 1); cmpIds = list; cmpSave(); cmpSync(); toast('Прибрано з порівняння'); }
+    else {
+      if (list.length >= CMP_MAX) { toast('Можна порівняти до ' + CMP_MAX + ' фарбопультів — приберіть один'); return; }
+      list.push(id); cmpIds = list; cmpSave(); cmpSync(); toast('Додано до порівняння (' + list.length + '/' + CMP_MAX + ')');
+    }
+    if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare();
+  }
+  function renderCompare() {
+    var body = $('#cmpbody'); if (!body) return;
+    var list = cmpList().map(function (id) { return byId[id]; });
+    if (!list.length) {
+      body.innerHTML = '<div class="cempty"><span class="emo">⚖️</span>Ще нічого не обрано.<br>Натисніть «⚖️ Порівняти» на картці фарбопульта — можна до ' + CMP_MAX + ' шт.<br><br><a class="btn btn--y" href="#/c/meiji">До фарбопультів</a></div>';
+      return;
+    }
+    var specs = list.map(gunSpecs), n = list.length;
+    var head = '<div class="cmp__l cmp__l--h">Фарбопульт</div>' + list.map(function (p) {
+      return '<div class="cmp__h">' +
+        '<button class="cmp__rm" type="button" data-cmp-rm="' + esc(p.id) + '" aria-label="Прибрати «' + esc(p.name) + '» з порівняння">✕</button>' +
+        '<button class="cmp__img" type="button" data-open="' + esc(p.id) + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" width="200" height="200"></button>' +
+        '<span class="cmp__cat">' + esc(p.category_name) + '</span>' +
+        '<button class="cmp__name" type="button" data-open="' + esc(p.id) + '">' + esc(p.name) + '</button>' +
+        '<div class="cmp__price">' + pillHTML(p) + '</div>' +
+        '<button class="btn btn--y cmp__add" type="button" data-add="' + esc(p.id) + '">🛒 В кошик</button>' +
+      '</div>';
+    }).join('');
+    var rowsHTML = CMP_ROWS.filter(function (r) { return specs.some(function (s) { return s[r[0]]; }); }).map(function (r) {
+      return '<div class="cmp__l">' + esc(r[1]) + '</div>' + specs.map(function (s) {
+        return '<div class="cmp__v' + (s[r[0]] ? '' : ' cmp__v--na') + '">' + esc(s[r[0]] || '—') + '</div>';
+      }).join('');
+    }).join('');
+    var stock = '<div class="cmp__l">Наявність</div>' + list.map(function (p) { return '<div class="cmp__v">' + stockHTML(p) + '</div>'; }).join('');
+    body.innerHTML = (n < 2 ? '<p class="cmp__hint">Додайте ще ' + (n === 1 ? 'один-два фарбопульти' : '') + ' — кнопка «⚖️ Порівняти» на картці товару.</p>' : '') +
+      '<div class="cmp" style="--n:' + n + '">' + head + rowsHTML + stock + '</div>' +
+      '<p class="cnote cmp__note">Характеристики — з опису товару та даних виробника на сайті; «—» означає, що даних немає. Дюзу, систему та комплектацію уточнюйте в Telegram.</p>' +
+      '<div class="cmp__acts"><button class="btn btn--o" type="button" data-cmp-clear>🗑 Очистити</button><a class="btn btn--y" href="#/c/meiji">+ Додати ще</a></div>';
+    fillPhotos();
   }
 
   /* ---------- events ---------- */
@@ -594,6 +755,10 @@
     if (t.hasAttribute('data-vid-link')) { var vp = byId[pmState.id]; if (vp) track('відео/' + vp.id, 'Відео (посилання): ' + vp.name); return; }
     if (t.hasAttribute('data-q')) { pmState.qty = Math.max(1, (parseInt($('#pmq').value, 10) || 1) + +t.getAttribute('data-q')); $('#pmq').value = pmState.qty; return; }
     if (t.hasAttribute('data-addpm')) { pmState.qty = Math.max(1, parseInt($('#pmq').value, 10) || 1); addToCart(pmState.id, pmState.vi, pmState.qty); return; }
+    if (t.hasAttribute('data-cmp')) { toggleCmp(t.getAttribute('data-cmp')); return; }
+    if (t.hasAttribute('data-cmp-rm')) { var ri = cmpIds.indexOf(t.getAttribute('data-cmp-rm')); if (ri >= 0) cmpIds.splice(ri, 1); cmpSave(); cmpSync(); renderCompare(); return; }
+    if (t.hasAttribute('data-cmp-clear')) { cmpIds = []; cmpSave(); cmpSync(); if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare(); toast('Порівняння очищено'); return; }
+    if (t.hasAttribute('data-open-cmp')) { e.preventDefault(); if (location.hash !== '#compare') { if (!/^#\/p\/|^#cart/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#compare'; } else { renderCompare(); showModal('#cmpmodal'); } return; }
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
     if (t.hasAttribute('data-cq')) { var i = +t.getAttribute('data-cq'); cart[i].qty = Math.max(1, cart[i].qty + +t.getAttribute('data-d')); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); saveCart(); updateBadges(); renderCart(); return; }
@@ -691,9 +856,10 @@
     CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; });
     splitCart(allLines()); saveCart(true); updateBadges();
     renderCats();
-    renderGrid();
+    renderGrid(); cmpSync();
     if (openModalEl && openModalEl === $('#pmodal') && pmState.id) { if (byId[pmState.id]) renderProduct(); else hideModal(); }
     else if (openModalEl && openModalEl === $('#cmodal')) renderCart();
+    else if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare();
     else if (!openModalEl) { var hm = (location.hash || '').match(/^#\/p\/([\w-]+)/); if (hm && byId[hm[1]]) openProduct(hm[1]); } // link to a product that only exists in Firestore
   }
   var photoLoader = null, photoReq = {};
@@ -724,13 +890,14 @@
     showModal: function (sel) { showModal(sel); },
     hideModal: hideModal,
     toast: function (m) { toast(m); },
-    track: track
+    track: track,
+    gunSpecs: function (id) { return byId[id] ? gunSpecs(byId[id]) : null; }
   };
   // last known Firestore overrides (no photos) — applied instantly so hidden/edited items don't flash; refreshed by js/fb.js
   try { var cachedRemote = load('alexbes_remote', null); if (cachedRemote && Array.isArray(cachedRemote.docs)) applyRemote(cachedRemote.docs); } catch (e) {}
 
   /* ---------- init ---------- */
-  renderCats(); updateBadges();
+  renderCats(); updateBadges(); cmpSync();
   stat('views'); // візит: раз за сесію вкладки на добу
   if ('IntersectionObserver' in window) {
     io = new IntersectionObserver(function (en) { if (en[0].isIntersecting && shown < curList.length) renderMore(); }, { rootMargin: '600px 0px' });
