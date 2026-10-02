@@ -419,7 +419,7 @@
         '<button class="btn btn--o" type="button" data-copy>📋 Скопіювати текст</button>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">📞 Подзвонити ' + CONFIG.phoneLabel + '</a>' +
       '</div>' +
-      '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У WhatsApp текст підставиться сам, у Telegram, Viber та Instagram — текст копіюється, просто вставте його в чат.</p>';
+      '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У Telegram, WhatsApp і Viber текст замовлення підставиться сам — просто натисніть «Надіслати».</p>';
     $('#otext').textContent = orderText();
     fillPhotos();
   }
@@ -498,16 +498,15 @@
     if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано ✅' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
-      var w = window.open(CONFIG.orderTelegram, '_blank', 'noopener');
-      copyText(orderText()).then(function (ok) { toast(ok ? 'Текст скопійовано — вставте його в чат Telegram ✅' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
-      if (!w) location.href = CONFIG.orderTelegram;
+      var tgu = CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText());
+      var w = window.open(tgu, '_blank', 'noopener'); if (!w) location.href = tgu;
       return;
     }
     if (t.hasAttribute('data-wa')) { window.open(CONFIG.whatsapp + '?text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
-    if (t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) {
-      var isV = t.hasAttribute('data-viber'), app = isV ? 'Viber' : 'Instagram';
-      copyText(orderText()).then(function (ok) { toast(ok ? 'Текст скопійовано — вставте його в чат ' + app + ' ✅' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
-      if (isV) location.href = CONFIG.viber; else window.open(CONFIG.instagram, '_blank', 'noopener');
+    if (t.hasAttribute('data-viber')) { location.href = CONFIG.viber + '&draft=' + encodeURIComponent(orderText()); return; }
+    if (t.hasAttribute('data-ig')) {
+      copyText(orderText()).then(function (ok) { toast(ok ? 'Instagram не підставляє текст сам — він уже скопійований, просто вставте в чат ✅' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
+      window.open(CONFIG.instagram, '_blank', 'noopener');
       return;
     }
     if (t.hasAttribute('data-share')) { window.open('https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
