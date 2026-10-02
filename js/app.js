@@ -352,9 +352,12 @@
   function openProduct(id) {
     var p = byId[id]; if (!p) return;
     if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); stat('p_' + p.id); }
+    var swap = openModalEl && openModalEl === $('#pmodal') && pmState.id !== id; // перехід з «Ще купують разом»
+    lbHide();
     pmState = { id: id, vi: 0, qty: 1, gi: 0 };
     renderProduct();
     showModal('#pmodal');
+    if (swap) { var bx = $('#pmodal .modal__box'); if (bx) bx.scrollTop = 0; }
     document.title = p.name + ' — ' + CONFIG.siteName;
   }
   function tdsHTML(p) {
@@ -372,8 +375,9 @@
   }
   function galleryHTML(p) {
     var g = galleryOf(p), n = g.length;
-    if (n <= 1) return '<div class="pm__img"><img ' + imgAttrs(p, g[0]) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + '</div>';
-    return '<div class="pm__img gal" data-gal>' +
+    var zoom = g.length && !(n === 1 && g[0].src && p.photo_is_placeholder) ? '<button class="pm__zoom" type="button" data-lb-open aria-label="Відкрити фото на весь екран"><span aria-hidden="true">⤢</span></button>' : '';
+    if (n <= 1) return '<div class="pm__img' + (zoom ? ' is-zoomable' : '') + '"><img ' + imgAttrs(p, g[0]) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + zoom + '</div>';
+    return '<div class="pm__img gal is-zoomable" data-gal>' + zoom +
       '<div class="gal__track" tabindex="0" aria-label="Фото товару, гортайте">' + g.map(function (x, i) {
         return '<div class="gal__it"><img ' + imgAttrs(p, x) + ' alt="' + esc(p.name) + ' — фото ' + (i + 1) + '"' + (i ? ' loading="lazy"' : '') + '></div>';
       }).join('') + '</div>' + promoHTML(p) +
@@ -435,6 +439,331 @@
     var j = rel ? i + to : to; if (j < 0) j = n - 1; if (j >= n) j = 0;
     tr.scrollTo({ left: j * w, behavior: 'smooth' });
   }
+  /* ---------- повноекранний перегляд фото з зумом (03.10.2026) ----------
+     Тап по головному фото в картці товару → темний лайтбокс: свайп між фото галереї, лічильник «1 / 3»,
+     pinch-zoom і подвійний тап (мобільний), колесо / клік (ПК), перетягування при зумі, ✕ / Esc / «Назад».
+     «Назад» на Android закриває перегляд, а не сайт: при відкритті — history.pushState({alexbesLb}), закриття — history.back().
+     Фото — найкраща доступна якість: p.photo_full (якщо колись з'явиться) або те саме фото / фото з Firestore. */
+  var LB_MAX = 5, LB_DBL = 2.5;
+  var lb = { el: null, open: false, pushed: false, p: null, n: 0, i: 0, s: 1, tx: 0, ty: 0, ptr: {}, g: null, lastTap: null, wheelT: 0, back: null };
+  function lbIsOpen() { return lb.open; }
+  function lbSrcAttrs(p, g) {
+    if (g && g.src && p.photo_full && (g.src === p.photo || (BASE[p.id] && g.src === BASE[p.id].photo))) return 'src="' + esc(p.photo_full) + '"';
+    return imgAttrs(p, g);
+  }
+  function lbBuild() {
+    if (lb.el) return lb.el;
+    var el = document.createElement('div');
+    el.className = 'lb'; el.id = 'lb'; el.hidden = true;
+    el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true'); el.setAttribute('aria-label', 'Перегляд фото');
+    document.body.appendChild(el);
+    el.addEventListener('pointerdown', lbDown);
+    el.addEventListener('pointermove', lbMove);
+    el.addEventListener('pointerup', lbUp);
+    el.addEventListener('pointercancel', lbUp);
+    el.addEventListener('lostpointercapture', lbUp);
+    el.addEventListener('wheel', lbWheel, { passive: false });
+    el.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    el.addEventListener('keydown', function (e) { // фокус не виходить з перегляду
+      if (e.key !== 'Tab') return;
+      var f = $$('button:not([hidden])', el); if (!f.length) return;
+      var k = f.indexOf(document.activeElement);
+      e.preventDefault(); f[(k + (e.shiftKey ? f.length - 1 : 1)) % f.length].focus();
+    });
+    lb.el = el;
+    return el;
+  }
+  function lbOpen(i) {
+    var p = byId[pmState.id]; if (!p) return;
+    var g = galleryOf(p);
+    if (!g.length || (g.length === 1 && g[0].src && p.photo_is_placeholder)) return;
+    var el = lbBuild(), n = g.length;
+    lb.p = p; lb.n = n; lb.i = Math.max(0, Math.min(n - 1, i || 0)); lb.s = 1; lb.tx = lb.ty = 0; lb.ptr = {}; lb.g = null; lb.lastTap = null;
+    lb.back = document.activeElement;
+    el.innerHTML = '<div class="lb__track">' + g.map(function (x, k) {
+        return '<div class="lb__sl"><img class="lb__img" ' + lbSrcAttrs(p, x) + ' alt="' + esc(p.name) + (n > 1 ? ' — фото ' + (k + 1) : '') + '" draggable="false" decoding="async"></div>';
+      }).join('') + '</div>' +
+      '<div class="lb__top"><span class="lb__cnt" aria-live="polite"' + (n > 1 ? '' : ' hidden') + '></span>' +
+      '<button class="lb__x" type="button" data-lb-close aria-label="Закрити перегляд">✕</button></div>' +
+      (n > 1 ? '<button class="lb__nav lb__nav--p" type="button" data-lb-step="-1" aria-label="Попереднє фото">‹</button>' +
+               '<button class="lb__nav lb__nav--n" type="button" data-lb-step="1" aria-label="Наступне фото">›</button>' : '') +
+      '<p class="lb__hint">' + (matchMedia('(hover:hover) and (pointer:fine)').matches ? 'Колесо або клік — зум · перетягуйте для огляду' : 'Два пальці або подвійний тап — зум') + '</p>';
+    el.hidden = false; lb.open = true;
+    document.documentElement.classList.add('lb-on');
+    lbPos(true); lbApply(true);
+    fillPhotos();
+    try { history.pushState({ alexbesLb: 1 }, '', location.href); lb.pushed = true; } catch (e) { lb.pushed = false; }
+    var x = $('.lb__x', el); if (x) x.focus({ preventScroll: true });
+    track('фото/' + p.id, 'Фото на весь екран: ' + p.name);
+  }
+  function lbHide() {
+    if (!lb.open) return;
+    lb.open = false; lb.pushed = false; lb.ptr = {}; lb.g = null;
+    lb.el.hidden = true; lb.el.innerHTML = '';
+    document.documentElement.classList.remove('lb-on');
+    var tr = $('#pm [data-gal] .gal__track'); // модальна галерея — на тому ж фото, що й у перегляді
+    if (tr && lb.p && lb.p.id === pmState.id) { pmState.gi = lb.i; tr.scrollLeft = lb.i * tr.clientWidth; }
+    if (lb.back && lb.back.focus && lb.back.isConnected) lb.back.focus({ preventScroll: true });
+  }
+  function lbClose() {
+    if (!lb.open) return;
+    if (lb.pushed && history.state && history.state.alexbesLb) { history.back(); return; } // popstate → lbHide()
+    lbHide();
+  }
+  window.addEventListener('popstate', function () { if (lb.open && !(history.state && history.state.alexbesLb)) lbHide(); });
+  function lbSlide() { return lb.el ? $$('.lb__sl', lb.el)[lb.i] : null; }
+  function lbImg() { var s = lbSlide(); return s ? $('.lb__img', s) : null; }
+  function lbPos(instant, dx) { // стрічка фото: зсув на поточне фото (+ dx під пальцем)
+    var tr = $('.lb__track', lb.el); if (!tr) return;
+    tr.classList.toggle('is-drag', !!instant);
+    tr.style.transform = 'translate3d(calc(' + (-lb.i * 100) + '% + ' + (dx || 0) + 'px),0,0)';
+    var c = $('.lb__cnt', lb.el); if (c) c.textContent = (lb.i + 1) + ' / ' + lb.n;
+    lb.el.classList.toggle('is-zoom', lb.s > 1.01);
+  }
+  function lbClamp() {
+    var im = lbImg(), sl = lbSlide(); if (!im || !sl) return;
+    var mx = Math.max(0, (im.offsetWidth * lb.s - sl.clientWidth) / 2), my = Math.max(0, (im.offsetHeight * lb.s - sl.clientHeight) / 2);
+    lb.tx = Math.max(-mx, Math.min(mx, lb.tx)); lb.ty = Math.max(-my, Math.min(my, lb.ty));
+  }
+  function lbApply(instant) {
+    var im = lbImg(); if (!im) return;
+    im.classList.toggle('is-anim', !instant);
+    im.style.transform = 'translate3d(' + lb.tx + 'px,' + lb.ty + 'px,0) scale(' + lb.s + ')';
+    lb.el.classList.toggle('is-zoom', lb.s > 1.01);
+  }
+  function lbPoint(cx, cy) { var r = lbSlide().getBoundingClientRect(); return { x: cx - r.left - r.width / 2, y: cy - r.top - r.height / 2 }; } // від центру слайда
+  function lbZoomTo(s, cx, cy, instant) { // зум навколо точки екрана (cx, cy)
+    s = Math.max(1, Math.min(LB_MAX, s));
+    var pt = lbPoint(cx, cy), k = s / lb.s;
+    lb.tx = pt.x - (pt.x - lb.tx) * k; lb.ty = pt.y - (pt.y - lb.ty) * k; lb.s = s;
+    if (s <= 1.01) { lb.s = 1; lb.tx = lb.ty = 0; }
+    lbClamp(); lbApply(instant);
+  }
+  function lbReset(instant) { lb.s = 1; lb.tx = lb.ty = 0; lbApply(instant); }
+  function lbGo(to, rel) {
+    if (!lb.open || lb.n < 2) return;
+    var j = rel ? lb.i + to : to; if (j < 0) j = lb.n - 1; if (j >= lb.n) j = 0;
+    if (j === lb.i) return;
+    lbReset(true); lb.i = j; lbReset(true); lbPos(false);
+  }
+  function lbToggleZoom(cx, cy) { if (lb.s > 1.01) lbReset(false); else lbZoomTo(LB_DBL, cx, cy, false); }
+  function lbPts() { return Object.keys(lb.ptr).map(function (k) { return lb.ptr[k]; }); }
+  function lbDown(e) {
+    if (e.target.closest('button')) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    lb.ptr[e.pointerId] = { x: e.clientX, y: e.clientY };
+    try { lb.el.setPointerCapture(e.pointerId); } catch (x) {}
+    var pts = lbPts();
+    if (pts.length === 1) lb.g = { mode: 'one', x0: e.clientX, y0: e.clientY, tx0: lb.tx, ty0: lb.ty, t0: Date.now(), moved: false, type: e.pointerType, dir: null };
+    else if (pts.length === 2) {
+      var a = pts[0], b = pts[1];
+      lb.g = { mode: 'pinch', d0: Math.hypot(b.x - a.x, b.y - a.y) || 1, s0: lb.s, m0: lbPoint((a.x + b.x) / 2, (a.y + b.y) / 2), tx0: lb.tx, ty0: lb.ty, moved: true };
+      lbPos(true, 0);
+    }
+  }
+  function lbMove(e) {
+    var pt = lb.ptr[e.pointerId], g = lb.g; if (!pt || !g) return;
+    pt.x = e.clientX; pt.y = e.clientY;
+    if (g.mode === 'pinch') {
+      var pts = lbPts(); if (pts.length < 2) return;
+      var a = pts[0], b = pts[1], s = Math.max(1, Math.min(LB_MAX, g.s0 * Math.hypot(b.x - a.x, b.y - a.y) / g.d0));
+      var m = lbPoint((a.x + b.x) / 2, (a.y + b.y) / 2);
+      lb.s = s; lb.tx = m.x - (g.m0.x - g.tx0) * s / g.s0; lb.ty = m.y - (g.m0.y - g.ty0) * s / g.s0;
+      lbClamp(); lbApply(true);
+      return;
+    }
+    var dx = e.clientX - g.x0, dy = e.clientY - g.y0;
+    if (!g.moved && Math.abs(dx) + Math.abs(dy) > 8) g.moved = true;
+    if (!g.moved) return;
+    if (lb.s > 1.01) { lb.tx = g.tx0 + dx; lb.ty = g.ty0 + dy; lbClamp(); lbApply(true); return; } // перетягування зумованого фото
+    if (!g.dir) g.dir = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+    if (g.dir === 'x' && lb.n > 1) {
+      var edge = (lb.i === 0 && dx > 0) || (lb.i === lb.n - 1 && dx < 0);
+      lbPos(true, edge ? dx * 0.35 : dx);
+    }
+  }
+  function lbUp(e) {
+    var g = lb.g; if (!lb.ptr[e.pointerId]) return;
+    delete lb.ptr[e.pointerId];
+    var left = lbPts();
+    if (!g) return;
+    if (g.mode === 'pinch') {
+      if (left.length === 1) { var r = left[0]; lb.g = { mode: 'one', x0: r.x, y0: r.y, tx0: lb.tx, ty0: lb.ty, t0: Date.now(), moved: true, type: e.pointerType, dir: null }; }
+      else lb.g = null;
+      if (lb.s <= 1.02) lbReset(false);
+      return;
+    }
+    lb.g = null;
+    if (e.type !== 'pointerup') { lbPos(false); return; }
+    var dx = e.clientX - g.x0, dt = Date.now() - g.t0;
+    if (!g.moved) { // тап / клік
+      if (g.type === 'mouse') { lbToggleZoom(e.clientX, e.clientY); return; }
+      var lt = lb.lastTap, now = Date.now();
+      if (lt && now - lt.t < 320 && Math.hypot(e.clientX - lt.x, e.clientY - lt.y) < 30) { lb.lastTap = null; lbToggleZoom(e.clientX, e.clientY); }
+      else lb.lastTap = { t: now, x: e.clientX, y: e.clientY };
+      return;
+    }
+    if (lb.s > 1.01 || g.dir !== 'x' || lb.n < 2) { lbPos(false); return; }
+    var w = lb.el.clientWidth || 1;
+    if (dx < -w * 0.18 || (dx < -40 && dt < 300)) { if (lb.i < lb.n - 1) { lb.i++; lbReset(true); } }
+    else if (dx > w * 0.18 || (dx > 40 && dt < 300)) { if (lb.i > 0) { lb.i--; lbReset(true); } }
+    lbPos(false);
+  }
+  function lbWheel(e) {
+    if (!lb.open || e.target.closest('button')) return;
+    e.preventDefault();
+    var dy = e.deltaMode === 1 ? e.deltaY * 16 : e.deltaY;
+    lbZoomTo(lb.s * Math.exp(-dy * 0.0025), e.clientX, e.clientY, true);
+  }
+  window.addEventListener('resize', function () { if (lb.open) { lbReset(true); lbPos(true); } });
+  function pmGalIndex() {
+    var tr = $('#pm [data-gal] .gal__track'); if (!tr) return 0;
+    return Math.max(0, Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)));
+  }
+  /* ---------- «🧰 Ще купують разом» у картці товару (03.10.2026) ----------
+     УСІ ПРАВИЛА — тут, у RELATED_RULES. Спрацьовує ПЕРШЕ правило (за порядком ключів), чий `when` підходить до товару.
+       when:  { cats: [категорії], re: RegExp по «назва + код + опис» }            — обидві умови необов'язкові
+       picks: [група, …] — група кандидатів:
+         cats      — у яких категоріях шукати (без cats — у всіх)
+         re / not  — RegExp, що МАЄ / НЕ МАЄ збігатися з «назва + код» кандидата
+         max       — скільки взяти з групи (за замовчуванням 2)
+         brandLock — кандидат з брендом у назві (Meiji, SATA, NTools…) лише до товару того ж бренду (бачки, дюзи)
+         sameSeries— лише та сама серія Palinal (223 / 923 / 873…) або код кандидата згаданий в описі товару
+         srcRe / srcNot — група застосовується, лише якщо товар-джерело (назва + опис) збігається / не збігається
+         ifEmpty   — назва іншої групи (label): ця група лише тоді, коли та нічого не дала
+     Нічого не вигадуємо: лише реальні товари каталогу (PRODUCTS після applyRemote — приховані вже прибрані),
+     без «Немає в наявності» і без самого товару. Позначки ХІТ / Акція / Новинка — першими; далі «В наявності», далі решта.
+     Набралось менше REL_MIN — добираємо товари в наявності з тієї ж категорії. */
+  var REL_MIN = 4, REL_MAX = 8;
+  var GUN_ANY = { cats: ['meiji', 'sata', 'china'], not: /ґрунтовоч|міні|spot|0\.8/i, max: 1 };
+  var HARDENER_NOT = /primer|ґрунт|шпакл|емаль|фарба|лак\b/i; // «Wash Primer … + затверджувач 009» — це ґрунт, а не затверджувач
+  var RELATED_RULES = {
+    gun: { when: { cats: ['meiji', 'sata', 'china'] }, picks: [
+      { label: 'дюзи', cats: ['acc'], re: /дюз|nozzle/i, brandLock: true, max: 1 },
+      { label: 'фільтри / сита', re: /фільтр|ситечк|\bсито\b|strainer/i, max: 1 },
+      { label: 'бачки / PPS', cats: ['acc'], re: /бач|pps/i, brandLock: true, max: 2 },
+      { label: 'регулятори / манометри', cats: ['acc'], re: /манометр|регулятор/i, max: 2 },
+      { label: 'миття пістолета', cats: ['savex', 'rozch', 'tools'], re: /gun\s*cleaner|миття\s+обладнання/i, max: 1 },
+      { label: 'розчинник Palinal', cats: ['rozch'], re: /стандартний розчинник/i, not: /5\s*л/i, max: 1 },
+      { label: 'розчинник Savex', cats: ['savex'], re: /розчинник/i, not: /металік|economy/i, max: 1 }
+    ] },
+    lak: { when: { cats: ['lak'] }, picks: [
+      { label: 'затверджувач серії', re: /затверджувач|hardener/i, not: HARDENER_NOT, sameSeries: true, max: 2 },
+      { label: 'затверджувач Palinal', re: /затверджувач|hardener/i, not: HARDENER_NOT, ifEmpty: 'затверджувач серії', max: 1 },
+      { label: 'розчинник серії', cats: ['rozch'], re: /розчинник|thinner/i, sameSeries: true, max: 2, srcNot: /без (?:додавання )?розчинник/i },
+      { label: 'розчинник Palinal', cats: ['rozch'], re: /^Palinal 075\.00\d0\b/i, not: /5\s*л/i, ifEmpty: 'розчинник серії', max: 2, srcNot: /без (?:додавання )?розчинник/i },
+      { label: 'добавки для лаку', cats: ['rozch'], re: /955 BLEND|958\.1000M/i, max: 2 },
+      Object.assign({ label: 'фарбопульт' }, GUN_ANY)
+    ] },
+    'grunt-epoxy': { when: { cats: ['grunt'], re: /епокс|epoxy|881\./i }, picks: [
+      { label: 'розчинник для епоксиду', cats: ['rozch'], re: /^Palinal 077\b/i, max: 2 },
+      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
+      { label: 'ґрунтовий фарбопульт', cats: ['china', 'meiji', 'sata'], re: /ґрунтовоч/i, max: 1 }
+    ] },
+    'grunt-hydro': { when: { cats: ['grunt'], re: /hydropal/i }, picks: [
+      { label: 'водний знежирювач Hydropal', cats: ['rozch'], re: /hydropal/i, max: 1 },
+      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'ґрунтовий фарбопульт', cats: ['china', 'meiji', 'sata'], re: /ґрунтовоч/i, max: 1 }
+    ] },
+    'grunt-plastic': { when: { cats: ['grunt'], re: /пластик/i }, picks: [
+      { label: 'антистатик', cats: ['tools'], re: /антистатич/i, max: 1 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 2 },
+      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 }
+    ] },
+    grunt: { when: { cats: ['grunt'] }, picks: [
+      { label: 'затверджувач серії', re: /затверджувач|hardener/i, not: HARDENER_NOT, sameSeries: true, max: 1 },
+      { label: 'розчинник Palinal', cats: ['rozch'], re: /^Palinal 075\.00\d0\b/i, not: /5\s*л/i, max: 2, srcNot: /wash primer|868\./i },
+      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
+      { label: 'ґрунтовий фарбопульт', cats: ['china', 'meiji', 'sata'], re: /ґрунтовоч/i, max: 1 }
+    ] },
+    emal2k: { when: { cats: ['emal2k'] }, picks: [ // опис 075: «для 2K акрил-поліуретанових емалей, лаків і ґрунтів»
+      { label: 'розчинник Palinal', cats: ['rozch'], re: /^Palinal 075\.00\d0\b/i, not: /5\s*л/i, max: 2 },
+      { label: 'перехід по блиску', cats: ['rozch'], re: /955 BLEND/i, max: 1 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
+      Object.assign({ label: 'фарбопульт' }, GUN_ANY)
+    ] },
+    baza: { when: { cats: ['baza'] }, picks: [ // опис бази: «Наноситься під 2K лак»
+      { label: 'лак', cats: ['lak'], not: /5\s*л|мат/i, max: 2 },
+      { label: 'перехід по металіку', cats: ['rozch'], re: /900\.FIX1|074\.DS/i, srcRe: /\bMET\b|металік/i, max: 2 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
+      Object.assign({ label: 'фарбопульт' }, GUN_ANY)
+    ] },
+    acc: { when: { cats: ['acc'] }, picks: [ // манометри, бачки, PPS, дюзи → інші аксесуари + фарбопульти (бачок/дюза Meiji — лише до Meiji)
+      { label: 'аксесуари', cats: ['acc'], max: 3 },
+      { label: 'фарбопульти', cats: ['meiji', 'sata', 'china'], not: /ґрунтовоч|міні|spot|0\.8/i, brandLock: true, max: 2 }
+    ] },
+    shpak: { when: { cats: ['shpak'] }, picks: [
+      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 }
+    ] }
+  };
+  var REL_BRANDS = /\b(meiji|sata|ntools|devilbiss|iwata|3m)\b/i;
+  function relBrand(p) { var m = String(p.name || '').match(REL_BRANDS) || String(p.brand || '').match(REL_BRANDS); return m ? m[1].toLowerCase() : ''; }
+  function relSeries(p) { var m = String(p.name || '').match(/\b(\d{3})(?=[.\s])/); return m ? m[1] : ''; }
+  function relCodes(p) { return (String(p.name || '') + ' ' + String(p.code || '')).match(/\b\d{3}\.[A-Z0-9]{2,}/gi) || []; }
+  function relOut(p) { return /немає/i.test(p.in_stock || ''); }
+  function relRank(p) { return (promoOf(p) ? 0 : 2) + (/^в наявності/i.test(p.in_stock || '') ? 0 : 1); } // 0 — позначка + в наявності … 3 — без позначки, наявність уточнюйте / у дорозі
+  function relRuleOf(p) {
+    var txt = p.name + ' ' + (p.code || '') + ' ' + (p.description || '');
+    for (var k in RELATED_RULES) {
+      var w = RELATED_RULES[k].when || {};
+      if (w.cats && w.cats.indexOf(p.category) < 0) continue;
+      if (w.re && !w.re.test(txt)) continue;
+      return k;
+    }
+    return null;
+  }
+  function relatedOf(p) {
+    var used = {}; used[p.id] = 1;
+    var pos = {}; PRODUCTS.forEach(function (x, i) { pos[x.id] = i; });
+    var srcTxt = p.name + ' ' + (p.description || ''), srcFlat = srcTxt.replace(/\s+/g, '').toUpperCase();
+    var ok = function (x) { return !used[x.id] && !relOut(x) && !x.hidden; };
+    var byRank = function (a, b) { return relRank(a) - relRank(b) || pos[a.id] - pos[b.id]; };
+    var rk = relRuleOf(p), rule = rk && RELATED_RULES[rk], groups = [], got = {};
+    (rule ? rule.picks : []).forEach(function (gp) {
+      if (gp.srcRe && !gp.srcRe.test(srcTxt)) return;
+      if (gp.srcNot && gp.srcNot.test(srcTxt)) return;
+      if (gp.ifEmpty && got[gp.ifEmpty]) return;
+      var b = relBrand(p), s = relSeries(p);
+      var list = PRODUCTS.filter(function (x) {
+        if (!ok(x) || (gp.cats && gp.cats.indexOf(x.category) < 0)) return false;
+        var t = x.name + ' ' + (x.code || '');
+        if (gp.re && !gp.re.test(t)) return false;
+        if (gp.not && gp.not.test(t)) return false;
+        if (gp.brandLock && relBrand(x) && relBrand(x) !== b) return false;
+        if (gp.sameSeries && !((s && relSeries(x) === s) || relCodes(x).some(function (c) { return srcFlat.indexOf(c.toUpperCase()) >= 0; }))) return false;
+        return true;
+      }).sort(byRank).slice(0, gp.max || 2);
+      got[gp.label] = list.length;
+      groups.push(list);
+    });
+    var out = [], more = true;
+    for (var r = 0; more && out.length < REL_MAX; r++) { // по одному з кожної групи по колу — щоб було різноманітно
+      more = false;
+      groups.forEach(function (l) { if (l[r]) { more = true; if (!used[l[r].id] && out.length < REL_MAX) { used[l[r].id] = 1; out.push(l[r]); } } });
+    }
+    if (out.length < REL_MIN) {
+      PRODUCTS.filter(function (x) { return x.category === p.category && ok(x) && hasPrice(x); }).sort(byRank)
+        .slice(0, REL_MIN - out.length).forEach(function (x) { used[x.id] = 1; out.push(x); });
+    }
+    out.forEach(function (x, i) { x._ri = i; });
+    out.sort(function (a, b) { return (promoOf(a) ? 0 : 1) - (promoOf(b) ? 0 : 1) || a._ri - b._ri; });
+    return out;
+  }
+  function relatedHTML(p) {
+    var list = relatedOf(p); if (list.length < 2) return '';
+    return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><span class="emo">🧰</span> Ще купують разом</p>' +
+      '<ul class="rel__list">' + list.map(function (x) {
+        var pr = unitPrice(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoOf(x);
+        return '<li class="rel__it"><button class="rel__open" type="button" data-open="' + esc(x.id) + '" aria-label="Відкрити: ' + esc(x.name) + '">' +
+          '<span class="rel__img"><img ' + mainImg(x) + ' alt="" loading="lazy" decoding="async" width="200" height="200">' + (pm ? '<span class="rel__tag">' + esc(pm) + '</span>' : '') + '</span>' +
+          '<span class="rel__nm">' + esc(x.name) + '</span>' +
+          '<span class="rel__pr">' + (pr != null ? uah(pr) + (lb ? ' <small>· ' + esc(uahText(lb)) + '</small>' : '') : '<small>Ціну уточнюйте</small>') + '</span></button>' +
+          '<button class="rel__add" type="button" data-radd="' + esc(x.id) + '" aria-label="Додати «' + esc(x.name) + '» в кошик">+</button></li>';
+      }).join('') + '</ul></section>';
+  }
   function renderProduct() {
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
@@ -451,7 +780,7 @@
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
-        '<p class="pm__desc">' + esc(uahText(p.description)) + '</p>' + videosHTML(p) +
+        '<p class="pm__desc">' + esc(uahText(p.description)) + '</p>' + videosHTML(p) + relatedHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
         '<div class="cactions">' +
@@ -608,12 +937,13 @@
   var openModalEl = null, lastFocus = null;
   function showModal(sel) {
     if (openModalEl && openModalEl !== $(sel)) openModalEl.hidden = true;
-    lastFocus = document.activeElement;
+    if (openModalEl !== $(sel)) lastFocus = document.activeElement; // повторний показ тієї ж модалки (інший товар) — фокус повертаємо туди, звідки її відкрили
     openModalEl = $(sel); openModalEl.hidden = false; document.body.style.overflow = 'hidden';
     var x = openModalEl.querySelector('.modal__x'); if (x) x.focus({ preventScroll: true });
   }
   function hideModal() {
     if (!openModalEl) return;
+    lbHide();
     stopMedia();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = listTitle();
@@ -808,7 +1138,15 @@
 
   /* ---------- events ---------- */
   document.addEventListener('click', function (e) {
-    var t = e.target.closest('button, a'); if (!t) { if (e.target.hasAttribute && e.target.hasAttribute('data-close')) hideModal(); return; }
+    var t = e.target.closest('button, a');
+    if (!t) {
+      if (e.target.hasAttribute && e.target.hasAttribute('data-close')) { hideModal(); return; }
+      if (!lb.open && e.target.closest && e.target.closest('#pm .pm__img.is-zoomable')) lbOpen(pmGalIndex()); // тап по головному фото → повний екран
+      return;
+    }
+    if (t.hasAttribute('data-lb-close')) { lbClose(); return; }
+    if (t.hasAttribute('data-lb-step')) { lbGo(+t.getAttribute('data-lb-step'), true); return; }
+    if (t.hasAttribute('data-lb-open')) { lbOpen(pmGalIndex()); return; }
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-consult')) { track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // home banner button; link opens normally
@@ -819,6 +1157,7 @@
       if (p.variants && p.variants.length > 1) { location.hash = '#/p/' + p.id; toast('Оберіть варіант'); return; }
       addToCart(p.id, 0, 1); return;
     }
+    if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1); return; } // «Ще купують разом»: в кошик без закриття картки (варіант 1)
     if (t.hasAttribute('data-var')) { pmState.vi = +t.getAttribute('data-var'); renderProduct(); return; }
     if (t.hasAttribute('data-gal-step')) { galGo(+t.getAttribute('data-gal-step'), true); return; }
     if (t.hasAttribute('data-gal-to')) { galGo(+t.getAttribute('data-gal-to'), false); return; }
@@ -886,6 +1225,12 @@
   }
   $('#sort').addEventListener('change', function () { state.sort = this.value; renderGrid(); });
   document.addEventListener('keydown', function (e) {
+    if (lb.open) { // повноекранний перегляд фото
+      if (e.key === 'Escape') { e.preventDefault(); lbClose(); }
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); lbGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
+      else if (e.key === '+' || e.key === '=' || e.key === '-') { var r = lb.el.getBoundingClientRect(); lbZoomTo(lb.s * (e.key === '-' ? 1 / 1.5 : 1.5), r.left + r.width / 2, r.top + r.height / 2, false); }
+      return;
+    }
     if (e.key === 'Escape') { hideModal(); return; }
     if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && openModalEl && openModalEl === $('#pmodal') && !/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) { galGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
   });
@@ -962,7 +1307,8 @@
     hideModal: hideModal,
     toast: function (m) { toast(m); },
     track: track,
-    gunSpecs: function (id) { return byId[id] ? gunSpecs(byId[id]) : null; }
+    gunSpecs: function (id) { return byId[id] ? gunSpecs(byId[id]) : null; },
+    related: function (id) { var p = byId[id]; return p ? { rule: relRuleOf(p), ids: relatedOf(p).map(function (x) { return x.id; }) } : null; } // перевірка RELATED_RULES з консолі
   };
   // last known Firestore overrides (no photos) — applied instantly so hidden/edited items don't flash; refreshed by js/fb.js
   try { var cachedRemote = load('alexbes_remote', null); if (cachedRemote && Array.isArray(cachedRemote.docs)) applyRemote(cachedRemote.docs); } catch (e) {}
