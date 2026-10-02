@@ -364,6 +364,17 @@
     var n = cartCount();
     $$('[data-cart-count]').forEach(function (b) { b.textContent = n; b.hidden = n === 0; });
   }
+  // кошик → start-параметр бота: c_<індекс36>-<к-сть>[-<варіант>]_..._m<невідомі> (ліміт Telegram 64 символи)
+  function botCartPayload() {
+    var out = 'c', miss = 0;
+    cart.forEach(function (l) {
+      var i = (typeof STATIC_IDX !== 'undefined') ? STATIC_IDX[l.id] : undefined;
+      var tok = i == null ? null : '_' + i.toString(36) + '-' + Math.max(1, l.qty | 0) + (byId[l.id] && byId[l.id].variants ? '-' + (l.vi | 0) : '');
+      if (tok && (out + tok).length <= 58) out += tok; else miss++;
+    });
+    if (miss) out += '_m' + miss;
+    return out === 'c' ? 'order' : out;
+  }
   function orderText() {
     var lines = ['Вітаю! Хочу замовити (з сайту ' + CONFIG.siteName + '):', ''];
     var sum = 0, ask = 0;
@@ -411,7 +422,7 @@
       '</div>' +
       '<details class="preview preview--top"><summary>📝 Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<div class="cactions">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=order" target="_blank" rel="noopener">🤖 Бот для замовлень</a>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener">🤖 Бот для замовлень</a>' +
         '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати в Telegram</button>' +
         '<button class="btn btn--y" type="button" data-wa>🟢 WhatsApp</button>' +
         '<button class="btn btn--y" type="button" data-viber>🟣 Viber</button>' +
@@ -547,6 +558,7 @@
   /* ---------- Firebase bridge (js/fb.js is optional: if it never loads, everything above works from static data) ---------- */
   var BASE = {}; PRODUCTS.forEach(function (p) { BASE[p.id] = p; });
   var STATIC_ORDER = PRODUCTS.slice();
+  var STATIC_IDX = {}; STATIC_ORDER.forEach(function (p, i) { STATIC_IDX[p.id] = i; });
   var EDITABLE = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand', 'gallery', 'videos'];
   function catName(id) { return catById[id] ? catById[id].name : id; }
   // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;
