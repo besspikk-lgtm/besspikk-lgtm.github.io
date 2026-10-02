@@ -28,8 +28,31 @@
   var mem = {};
   function load(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return mem[k] || d; } }
   function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { mem[k] = v; } }
-  var cart = load('alexbes_cart', []).filter(function (l) { return byId[l.id]; });
+  // cart lines whose product is unknown right now (e.g. added via admin and not loaded yet, or hidden) are kept aside in `orphans`
+  // so they survive in storage/account and reappear once the product data arrives.
+  var cart = [], orphans = [];
+  function cleanLines(arr) {
+    var out = [];
+    (Array.isArray(arr) ? arr : []).forEach(function (l) {
+      if (!l || typeof l.id !== 'string') return;
+      var vi = Math.max(0, parseInt(l.vi, 10) || 0), qty = Math.max(1, Math.min(9999, parseInt(l.qty, 10) || 1));
+      var ex = out.filter(function (x) { return x.id === l.id && x.vi === vi; })[0];
+      if (ex) ex.qty += qty; else out.push({ id: l.id, vi: vi, qty: qty });
+    });
+    return out;
+  }
+  function splitCart(arr) {
+    cart = []; orphans = [];
+    cleanLines(arr).forEach(function (l) { (byId[l.id] ? cart : orphans).push(l); });
+  }
+  splitCart(load('alexbes_cart', []));
   var form = load('alexbes_form', {});
+  var cartListeners = [];
+  function allLines() { return cart.concat(orphans).map(function (l) { return { id: l.id, vi: l.vi, qty: l.qty }; }); }
+  function saveCart(silent) {
+    save('alexbes_cart', allLines());
+    if (!silent) cartListeners.forEach(function (fn) { try { fn(allLines()); } catch (e) {} });
+  }
 
   /* ---------- price helpers ---------- */
   function hasPrice(p) { return p.price_eur != null; }
@@ -41,6 +64,10 @@
     var from = p.variants && p.variants.length > 1 ? '<small>від</small>' : '';
     return '<span class="pill">' + from + eur(p.price_eur) + '</span>';
   }
+  var PLACEHOLDER = 'img/logo.webp?v=3';
+  var photoData = {}; // id -> data URL loaded from Firestore photos/{id}
+  function photoSrc(p) { return photoData[p.id] || p.photo || PLACEHOLDER; }
+  function phAttr(p) { return p.hasPhoto && !photoData[p.id] ? ' data-ph="' + esc(p.id) + '"' : ''; }
   function stockHTML(p) {
     var s = p.in_stock || '';
     var cls = /немає/i.test(s) ? ' stock--out' : /наявн/i.test(s) && !/уточн/i.test(s) ? '' : /дороз|замовл/i.test(s) ? ' stock--way' : ' stock--ask';
@@ -60,10 +87,11 @@
   }
   function norm(s) { return String(s).toLowerCase().replace(/[’'`ʼ]/g, '').replace(/ґ/g, 'г'); }
   var index = {};
-  PRODUCTS.forEach(function (p) {
+  function indexProduct(p) {
     var t = norm([p.name, p.code || '', p.brand || '', p.category_name, p.description].join(' '));
     index[p.id] = t + ' ' + t.replace(/[.\-\/]/g, '');
-  });
+  }
+  PRODUCTS.forEach(indexProduct);
   function filtered() {
     var toks = norm(state.q).split(/\s+/).filter(Boolean);
     var list = PRODUCTS.filter(function (p) {
@@ -86,13 +114,13 @@
   }
   var PROMO = { 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoHTML(p) {
-    var t = PROMO[p.id]; if (!t) return '';
+    var t = p.promo != null ? p.promo : PROMO[p.id]; if (!t) return '';
     return t === 'ХІТ' ? '<span class="promo promo--hit">⭐ ' + t + '</span>' : '<span class="promo">🔥 ' + t + '</span>';
   }
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
-      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img src="' + p.photo + '" alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
+      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img src="' + photoSrc(p) + '"' + phAttr(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + '</span>' +
@@ -107,6 +135,7 @@
     var next = curList.slice(shown, shown + PAGE);
     $('#grid').insertAdjacentHTML('beforeend', next.map(function (p, i) { return cardHTML(p, shown + i); }).join(''));
     shown += next.length;
+    fillPhotos();
     var more = $('#more');
     more.hidden = shown >= curList.length;
     more.textContent = 'Показати ще (' + (curList.length - shown) + ')';
@@ -177,7 +206,7 @@
     var src = (p.source || []).filter(function (u) { return /^https:\/\/t\.me\//.test(u); })[0];
     var tgAsk = 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?'));
     $('#pm').innerHTML =
-      '<div class="pm__img"><img src="' + p.photo + '" alt="' + esc(p.name) + '">' + promoHTML(p) + '</div>' +
+      '<div class="pm__img"><img src="' + photoSrc(p) + '"' + phAttr(p) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + '</div>' +
       '<div class="pm__info">' +
         '<span class="pm__cat">' + esc(p.category_name) + '</span>' +
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
@@ -196,6 +225,7 @@
         specsHTML(p) + tdsHTML(p) +
         '<p class="pm__note">' + esc(p.price_note || '') + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
       '</div>';
+    fillPhotos();
   }
 
   /* ---------- cart ---------- */
@@ -204,7 +234,7 @@
     vi = vi || 0; qty = Math.max(1, qty || 1);
     var l = cart.filter(function (x) { return x.id === id && x.vi === vi; })[0];
     if (l) l.qty += qty; else cart.push({ id: id, vi: vi, qty: qty });
-    save('alexbes_cart', cart); updateBadges();
+    saveCart(); updateBadges();
     var p = byId[id];
     toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + variantOf(p, vi).label + ')' : ''));
   }
@@ -241,7 +271,7 @@
     var items = cart.map(function (l, i) {
       var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
       if (up != null) sum += up * l.qty; else ask++;
-      return '<li class="citem"><img src="' + p.photo + '" alt="">' +
+      return '<li class="citem"><img src="' + photoSrc(p) + '"' + phAttr(p) + ' alt="">' +
         '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(v ? v.label : (p.price_label || '')) + '</div>' +
         '<div class="citem__p">' + (up != null ? eur(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div></div>' +
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
@@ -268,6 +298,7 @@
       '<details class="preview"><summary>Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У WhatsApp текст підставиться сам, у Telegram, Viber та Instagram — текст копіюється, просто вставте його в чат.</p>';
     $('#otext').textContent = orderText();
+    fillPhotos();
   }
   function copyText(t) {
     function fallback() {
@@ -300,7 +331,12 @@
   function route() {
     var h = location.hash || '#/';
     var m;
-    if ((m = h.match(/^#\/p\/([\w-]+)/))) { openProduct(m[1]); return; }
+    if ((m = h.match(/^#\/p\/([\w-]+)/))) {
+      if (!$('#grid').children.length) renderGrid(); // direct product link: have the catalog ready behind the modal
+      if (byId[m[1]]) { openProduct(m[1]); return; }
+      if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; } // unknown/hidden product (maybe loads from Firestore later)
+      return;
+    }
     if (h === '#cart') { renderCart(); showModal('#cmodal'); return; }
     if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     trackedOpen = null;
@@ -328,8 +364,8 @@
     if (t.hasAttribute('data-q')) { pmState.qty = Math.max(1, (parseInt($('#pmq').value, 10) || 1) + +t.getAttribute('data-q')); $('#pmq').value = pmState.qty; return; }
     if (t.hasAttribute('data-addpm')) { pmState.qty = Math.max(1, parseInt($('#pmq').value, 10) || 1); addToCart(pmState.id, pmState.vi, pmState.qty); return; }
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
-    if (t.hasAttribute('data-cq')) { var i = +t.getAttribute('data-cq'); cart[i].qty = Math.max(1, cart[i].qty + +t.getAttribute('data-d')); save('alexbes_cart', cart); updateBadges(); renderCart(); return; }
-    if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); save('alexbes_cart', cart); updateBadges(); renderCart(); return; }
+    if (t.hasAttribute('data-cq')) { var i = +t.getAttribute('data-cq'); cart[i].qty = Math.max(1, cart[i].qty + +t.getAttribute('data-d')); saveCart(); updateBadges(); renderCart(); return; }
+    if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано ✅' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
       var w = window.open(CONFIG.orderTelegram, '_blank', 'noopener');
@@ -363,7 +399,7 @@
     var t = e.target;
     if (t.id === 'q') { state.q = t.value.trim(); renderGridSearch(); return; }
     if (t.hasAttribute('data-f')) { form[t.getAttribute('data-f')] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); return; }
-    if (t.hasAttribute('data-ci')) { var i = +t.getAttribute('data-ci'); cart[i].qty = Math.max(1, parseInt(t.value, 10) || 1); save('alexbes_cart', cart); updateBadges(); var o2 = $('#otext'); if (o2) o2.textContent = orderText(); return; }
+    if (t.hasAttribute('data-ci')) { var i = +t.getAttribute('data-ci'); cart[i].qty = Math.max(1, parseInt(t.value, 10) || 1); saveCart(); updateBadges(); var o2 = $('#otext'); if (o2) o2.textContent = orderText(); return; }
   });
   function renderGridSearch() {
     // search is global (all categories) like the reference; category chip resets to "all"
@@ -374,6 +410,77 @@
   $('#sort').addEventListener('change', function () { state.sort = this.value; renderGrid(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideModal(); });
   window.addEventListener('hashchange', route);
+
+  /* ---------- Firebase bridge (js/fb.js is optional: if it never loads, everything above works from static data) ---------- */
+  var BASE = {}; PRODUCTS.forEach(function (p) { BASE[p.id] = p; });
+  var STATIC_ORDER = PRODUCTS.slice();
+  var EDITABLE = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand'];
+  function catName(id) { return catById[id] ? catById[id].name : id; }
+  // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;
+  // new ids are appended (sorted into their category); hidden:true removes the product from the public catalog.
+  function applyRemote(docs) {
+    var list = [], seen = {};
+    STATIC_ORDER.forEach(function (bp) { list.push(bp); });
+    (docs || []).forEach(function (d) { if (d && typeof d.id === 'string' && /^[\w-]{1,80}$/.test(d.id)) seen[d.id] = d; });
+    var extra = Object.keys(seen).filter(function (id) { return !BASE[id]; }).map(function (id) { return seen[id]; });
+    extra.sort(function (a, b) { return (a.createdAt || 0) - (b.createdAt || 0); });
+    var out = [];
+    list.concat(extra).forEach(function (bp) {
+      var d = seen[bp.id], p;
+      if (BASE[bp.id]) p = Object.assign({}, BASE[bp.id]);
+      else p = { id: bp.id, category: '', name: '', description: '', price_eur: null, price_label: null, variants: null, price_note: '', price_uah_original: null, source: [], photo: PLACEHOLDER, in_stock: 'Наявність уточнюйте', flag: null, code: '' };
+      if (d) {
+        EDITABLE.forEach(function (k) { if (d[k] !== undefined) p[k] = d[k]; });
+        if (p.price_eur !== null && typeof p.price_eur !== 'number') p.price_eur = parseFloat(p.price_eur) || null;
+        if (p.variants && !(Array.isArray(p.variants) && p.variants.length)) p.variants = null;
+        if (p.price_label === '') p.price_label = null;
+        p.hasPhoto = !!d.hasPhoto;
+        if (d.hidden) return;
+      }
+      if (!catById[p.category]) { if (BASE[p.id]) p.category = BASE[p.id].category; else return; }
+      p.category_name = catName(p.category);
+      out.push(p);
+    });
+    PRODUCTS = out; byId = {}; index = {};
+    PRODUCTS.forEach(function (p) { byId[p.id] = p; indexProduct(p); });
+    CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; });
+    splitCart(allLines()); saveCart(true); updateBadges();
+    renderCats();
+    renderGrid();
+    if (openModalEl && openModalEl === $('#pmodal') && pmState.id) { if (byId[pmState.id]) renderProduct(); else hideModal(); }
+    else if (openModalEl && openModalEl === $('#cmodal')) renderCart();
+    else if (!openModalEl) { var hm = (location.hash || '').match(/^#\/p\/([\w-]+)/); if (hm && byId[hm[1]]) openProduct(hm[1]); } // link to a product that only exists in Firestore
+  }
+  var photoLoader = null, photoReq = {};
+  function fillPhotos() {
+    if (!photoLoader) return;
+    $$('img[data-ph]').forEach(function (img) {
+      var id = img.getAttribute('data-ph');
+      if (photoData[id]) { img.src = photoData[id]; img.removeAttribute('data-ph'); return; }
+      if (photoReq[id]) return;
+      photoReq[id] = Promise.resolve().then(function () { return photoLoader(id); }).then(function (url) {
+        if (typeof url === 'string' && /^data:image\//.test(url)) {
+          photoData[id] = url;
+          $$('img[data-ph="' + id + '"]').forEach(function (im) { im.src = url; im.removeAttribute('data-ph'); });
+        }
+      }, function () { delete photoReq[id]; });
+    });
+  }
+  window.AlexBes = {
+    applyRemote: applyRemote,
+    setPhotoLoader: function (fn) { photoLoader = fn; fillPhotos(); },
+    getCart: allLines,
+    setCart: function (lines) { splitCart(lines); saveCart(true); updateBadges(); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
+    onCartChange: function (fn) { cartListeners.push(fn); },
+    getForm: function () { return Object.assign({}, form); },
+    fillForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (f[k] && !form[k]) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },
+    showModal: function (sel) { showModal(sel); },
+    hideModal: hideModal,
+    toast: function (m) { toast(m); },
+    track: track
+  };
+  // last known Firestore overrides (no photos) — applied instantly so hidden/edited items don't flash; refreshed by js/fb.js
+  try { var cachedRemote = load('alexbes_remote', null); if (cachedRemote && Array.isArray(cachedRemote.docs)) applyRemote(cachedRemote.docs); } catch (e) {}
 
   /* ---------- init ---------- */
   renderCats(); updateBadges();

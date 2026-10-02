@@ -419,3 +419,36 @@ html{scroll-padding-top:104px}
 @media (max-width:760px){.promo{font-size:12px;padding:5px 10px;top:8px;left:8px}}
 /* gold «ХІТ» variant — same blink/pulse animation */
 .promo--hit{color:var(--navy-text);background:linear-gradient(180deg,var(--yellow-hi),var(--yellow2));box-shadow:0 0 0 2px var(--navy-text),0 0 0 4px var(--yellow),0 4px 14px rgba(6,36,87,.45)}
+
+/* ---- account (Firebase) ---- */
+.acctbtn{display:flex;align-items:center;gap:6px;height:42px;padding:0 12px;border-radius:12px;border:0;font-weight:700;color:#fff;background:rgba(0,87,183,.35);box-shadow:inset 0 0 0 1.5px #3f7fd6;max-width:150px}
+.acctbtn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acctbtn:hover{box-shadow:inset 0 0 0 1.5px var(--yellow)}
+.acctbtn.on{color:var(--navy-text);background:var(--yellow);box-shadow:none}
+@media (max-width:760px){.hdr__nav{margin-left:auto;flex:none}.acctbtn{width:40px;height:40px;padding:0;justify-content:center;border-radius:50%}.acctbtn span{display:none}}
+.modal--acct .modal__box{width:min(480px,100%)}
+#acctbody h2{margin:0 44px 6px 0;color:var(--text);font-size:21px}
+.acct__lead{margin:0 0 14px;color:var(--muted);font-size:14px}
+.acct__form{display:flex;flex-direction:column;gap:10px;margin:0 0 6px}
+.acct__form label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--muted)}
+.acct__form input{border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:11px 12px;font:inherit;outline:none}
+.acct__form input:focus{border-color:var(--yellow)}
+.acct__form.cform{display:grid;margin-top:6px}
+.acct__sub{margin:0;color:var(--text);font-weight:700;font-size:14px}
+.btn--g{color:#1f1f1f;background:#fff;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.acct__or{display:flex;align-items:center;gap:10px;margin:14px 0 10px;color:var(--muted);font-size:12.5px}
+.acct__or::before,.acct__or::after{content:"";flex:1;height:1px;background:var(--line)}
+.acct__tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;background:var(--bg2);padding:4px;border-radius:12px}
+.acct__tabs button{border:0;border-radius:9px;padding:9px;background:none;color:var(--text2);font-weight:700}
+.acct__tabs button.on{background:var(--blue);color:#fff}
+.acct__link{border:0;background:none;color:var(--yellow);font-weight:700;padding:4px 0;text-decoration:underline}
+.acct__center{text-align:center;margin:6px 0 0}
+.acct__msg{margin:8px 0 0;padding:10px 12px;border-radius:10px;background:rgba(255,90,90,.15);color:#ffb4ab;font-size:13.5px}
+.acct__msg.ok{background:rgba(80,200,120,.15);color:#a6f0bf}
+.acct__who{display:flex;align-items:center;gap:12px;margin:8px 0 12px}
+.acct__who b{display:block;color:var(--text);font-size:16px}
+.acct__who span{color:var(--muted);font-size:13px;word-break:break-all}
+.acct__ava{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--yellow);color:var(--navy-text)!important;font-weight:800;font-size:20px!important}
+.acct__ok{margin:0 0 6px;padding:10px 12px;border-radius:10px;background:rgba(0,87,183,.3);font-size:13.5px}
+.acct__warn{margin:0 0 8px;padding:10px 12px;border-radius:10px;background:rgba(255,215,0,.12);color:var(--yellow-hi);font-size:13.5px}
+.acct__acts{display:grid;gap:10px;margin-top:12px}
