@@ -26,6 +26,10 @@ const $ = (s, r) => (r || document).querySelector(s);
 const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 const nf = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 });
 const eur = (v) => nf.format(v).replace(/\u202f|\u00a0/g, ' ') + ' €';
+// курс для показу на сайті (має збігатися з CONFIG.uahRate у js/app.js): ціни вводяться і зберігаються в €, сайт показує € × 52 грн
+const UAH_RATE = 52;
+const uahOf = (v) => String(Math.round(Number(v) * UAH_RATE)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' грн';
+const uahHint = (v) => { const n = parseFloat(String(v == null ? '' : v).replace(',', '.')); return isFinite(n) && n >= 0 && String(v).trim() !== '' ? '≈ ' + uahOf(n) + ' на сайті' : ''; };
 let tt; function toast(m) { const t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => { t.hidden = true; }, 2800); }
 
 let fb, user = null, remote = {}, photoCache = {}, unsub = null, edit = null;
@@ -101,7 +105,7 @@ function onUser(u) {
 
 /* ---------- list ---------- */
 function promoTag(t) { return t ? '<span class="tag tag--promo">' + (t === 'ХІТ' ? '⭐ ХІТ' : t === 'Новинка' ? '✅ Новинка' : '🔥 ' + esc(t)) + '</span>' : ''; }
-function priceTxt(p) { return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + (p.price_label ? ' · ' + p.price_label : '')); }
+function priceTxt(p) { return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + ' (≈ ' + uahOf(p.price_eur) + ')' + (p.price_label ? ' · ' + p.price_label : '')); }
 function renderList() {
   const q = $('#adm-q').value.trim().toLowerCase(), cat = $('#adm-cat').value || 'all', flt = $('#adm-flt').value;
   const all = merged();
@@ -159,6 +163,15 @@ function textToVars(t) {
   });
   return out.length ? out : null;
 }
+// "Дюза 1.3 = 420" -> "Дюза 1.3 ≈ 21 840 грн" (preview of what the site shows; invalid lines are skipped here, validated on save)
+function varsHint(t) {
+  const out = [];
+  String(t || '').split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
+    const m = l.match(/^(.*?)\s*[=:–-]\s*([\d\s.,]+)\s*€?$/);
+    if (m) out.push(m[1].trim() + ' ≈ ' + uahOf(parseFloat(m[2].replace(/\s/g, '').replace(',', '.'))));
+  });
+  return out.length ? 'На сайті: ' + out.join(' · ') : '';
+}
 function openEdit(id) {
   const p = id ? byIdNow(id) : null;
   const isNew = !p;
@@ -175,14 +188,14 @@ function openEdit(id) {
     '<div class="ed__grid">' +
       '<label class="full">Назва *<input name="name" maxlength="300" required value="' + esc(v.name) + '">' + was('name') + '</label>' +
       '<label>Категорія<select name="category">' + CATS.map((c) => '<option value="' + c.id + '"' + (c.id === v.category ? ' selected' : '') + '>' + esc(c.name) + '</option>').join('') + '</select>' + was('category', b && catById[b.category] ? catById[b.category].name : '') + '</label>' +
-      '<label>Ціна, € <span class="hint">(порожньо = «Ціну уточнюйте»)</span><input name="price_eur" type="number" inputmode="decimal" step="0.01" min="0" value="' + (v.price_eur == null ? '' : v.price_eur) + '">' + was('price_eur', b && b.price_eur == null ? 'уточнюйте' : null) + '</label>' +
+      '<label>Ціна, € <span class="hint">(порожньо = «Ціну уточнюйте»)</span><input name="price_eur" type="number" inputmode="decimal" step="0.01" min="0" value="' + (v.price_eur == null ? '' : v.price_eur) + '"><span class="hint" data-uah-hint>' + esc(uahHint(v.price_eur)) + '</span>' + was('price_eur', b && b.price_eur == null ? 'уточнюйте' : null) + '</label>' +
       '<label>Текст до ціни <span class="hint">(необов’язково, напр. «1 л», «комплект»)</span><input name="price_label" maxlength="120" value="' + esc(v.price_label || '') + '"></label>' +
       '<label>Наявність<select name="in_stock_sel">' + STOCKS.map((s) => '<option' + (s === v.in_stock ? ' selected' : '') + '>' + esc(s) + '</option>').join('') + '<option value="__custom"' + (stockKnown ? '' : ' selected') + '>Інше (свій текст)…</option></select>' + was('in_stock') + '</label>' +
       '<label class="full" data-custom-stock' + (stockKnown ? ' hidden' : '') + '>Свій текст наявності<input name="in_stock_custom" maxlength="120" value="' + esc(stockKnown ? '' : v.in_stock) + '" placeholder="напр. У дорозі · 2 шт"></label>' +
       '<label>Позначка<select name="promo"><option value="">Немає</option><option value="Акція"' + (v.promo === 'Акція' ? ' selected' : '') + '>🔥 Акція</option><option value="ХІТ"' + (v.promo === 'ХІТ' ? ' selected' : '') + '>⭐ ХІТ</option><option value="Новинка"' + (v.promo === 'Новинка' ? ' selected' : '') + '>✅ Новинка</option></select></label>' +
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
-      '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна», напр. «Дюза 1.3 = 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea></label>' +
+      '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна в €», напр. «Дюза 1.3 = 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea><span class="hint" data-uah-vars>' + esc(varsHint(varsToText(v.variants))) + '</span></label>' +
       '<div class="full ed__media" id="ed-media"></div>' +
       '<div class="full ed__vids" id="ed-vids"></div>' +
       '<label class="full ed__chk"><input name="hidden" type="checkbox"' + (v.hidden ? ' checked' : '') + '> Приховати на сайті</label>' +
@@ -434,7 +447,12 @@ async function onSubmit(e) {
   }
 }
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.name === 'video_url') { e.preventDefault(); addVideo(); } });
-function onInput(e) { if (e.target.id === 'adm-q') renderList(); }
+function onInput(e) {
+  const t = e.target;
+  if (t.id === 'adm-q') { renderList(); return; }
+  if (t.name === 'price_eur') { const h = $('[data-uah-hint]'); if (h) h.textContent = uahHint(t.value); return; }
+  if (t.name === 'variants') { const h = $('[data-uah-vars]'); if (h) h.textContent = varsHint(t.value); }
+}
 async function onChange(e) {
   const t = e.target;
   if (t.id === 'adm-cat' || t.id === 'adm-flt') { renderList(); return; }

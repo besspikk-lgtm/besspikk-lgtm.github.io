@@ -9,7 +9,8 @@
     instagram: 'https://ig.me/m/alex_bespik',
     phone: '+380995264262', phoneLabel: '099 526 42 62',
     siteName: 'Alex_bes😈',
-    homeTitle: 'Купити фарбопульт Meiji, SATA, Palinal — Чернівці, Україна | Alex_bes😈'
+    homeTitle: 'Купити фарбопульт Meiji, SATA, Palinal — Чернівці, Україна | Alex_bes😈',
+    uahRate: 52 // фіксований курс: ціни зберігаються в € (price_eur), на сайті показуються в гривнях = € × uahRate
   };
   var DATA = window.ALEXBES_DATA || { categories: [], products: [] };
   var PRODUCTS = DATA.products, CATS = DATA.categories;
@@ -19,8 +20,23 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
-  var nf = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 });
-  var eur = function (v) { return nf.format(v).replace(/\u202f|\u00a0/g, ' ') + ' €'; };
+  /* ---------- prices: € (stored) -> гривні (shown) ---------- */
+  function toUah(e) { return Math.round(Number(e) * CONFIG.uahRate); } // ціла гривня
+  function fmtUah(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' грн'; } // 21840 -> "21 840 грн"
+  var uahTxt = function (e) { return fmtUah(toUah(e)); }; // plain text (order message)
+  var uah = function (e) { return uahTxt(e).replace(/ /g, '\u00a0'); }; // HTML: no line break inside the price
+  // free text from data/admin (description, price_label, variant labels, price_note): "420 €", "+25 €", "19,3€" -> гривні;
+  // drop leftover "у €" / "в €" wording ("Прайс Palinal у € (пост 147)" -> "Прайс Palinal (пост 147)")
+  var EUR_NUM = /(\d{1,3}(?:[ \u00a0\u202f]\d{3})+|\d+)(?:[.,](\d+))?\s?€/g;
+  function uahText(s) {
+    if (s == null) return s;
+    s = String(s);
+    if (s.indexOf('€') < 0) return s;
+    s = s.replace(/(\d[\d.,]*)\s?€\s*·\s*[\d\s.,]+\s?\$\s*·\s*(?=[\d\s]+грн)/g, ''); // "308€ · 360$ · 16 000 грн" -> keep the original грн
+    s = s.replace(EUR_NUM, function (m, a, b) { return fmtUah(toUah(parseFloat(a.replace(/[ \u00a0\u202f]/g, '') + (b ? '.' + b : '')))).replace(/ /g, '\u00a0'); });
+    s = s.replace(/\s+[ув]\s+€(?:\s*\(по курсу НБУ\))?/g, '').replace(/\s*€/g, ' грн');
+    return s;
+  }
 
   var state = { cat: 'all', q: '', sort: 'def' };
   var lastListHash = '#/';
@@ -63,7 +79,7 @@
   function pillHTML(p) {
     if (!hasPrice(p)) return '<span class="pill pill--ask">Ціну уточнюйте</span>';
     var from = p.variants && p.variants.length > 1 ? '<small>від</small>' : '';
-    return '<span class="pill">' + from + eur(p.price_eur) + '</span>';
+    return '<span class="pill">' + from + uah(p.price_eur) + '</span>';
   }
   var PLACEHOLDER = 'img/logo.webp?v=3';
   var photoData = {}; // id -> data URL loaded from Firestore photos/{id}
@@ -118,7 +134,7 @@
     });
     var order = {}; CATS.forEach(function (c, i) { order[c.id] = i; });
     var oos = function (p) { return /немає/i.test(p.in_stock || '') ? 1 : 0; };
-    var pr = function (p) { return hasPrice(p) ? p.price_eur : null; };
+    var pr = function (p) { return hasPrice(p) ? toUah(p.price_eur) : null; };
     if (state.sort === 'pa' || state.sort === 'pd') {
       var dir = state.sort === 'pa' ? 1 : -1;
       list.sort(function (a, b) { if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1; return (x - y) * dir; });
@@ -304,9 +320,9 @@
   function renderProduct() {
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
-      return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(v.label) + '<b>' + eur(v.price_eur) + '</b></button>';
+      return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + '</b></button>';
     }).join('') + '</div>' : '';
-    var price = hasPrice(p) ? '<span class="pill" style="font-size:22px;padding:7px 16px">' + eur(unitPrice(p, pmState.vi)) + (unitLabel(p, pmState.vi) ? ' <small>· ' + esc(unitLabel(p, pmState.vi)) + '</small>' : '') + '</span>'
+    var price = hasPrice(p) ? '<span class="pill" style="font-size:22px;padding:7px 16px">' + uah(unitPrice(p, pmState.vi)) + (unitLabel(p, pmState.vi) ? ' <small>· ' + esc(uahText(unitLabel(p, pmState.vi))) + '</small>' : '') + '</span>'
       : '<span class="pill pill--ask" style="font-size:16px;padding:7px 16px">Ціну уточнюйте</span>' + (p.price_uah_original ? ' <span class="muted small">у пості: ' + esc(p.price_uah_original) + '</span>' : '');
     var src = (p.source || []).filter(function (u) { return /^https:\/\/t\.me\//.test(u); })[0];
     var tgAsk = 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?'));
@@ -317,7 +333,7 @@
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
-        '<p class="pm__desc">' + esc(p.description) + '</p>' + videosHTML(p) +
+        '<p class="pm__desc">' + esc(uahText(p.description)) + '</p>' + videosHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button></div>' +
         '<div class="cactions">' +
@@ -328,7 +344,7 @@
           '<a class="btn btn--o" href="' + CONFIG.instagram + '" target="_blank" rel="noopener">📸 Instagram</a>' +
         '</div>' +
         specsHTML(p) + tdsHTML(p) +
-        '<p class="pm__note">' + esc(p.price_note || '') + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
+        '<p class="pm__note">' + esc(uahText(p.price_note || '')) + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
       '</div>';
     galInit();
     fillPhotos();
@@ -342,7 +358,7 @@
     if (l) l.qty += qty; else cart.push({ id: id, vi: vi, qty: qty });
     saveCart(); updateBadges();
     var p = byId[id];
-    toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + variantOf(p, vi).label + ')' : ''));
+    toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + uahText(variantOf(p, vi).label) + ')' : ''));
   }
   function updateBadges() {
     var n = cartCount();
@@ -354,11 +370,12 @@
     cart.forEach(function (l, i) {
       var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
       var nm = p.name + (v ? ' (' + v.label + ')' : (p.price_label ? ' (' + p.price_label + ')' : ''));
-      if (up != null) { sum += up * l.qty; lines.push((i + 1) + '. ' + nm + ' — ' + l.qty + ' шт × ' + eur(up) + ' = ' + eur(Math.round(up * l.qty * 100) / 100)); }
+      nm = uahText(nm).replace(/\u00a0/g, ' ');
+      if (up != null) { sum += toUah(up) * l.qty; lines.push((i + 1) + '. ' + nm + ' — ' + l.qty + ' шт × ' + uahTxt(up) + ' = ' + fmtUah(toUah(up) * l.qty)); }
       else { ask++; lines.push((i + 1) + '. ' + nm + ' — ' + l.qty + ' шт — ціну уточнити'); }
     });
     lines.push('');
-    lines.push('Разом: ' + eur(Math.round(sum * 100) / 100) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
+    lines.push('Разом: ' + fmtUah(sum) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
     var f = form;
     if (f.name) lines.push("Ім'я: " + f.name);
     if (f.phone) lines.push('Телефон: ' + f.phone);
@@ -376,16 +393,16 @@
     var sum = 0, ask = 0;
     var items = cart.map(function (l, i) {
       var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
-      if (up != null) sum += up * l.qty; else ask++;
+      if (up != null) sum += toUah(up) * l.qty; else ask++;
       return '<li class="citem"><img ' + mainImg(p) + ' alt="">' +
-        '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(v ? v.label : (p.price_label || '')) + '</div>' +
-        '<div class="citem__p">' + (up != null ? eur(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div></div>' +
+        '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(uahText(v ? v.label : (p.price_label || ''))) + '</div>' +
+        '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div></div>' +
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
         '<button class="rm" type="button" data-rm="' + i + '">видалити</button></div></li>';
     }).join('');
     body.innerHTML = '<ul class="citems">' + items + '</ul>' +
-      '<div class="ctotal"><span>Разом' + (ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '') + '</span><b>' + eur(Math.round(sum * 100) / 100) + '</b></div>' +
-      '<p class="cnote">Ціни в €. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p>' +
+      '<div class="ctotal"><span>Разом' + (ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '') + '</span><b>' + fmtUah(sum).replace(/ /g, '\u00a0') + '</b></div>' +
+      '<p class="cnote">Ціни в гривнях. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p>' +
       '<div class="cform">' +
         '<label>Ім’я<input data-f="name" value="' + esc(form.name || '') + '" autocomplete="name"></label>' +
         '<label>Телефон<input data-f="phone" value="' + esc(form.phone || '') + '" type="tel" autocomplete="tel"></label>' +
