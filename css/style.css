@@ -541,3 +541,7 @@ html{scroll-padding-top:104px}
 
 /* prices in грн are longer: the product-modal price pill may wrap its label (price itself uses NBSP, never breaks) */
 #pm .pill{white-space:normal;flex-wrap:wrap;max-width:100%;border-radius:18px;row-gap:0}
+details.preview--top{margin:12px 0 10px}
+details.preview--top>summary{cursor:pointer;display:inline-block;color:var(--yellow);font-weight:800;font-size:15px;padding:4px 0;animation:otBlink 1s steps(1,end) infinite}
+details.preview--top[open]>summary{animation:none}
+@keyframes otBlink{0%,100%{opacity:1}50%{opacity:.2}}

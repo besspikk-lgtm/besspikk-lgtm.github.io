@@ -409,6 +409,7 @@
         '<label class="full">Місто / доставка<input data-f="city" value="' + esc(form.city || '') + '" placeholder="Місто, спосіб доставки"></label>' +
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
       '</div>' +
+      '<details class="preview preview--top"><summary>📝 Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<div class="cactions">' +
         '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=order" target="_blank" rel="noopener">🤖 Бот для замовлень</a>' +
         '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати в Telegram</button>' +
@@ -418,7 +419,6 @@
         '<button class="btn btn--o" type="button" data-copy>📋 Скопіювати текст</button>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">📞 Подзвонити ' + CONFIG.phoneLabel + '</a>' +
       '</div>' +
-      '<details class="preview"><summary>Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У WhatsApp текст підставиться сам, у Telegram, Viber та Instagram — текст копіюється, просто вставте його в чат.</p>';
     $('#otext').textContent = orderText();
     fillPhotos();
