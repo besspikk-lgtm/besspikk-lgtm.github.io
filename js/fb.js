@@ -31,6 +31,9 @@ async function main() {
   try { fb = await loadFirebase(); } catch (e) { return; } // SDK blocked/offline: stay static
   const { auth, db, A, F } = fb;
 
+  // ---- замовлення з кошика для Telegram-бота: orders/<id> (створити може будь-хто; схему перевіряють правила) ----
+  if (AB.setOrderWriter) AB.setOrderWriter((id, data) => F.setDoc(F.doc(db, 'orders', id), Object.assign({}, data, { createdAt: F.serverTimestamp() })));
+
   // ---- products from Firestore (public read) ----
   AB.setPhotoLoader(async (id) => {
     const s = await F.getDoc(F.doc(db, 'photos', id));

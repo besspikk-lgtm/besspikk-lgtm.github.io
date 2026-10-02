@@ -1,0 +1,104 @@
+rules_version = '2';
+// Alex_bes😈 — правила Firestore. Публікуються вручну: Firebase Console → Firestore Database → Rules.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Єдиний адміністратор: besspikk@gmail.com з підтвердженим email
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'besspikk@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+    function optStr(d, k, n) { return !(k in d) || (d[k] is string && d[k].size() <= n); }
+    function optNum(d, k)    { return !(k in d) || d[k] == null || d[k] is number; }
+    function optBool(d, k)   { return !(k in d) || d[k] is bool; }
+    function optList(d, k, n){ return !(k in d) || d[k] == null || (d[k] is list && d[k].size() <= n); }
+
+    // Товари: публічне читання; запис — лише адмін
+    match /products/{id} {
+      allow read: if true;
+      allow delete: if isAdmin();
+      allow create, update: if isAdmin()
+        && id.matches('^[A-Za-z0-9_-]{1,80}$')
+        && request.resource.data.keys().hasOnly(['name', 'category', 'price_eur', 'price_label', 'in_stock',
+             'description', 'promo', 'variants', 'code', 'brand', 'hidden', 'hasPhoto', 'custom', 'createdAt', 'updatedAt',
+             'gallery', 'videos'])
+        && optStr(request.resource.data, 'name', 300)
+        && optStr(request.resource.data, 'category', 60)
+        && optNum(request.resource.data, 'price_eur')
+        && optStr(request.resource.data, 'price_label', 120)
+        && optStr(request.resource.data, 'in_stock', 120)
+        && optStr(request.resource.data, 'description', 6000)
+        && optStr(request.resource.data, 'promo', 20)
+        && optList(request.resource.data, 'variants', 40)
+        && optStr(request.resource.data, 'code', 120)
+        && optStr(request.resource.data, 'brand', 120)
+        && optBool(request.resource.data, 'hidden')
+        && optBool(request.resource.data, 'hasPhoto')
+        && optBool(request.resource.data, 'custom')
+        && optList(request.resource.data, 'gallery', 11)   // порядок фото: 'static' | 'main' | ключ додаткового фото
+        && optList(request.resource.data, 'videos', 5);    // посилання на TikTok / YouTube / Instagram
+    }
+
+    // Фото товарів (data URL у Firestore, бо Storage недоступний на Spark): photos/{id} — головне, photos/{id}__{ключ} — додаткові.
+    // Публічне читання; запис — лише адмін
+    match /photos/{id} {
+      allow read: if true;
+      allow delete: if isAdmin();
+      allow create, update: if isAdmin()
+        && id.matches('^[A-Za-z0-9_-]{1,130}$')
+        && request.resource.data.keys().hasOnly(['data', 'updatedAt'])
+        && request.resource.data.data is string
+        && request.resource.data.data.matches('^data:image/(webp|jpeg|png);base64,.*')
+        && request.resource.data.data.size() <= 1000000;
+    }
+
+    // Профіль і кошик покупця: лише власник (адмін може читати)
+    match /users/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || isAdmin());
+      allow delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['name', 'phone', 'city', 'np', 'email', 'cart', 'updatedAt'])
+        && optStr(request.resource.data, 'name', 100)
+        && optStr(request.resource.data, 'phone', 40)
+        && optStr(request.resource.data, 'city', 120)
+        && optStr(request.resource.data, 'np', 120)
+        && optStr(request.resource.data, 'email', 200)
+        && optNum(request.resource.data, 'updatedAt')
+        && (!('cart' in request.resource.data) || (request.resource.data.cart is list && request.resource.data.cart.size() <= 200));
+    }
+
+    // Замовлення з кошика сайту для Telegram-бота: orders/{20 випадкових символів [A-Za-z0-9]}.
+    // Створити може будь-хто (без входу), але лише за суворою схемою й з обмеженням розміру (документ ≤ ~25 КБ).
+    // items — JSON-рядок [{id,name,variant,qty,price_uah}, …] (не масив: перевірка кожного елемента масиву
+    // в правилах впирається в ліміт 1000 виразів уже на ~5 позиціях; структуру перевіряє бот).
+    // Прочитати — лише знаючи id (get); перелік (list), зміна й видалення — лише адмін.
+    function optInt(d, k, max) { return !(k in d) || (d[k] is int && d[k] >= 0 && d[k] <= max); }
+    match /orders/{id} {
+      allow get: if id.matches('^[A-Za-z0-9]{20}$');
+      allow list, update, delete: if isAdmin();
+      allow create: if id.matches('^[A-Za-z0-9]{20}$')
+        && request.resource.data.keys().hasAll(['v', 'items', 'createdAt'])
+        && request.resource.data.keys().hasOnly(['v', 'items', 'count', 'total_uah', 'ask', 'text',
+             'name', 'phone', 'city', 'note', 'createdAt'])
+        && request.resource.data.v == 1
+        && request.resource.data.items is string
+        && request.resource.data.items.size() <= 15000
+        && request.resource.data.items.matches('^\\[\\{.*\\}\\]$')
+        && optInt(request.resource.data, 'count', 500)
+        && optInt(request.resource.data, 'total_uah', 1000000000)
+        && optInt(request.resource.data, 'ask', 500)
+        && optStr(request.resource.data, 'text', 6000)
+        && optStr(request.resource.data, 'name', 100)
+        && optStr(request.resource.data, 'phone', 40)
+        && optStr(request.resource.data, 'city', 200)
+        && optStr(request.resource.data, 'note', 1000)
+        && request.resource.data.createdAt == request.time;   // serverTimestamp(): час ставить сервер
+    }
+
+    // Усе інше заборонено
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

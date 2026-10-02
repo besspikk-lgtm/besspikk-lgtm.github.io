@@ -365,15 +365,57 @@
     $$('[data-cart-count]').forEach(function (b) { b.textContent = n; b.hidden = n === 0; });
   }
   // кошик → start-параметр бота: c_<індекс36>-<к-сть>[-<варіант>]_..._m<невідомі> (ліміт Telegram 64 символи)
-  function botCartPayload() {
-    var out = 'c', miss = 0;
+  function botCartTokens(room) { // "_<i36>-<qty>[-<vi>]…[_m<N>]": токени займають ≤ room символів, решта рахується в _m
+    var out = '', miss = 0;
     cart.forEach(function (l) {
       var i = (typeof STATIC_IDX !== 'undefined') ? STATIC_IDX[l.id] : undefined;
       var tok = i == null ? null : '_' + i.toString(36) + '-' + Math.max(1, l.qty | 0) + (byId[l.id] && byId[l.id].variants ? '-' + (l.vi | 0) : '');
-      if (tok && (out + tok).length <= 58) out += tok; else miss++;
+      if (tok && (out + tok).length <= room) out += tok; else miss++;
     });
-    if (miss) out += '_m' + miss;
-    return out === 'c' ? 'order' : out;
+    return out + (miss ? '_m' + miss : '');
+  }
+  function botCartPayload() { var t = botCartTokens(57); return t ? 'c' + t : 'order'; }
+  /* Повне замовлення для бота: документ orders/<id> у Firestore (пише js/fb.js) + посилання t.me/<бот>?start=o_<id><токени кошика>.
+     Токени кошика в тому ж посиланні — запасний варіант, якщо документ не записався. */
+  var orderWriter = null; // function (id, data) -> Promise; ставить js/fb.js, коли Firebase завантажився
+  function genOrderId() {
+    var A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', id = '';
+    var c = window.crypto || window.msCrypto;
+    while (id.length < 20) {
+      var buf = new Uint8Array(32);
+      if (c && c.getRandomValues) c.getRandomValues(buf); else for (var k = 0; k < 32; k++) buf[k] = Math.floor(Math.random() * 256);
+      for (var j = 0; j < buf.length && id.length < 20; j++) if (buf[j] < 248) id += A.charAt(buf[j] % 62); // без зсуву розподілу
+    }
+    return id;
+  }
+  function clipS(s, n) { s = String(s == null ? '' : s).trim(); return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+  function siteOrderData() {
+    var items = [], sum = 0, ask = 0;
+    cart.forEach(function (l) {
+      var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
+      var vl = v ? v.label : (p.price_label || '');
+      var it = { id: clipS(p.id, 80), name: clipS(p.name, 300), qty: Math.max(1, Math.min(9999, l.qty | 0)), price_uah: up != null ? toUah(up) : null };
+      if (vl) it.variant = clipS(uahText(vl).replace(/\u00a0/g, ' '), 200);
+      if (up != null) sum += toUah(up) * it.qty; else ask++;
+      items.push(it);
+    });
+    var json = JSON.stringify(items);
+    while (json.length > 14500 && items.length > 1) { items.pop(); json = JSON.stringify(items); } // ліміт правил — решта є в text
+    return {
+      v: 1, items: json, count: cart.length, total_uah: Math.min(1e9, sum), ask: ask,
+      text: clipS(orderText(), 6000),
+      name: clipS(form.name, 100), phone: clipS(form.phone, 40), city: clipS(form.city, 200), note: clipS(form.note, 1000)
+    };
+  }
+  // null — Firebase не готовий або запис не стартував: тоді працює звичайне посилання c_… (href кнопки)
+  function siteOrderLink() {
+    if (!orderWriter || !cart.length) return null;
+    var id = genOrderId(), data;
+    try { data = siteOrderData(); } catch (e) { return null; }
+    var p = orderWriter(id, data);
+    if (!p || typeof p.then !== 'function') return null;
+    p.then(function () { track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); }, function (e) { try { console.warn('order doc not saved', e && e.code); } catch (x) {} });
+    return CONFIG.orderBot + '?start=o_' + id + botCartTokens(36); // 2+20+≤36+_mN ≤ 64
   }
   function orderText() {
     var lines = ['Вітаю! Хочу замовити (з сайту ' + CONFIG.siteName + '):', ''];
@@ -422,7 +464,7 @@
       '</div>' +
       '<details class="preview preview--top"><summary>📝 Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<div class="cactions">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener">🤖 Бот для замовлень</a>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-botcart>🤖 Бот для замовлень</a>' +
         '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати в Telegram</button>' +
         '<button class="btn btn--y" type="button" data-wa>🟢 WhatsApp</button>' +
         '<button class="btn btn--y" type="button" data-viber>🟣 Viber</button>' +
@@ -507,10 +549,20 @@
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
     if (t.hasAttribute('data-cq')) { var i = +t.getAttribute('data-cq'); cart[i].qty = Math.max(1, cart[i].qty + +t.getAttribute('data-d')); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); saveCart(); updateBadges(); renderCart(); return; }
+    if (t.hasAttribute('data-botcart')) {
+      var bu = null;
+      try { bu = siteOrderLink(); } catch (err) { bu = null; }
+      if (!bu) { t.setAttribute('href', CONFIG.orderBot + '?start=' + botCartPayload()); track('бот/кошик', 'Бот для замовлень (кошик)'); return; } // звичайне посилання
+      e.preventDefault();
+      var bw = window.open(bu, '_blank'); // синхронно в обробнику кліку — не блокується
+      if (bw) { try { bw.opener = null; } catch (err) {} } else location.href = bu;
+      t.setAttribute('href', bu);
+      return;
+    }
     if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано ✅' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
       var tgu = CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText());
-      var w = window.open(tgu, '_blank', 'noopener'); if (!w) location.href = tgu;
+      window.open(tgu, '_blank', 'noopener');
       return;
     }
     if (t.hasAttribute('data-wa')) { window.open(CONFIG.whatsapp + '?text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
@@ -618,6 +670,7 @@
     setCart: function (lines) { splitCart(lines); saveCart(true); updateBadges(); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
     onCartChange: function (fn) { cartListeners.push(fn); },
     getForm: function () { return Object.assign({}, form); },
+    setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
     fillForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (f[k] && !form[k]) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },
     showModal: function (sel) { showModal(sel); },
     hideModal: hideModal,
