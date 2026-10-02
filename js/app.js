@@ -471,6 +471,7 @@
       if (res) window.scrollTo({ top: Math.max(0, res.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0) - 12), behavior: 'smooth' });
       return;
     }
+    if (t.hasAttribute('data-go-chips')) { e.preventDefault(); if (location.hash !== '#/' && location.hash !== '') location.hash = '#/'; setTimeout(function () { var c = $('#chips'), hd = $('.hdr'); if (c) window.scrollTo({ top: Math.max(0, c.getBoundingClientRect().top + window.scrollY - (hd ? hd.offsetHeight : 0) - 12), behavior: 'smooth' }); }, 80); return; }
     if (t.hasAttribute('data-focus-search')) { e.preventDefault(); if (location.hash !== '#/' && !/^#\/c\//.test(location.hash)) location.hash = '#/'; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function () { $('#q').focus(); }, 250); return; }
   });
   document.addEventListener('input', function (e) {
