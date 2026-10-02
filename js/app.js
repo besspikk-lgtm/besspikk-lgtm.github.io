@@ -162,7 +162,7 @@
       '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
       '<div class="card__body">' +
-        '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + '</span>' +
+        '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео">🎬 Відео</span>' : '') + '</span>' +
         '<button class="card__name" type="button" data-open="' + p.id + '">' + esc(p.name) + '</button>' +
         '<div class="card__foot">' + pillHTML(p) + stockHTML(p) +
         (!hasPrice(p) && p.price_uah_original ? '<span class="uah">у пості: ' + esc(p.price_uah_original) + '</span>' : '') +
@@ -321,18 +321,27 @@
       '<span class="gal__cnt" data-gal-cnt>1 / ' + n + '</span></div>';
   }
   var PLAY_SVG = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5Z"/></svg>';
+  // p.videos: static mapping from data/products.js (TikTok @alex_bespik) or the admin override from Firestore (same field)
+  var TT_META = (DATA.tiktok && DATA.tiktok.videos) || {};
   function videosOf(p) {
-    var M = window.AlexBesMedia; if (!M || !Array.isArray(p.videos)) return [];
-    return p.videos.slice(0, 5).map(function (u) { return M.parseVideo(u); }).filter(Boolean);
+    var M = window.AlexBesMedia; if (!M || !p || !Array.isArray(p.videos)) return [];
+    return p.videos.slice(0, 5).map(function (u) {
+      var v = M.parseVideo(u); if (!v) return null;
+      var mt = v.type === 'tiktok' && v.id && TT_META[v.id];
+      if (mt && mt.thumb && !v.thumb) v.thumb = mt.thumb;
+      if (mt && mt.caption) v.caption = mt.caption;
+      return v;
+    }).filter(Boolean);
   }
   function videosHTML(p) {
     var vs = videosOf(p); if (!vs.length) return '';
-    return '<div class="vids"><p class="vids__ttl"><span class="emo">🎬</span> Відео</p><div class="vids__list">' + vs.map(function (v, i) {
+    var allV = vs.every(function (v) { return v.vertical && v.embed; });
+    return '<div class="vids"><p class="vids__ttl"><span class="emo">🎬</span> Відео</p><div class="vids__list' + (allV && vs.length > 1 ? ' vids__list--v' : '') + '">' + vs.map(function (v, i) {
       if (!v.embed) return '<div class="vitem vitem--link"><a class="btn btn--o btn--full vid__link" href="' + esc(v.url) + '" target="_blank" rel="noopener" data-vid-link="' + i + '">' + PLAY_SVG + ' Дивитись відео · ' + esc(v.label) + ' ↗</a></div>';
       return '<div class="vitem"><div class="vid' + (v.vertical ? ' vid--v' : '') + '" data-vid-box="' + i + '"><button class="vid__ph vid__ph--' + v.type + '" type="button" data-vid="' + i + '" aria-label="Відтворити відео ' + esc(v.label) + '">' +
-        (v.thumb ? '<img src="' + esc(v.thumb) + '" alt="" loading="lazy">' : '') +
+        (v.thumb ? '<img src="' + esc(v.thumb) + '" alt="' + esc(v.caption ? 'Обкладинка відео: ' + v.caption : '') + '" loading="lazy" decoding="async">' : '') +
         '<span class="vid__play" aria-hidden="true">' + PLAY_SVG + '</span><span class="vid__lbl">' + esc(v.label) + '</span></button></div>' +
-        '<a class="vid__ext" href="' + esc(v.url) + '" target="_blank" rel="noopener">Відкрити в ' + esc(v.type === 'youtube' ? 'YouTube' : v.label) + ' ↗</a></div>';
+        '<a class="vid__ext" href="' + esc(v.url) + '" target="_blank" rel="noopener" data-vid-link="' + i + '">' + (v.type === 'tiktok' ? 'Дивитись у TikTok' : 'Відкрити в ' + esc(v.type === 'youtube' ? 'YouTube' : v.label)) + ' ↗</a></div>';
     }).join('') + '</div></div>';
   }
   function playVideo(i) {

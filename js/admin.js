@@ -39,7 +39,7 @@ let fb, user = null, remote = {}, photoCache = {}, unsub = null, edit = null;
 function baseVals(id) {
   const b = BASE[id]; if (!b) return null;
   return { name: b.name, category: b.category, price_eur: b.price_eur ?? null, price_label: b.price_label || '', in_stock: b.in_stock || '',
-    description: b.description || '', promo: PROMO[id] || '', variants: b.variants || null, code: b.code || '', videos: null };
+    description: b.description || '', promo: PROMO[id] || '', variants: b.variants || null, code: b.code || '', videos: Array.isArray(b.videos) && b.videos.length ? b.videos.slice() : null };
 }
 function merged() {
   const out = [];

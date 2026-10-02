@@ -24,9 +24,14 @@
     // TikTok
     if (h === 'tiktok.com' || /\.tiktok\.com$/.test(h)) {
       m = path.match(/\/video\/(\d{8,25})/) || path.match(/^\/(?:embed\/v2|embed|player\/v1|v)\/(\d{8,25})/) || path.match(/^\/v\/(\d{8,25})\.html/);
-      if (m) return { type: 'tiktok', id: m[1], url: url, embed: 'https://www.tiktok.com/player/v1/' + m[1] + '?autoplay=1&rel=0&description=1', vertical: true, label: 'TikTok' };
+      if (m) return tt(m[1], url);
       // short links (vm.tiktok.com/…, vt.tiktok.com/…, tiktok.com/t/…) can't be resolved in the browser -> open as a link
-      if (/^(vm|vt)\.tiktok\.com$/.test(h) || /^\/t\/\w+/.test(path)) return { type: 'tiktok', id: null, url: url, embed: null, vertical: true, label: 'TikTok', short: true };
+      if (/^(vm|vt)\.tiktok\.com$/.test(h) || /^\/t\/\w+/.test(path)) {
+        // short links can't be resolved in the browser; known ones are pre-resolved in data/products.js (ALEXBES_DATA.tiktok.short)
+        var sc = (path.match(/^\/(?:t\/)?(\w+)/) || [])[1], D = window.ALEXBES_DATA, sid = sc && D && D.tiktok && D.tiktok.short && D.tiktok.short[sc];
+        if (sid && /^\d{8,25}$/.test(sid)) return tt(sid, 'https://www.tiktok.com/@' + (D.tiktok.account || 'alex_bespik') + '/video/' + sid);
+        return { type: 'tiktok', id: null, url: url, embed: null, vertical: true, label: 'TikTok', short: true };
+      }
       return null;
     }
     // Instagram
@@ -38,6 +43,8 @@
     }
     return null;
   }
+  // TikTok: lazy embed https://www.tiktok.com/embed/v2/<id> (iframe is created only after a click)
+  function tt(id, url) { return { type: 'tiktok', id: id, url: url, embed: 'https://www.tiktok.com/embed/v2/' + id, vertical: true, label: 'TikTok' }; }
   function yt(id, url, short) {
     return { type: 'youtube', id: id, url: url, embed: 'https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0&playsinline=1', thumb: 'https://i.ytimg.com/vi/' + id + '/hqdefault.jpg', vertical: !!short, label: short ? 'YouTube Shorts' : 'YouTube' };
   }
