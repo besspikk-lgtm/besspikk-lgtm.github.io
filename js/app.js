@@ -159,7 +159,7 @@
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
-      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
+      '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео">🎬 Відео</span>' : '') + '</span>' +
@@ -171,9 +171,67 @@
       '</div></div></li>';
   }
   var PAGE = 48, curList = [], shown = 0, io = null;
+
+  /* ---------- картки: скелетон фото + плавна поява при прокрутці (03.10.2026) ----------
+     Прогресивне покращення: картка ховається (.rv-wait) ЛИШЕ коли є IntersectionObserver і не ввімкнено
+     prefers-reduced-motion; страховочний таймер показує все, що мало б бути видно. Фото: .card__img.is-ld = шимер,
+     знімається на load/error (і одразу для фото з кешу). Без JS карток немає взагалі, тож прихованими вони не лишаться. */
+  var RM = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  var revealIO = null, revealQuiet = false, revealKey = null, revealQ = [], revealT = null;
+  function revealOn() { return 'IntersectionObserver' in window && !RM.matches; }
+  function cardShow(c, delay) {
+    if (!c.classList.contains('rv-wait')) return;
+    if (revealIO) revealIO.unobserve(c);
+    c.classList.add('rv-anim');
+    if (delay) c.style.transitionDelay = delay + 'ms';
+    c.classList.remove('rv-wait');
+    setTimeout(function () { c.classList.remove('rv-anim'); c.style.transitionDelay = ''; }, 650 + (delay || 0));
+  }
+  function revealFlush() {
+    revealT = null;
+    var q = revealQ.splice(0); q.sort(function (a, b) { var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(); return (ra.top - rb.top) || (ra.left - rb.left); });
+    q.forEach(function (c, i) { cardShow(c, Math.min(i, 6) * 60); });
+  }
+  function revealObserve(cards) {
+    if (!cards.length) return;
+    if (revealQuiet || !revealOn()) return;
+    if (!revealIO) {
+      try {
+        revealIO = new IntersectionObserver(function (en) {
+          en.forEach(function (e) { if (e.isIntersecting) { revealIO.unobserve(e.target); revealQ.push(e.target); } });
+          if (revealQ.length && !revealT) revealT = setTimeout(revealFlush, 16);
+        }, { rootMargin: '0px 0px -6% 0px', threshold: 0.01 });
+      } catch (e) { revealIO = null; return; }
+    }
+    cards.forEach(function (c) { c.classList.add('rv-wait'); revealIO.observe(c); });
+    // страховка: якщо спостерігач «мовчить», картки у вікні все одно з'являються
+    setTimeout(function () {
+      var h = window.innerHeight || 800;
+      cards.forEach(function (c) { if (c.classList.contains('rv-wait') && c.isConnected) { var r = c.getBoundingClientRect(); if (r.top < h && r.bottom > 0) cardShow(c, 0); } });
+    }, 1800);
+  }
+  function imgDone(img, ok, instant) {
+    var b = img.parentNode; if (!b || !b.classList || !b.classList.contains('is-ld')) return;
+    if (!ok && !img.hasAttribute('data-fb') && img.getAttribute('src') !== PLACEHOLDER) { img.setAttribute('data-fb', '1'); img.src = PLACEHOLDER; return; } // зламане фото → логотип
+    if (instant) b.classList.add('no-fade');
+    b.classList.remove('is-ld');
+    if (!ok) b.classList.add('is-err');
+  }
+  function imgWatch(scope) {
+    $$('.card__img.is-ld img', scope).forEach(function (img) {
+      if (img.complete && img.getAttribute('src')) imgDone(img, img.naturalWidth > 0, true); // з кешу або вже завантажене
+    });
+  }
+  // load/error не спливають — ловимо на фазі захоплення для всіх карток (і для перших, і для догружених)
+  document.addEventListener('load', function (e) { var t = e.target; if (t && t.tagName === 'IMG' && t.parentNode && t.parentNode.classList && t.parentNode.classList.contains('card__img')) imgDone(t, true); }, true);
+  document.addEventListener('error', function (e) { var t = e.target; if (t && t.tagName === 'IMG' && t.parentNode && t.parentNode.classList && t.parentNode.classList.contains('card__img')) imgDone(t, false); }, true);
+
   function renderMore() {
-    var next = curList.slice(shown, shown + PAGE);
-    $('#grid').insertAdjacentHTML('beforeend', next.map(function (p, i) { return cardHTML(p, shown + i); }).join(''));
+    var next = curList.slice(shown, shown + PAGE), grid = $('#grid'), before = grid.children.length;
+    grid.insertAdjacentHTML('beforeend', next.map(function (p, i) { return cardHTML(p, shown + i); }).join(''));
+    var added = Array.prototype.slice.call(grid.children, before);
+    imgWatch(grid);
+    revealObserve(added);
     shown += next.length;
     fillPhotos();
     var more = $('#more');
@@ -206,8 +264,12 @@
   function renderGrid() {
     var list = filtered();
     curList = list; shown = 0;
+    // анімація появи — лише коли змінився розділ/сортування (не при наборі в пошуку, закритті модалки чи оновленні з Firebase)
+    var rk = state.cat + '|' + state.sort; revealQuiet = revealKey !== null && rk === revealKey; revealKey = rk;
+    if (revealIO) { revealIO.disconnect(); revealQ = []; }
     $('#grid').innerHTML = '';
     renderMore();
+    revealQuiet = false;
     $('#empty').hidden = list.length > 0;
     var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'new' ? '✅ Новинки' : state.cat === 'all' ? '' : catById[state.cat].name;
     var title = state.cat === 'all' ? 'Усі товари' : cn;
