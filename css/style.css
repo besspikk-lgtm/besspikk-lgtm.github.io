@@ -497,3 +497,9 @@ html{scroll-padding-top:104px}
   .hero__frame{border-radius:14px;padding-bottom:6px}
   .hero__btn{width:100%;margin-top:10px}
 }
+
+.moti__in{background:var(--surface);border-radius:14px;padding:20px 18px;text-align:center;height:100%;box-sizing:border-box}
+.moti__logo{width:120px;height:120px;border-radius:50%;display:block;margin:0 auto 12px;box-shadow:0 0 0 3px var(--yellow),0 6px 20px rgba(0,0,0,.35)}
+.moti h3{color:var(--text);margin:0 0 10px;font-size:20px}
+.moti p{margin:0 0 10px;line-height:1.5;font-size:16px}
+.moti__sign{color:var(--yellow);font-weight:800;margin-top:14px!important}
