@@ -426,6 +426,7 @@
   document.addEventListener('click', function (e) {
     var t = e.target.closest('button, a'); if (!t) { if (e.target.hasAttribute && e.target.hasAttribute('data-close')) hideModal(); return; }
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
+    if (t.hasAttribute('data-consult')) { track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // home banner button; link opens normally
     if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
     if (t.hasAttribute('data-open')) { location.hash = '#/p/' + t.getAttribute('data-open'); return; }
     if (t.hasAttribute('data-add')) {

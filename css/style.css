@@ -482,3 +482,18 @@ html{scroll-padding-top:104px}
 .vid__ext{display:block;text-align:right;font-size:12px;margin:4px 2px 0}
 .vid__link svg{width:18px;height:18px}
 .vid__link{margin-bottom:6px}
+
+/* home hero: Alex's bodywork banner + consultation button (replaced the blue "Каталог" intro card, 02.10.2026) */
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.hero{max-width:640px;margin:0 auto 16px}
+.hero__frame{position:relative;overflow:hidden;border-radius:18px;padding-bottom:8px;
+  background:linear-gradient(90deg,var(--yellow-hi),var(--yellow),var(--yellow2));box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.hero__img{display:block;width:100%;height:auto;aspect-ratio:1672/940;background:#111}
+.hero__btn{display:flex;width:min(440px,100%);height:52px;margin:12px auto 0;font-size:16.5px}
+.hero__btn:hover{filter:brightness(1.06)}
+.hero__btn:focus-visible{outline:3px solid #fff;outline-offset:3px}
+@media (max-width:760px){
+  .hero{margin-bottom:14px}
+  .hero__frame{border-radius:14px;padding-bottom:6px}
+  .hero__btn{width:100%;margin-top:10px}
+}
