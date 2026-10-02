@@ -56,7 +56,7 @@
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
 <link rel="preload" href="fonts/manrope-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=36">
+<link rel="stylesheet" href="css/style.css?v=37">
 </head>
 <body class="prem">
 <div class="uastripe" aria-hidden="true"></div>
@@ -80,6 +80,12 @@
     <nav class="hdr__nav">
       <a href="#/" data-nav="catalog">Каталог</a>
       <a href="#how" data-nav="how">Як замовити</a>
+      <!-- Радіо ROKS (js/radio.js): десктоп — кнопка в шапці; мобільний — вкладка «Радіо» в нижньому меню -->
+      <div class="hradio" id="radio" hidden>
+        <button class="hradio__btn" type="button" data-radio-toggle aria-pressed="false" aria-label="Увімкнути Радіо ROKS"><span class="hradio__ico"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg><span class="req" aria-hidden="true"><i></i><i></i><i></i></span></span><span class="hradio__txt">Радіо ROKS</span></button>
+        <button class="hradio__volbtn" type="button" id="radio-volbtn" aria-label="Гучність" aria-expanded="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 4.7a.7.7 0 0 0-1.2-.5L6.4 7.6A1.4 1.4 0 0 1 5.4 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.4a1.4 1.4 0 0 1 1 .4l3.4 3.4a.7.7 0 0 0 1.2-.5Z"/><path class="hradio__wave" d="M16 9a5 5 0 0 1 0 6"/><path class="hradio__wave" d="M19.4 18.4a9 9 0 0 0 0-12.8"/><path class="hradio__mute" d="m16 9 6 6m0-6-6 6"/></svg></button>
+        <div class="hradio__vol" id="radio-vol" hidden><input type="range" id="radio-range" min="0" max="100" step="5" value="70" aria-label="Гучність Радіо ROKS"></div>
+      </div>
       <button class="acctbtn" type="button" data-open-acct hidden aria-label="Увійти в акаунт">
         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4.42 0-8 2.24-8 5v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1c0-2.76-3.58-5-8-5Z"/></svg>
         <span data-acct-label>Увійти</span>
@@ -299,6 +305,7 @@
 <nav class="tabbar" aria-label="Навігація">
   <a href="#/" data-nav="catalog" data-go-chips><span class="tab__ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg></span>На затарку!</a>
   <a href="#/" data-focus-search><span class="tab__ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7.5"/><path d="m20.5 20.5-4.2-4.2"/></svg></span>Пошук</a>
+  <button type="button" class="tab--radio" data-radio-toggle aria-pressed="false" aria-label="Увімкнути Радіо ROKS" hidden><span class="tab__ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></svg><span class="req" aria-hidden="true"><i></i><i></i><i></i></span></span>Радіо</button>
   <button type="button" data-open-cart><span class="tab__ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg><b class="badge" data-cart-count hidden>0</b></span>Кошик</button>
   <a href="#/c/sale" data-nav="sale" data-go-chips="#/c/sale"><span class="tab__ico"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/></svg></span>Акції</a>
 </nav>
@@ -345,11 +352,6 @@
   <button class="cmpbar__x" type="button" data-cmp-clear aria-label="Очистити порівняння">✕</button>
 </div>
 
-<!-- Радіо ROKS (js/radio.js): офіційний потік online.radioroks.ua -->
-<div class="radio" id="radio" hidden>
-  <button class="radio__play" type="button" id="radio-btn" aria-pressed="false" aria-label="Увімкнути Радіо ROKS"><span class="radio__ico" aria-hidden="true">▶&#xFE0E;</span><span class="radio__txt"><span class="emo">🎸</span> Радіо ROKS</span></button>
-  <button class="radio__volbtn" type="button" id="radio-volbtn" aria-label="Гучність" aria-expanded="false"><span aria-hidden="true">🔊</span></button>
-  <div class="radio__vol" id="radio-vol" hidden><input type="range" id="radio-range" min="0" max="100" step="5" value="70" aria-label="Гучність Радіо ROKS"></div>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
@@ -358,7 +360,7 @@
 <script src="js/media.js?v=2"></script>
 <script src="js/app.js?v=34"></script>
 <script type="module" src="js/fb.js?v=3"></script>
-<script src="js/radio.js?v=1"></script>
+<script src="js/radio.js?v=2"></script>
 <script data-goatcounter="https://alexbes.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
