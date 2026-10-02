@@ -534,3 +534,6 @@ html{scroll-padding-top:104px}
 .seo__wrap>summary::after{content:" ▾"}
 .seo__wrap[open]>summary::after{content:" ▴"}
 .seo__wrap[open]>summary{margin-bottom:8px}
+.promo--new{color:#eaffef;background:rgba(0,40,15,.85);border:2px solid #39ff14;text-transform:none;text-shadow:0 0 4px #39ff14,0 0 10px #39ff14;
+  box-shadow:0 0 6px #39ff14,0 0 14px #39ff14,0 0 28px rgba(57,255,20,.7),inset 0 0 8px rgba(57,255,20,.6);animation:neonBlink 1s ease-in-out infinite, promoPulse 1s ease-in-out infinite}
+@keyframes neonBlink{0%,100%{opacity:1;box-shadow:0 0 6px #39ff14,0 0 16px #39ff14,0 0 32px rgba(57,255,20,.8),inset 0 0 8px rgba(57,255,20,.6)}50%{opacity:.45;box-shadow:0 0 2px #39ff14,0 0 4px rgba(57,255,20,.4),inset 0 0 2px rgba(57,255,20,.3)}}

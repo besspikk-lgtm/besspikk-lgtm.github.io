@@ -129,12 +129,14 @@
     }
     return list;
   }
-  var PROMO = { 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  var PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
   function promoHTML(p) {
     var t = promoOf(p); if (!t) return '';
-    return t === 'ХІТ' ? '<span class="promo promo--hit">⭐ ' + t + '</span>' : '<span class="promo">🔥 ' + t + '</span>';
+    if (t === 'ХІТ') return '<span class="promo promo--hit">⭐ ' + t + '</span>';
+    if (/новинк/i.test(t)) return '<span class="promo promo--new">Новинка ✅</span>';
+    return '<span class="promo">🔥 ' + esc(t) + '</span>';
   }
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
