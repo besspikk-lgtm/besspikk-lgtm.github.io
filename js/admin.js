@@ -10,7 +10,16 @@ const PROMO = { 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ
 const STOCKS = ['В наявності', 'Немає в наявності', 'Наявність уточнюйте', 'Під замовлення', 'У дорозі'];
 DATA.products.forEach((p) => { if (p.in_stock && !STOCKS.includes(p.in_stock)) STOCKS.push(p.in_stock); });
 const PLACEHOLDER = 'img/logo.webp?v=3';
-const FIELDS = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code'];
+const FIELDS = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'videos'];
+const MEDIA = window.AlexBesMedia;
+const MAX_PH = 10, MAX_VID = 5;
+// gallery = ordered photo keys: 'static' = catalog img/p photo, 'main' = photos/{id} (first admin photo), other = photos/{id}__{key}
+const phDoc = (id, k) => (k === 'main' ? id : id + '__' + k);
+function effGallery(id, r) {
+  if (r && Array.isArray(r.gallery)) return r.gallery.filter((k) => typeof k === 'string' && (k !== 'static' || BASE[id]));
+  if (r && r.hasPhoto) return ['main'];
+  return BASE[id] ? ['static'] : [];
+}
 const MAX_PHOTO = 700 * 1024, HARD_MAX = 990000;
 
 const $ = (s, r) => (r || document).querySelector(s);
@@ -25,7 +34,7 @@ let fb, user = null, remote = {}, photoCache = {}, unsub = null, edit = null;
 function baseVals(id) {
   const b = BASE[id]; if (!b) return null;
   return { name: b.name, category: b.category, price_eur: b.price_eur ?? null, price_label: b.price_label || '', in_stock: b.in_stock || '',
-    description: b.description || '', promo: PROMO[id] || '', variants: b.variants || null, code: b.code || '' };
+    description: b.description || '', promo: PROMO[id] || '', variants: b.variants || null, code: b.code || '', videos: null };
 }
 function merged() {
   const out = [];
@@ -33,7 +42,9 @@ function merged() {
     const r = remote[id], b = baseVals(id);
     const v = Object.assign({ name: '', category: '', price_eur: null, price_label: '', in_stock: 'Наявність уточнюйте', description: '', promo: '', variants: null, code: '' }, b || {});
     if (r) FIELDS.forEach((k) => { if (r[k] !== undefined) v[k] = r[k]; });
+    const gallery = effGallery(id, r);
     out.push(Object.assign(v, { id, isStatic: !!b, changed: !!(b && r && FIELDS.some((k) => r[k] !== undefined)), hidden: !!(r && r.hidden), hasPhoto: !!(r && r.hasPhoto),
+      gallery, photoChanged: !!(b && JSON.stringify(gallery) !== '["static"]'),
       photo: b ? BASE[id].photo : PLACEHOLDER, createdAt: (r && r.createdAt) || 0 }));
   };
   DATA.products.forEach((p) => add(p.id));
@@ -96,7 +107,7 @@ function renderList() {
   const all = merged();
   const list = all.filter((p) => {
     if (cat !== 'all' && p.category !== cat) return false;
-    if (flt === 'changed' && !(p.changed || (p.isStatic && p.hasPhoto))) return false;
+    if (flt === 'changed' && !(p.changed || p.photoChanged)) return false;
     if (flt === 'new' && p.isStatic) return false;
     if (flt === 'hidden' && !p.hidden) return false;
     return !q || (p.name + ' ' + p.code + ' ' + p.id).toLowerCase().includes(q);
@@ -105,15 +116,22 @@ function renderList() {
     ' · додано: ' + all.filter((p) => !p.isStatic).length + ' · приховано: ' + all.filter((p) => p.hidden).length;
   $('#adm-list').innerHTML = list.map((p) =>
     '<li class="arow' + (p.hidden ? ' is-hidden' : '') + '" data-id="' + esc(p.id) + '">' +
-      '<img src="' + esc(photoCache[p.id] || p.photo) + '"' + (p.hasPhoto && !photoCache[p.id] ? ' data-ph="' + esc(p.id) + '"' : '') + ' alt="" loading="lazy" width="64" height="64">' +
+      thumbHTML(p) +
       '<div><div class="arow__n">' + esc(p.name || '(без назви)') + '</div>' +
         '<div class="arow__m">' + esc(catById[p.category] ? catById[p.category].name : p.category) + ' · ' + esc(priceTxt(p)) + ' · ' + esc(p.in_stock) + '</div>' +
         '<div class="arow__b">' + (p.isStatic ? '' : '<span class="tag tag--new">Новий</span>') + (p.changed ? '<span class="tag tag--chg">Змінено</span>' : '') +
-          (p.hasPhoto ? '<span class="tag">Нове фото</span>' : '') + (p.hidden ? '<span class="tag tag--hid">Приховано</span>' : '') + promoTag(p.promo) + '</div></div>' +
+          (p.photoChanged || (!p.isStatic && p.gallery.length) ? '<span class="tag">📷 ' + p.gallery.length + '</span>' : '') + (p.videos && p.videos.length ? '<span class="tag">🎬 ' + p.videos.length + '</span>' : '') + (p.hidden ? '<span class="tag tag--hid">Приховано</span>' : '') + promoTag(p.promo) + '</div></div>' +
       '<div class="arow__a"><button class="btn btn--y" type="button" data-edit="' + esc(p.id) + '">✏️ Редагувати</button>' +
         '<button class="btn btn--o" type="button" data-toggle="' + esc(p.id) + '">' + (p.hidden ? '👁 Показати' : '🙈 Сховати') + '</button></div>' +
     '</li>').join('') || '<li class="muted">Нічого не знайдено.</li>';
   lazyPhotos();
+}
+function thumbHTML(p) {
+  const k = p.gallery[0];
+  if (!k) return '<img src="' + PLACEHOLDER + '" alt="" width="64" height="64">';
+  if (k === 'static') return '<img src="' + esc(p.photo) + '" alt="" loading="lazy" width="64" height="64">';
+  const d = phDoc(p.id, k);
+  return '<img src="' + esc(photoCache[d] || PLACEHOLDER) + '"' + (photoCache[d] ? '' : ' data-ph="' + esc(d) + '"') + ' alt="" loading="lazy" width="64" height="64">';
 }
 let io = null;
 function lazyPhotos() {
@@ -144,7 +162,9 @@ function textToVars(t) {
 function openEdit(id) {
   const p = id ? byIdNow(id) : null;
   const isNew = !p;
-  edit = { id: p ? p.id : null, isNew, isStatic: !!(p && p.isStatic), photo: undefined, hasPhoto: !!(p && p.hasPhoto) };
+  edit = { id: p ? p.id : null, isNew, isStatic: !!(p && p.isStatic),
+    items: (p ? p.gallery : []).map((k) => ({ key: k, src: k === 'static' ? BASE[p.id].photo : photoCache[phDoc(p.id, k)] || null })),
+    orig: p ? p.gallery.slice() : [], videos: (p && p.videos ? p.videos.slice() : []) };
   const v = p || { name: '', category: CATS[0] ? CATS[0].id : '', price_eur: null, price_label: '', in_stock: 'В наявності', description: '', promo: '', variants: null, code: '', hidden: false };
   const stockKnown = STOCKS.includes(v.in_stock);
   const b = p && p.isStatic ? baseVals(p.id) : null;
@@ -163,26 +183,94 @@ function openEdit(id) {
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
       '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна», напр. «Дюза 1.3 = 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea></label>' +
-      '<div class="full ed__photo"><img id="ed-img" src="' + esc((p && (photoCache[p.id] || p.photo)) || PLACEHOLDER) + '" alt="">' +
-        '<div><p class="ed__plbl">Фото товару' + (p && p.isStatic ? ' <span class="hint">(замінити фото з каталогу)</span>' : '') + '</p>' +
-        '<label class="btn btn--o adm-sm ed__file">📷 ' + (edit.hasPhoto || (p && p.isStatic) ? 'Замінити фото' : 'Обрати фото') + '<input name="photo" type="file" accept="image/*"></label>' +
-        '<p class="ed__pinfo" id="ed-pinfo">Фото стискається в браузері: до 800 px, WebP (або JPEG), ≤ 700 КБ.</p>' +
-        (edit.hasPhoto ? '<button class="btn btn--o adm-sm" type="button" data-rmphoto>' + (p && p.isStatic ? '↩️ Повернути фото з каталогу' : '🗑 Прибрати фото') + '</button>' : '') + '</div></div>' +
+      '<div class="full ed__media" id="ed-media"></div>' +
+      '<div class="full ed__vids" id="ed-vids"></div>' +
       '<label class="full ed__chk"><input name="hidden" type="checkbox"' + (v.hidden ? ' checked' : '') + '> Приховати на сайті</label>' +
     '</div>' +
     '<p class="ed__msg" id="ed-msg" role="alert" hidden></p>' +
     '<div class="ed__acts">' +
       '<button class="btn btn--y" type="submit">💾 Зберегти</button>' +
       '<button class="btn btn--o" type="button" data-x>Скасувати</button>' +
-      (p && p.isStatic && (p.changed || p.hidden || p.hasPhoto) ? '<button class="btn btn--o" type="button" data-reset>↩️ Скинути всі зміни</button>' : '') +
+      (p && p.isStatic && (p.changed || p.hidden || p.photoChanged) ? '<button class="btn btn--o" type="button" data-reset>↩️ Скинути всі зміни</button>' : '') +
       (p ? '<button class="btn btn--del" type="button" data-del>🗑 ' + (p.isStatic ? 'Видалити з сайту (сховати)' : 'Видалити товар') + '</button>' : '') +
     '</div>';
-  if (p && p.hasPhoto && !photoCache[p.id]) getPhoto(p.id).then((u) => { if (u && edit && edit.id === p.id && edit.photo === undefined) $('#ed-img').src = u; }).catch(() => {});
+  renderMedia(); renderVids();
+  edit.items.forEach((it) => { if (!it.src && it.key !== 'static') getPhoto(phDoc(p.id, it.key)).then((u) => { if (u && edit && edit.id === p.id) { it.src = u; renderMedia(); } }).catch(() => {}); });
   $('#adm-edit').hidden = false; document.body.style.overflow = 'hidden';
   $('#adm-edit .modal__box').scrollTop = 0;
   if (isNew) { const n = $('#ed-form [name=name]'); if (n) n.focus({ preventScroll: true }); }
 }
-function closeEdit() { $('#adm-edit').hidden = true; document.body.style.overflow = ''; edit = null; }
+function renderMedia(note, warn) {
+  const box = $('#ed-media'); if (!box || !edit) return;
+  const n = edit.items.length;
+  box.innerHTML = '<p class="ed__plbl">📷 Фото <span class="hint">(до ' + MAX_PH + '; перше — головне, воно на картці товару)</span></p>' +
+    (n ? '<ul class="phg">' + edit.items.map((it, i) =>
+      '<li class="phg__it' + (i === 0 ? ' is-main' : '') + '" data-i="' + i + '"><img src="' + esc(it.src || PLACEHOLDER) + '" alt="Фото ' + (i + 1) + '">' +
+        '<span class="phg__n">' + (i === 0 ? '★ Головне' : (i + 1) + (it.key === 'static' ? ' · з каталогу' : it.data ? ' · нове' : '')) + '</span>' +
+        '<div class="phg__a">' +
+          '<button type="button" data-ph-move="-1" aria-label="Перемістити ліворуч"' + (i === 0 ? ' disabled' : '') + '>‹</button>' +
+          '<button type="button" data-ph-main aria-label="Зробити головним"' + (i === 0 ? ' disabled' : '') + '>★</button>' +
+          '<button type="button" data-ph-move="1" aria-label="Перемістити праворуч"' + (i === n - 1 ? ' disabled' : '') + '>›</button>' +
+          '<button type="button" data-ph-del aria-label="Видалити фото" class="phg__del">✕</button>' +
+        '</div></li>').join('') + '</ul>' : '<p class="muted small">Фото немає — на сайті буде логотип.</p>') +
+    (n < MAX_PH ? '<label class="btn btn--o adm-sm ed__file">📷 Додати фото<input name="photos" type="file" accept="image/*" multiple></label>' : '<p class="muted small">Досягнуто максимум — ' + MAX_PH + ' фото.</p>') +
+    (edit.isStatic && !edit.items.some((it) => it.key === 'static') ? ' <button class="btn btn--o adm-sm" type="button" data-ph-static>↩️ Повернути фото з каталогу</button>' : '') +
+    '<p class="ed__pinfo' + (warn ? ' warn' : '') + '" id="ed-pinfo">' + esc(note || 'Можна обрати кілька фото одразу. Кожне стискається в браузері: до 800 px, WebP (або JPEG), ≤ 700 КБ.') + '</p>';
+}
+function vidThumb(v) {
+  if (v && v.thumb) return '<img src="' + esc(v.thumb) + '" alt="" loading="lazy">';
+  return '<span class="vdl__ico vdl__ico--' + (v ? v.type : 'x') + '">' + (v ? (v.type === 'tiktok' ? '♪' : v.type === 'instagram' ? '◎' : '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5Z"/></svg>') : '?') + '</span>';
+}
+function renderVids(note, warn) {
+  const box = $('#ed-vids'); if (!box || !edit) return;
+  const n = edit.videos.length;
+  box.innerHTML = '<p class="ed__plbl">🎬 Відео <span class="hint">(до ' + MAX_VID + ' посилань: TikTok, YouTube / Shorts, Instagram Reels)</span></p>' +
+    (n ? '<ul class="vdl">' + edit.videos.map((url, i) => {
+      const v = MEDIA ? MEDIA.parseVideo(url) : null;
+      return '<li class="vdl__it" data-i="' + i + '"><div class="vdl__row">' + vidThumb(v) +
+        '<div class="vdl__t"><b>' + esc(v ? v.label : 'Посилання') + '</b><span>' + esc(url) + '</span>' +
+          '<em class="' + (v && v.embed ? 'ok' : 'warn') + '">' + (v && v.embed ? '✅ Вбудується на сайті' : '⚠️ Коротке посилання — на сайті буде кнопка «Дивитись відео»') + '</em></div>' +
+        '<div class="vdl__a">' + (v && v.embed ? '<button type="button" data-vd-prev aria-label="Переглянути"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5Z"/></svg></button>' : '') +
+          '<button type="button" data-vd-move="-1"' + (i === 0 ? ' disabled' : '') + ' aria-label="Вище">▲</button>' +
+          '<button type="button" data-vd-del class="phg__del" aria-label="Видалити відео">✕</button></div></div>' +
+        '<div class="vdl__pv" hidden></div></li>';
+    }).join('') + '</ul>' : '') +
+    (n < MAX_VID ? '<div class="vdl__add"><input name="video_url" type="url" inputmode="url" placeholder="Вставте посилання на відео…" autocomplete="off"><button class="btn btn--y adm-sm" type="button" data-vd-add>➕ Додати</button></div>' : '<p class="muted small">Досягнуто максимум — ' + MAX_VID + ' відео.</p>') +
+    '<p class="ed__pinfo' + (warn ? ' warn' : '') + '" id="ed-vinfo"' + (note ? '' : ' hidden') + '>' + esc(note || '') + '</p>';
+}
+function addVideo() {
+  const inp = $('#ed-vids input[name=video_url]'); if (!inp) return;
+  const url = inp.value.trim(); if (!url) return;
+  const v = MEDIA ? MEDIA.parseVideo(url) : null;
+  if (!v) { renderVids('⚠️ Не схоже на посилання TikTok, YouTube чи Instagram. Скопіюйте посилання кнопкою «Поділитися» → «Копіювати посилання».', true); $('#ed-vids input[name=video_url]').value = url; return; }
+  const norm = v.url.slice(0, 500);
+  if (edit.videos.some((x) => { const y = MEDIA.parseVideo(x); return x === norm || (y && v.id && y.type === v.type && y.id === v.id); })) { renderVids('Це відео вже додано.', true); return; }
+  edit.videos.push(norm);
+  renderVids(v.embed ? '✅ Додано: ' + v.label : '⚠️ Додано коротке посилання ' + v.label + ': вбудувати не вийде, на сайті буде кнопка «Дивитись відео». Краще вставити повне посилання (відкрийте відео в браузері й скопіюйте адресу).', !v.embed);
+}
+async function addPhotos(files) {
+  const free = MAX_PH - edit.items.length;
+  const list = Array.from(files).slice(0, Math.max(0, free));
+  const skipped = files.length - list.length;
+  let done = 0, bad = 0, big = 0;
+  for (const f of list) {
+    renderMedia('Обробка фото ' + (done + bad + 1) + ' з ' + list.length + '…');
+    try {
+      const r = await processImage(f);
+      if (r.url.length > HARD_MAX) { big++; continue; }
+      edit.items.push({ key: 'g' + Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 6), src: r.url, data: r.url, info: r });
+      done++;
+    } catch (e) { bad++; }
+  }
+  const parts = ['✅ Додано фото: ' + done + '. Збережеться після «Зберегти».'];
+  if (skipped > 0) parts.push('Пропущено ' + skipped + ' — максимум ' + MAX_PH + ' фото.');
+  if (big) parts.push(big + ' завеликі навіть після стискання.');
+  if (bad) parts.push(bad + ' не вдалося прочитати (спробуйте JPG або PNG).');
+  const last = edit.items[edit.items.length - 1];
+  if (done && last && last.info) parts.push('Останнє: ' + last.info.w + '×' + last.info.h + ' px, ' + last.info.type + ', ' + last.info.kb + ' КБ.');
+  renderMedia(parts.join(' '), !!(skipped || big || bad));
+}
+function closeEdit() { $$('#adm-edit iframe').forEach((f) => f.remove()); $('#adm-edit').hidden = true; document.body.style.overflow = ''; edit = null; }
 function edMsg(t, ok) { const m = $('#ed-msg'); m.textContent = t; m.hidden = !t; m.classList.toggle('ok', !!ok); }
 
 /* ---------- photo: resize to max 800px, WebP (fallback JPEG) ---------- */
@@ -236,9 +324,17 @@ async function save(f) {
   const v = readForm(f);
   const id = edit.id || slugId(v.name);
   const now = Date.now();
-  let hasPhoto = edit.hasPhoto;
-  if (edit.photo) { await F.setDoc(F.doc(db, 'photos', id), { data: edit.photo.url, updatedAt: now }); hasPhoto = true; }
-  else if (edit.photo === null) { await F.deleteDoc(F.doc(db, 'photos', id)).catch(() => {}); hasPhoto = false; delete photoCache[id]; }
+  // 1) upload new photos, 2) write the product doc, 3) delete photos that were removed (so the site never points to a missing photo)
+  for (const it of edit.items) {
+    if (!it.data) continue;
+    await F.setDoc(F.doc(db, 'photos', phDoc(id, it.key)), { data: it.data, updatedAt: now });
+    photoCache[phDoc(id, it.key)] = it.data;
+  }
+  const gallery = edit.items.map((it) => it.key);
+  const hasPhoto = gallery.includes('main');
+  v.videos = edit.videos.length ? edit.videos.slice(0, MAX_VID) : null;
+  const removed = edit.orig.filter((k) => k !== 'static' && !gallery.includes(k));
+  const cleanup = async () => { for (const k of removed) { await F.deleteDoc(F.doc(db, 'photos', phDoc(id, k))).catch(() => {}); delete photoCache[phDoc(id, k)]; } };
   let docv;
   if (edit.isStatic) {
     // store only what differs from the static catalog, so future catalog updates still apply to untouched fields
@@ -246,16 +342,23 @@ async function save(f) {
     FIELDS.forEach((k) => { const a = v[k] === '' ? null : v[k], z = b[k] === '' ? null : b[k]; if (JSON.stringify(a ?? null) !== JSON.stringify(z ?? null)) docv[k] = v[k]; });
     if (v.hidden) docv.hidden = true;
     if (hasPhoto) docv.hasPhoto = true;
-    if (!Object.keys(docv).length) { await F.deleteDoc(F.doc(db, 'products', id)); return { id, reset: true }; }
+    if (JSON.stringify(gallery) !== '["static"]') docv.gallery = gallery;
+    if (!Object.keys(docv).length) { await F.deleteDoc(F.doc(db, 'products', id)); await cleanup(); return { id, reset: true }; }
   } else {
     docv = {}; FIELDS.forEach((k) => { docv[k] = v[k]; });
-    docv.hidden = v.hidden; docv.hasPhoto = hasPhoto; docv.custom = true;
+    docv.hidden = v.hidden; docv.hasPhoto = hasPhoto; docv.gallery = gallery; docv.custom = true;
     docv.createdAt = (remote[id] && remote[id].createdAt) || now;
   }
   docv.updatedAt = now;
   await F.setDoc(F.doc(db, 'products', id), docv);
-  if (edit.photo) photoCache[id] = edit.photo.url;
+  await cleanup();
   return { id };
+}
+
+async function delPhotos(id, keys) {
+  const { F, db } = fb;
+  const all = new Set(['main'].concat(keys || []).filter((k) => k !== 'static'));
+  for (const k of all) { await F.deleteDoc(F.doc(db, 'photos', phDoc(id, k))).catch(() => {}); delete photoCache[phDoc(id, k)]; }
 }
 
 /* ---------- events ---------- */
@@ -273,16 +376,34 @@ async function onClick(e) {
     try {
       const ref = F.doc(db, 'products', p.id);
       if (!p.hidden) await F.setDoc(ref, { hidden: true, updatedAt: Date.now() }, { merge: true });
-      else if (p.isStatic && !p.changed && !p.hasPhoto) await F.deleteDoc(ref);
+      else if (p.isStatic && !p.changed && !p.photoChanged) await F.deleteDoc(ref);
       else await F.setDoc(ref, { hidden: F.deleteField(), updatedAt: Date.now() }, { merge: true });
       toast(p.hidden ? 'Товар знову видно на сайті' : 'Товар приховано');
     } catch (err) { toast(authErr(err)); t.disabled = false; }
     return;
   }
-  if (t.hasAttribute('data-rmphoto')) { edit.photo = null; const p = byIdNow(edit.id); $('#ed-img').src = (p && p.isStatic ? p.photo : PLACEHOLDER); $('#ed-pinfo').textContent = 'Фото буде прибрано після збереження.'; t.remove(); return; }
+  if (edit && t.closest('#ed-media')) {
+    const li = t.closest('[data-i]'), i = li ? +li.getAttribute('data-i') : -1, it = edit.items;
+    if (t.hasAttribute('data-ph-move')) { const j = i + +t.getAttribute('data-ph-move'); if (j >= 0 && j < it.length) { [it[i], it[j]] = [it[j], it[i]]; renderMedia(); } return; }
+    if (t.hasAttribute('data-ph-main')) { it.unshift(it.splice(i, 1)[0]); renderMedia('★ Головне фото змінено. Збережеться після «Зберегти».'); return; }
+    if (t.hasAttribute('data-ph-del')) { if (!confirm('Видалити це фото?')) return; it.splice(i, 1); renderMedia('Фото буде видалено після «Зберегти».'); return; }
+    if (t.hasAttribute('data-ph-static')) { if (it.length >= MAX_PH) return; it.unshift({ key: 'static', src: BASE[edit.id].photo }); renderMedia(); return; }
+  }
+  if (edit && t.closest('#ed-vids')) {
+    const li = t.closest('[data-i]'), i = li ? +li.getAttribute('data-i') : -1;
+    if (t.hasAttribute('data-vd-add')) { addVideo(); return; }
+    if (t.hasAttribute('data-vd-del')) { if (!confirm('Видалити це відео?')) return; edit.videos.splice(i, 1); renderVids('Відео буде видалено після «Зберегти».'); return; }
+    if (t.hasAttribute('data-vd-move')) { if (i > 0) { const v = edit.videos; [v[i - 1], v[i]] = [v[i], v[i - 1]]; renderVids(); } return; }
+    if (t.hasAttribute('data-vd-prev')) {
+      const v = MEDIA.parseVideo(edit.videos[i]), pv = $('.vdl__pv', li);
+      if (!pv.hidden) { pv.innerHTML = ''; pv.hidden = true; return; }
+      pv.innerHTML = '<div class="vframe' + (v.vertical ? ' vframe--v' : '') + '"><iframe src="' + esc(v.embed) + '" title="' + esc(v.label) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>';
+      pv.hidden = false; return;
+    }
+  }
   if (t.hasAttribute('data-reset')) {
     if (!confirm('Скинути всі зміни цього товару й повернути дані з каталогу?')) return;
-    try { await F.deleteDoc(F.doc(db, 'products', edit.id)); await F.deleteDoc(F.doc(db, 'photos', edit.id)).catch(() => {}); delete photoCache[edit.id]; toast('Зміни скинуто'); closeEdit(); } catch (err) { edMsg(authErr(err)); }
+    try { await F.deleteDoc(F.doc(db, 'products', edit.id)); await delPhotos(edit.id, edit.orig); toast('Зміни скинуто'); closeEdit(); } catch (err) { edMsg(authErr(err)); }
     return;
   }
   if (t.hasAttribute('data-del')) {
@@ -292,7 +413,7 @@ async function onClick(e) {
       try { await F.setDoc(F.doc(db, 'products', p.id), { hidden: true, updatedAt: Date.now() }, { merge: true }); toast('Товар приховано'); closeEdit(); } catch (err) { edMsg(authErr(err)); }
     } else {
       if (!confirm('Видалити «' + p.name + '» назавжди? Цю дію не можна скасувати.')) return;
-      try { await F.deleteDoc(F.doc(db, 'products', p.id)); await F.deleteDoc(F.doc(db, 'photos', p.id)).catch(() => {}); toast('Товар видалено'); closeEdit(); } catch (err) { edMsg(authErr(err)); }
+      try { await F.deleteDoc(F.doc(db, 'products', p.id)); await delPhotos(p.id, edit.orig); toast('Товар видалено'); closeEdit(); } catch (err) { edMsg(authErr(err)); }
     }
   }
 }
@@ -312,22 +433,13 @@ async function onSubmit(e) {
     catch (err) { edMsg(err && err.code ? authErr(err) : (err.message || String(err))); btns.forEach((b) => { b.disabled = false; }); }
   }
 }
+document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.name === 'video_url') { e.preventDefault(); addVideo(); } });
 function onInput(e) { if (e.target.id === 'adm-q') renderList(); }
 async function onChange(e) {
   const t = e.target;
   if (t.id === 'adm-cat' || t.id === 'adm-flt') { renderList(); return; }
   if (t.name === 'in_stock_sel') { $('[data-custom-stock]').hidden = t.value !== '__custom'; return; }
-  if (t.name === 'photo' && t.files && t.files[0]) {
-    const info = $('#ed-pinfo'); info.classList.remove('warn'); info.textContent = 'Обробка фото…';
-    try {
-      const r = await processImage(t.files[0]);
-      if (r.url.length > HARD_MAX) { info.classList.add('warn'); info.textContent = '⚠️ Фото завелике навіть після стискання (' + r.kb + ' КБ). Оберіть інше фото.'; edit.photo = undefined; t.value = ''; return; }
-      edit.photo = r; $('#ed-img').src = r.url;
-      const big = r.url.length > MAX_PHOTO;
-      info.classList.toggle('warn', big || r.q < 0.8);
-      info.textContent = (big ? '⚠️ Більше 700 КБ: ' : '✅ ') + r.w + '×' + r.h + ' px, ' + r.type + ', ' + r.kb + ' КБ' + (r.q < 0.8 ? ' (якість знижено до ' + r.q + ', щоб зменшити розмір)' : '') + '. Збережеться після «Зберегти».';
-    } catch (err) { info.classList.add('warn'); info.textContent = '⚠️ ' + (err.message || err); }
-  }
+  if (t.name === 'photos' && t.files && t.files.length && edit) { const files = Array.from(t.files); t.value = ''; await addPhotos(files); }
 }
 
 main();

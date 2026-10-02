@@ -66,8 +66,23 @@
   }
   var PLACEHOLDER = 'img/logo.webp?v=3';
   var photoData = {}; // id -> data URL loaded from Firestore photos/{id}
-  function photoSrc(p) { return photoData[p.id] || p.photo || PLACEHOLDER; }
-  function phAttr(p) { return p.hasPhoto && !photoData[p.id] ? ' data-ph="' + esc(p.id) + '"' : ''; }
+  // gallery: ordered photo keys from Firestore — 'static' = catalog photo (img/p), 'main' = photos/{id}, other = photos/{id}__{key}
+  function galleryOf(p) {
+    var g = Array.isArray(p.gallery) ? p.gallery : (p.hasPhoto ? ['main'] : (p.photo ? ['static'] : []));
+    var out = [];
+    g.forEach(function (k) {
+      if (typeof k !== 'string' || out.length >= 10) return;
+      if (k === 'static') { var st = BASE[p.id] ? BASE[p.id].photo : p.photo; if (st) out.push({ src: st }); }
+      else if (/^[\w-]{1,40}$/.test(k)) out.push({ doc: k === 'main' ? p.id : p.id + '__' + k });
+    });
+    return out;
+  }
+  function imgAttrs(p, g) {
+    if (!g) return 'src="' + PLACEHOLDER + '"';
+    if (g.src) return 'src="' + esc(g.src) + '"';
+    return photoData[g.doc] ? 'src="' + photoData[g.doc] + '"' : 'src="' + (p.photo || PLACEHOLDER) + '" data-ph="' + esc(g.doc) + '"';
+  }
+  function mainImg(p) { return imgAttrs(p, galleryOf(p)[0]); }
   function stockHTML(p) {
     var s = p.in_stock || '';
     var cls = /немає/i.test(s) ? ' stock--out' : /наявн/i.test(s) && !/уточн/i.test(s) ? '' : /дороз|замовл/i.test(s) ? ' stock--way' : ' stock--ask';
@@ -120,7 +135,7 @@
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
-      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img src="' + photoSrc(p) + '"' + phAttr(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
+      '<div class="card__media"><button class="card__img" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" width="400" height="400">' + promoHTML(p) + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + '</span>' +
@@ -178,7 +193,7 @@
   function openProduct(id) {
     var p = byId[id]; if (!p) return;
     if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); }
-    pmState = { id: id, vi: 0, qty: 1 };
+    pmState = { id: id, vi: 0, qty: 1, gi: 0 };
     renderProduct();
     showModal('#pmodal');
     document.title = p.name + ' — ' + CONFIG.siteName;
@@ -196,6 +211,62 @@
       '<dl class="tds__dl specs__dl">' + s.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
       (s.src ? '<p class="tds__src specs__src"><span>' + esc(s.src) + '</span></p>' : '') + '</details>';
   }
+  function galleryHTML(p) {
+    var g = galleryOf(p), n = g.length;
+    if (n <= 1) return '<div class="pm__img"><img ' + imgAttrs(p, g[0]) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + '</div>';
+    return '<div class="pm__img gal" data-gal>' +
+      '<div class="gal__track" tabindex="0" aria-label="Фото товару, гортайте">' + g.map(function (x, i) {
+        return '<div class="gal__it"><img ' + imgAttrs(p, x) + ' alt="' + esc(p.name) + ' — фото ' + (i + 1) + '"' + (i ? ' loading="lazy"' : '') + '></div>';
+      }).join('') + '</div>' + promoHTML(p) +
+      '<button class="gal__nav gal__nav--p" type="button" data-gal-step="-1" aria-label="Попереднє фото">‹</button>' +
+      '<button class="gal__nav gal__nav--n" type="button" data-gal-step="1" aria-label="Наступне фото">›</button>' +
+      '<div class="gal__dots">' + g.map(function (x, i) { return '<button type="button" data-gal-to="' + i + '" aria-label="Фото ' + (i + 1) + '"' + (i === 0 ? ' class="on"' : '') + '></button>'; }).join('') + '</div>' +
+      '<span class="gal__cnt" data-gal-cnt>1 / ' + n + '</span></div>';
+  }
+  var PLAY_SVG = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5Z"/></svg>';
+  function videosOf(p) {
+    var M = window.AlexBesMedia; if (!M || !Array.isArray(p.videos)) return [];
+    return p.videos.slice(0, 5).map(function (u) { return M.parseVideo(u); }).filter(Boolean);
+  }
+  function videosHTML(p) {
+    var vs = videosOf(p); if (!vs.length) return '';
+    return '<div class="vids"><p class="vids__ttl"><span class="emo">🎬</span> Відео</p><div class="vids__list">' + vs.map(function (v, i) {
+      if (!v.embed) return '<div class="vitem vitem--link"><a class="btn btn--o btn--full vid__link" href="' + esc(v.url) + '" target="_blank" rel="noopener" data-vid-link="' + i + '">' + PLAY_SVG + ' Дивитись відео · ' + esc(v.label) + ' ↗</a></div>';
+      return '<div class="vitem"><div class="vid' + (v.vertical ? ' vid--v' : '') + '" data-vid-box="' + i + '"><button class="vid__ph vid__ph--' + v.type + '" type="button" data-vid="' + i + '" aria-label="Відтворити відео ' + esc(v.label) + '">' +
+        (v.thumb ? '<img src="' + esc(v.thumb) + '" alt="" loading="lazy">' : '') +
+        '<span class="vid__play" aria-hidden="true">' + PLAY_SVG + '</span><span class="vid__lbl">' + esc(v.label) + '</span></button></div>' +
+        '<a class="vid__ext" href="' + esc(v.url) + '" target="_blank" rel="noopener">Відкрити в ' + esc(v.type === 'youtube' ? 'YouTube' : v.label) + ' ↗</a></div>';
+    }).join('') + '</div></div>';
+  }
+  function playVideo(i) {
+    var p = byId[pmState.id], v = videosOf(p)[i], box = $('[data-vid-box="' + i + '"]');
+    if (!v || !box || !v.embed) return;
+    box.classList.add('is-on'); if (box.parentNode) box.parentNode.classList.add('is-on');
+    box.innerHTML = '<iframe src="' + esc(v.embed) + '" title="' + esc(v.label + ': ' + p.name) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
+    track('відео/' + p.id, 'Відео (' + v.label + '): ' + p.name);
+  }
+  function stopMedia() { $$('#pm iframe').forEach(function (f) { f.remove(); }); }
+  function galInit() {
+    var g = $('#pm [data-gal]'); if (!g) return;
+    var tr = $('.gal__track', g), dots = $$('.gal__dots button', g), cnt = $('[data-gal-cnt]', g), n = dots.length;
+    var cur = Math.min(pmState.gi || 0, n - 1);
+    function sync() {
+      var i = Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)); i = Math.max(0, Math.min(n - 1, i));
+      if (i === cur && dots[i].classList.contains('on')) return;
+      cur = i; pmState.gi = i;
+      dots.forEach(function (d, k) { d.classList.toggle('on', k === i); });
+      if (cnt) cnt.textContent = (i + 1) + ' / ' + n;
+    }
+    tr.addEventListener('scroll', function () { clearTimeout(tr._t); tr._t = setTimeout(sync, 60); }, { passive: true });
+    if (cur) { tr.scrollLeft = cur * tr.clientWidth; dots.forEach(function (d, k) { d.classList.toggle('on', k === cur); }); if (cnt) cnt.textContent = (cur + 1) + ' / ' + n; }
+  }
+  function galGo(to, rel) {
+    var g = $('#pm [data-gal]'); if (!g) return;
+    var tr = $('.gal__track', g), n = $$('.gal__it', g).length, w = tr.clientWidth;
+    var i = Math.round(tr.scrollLeft / Math.max(1, w));
+    var j = rel ? i + to : to; if (j < 0) j = n - 1; if (j >= n) j = 0;
+    tr.scrollTo({ left: j * w, behavior: 'smooth' });
+  }
   function renderProduct() {
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
@@ -206,13 +277,13 @@
     var src = (p.source || []).filter(function (u) { return /^https:\/\/t\.me\//.test(u); })[0];
     var tgAsk = 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?'));
     $('#pm').innerHTML =
-      '<div class="pm__img"><img src="' + photoSrc(p) + '"' + phAttr(p) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + '</div>' +
+      galleryHTML(p) +
       '<div class="pm__info">' +
         '<span class="pm__cat">' + esc(p.category_name) + '</span>' +
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
-        '<p class="pm__desc">' + esc(p.description) + '</p>' +
+        '<p class="pm__desc">' + esc(p.description) + '</p>' + videosHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button></div>' +
         '<div class="cactions">' +
@@ -225,6 +296,7 @@
         specsHTML(p) + tdsHTML(p) +
         '<p class="pm__note">' + esc(p.price_note || '') + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
       '</div>';
+    galInit();
     fillPhotos();
   }
 
@@ -271,7 +343,7 @@
     var items = cart.map(function (l, i) {
       var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
       if (up != null) sum += up * l.qty; else ask++;
-      return '<li class="citem"><img src="' + photoSrc(p) + '"' + phAttr(p) + ' alt="">' +
+      return '<li class="citem"><img ' + mainImg(p) + ' alt="">' +
         '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(v ? v.label : (p.price_label || '')) + '</div>' +
         '<div class="citem__p">' + (up != null ? eur(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div></div>' +
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
@@ -319,6 +391,7 @@
   }
   function hideModal() {
     if (!openModalEl) return;
+    stopMedia();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = 'Alex_bes😈 — каталог: Meiji, SATA, Palinal, інструмент для малярів';
     if (/^#\/p\/|^#cart/.test(location.hash)) history.replaceState(null, '', lastListHash);
@@ -338,7 +411,7 @@
       return;
     }
     if (h === '#cart') { renderCart(); showModal('#cmodal'); return; }
-    if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
+    if (openModalEl) { stopMedia(); openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     trackedOpen = null;
     if (h === '#how') { $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'how'); }); return; }
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'catalog'); });
@@ -361,6 +434,10 @@
       addToCart(p.id, 0, 1); return;
     }
     if (t.hasAttribute('data-var')) { pmState.vi = +t.getAttribute('data-var'); renderProduct(); return; }
+    if (t.hasAttribute('data-gal-step')) { galGo(+t.getAttribute('data-gal-step'), true); return; }
+    if (t.hasAttribute('data-gal-to')) { galGo(+t.getAttribute('data-gal-to'), false); return; }
+    if (t.hasAttribute('data-vid')) { playVideo(+t.getAttribute('data-vid')); return; }
+    if (t.hasAttribute('data-vid-link')) { var vp = byId[pmState.id]; if (vp) track('відео/' + vp.id, 'Відео (посилання): ' + vp.name); return; }
     if (t.hasAttribute('data-q')) { pmState.qty = Math.max(1, (parseInt($('#pmq').value, 10) || 1) + +t.getAttribute('data-q')); $('#pmq').value = pmState.qty; return; }
     if (t.hasAttribute('data-addpm')) { pmState.qty = Math.max(1, parseInt($('#pmq').value, 10) || 1); addToCart(pmState.id, pmState.vi, pmState.qty); return; }
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
@@ -408,13 +485,16 @@
     if (state.q && window.scrollY > $('#catalog').offsetTop + 200) $('#catalog').scrollIntoView({ behavior: 'smooth' });
   }
   $('#sort').addEventListener('change', function () { state.sort = this.value; renderGrid(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { hideModal(); return; }
+    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && openModalEl && openModalEl === $('#pmodal') && !/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) { galGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
+  });
   window.addEventListener('hashchange', route);
 
   /* ---------- Firebase bridge (js/fb.js is optional: if it never loads, everything above works from static data) ---------- */
   var BASE = {}; PRODUCTS.forEach(function (p) { BASE[p.id] = p; });
   var STATIC_ORDER = PRODUCTS.slice();
-  var EDITABLE = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand'];
+  var EDITABLE = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand', 'gallery', 'videos'];
   function catName(id) { return catById[id] ? catById[id].name : id; }
   // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;
   // new ids are appended (sorted into their category); hidden:true removes the product from the public catalog.
