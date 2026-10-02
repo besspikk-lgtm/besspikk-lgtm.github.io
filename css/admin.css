@@ -91,3 +91,71 @@
 .vframe--v{aspect-ratio:9/16;max-width:340px;margin:0 auto}
 .vframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media (max-width:760px){.phg{grid-template-columns:repeat(3,minmax(0,1fr))}.phg__a button{height:30px;font-size:16px}.vdl__row{grid-template-columns:56px 1fr auto}.vdl__row>img,.vdl__ico{width:56px;height:56px}}
+/* tabs: Товари | Замовлення | Статистика */
+.adm-tabs{display:flex;gap:6px;margin:0 0 10px;overflow-x:auto;scrollbar-width:none}
+.adm-tabs::-webkit-scrollbar{display:none}
+.adm-tabs a{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--text2);font-weight:700;font-size:14.5px;text-decoration:none;white-space:nowrap}
+.adm-tabs a.on{background:linear-gradient(180deg,var(--yellow-hi),var(--yellow2));color:var(--navy-text);border-color:transparent}
+.adm-badge{min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#d93025;color:#fff;font-size:12px;font-weight:800;display:inline-grid;place-items:center}
+/* orders */
+.ord-tools{display:grid;gap:8px;position:sticky;top:74px;z-index:5;background:var(--bg);padding:6px 0}
+.ord-tools input{width:100%;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:10px 12px;font:inherit;outline:none;min-height:44px}
+.ord-tools input:focus{border-color:var(--yellow)}
+.ord-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0}
+.ord-chips::-webkit-scrollbar{display:none}
+.ord-chips .chip{padding:7px 12px;font-size:13.5px}
+.ord-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.ocard{background:var(--surface);border:1px solid var(--line);border-left:4px solid #1a73e0;border-radius:14px;padding:12px;font-size:14px;color:var(--text2)}
+.ocard--new{border-left-color:#f2c300}.ocard--confirmed{border-left-color:#2e9d5a}.ocard--shipped{border-left-color:#1a73e0}.ocard--paid{border-left-color:#18a999}.ocard--cancelled{border-left-color:#8a8f98;opacity:.75}
+.ocard__h{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
+.ocard__dt{color:var(--text);font-weight:700}
+.ost{font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap;background:var(--surface2);color:var(--text)}
+.ost--new{background:var(--yellow);color:var(--navy-text)}.ost--confirmed{background:#2e9d5a;color:#fff}.ost--shipped{background:#1a73e0;color:#fff}.ost--paid{background:#18a999;color:#fff}.ost--cancelled{background:#5b5f66;color:#eee}
+.ocard__who{display:grid;gap:3px;margin-bottom:8px}
+.ocard__who b{color:var(--text)}
+.ocard__who a{color:var(--yellow);font-weight:700;text-decoration:none}
+.ocard__items{list-style:none;margin:0 0 8px;padding:8px 10px;border-radius:10px;background:rgba(0,0,0,.18);display:grid;gap:6px}
+.ocard__items li{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 10px;font-size:13.5px}
+.ocard__iname{color:var(--text)}.ocard__iname i{color:var(--muted);font-style:normal}
+.ocard__ipr{margin-left:auto;white-space:nowrap;color:var(--text2)}
+.ocard__tot{margin-bottom:6px;color:var(--text)}
+.ocard__tot b{font-size:16px}
+.ocard__note{margin:6px 0;padding:8px 10px;border-radius:10px;background:rgba(242,195,0,.12);color:var(--text)}
+.ocard__a{display:flex;gap:8px;align-items:end;margin-top:10px}
+.ocard__sel{flex:1;display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:600}
+.ocard__sel select{width:100%;min-height:42px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:8px 10px;font:inherit;font-size:14.5px}
+.ocard__a .btn--del{height:42px}
+.ocard__m{margin-top:8px;font-size:11.5px;color:var(--muted);word-break:break-all}
+/* stats */
+.st-tools{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 10px}
+.st-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.st-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.st-card b{font-size:24px;color:var(--text);line-height:1.1}
+.st-card span{font-size:12.5px;color:var(--muted)}
+.st-h{margin:16px 0 8px;color:var(--text);font-size:16px}
+.stc{display:flex;align-items:stretch;gap:3px;height:180px;padding:8px 8px 0;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.stc__c{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.stc__v{font-size:11px;font-weight:800;color:var(--text);min-height:15px}
+.stc__b{width:100%;max-width:38px;border-radius:5px 5px 0 0;background:linear-gradient(180deg,var(--yellow-hi),var(--yellow2));min-height:0}
+.stc__l{height:34px;padding-top:4px;font-size:10.5px;line-height:1.2;color:var(--muted);text-align:center;white-space:nowrap;overflow:visible}
+.stc--30{gap:2px}.stc--30 .stc__b{border-radius:3px 3px 0 0}
+.st-top{list-style:none;margin:0;padding:0;display:grid;gap:6px;counter-reset:st}
+ol.st-top li{counter-increment:st}
+.st-top li{display:grid;grid-template-columns:1fr 90px 40px;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13.5px;color:var(--text)}
+ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-weight:700}
+.st-top li b{text-align:right}
+.st-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
+.st-bar i{display:block;height:100%;background:var(--yellow);border-radius:99px}
+.st-note{margin:14px 0 6px}
+.st-self{display:flex;gap:10px;align-items:center;font-size:14px;color:var(--text2)}
+.st-self input{width:20px;height:20px;accent-color:var(--yellow)}
+@media (max-width:760px){
+  .ord-tools{top:66px}
+  .st-cards{grid-template-columns:1fr 1fr}
+  .st-top li{grid-template-columns:1fr 60px 34px}
+}
+@media (max-width:480px){
+  .adm-tabs{gap:4px}
+  .adm-tabs a{flex:1 1 auto;padding:0 6px;font-size:13px;gap:4px}
+  .adm-badge{min-width:19px;height:19px;font-size:11px;padding:0 5px}
+}

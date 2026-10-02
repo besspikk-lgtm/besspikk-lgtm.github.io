@@ -1,5 +1,6 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=1';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -57,6 +58,21 @@ function merged() {
 }
 const byIdNow = (id) => merged().find((p) => p.id === id);
 
+/* ---------- tabs: #products | #orders | #stats ---------- */
+const TABS = ['products', 'orders', 'stats'];
+let statsLoaded = false;
+function curTab() { const h = (location.hash || '').slice(1); return TABS.includes(h) ? h : 'products'; }
+function showTab() {
+  const tab = curTab();
+  $$('#adm-tabs [data-tab]').forEach((a) => { const on = a.getAttribute('data-tab') === tab; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+  $$('#adm-app [data-pane]').forEach((p) => { p.hidden = p.getAttribute('data-pane') !== tab; });
+  $('#adm-who').textContent = user ? (user.email || '') : 'Alex_bes😈 — керування товарами';
+  if (!user || !isAdminUser(user)) return;
+  if (tab === 'orders') renderOrders();
+  if (tab === 'stats' && !statsLoaded) { statsLoaded = true; loadStats(); }
+}
+window.addEventListener('hashchange', showTab);
+
 /* ---------- gate (login / access) ---------- */
 function gate(html) { $('#adm-gate').innerHTML = html; $('#adm-gate').hidden = false; $('#adm-app').hidden = true; }
 function loginHTML(err) {
@@ -72,6 +88,7 @@ function loginHTML(err) {
 async function main() {
   try { fb = await loadFirebase(); } catch (e) { gate('<h1>⚠️ Firebase не завантажився</h1><p class="muted">Перевірте інтернет або вимкніть блокувальник реклами для цього сайту й оновіть сторінку.</p>'); return; }
   const { A, auth } = fb;
+  initAdminExtras({ fb, toast, names: () => Object.fromEntries(merged().map((p) => [p.id, p.name || p.id])) });
   if (fb.emu) { $('#adm-site').href = './?emu=1'; }
   A.getRedirectResult(auth).catch((e) => gate(loginHTML(authErr(e))));
   A.onAuthStateChanged(auth, onUser);
@@ -85,6 +102,7 @@ async function main() {
 function onUser(u) {
   user = u;
   if (unsub) { unsub(); unsub = null; }
+  stopOrders(); statsLoaded = false;
   $('#adm-logout').hidden = !u;
   $('#adm-who').textContent = u ? (u.email || '') : 'Alex_bes😈 — керування товарами';
   if (!u) { gate(loginHTML()); return; }
@@ -101,6 +119,8 @@ function onUser(u) {
     renderList();
   }, (e) => { $('#adm-stats').textContent = 'Помилка читання: ' + authErr(e); });
   renderList();
+  startOrders(); // лічильник нових замовлень видно на вкладці з будь-якого розділу
+  showTab();
 }
 
 /* ---------- list ---------- */
@@ -378,6 +398,7 @@ async function delPhotos(id, keys) {
 async function onClick(e) {
   const t = e.target.closest('button, a, [data-x]'); if (!t) return;
   const { A, auth, F, db } = fb || {};
+  if (extrasClick(t)) return;
   if (t.hasAttribute('data-x')) { e.preventDefault(); closeEdit(); return; }
   if (t.id === 'adm-logout' || t.hasAttribute('data-logout')) { await A.signOut(auth); return; }
   if (t.hasAttribute('data-g')) { try { await googleSignIn(fb); } catch (err) { gate(loginHTML(authErr(err))); } return; }
@@ -449,12 +470,14 @@ async function onSubmit(e) {
 document.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target && e.target.name === 'video_url') { e.preventDefault(); addVideo(); } });
 function onInput(e) {
   const t = e.target;
+  if (extrasInput(t)) return;
   if (t.id === 'adm-q') { renderList(); return; }
   if (t.name === 'price_eur') { const h = $('[data-uah-hint]'); if (h) h.textContent = uahHint(t.value); return; }
   if (t.name === 'variants') { const h = $('[data-uah-vars]'); if (h) h.textContent = varsHint(t.value); }
 }
 async function onChange(e) {
   const t = e.target;
+  if (extrasChange(t)) return;
   if (t.id === 'adm-cat' || t.id === 'adm-flt') { renderList(); return; }
   if (t.name === 'in_stock_sel') { $('[data-custom-stock]').hidden = t.value !== '__custom'; return; }
   if (t.name === 'photos' && t.files && t.files.length && edit) { const files = Array.from(t.files); t.value = ''; await addPhotos(files); }

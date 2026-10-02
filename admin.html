@@ -9,7 +9,7 @@
 <title>Адмінка — Alex_bes😈</title>
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="stylesheet" href="css/style.css?v=18">
-<link rel="stylesheet" href="css/admin.css?v=2">
+<link rel="stylesheet" href="css/admin.css?v=3">
 </head>
 <body class="admbody">
 <div class="uastripe" aria-hidden="true"></div>
@@ -32,6 +32,12 @@
   </section>
 
   <section id="adm-app" hidden>
+    <nav class="adm-tabs" id="adm-tabs" aria-label="Розділи адмінки">
+      <a href="#products" data-tab="products" class="on">🛍 Товари</a>
+      <a href="#orders" data-tab="orders">📦 Замовлення <span class="adm-badge" id="ord-new" hidden>0</span></a>
+      <a href="#stats" data-tab="stats">📊 Статистика</a>
+    </nav>
+    <div data-pane="products">
     <div class="adm-tools">
       <input id="adm-q" type="search" placeholder="Пошук: назва, код, id…" autocomplete="off" aria-label="Пошук товарів">
       <select id="adm-cat" aria-label="Категорія"></select>
@@ -45,6 +51,29 @@
     </div>
     <p class="adm-stats" id="adm-stats"></p>
     <ul class="adm-list" id="adm-list"></ul>
+    </div>
+
+    <div data-pane="orders" hidden>
+      <div class="ord-tools">
+        <div class="ord-chips" id="ord-flt" role="group" aria-label="Фільтр за статусом"></div>
+        <input id="ord-q" type="search" placeholder="Пошук: ім’я, телефон, місто, товар…" autocomplete="off" aria-label="Пошук замовлень">
+      </div>
+      <p class="adm-stats" id="ord-stats">Завантаження замовлень…</p>
+      <ul class="ord-list" id="ord-list"></ul>
+    </div>
+
+    <div data-pane="stats" hidden>
+      <div class="st-tools">
+        <div class="ord-chips" role="group" aria-label="Період">
+          <button class="chip on" type="button" data-st-range="7">7 днів</button>
+          <button class="chip" type="button" data-st-range="30">30 днів</button>
+        </div>
+        <button class="btn btn--o adm-sm" type="button" data-st-reload>🔄 Оновити</button>
+      </div>
+      <div id="st-body"><p class="muted">Завантаження статистики…</p></div>
+      <p class="st-note muted small">Власна статистика сайту (Firestore, без cookies і без персональних даних). Візит — одна вкладка браузера за добу; кожен товар, додавання в кошик і канал замовлення рахуються раз за візит. Боти й автотести не враховуються. Дні — за київським часом.</p>
+      <label class="st-self"><input type="checkbox" id="st-nostats"> Не рахувати мої відвідування сайту з цього пристрою</label>
+    </div>
   </section>
 </main>
 
@@ -60,6 +89,6 @@
 
 <script src="data/products.js?v=22"></script>
 <script src="js/media.js?v=1"></script>
-<script type="module" src="js/admin.js?v=4"></script>
+<script type="module" src="js/admin.js?v=5"></script>
 </body>
 </html>

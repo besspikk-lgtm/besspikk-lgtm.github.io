@@ -237,12 +237,58 @@
     } catch (e) {}
   }
 
+  /* ---------- власна статистика: Firestore stats/{день за Києвом} (пише js/fb.js), без cookies і персональних даних ----------
+     Кожна подія — +1 до одного лічильника; кожну подію рахуємо раз за сесію вкладки (дедуп у sessionStorage), не більше
+     STAT_MAX записів за сесію — щоб не з'їсти ліміт безкоштовного плану (~20 тис. записів/добу). Боти й автотести не рахуються. */
+  var statWriter = null, statQ = [], STAT_MAX = 40;
+  var statSkip = (function () {
+    try { return !!navigator.webdriver || /bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexternalhit|whatsapp|telegram/i.test(navigator.userAgent || ''); } catch (e) { return true; }
+  })();
+  function statDay() {
+    try {
+      var o = {}; new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date()).forEach(function (x) { o[x.type] = x.value; });
+      if (o.year && o.month && o.day) return o.year + '-' + o.month + '-' + o.day;
+    } catch (e) {}
+    return new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 10);
+  }
+  function statSend(day, field) { try { var r = statWriter(day, field); if (r && r.catch) r.catch(function () {}); } catch (e) {} }
+  // field: views | cart | o_<канал> | p_<id>; dedupe: ключ дедупу (за замовчуванням = field)
+  function stat(field, dedupe) {
+    try {
+      if (statSkip || localStorage.getItem('alexbes_nostats') === '1') return;
+      var day = statDay(), key = dedupe || field, s = null;
+      try { s = JSON.parse(sessionStorage.getItem('alexbes_st') || 'null'); } catch (e) {}
+      if (!s || s.d !== day || !Array.isArray(s.k)) s = { d: day, k: [] };
+      if (s.k.indexOf(key) >= 0 || s.k.length >= STAT_MAX) return;
+      s.k.push(key); sessionStorage.setItem('alexbes_st', JSON.stringify(s));
+      if (statWriter) statSend(day, field); else if (statQ.length < STAT_MAX) statQ.push([day, field]);
+    } catch (e) {}
+  }
+  // клік по кнопці/посиланню замовлення → канал
+  function statClick(t) {
+    var ch = null, h = (t.getAttribute('href') || '');
+    if (t.hasAttribute('data-consult')) ch = 'consult';
+    else if (t.hasAttribute('data-order')) ch = 'botp';
+    else if (t.hasAttribute('data-botcart')) ch = 'bot';
+    else if (t.hasAttribute('data-send')) ch = 'tg';
+    else if (t.hasAttribute('data-wa')) ch = 'wa';
+    else if (t.hasAttribute('data-viber')) ch = 'viber';
+    else if (t.hasAttribute('data-ig')) ch = 'ig';
+    else if (/^https:\/\/t\.me\/AlexBes_order_bot/i.test(h)) ch = 'bot';
+    else if (/^https:\/\/t\.me\/alex_bespik/i.test(h)) ch = 'tg';
+    else if (/^https:\/\/wa\.me\//i.test(h)) ch = 'wa';
+    else if (/^viber:/i.test(h)) ch = 'viber';
+    else if (/^https:\/\/ig\.me\//i.test(h)) ch = 'ig';
+    else if (/^tel:/i.test(h)) ch = 'call';
+    if (ch) stat('o_' + ch);
+  }
+
   /* ---------- product modal ---------- */
   var pmState = { id: null, vi: 0, qty: 1 };
   var trackedOpen = null; // product id already counted for the current modal open
   function openProduct(id) {
     var p = byId[id]; if (!p) return;
-    if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); }
+    if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); stat('p_' + p.id); }
     pmState = { id: id, vi: 0, qty: 1, gi: 0 };
     renderProduct();
     showModal('#pmodal');
@@ -357,6 +403,7 @@
     var l = cart.filter(function (x) { return x.id === id && x.vi === vi; })[0];
     if (l) l.qty += qty; else cart.push({ id: id, vi: vi, qty: qty });
     saveCart(); updateBadges();
+    stat('cart', 'cart:' + id + ':' + vi);
     var p = byId[id];
     toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + uahText(variantOf(p, vi).label) + ')' : ''));
   }
@@ -530,6 +577,7 @@
   /* ---------- events ---------- */
   document.addEventListener('click', function (e) {
     var t = e.target.closest('button, a'); if (!t) { if (e.target.hasAttribute && e.target.hasAttribute('data-close')) hideModal(); return; }
+    statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-consult')) { track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // home banner button; link opens normally
     if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
@@ -671,6 +719,7 @@
     onCartChange: function (fn) { cartListeners.push(fn); },
     getForm: function () { return Object.assign({}, form); },
     setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
+    setStatWriter: function (fn) { statWriter = typeof fn === 'function' ? fn : null; if (statWriter) { var q = statQ; statQ = []; q.forEach(function (x) { statSend(x[0], x[1]); }); } },
     fillForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (f[k] && !form[k]) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },
     showModal: function (sel) { showModal(sel); },
     hideModal: hideModal,
@@ -682,6 +731,7 @@
 
   /* ---------- init ---------- */
   renderCats(); updateBadges();
+  stat('views'); // візит: раз за сесію вкладки на добу
   if ('IntersectionObserver' in window) {
     io = new IntersectionObserver(function (en) { if (en[0].isIntersecting && shown < curList.length) renderMore(); }, { rootMargin: '600px 0px' });
     io.observe($('#more'));

@@ -33,6 +33,8 @@ async function main() {
 
   // ---- замовлення з кошика для Telegram-бота: orders/<id> (створити може будь-хто; схему перевіряють правила) ----
   if (AB.setOrderWriter) AB.setOrderWriter((id, data) => F.setDoc(F.doc(db, 'orders', id), Object.assign({}, data, { createdAt: F.serverTimestamp() })));
+  // ---- власна статистика: stats/{YYYY-MM-DD} — рівно +1 до одного поля; назва поля дублюється в k (так вимагають правила) ----
+  if (AB.setStatWriter) AB.setStatWriter((day, field) => F.setDoc(F.doc(db, 'stats', day), { k: field, [field]: F.increment(1) }, { merge: true }));
 
   // ---- products from Firestore (public read) ----
   AB.setPhotoLoader(async (id) => {
