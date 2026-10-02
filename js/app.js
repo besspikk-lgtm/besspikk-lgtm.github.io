@@ -897,19 +897,22 @@
       if (up != null) sum += toUah(up) * l.qty; else ask++;
       return '<li class="citem"><img ' + mainImg(p) + ' alt="">' +
         '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(uahText(v ? v.label : (p.price_label || ''))) + '</div>' +
-        '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div></div>' +
+        '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div>' +
+        (up != null && l.qty > 1 ? '<div class="citem__t">' + fmtUah(toUah(up) * l.qty).replace(/ /g, '\u00a0') + '</div>' : '') + '</div>' +
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
         '<button class="rm" type="button" data-rm="' + i + '">видалити</button></div></li>';
     }).join('');
-    body.innerHTML = '<ul class="citems">' + items + '</ul>' +
+    body.innerHTML = cstepsHTML() + '<div class="csec" data-csec="1"><ul class="citems">' + items + '</ul>' +
       '<div class="ctotal"><span>Разом' + (ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '') + '</span><b>' + fmtUah(sum).replace(/ /g, '\u00a0') + '</b></div>' +
-      '<p class="cnote">Ціни в гривнях. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p>' +
+      '<p class="cnote">Ціни в гривнях. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p></div>' +
+      '<div class="csec" data-csec="2"><h3 class="csec__ttl"><span>2</span>Ваші дані</h3>' +
       '<div class="cform">' +
         '<label>Ім’я<input data-f="name" value="' + esc(form.name || '') + '" autocomplete="name"></label>' +
         '<label>Телефон<input data-f="phone" value="' + esc(form.phone || '') + '" type="tel" autocomplete="tel"></label>' +
         '<label class="full">Місто / доставка<input data-f="city" value="' + esc(form.city || '') + '" placeholder="Місто, спосіб доставки"></label>' +
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
-      '</div>' +
+      '</div></div>' +
+      '<div class="csec" data-csec="3"><h3 class="csec__ttl"><span>3</span>Надіслати замовлення</h3>' +
       '<details class="preview preview--top"><summary>📝 Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<div class="cactions">' +
         '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-botcart>🤖 Бот для замовлень</a>' +
@@ -920,10 +923,26 @@
         '<button class="btn btn--o" type="button" data-copy>📋 Скопіювати текст</button>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">📞 Подзвонити ' + CONFIG.phoneLabel + '</a>' +
       '</div>' +
-      '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У Telegram, WhatsApp і Viber текст замовлення підставиться сам — просто натисніть «Надіслати».</p>';
+      '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У Telegram, WhatsApp і Viber текст замовлення підставиться сам — просто натисніть «Надіслати».</p></div>' +
+      CTRUST_HTML;
     $('#otext').textContent = orderText();
     fillPhotos();
   }
+  /* преміум-кошик (03.10.2026): індикатор кроків + рядок довіри — лише відображення, логіка замовлення без змін */
+  var CSTEPS = ['Кошик', 'Дані', 'Надсилання'];
+  function cstepsHTML() {
+    return '<ol class="csteps" aria-label="Кроки оформлення">' + CSTEPS.map(function (n, i) {
+      return '<li><button type="button" class="cstep' + (i === 0 ? ' on' : '') + '" data-cstep="' + (i + 1) + '"' + (i === 0 ? ' aria-current="step"' : '') + '><span>' + (i + 1) + '</span>' + n + '</button></li>';
+    }).join('') + '</ol>';
+  }
+  function cstepSet(n) {
+    $$('#cartbody [data-cstep]').forEach(function (b) { var k = +b.getAttribute('data-cstep'); b.classList.toggle('on', k === n); b.classList.toggle('done', k < n); if (k === n) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current'); });
+  }
+  var CTRUST_HTML = '<ul class="ctrust">' +
+    '<li><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.6-3 8.4-7 10-4-1.6-7-5.4-7-10V6l7-3z"/><path d="m8.8 12.2 2.2 2.2 4.4-4.6"/></svg>Офіційний представник Meiji і PALINAL</li>' +
+    '<li><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5v-9z"/><path d="m3 7.5 9 4.5 9-4.5M12 12v9"/></svg>Нова пошта</li>' +
+  '</ul>';
+  document.addEventListener('focusin', function (e) { var s = e.target.closest && e.target.closest('#cartbody [data-csec]'); if (s) cstepSet(+s.getAttribute('data-csec')); });
   function copyText(t) {
     function fallback() {
       var ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
@@ -1170,6 +1189,7 @@
     if (t.hasAttribute('data-cmp-clear')) { cmpIds = []; cmpSave(); cmpSync(); if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare(); toast('Порівняння очищено'); return; }
     if (t.hasAttribute('data-open-cmp')) { e.preventDefault(); if (location.hash !== '#compare') { if (!/^#\/p\/|^#cart/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#compare'; } else { renderCompare(); showModal('#cmpmodal'); } return; }
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
+    if (t.hasAttribute('data-cstep')) { var cs = +t.getAttribute('data-cstep'), sec = $('#cartbody [data-csec="' + cs + '"]'), box = $('#cmodal .modal__box'); cstepSet(cs); if (sec && box) box.scrollTo({ top: Math.max(0, sec.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 12), behavior: 'smooth' }); return; }
     if (t.hasAttribute('data-cq')) { var i = +t.getAttribute('data-cq'); cart[i].qty = Math.max(1, cart[i].qty + +t.getAttribute('data-d')); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-botcart')) {
@@ -1335,7 +1355,9 @@
       '<a class="btn btn--y hero__btn" href="' + href + '" data-go-chips="' + href + '">' + (sale ? 'Дивитись усі акції' : 'Дивитись усі новинки') + ' (' + n + ') →</a>' +
     '</div>';
   }
+  function renderTrust() { var n = PRODUCTS.length; $$('[data-prod-count]').forEach(function (b) { b.textContent = n + ' ' + plural(n, 'товар', 'товари', 'товарів'); }); }
   function renderBanner() {
+    renderTrust();
     if (!bnr || !bnr.track) return; // applyRemote() from cache runs before this block is initialised; init calls renderBanner() again
     $$('.bnr__slide[data-slide="sale"], .bnr__slide[data-slide="new"]', bnr.track).forEach(function (s) { s.remove(); });
     var sale = PRODUCTS.filter(isSale), nw = PRODUCTS.filter(isNew);

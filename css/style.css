@@ -804,3 +804,419 @@ html.lb-on,html.lb-on body{overflow:hidden}
   .lb__track,.lb__img.is-anim,.lb__nav,.lb__hint,.rel__it{transition:none}
   .rel__add:active{transform:none}
 }
+
+/* ===================== PREMIUM-редизайн (03.10.2026) =====================
+   Увесь шар обмежено body.prem (index.html). admin.html (body.admbody) цих правил не отримує.
+   Шрифт: Manrope (variable 200–800), self-host /fonts, SIL OFL 1.1 (fonts/OFL.txt). Оригінали: _work/backup_premium/ */
+@font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;
+  src:url(../fonts/manrope-cyrillic-wght-normal.woff2) format("woff2-variations"),url(../fonts/manrope-cyrillic-wght-normal.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;
+  src:url(../fonts/manrope-latin-ext-wght-normal.woff2) format("woff2-variations"),url(../fonts/manrope-latin-ext-wght-normal.woff2) format("woff2");
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;
+  src:url(../fonts/manrope-latin-wght-normal.woff2) format("woff2-variations"),url(../fonts/manrope-latin-wght-normal.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* --- 1) палітра: глибокий navy, жовтий лише для головних дій / активних станів, решта — білий і сірі --- */
+body.prem{
+  --bg:#08111f; --bg2:#0b1626; --surface:#0f1b2e; --surface2:#142338; --line:rgba(255,255,255,.09); --line2:rgba(255,255,255,.16);
+  --blue:#1b2b44; --blue2:#24395a; --text:#f5f7fa; --text2:#c6cedb; --muted:#8a96a9; --navy-text:#08111f;
+  --yellow:#ffd700; --yellow2:#f2c900; --yellow-hi:#ffe14d;
+  --radius:18px; --frame:none;
+  --font:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;
+  font:500 15px/1.6 var(--font);color:var(--text2);background:var(--bg);
+  background-image:radial-gradient(1100px 560px at 50% -260px,rgba(40,70,120,.28),transparent 70%);background-attachment:fixed;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-feature-settings:"kern" 1}
+.prem h1,.prem h2,.prem h3{font-family:var(--font);letter-spacing:.015em;color:var(--text)}
+.prem h2{font-weight:700} .prem h3{font-weight:650}
+.prem a{color:var(--text)}
+.prem a:hover{text-decoration:none;color:#fff}
+.prem .wrap{padding:0 20px}
+.prem .uastripe{height:3px;background:linear-gradient(90deg,#0057b7 50%,#ffd700 50%);opacity:.9}
+
+/* радіо-пілюлю не чіпаємо: повертаємо їй початкові змінні й системний шрифт */
+.prem .radio{--bg:#062457;--bg2:#051d47;--surface:#0a2c66;--surface2:#0f3a80;--line:#2a5aa8;--blue:#0057b7;--blue2:#1a73e0;--text:#ffffff;--text2:#e3ecfb;--muted:#b4c7e6;--navy-text:#062457;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Color Emoji","Apple Color Emoji","Segoe UI Emoji",sans-serif;font-size:15px;line-height:1.5;font-weight:400;letter-spacing:normal}
+
+/* --- шапка --- */
+.prem .tgpromo{background:var(--bg2);border-bottom:1px solid var(--line);padding:8px 20px;gap:12px}
+.prem .tgpromo:hover{filter:none;background:#0d1a2c}
+.prem .tgpromo__ico{background:transparent;color:var(--text2);box-shadow:inset 0 0 0 1px var(--line2);width:28px;height:28px}
+.prem .tgpromo__txt b{font-weight:650;font-size:13.5px;letter-spacing:.01em;color:var(--text)}
+.prem .tgpromo__sub{color:var(--muted);font-weight:500;font-size:12px}
+.prem .tgpromo__go{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1px var(--line2);font-weight:650;font-size:12.5px;padding:6px 14px;border-radius:999px}
+.prem .hdr{background:rgba(8,17,31,.86);backdrop-filter:saturate(1.2) blur(14px);-webkit-backdrop-filter:saturate(1.2) blur(14px);border-bottom:1px solid var(--line)}
+.prem .hdr::after{display:none}
+.prem .hdr__in{padding-top:14px;padding-bottom:14px;gap:20px}
+.prem .brand__logo{padding:0;background:none;box-shadow:0 0 0 1px var(--line2);width:46px;height:46px}
+.prem .brand__name{font-weight:750;font-size:19px;letter-spacing:.03em;color:var(--text)}
+.prem .brand__sub{color:var(--muted);font-size:12px;letter-spacing:.02em}
+.prem .search input{background-color:var(--surface);color:var(--text);border:1px solid var(--line);box-shadow:none;border-radius:999px;height:44px;padding-left:42px;font-weight:500;background-position:15px center}
+.prem .search input::placeholder{color:#7d899c}
+.prem .search input:focus{border-color:rgba(255,215,0,.6);box-shadow:0 0 0 3px rgba(255,215,0,.12)}
+.prem .hdr__nav{gap:4px}
+.prem .hdr__nav a{color:var(--text2);font-weight:600;font-size:14px;letter-spacing:.01em;border-radius:999px;padding:9px 14px}
+.prem .hdr__nav a:hover,.prem .hdr__nav a.on{background:rgba(255,255,255,.06);color:var(--text)}
+.prem .acctbtn{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1px var(--line2);border-radius:999px}
+.prem .acctbtn:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.prem .acctbtn.on{background:rgba(255,255,255,.08);color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,215,0,.6)}
+.prem .cartbtn{background:var(--yellow);color:var(--navy-text);box-shadow:none;border-radius:999px;font-weight:700;padding:0 18px}
+.prem .cartbtn .badge{background:var(--text);color:var(--navy-text);box-shadow:0 0 0 2px var(--bg)}
+.prem .badge{font-family:var(--font)}
+html:has(body.prem){scroll-padding-top:96px}
+
+/* --- 3) простір і типографіка --- */
+.prem .main{padding-top:32px}
+.prem .toolbar{margin-bottom:22px}
+.prem .toolbar h2{font-size:24px;font-weight:700;letter-spacing:.02em}
+.prem .sort{color:var(--muted)}
+.prem .sort select{background:var(--surface);border:1px solid var(--line);border-radius:999px;height:40px;padding:0 14px;font-weight:600}
+.prem .catintro{color:var(--muted);margin:-10px 0 22px}
+.prem .layout{gap:36px}
+.prem .grid{gap:24px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+.prem .more{margin-top:36px;border-radius:999px}
+.prem .empty{background:var(--surface);border:1px solid var(--line)}
+
+/* --- 4) банер: hero Meiji першим слайдом, далі кузовні роботи, Акції, Новинки --- */
+.prem .hero{max-width:980px;margin:0 auto 40px}
+.prem .hero__frame{border-radius:22px;padding-bottom:0;background:var(--surface);box-shadow:0 0 0 1px var(--line),0 24px 60px rgba(0,0,0,.35)}
+.prem .bnr__slide .hero__frame{margin-bottom:16px}
+.prem .hero__img{aspect-ratio:1672/940}
+.prem .hero__btn{width:min(360px,100%);height:52px;margin:0 auto;border-radius:999px;font-size:15.5px;font-weight:700;letter-spacing:.02em}
+.prem .bnr__tag{top:12px;right:12px;padding:5px 12px;font-size:11.5px;font-weight:650;letter-spacing:.03em;color:var(--text);background:rgba(8,17,31,.72);box-shadow:inset 0 0 0 1px var(--line2);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.prem .bnr__dots{margin-top:14px;gap:2px}
+.prem .bnr__dot::before{width:6px;height:6px;background:rgba(255,255,255,.28)}
+.prem .bnr__dot.on::before{width:22px;background:var(--yellow)}
+/* слайд Meiji: фото справа, підпис ліворуч */
+.prem .hm{display:block;aspect-ratio:1672/940;color:var(--text);isolation:isolate;
+  background:radial-gradient(70% 90% at 78% 50%,#1b2a40 0%,#0c1626 60%,#08111f 100%)}
+.prem .hm:hover{text-decoration:none;color:var(--text)}
+/* показуємо лише різку центральну частину фото (x 176–624, y 120–780 з 800×800), без розмитих бічних смуг */
+.prem .hm__pic{position:absolute;top:0;bottom:0;right:6%;aspect-ratio:448/660;overflow:hidden;z-index:-1;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
+.prem .hm__img{position:absolute;left:-39.29%;top:-18.18%;width:178.57%;max-width:none;height:auto;aspect-ratio:1/1}
+.prem .hm__txt{position:absolute;left:0;top:0;bottom:0;width:60%;display:flex;flex-direction:column;justify-content:center;gap:14px;padding:0 0 0 56px}
+.prem .hm__eyebrow{font-size:12px;font-weight:650;letter-spacing:.22em;text-transform:uppercase;color:var(--yellow)}
+.prem .hm__ttl{font-size:52px;line-height:1.04;font-weight:800;letter-spacing:.01em;color:#fff}
+.prem .hm__jq{display:block;margin-top:8px;font-size:22px;font-weight:500;letter-spacing:.32em;text-transform:uppercase;color:var(--text2)}
+.prem .hm__dot{display:none}
+.prem .hm__nw{white-space:nowrap}
+.prem .hm__line{max-width:380px;font-size:16px;line-height:1.55;font-weight:500;color:var(--text2)}
+/* промо-слайди */
+.prem .bnr__promo{background:linear-gradient(160deg,var(--surface2),var(--bg2) 80%);box-shadow:0 0 0 1px var(--line),0 24px 60px rgba(0,0,0,.35);padding:22px 24px 24px}
+.prem .bnr__promo::after{display:none}
+.prem .bnr__slide--new .bnr__promo{background:linear-gradient(160deg,var(--surface2),var(--bg2) 80%)}
+.prem .bnr__ttl,.prem .bnr__slide--new .bnr__ttl{color:var(--text);text-shadow:none;font-weight:750;letter-spacing:.02em}
+.prem .bnr__sub{color:var(--muted);font-weight:500}
+.prem .bnr__items{gap:16px;margin-top:18px}
+.prem .bnr__it img{border-radius:14px;box-shadow:none;background:#fff}
+.prem .bnr__nm{font-weight:600;color:var(--text2)}
+
+/* --- бренди --- */
+.prem .brands{gap:14px;margin:0 0 40px}
+.prem .brands__ttl{color:var(--muted);font-size:11px;font-weight:650;letter-spacing:.24em}
+.prem .brands__row{gap:28px}
+.prem .brandcard{border-radius:16px}
+.prem .brandcard:hover{background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line)}
+
+/* --- 6) блок довіри --- */
+.prem .trust{margin:0 0 48px}
+.prem .trust__row{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.prem .trust__it{min-width:0;border-radius:18px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line)}
+.prem .trust__it,.prem .trust__lnk{display:flex;align-items:flex-start;gap:14px;padding:20px}
+.prem .trust__lnk{margin:-20px;flex:1;color:inherit;border-radius:18px;transition:background-color .15s}
+.prem .trust__lnk:hover{background:rgba(255,255,255,.03);color:inherit}
+.prem .trust__ico{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;color:var(--yellow);box-shadow:inset 0 0 0 1px rgba(255,215,0,.35)}
+.prem .trust__txt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.prem .trust__txt b{color:var(--text);font-weight:700;font-size:15.5px;line-height:1.3;letter-spacing:.01em}
+.prem .trust__txt span{color:var(--muted);font-size:13px;line-height:1.45}
+
+/* --- категорії (плитки на мобільному, бічне меню на десктопі) --- */
+.prem .chips{gap:10px;padding:0 0 28px}
+.prem .chip,.prem .chip[data-cat="sale"]:not(.on),.prem .chip[data-cat="new"]:not(.on){background:var(--surface);border:1px solid var(--line);color:var(--text2);box-shadow:none;border-radius:14px;font-weight:600;letter-spacing:.005em}
+.prem .chip small,.prem .chip[data-cat="sale"]:not(.on) small,.prem .chip[data-cat="new"]:not(.on) small{background:rgba(255,255,255,.06);color:var(--muted);font-weight:600}
+.prem .chip:hover{border-color:var(--line2)}
+.prem .chip.on,.prem .chip[data-cat="sale"].on,.prem .chip[data-cat="new"].on{background:rgba(255,215,0,.08);color:var(--text);border-color:rgba(255,215,0,.75);box-shadow:none}
+.prem .chip.on small,.prem .chip[data-cat="sale"].on small,.prem .chip[data-cat="new"].on small{background:var(--yellow);color:var(--navy-text)}
+.prem .side{background:var(--surface);border:1px solid var(--line);border-top:1px solid var(--line);border-radius:20px;padding:18px}
+.prem .side__ttl{color:var(--muted);letter-spacing:.2em;font-weight:650;font-size:11px;margin:2px 10px 12px}
+.prem .side li a{font-weight:550;color:var(--text2);border-radius:12px;padding:10px 12px}
+.prem .side li a:hover{background:rgba(255,255,255,.04)}
+.prem .side li a.on{background:rgba(255,255,255,.05);color:var(--text);box-shadow:inset 2px 0 0 var(--yellow)}
+.prem .side li a.on span.n{color:var(--yellow)}
+.prem .side li a span.n{color:var(--muted)}
+.prem .side__card{background:transparent;border-top:1px solid var(--line);border-radius:0;margin-top:16px;padding:16px 10px 4px;gap:8px}
+.prem .side__card a{color:var(--text2);font-weight:550}
+.prem .side__card a:hover{color:var(--text)}
+
+/* --- картки товарів --- */
+.prem .card{padding:0;background:var(--surface);border-radius:20px;box-shadow:inset 0 0 0 1px var(--line);transition:transform .2s ease,box-shadow .2s ease}
+.prem .card:hover{transform:translateY(-2px);box-shadow:inset 0 0 0 1px var(--line2),0 18px 40px rgba(0,0,0,.35)}
+.prem .card__in{background:transparent;border-radius:20px}
+.prem .card__img,.prem .card__img:hover{padding:10px;background:#0b1524}
+.prem .card__img::after{box-shadow:none}
+.prem .card__img img{border-radius:14px;box-shadow:none}
+.prem .card__img::before{inset:10px;border-radius:14px;background:linear-gradient(100deg,rgba(255,255,255,0) 30%,rgba(255,255,255,.05) 50%,rgba(255,255,255,0) 70%) 0 0/250% 100%,#111d30}
+.prem .card__add{width:40px;height:40px;line-height:40px;right:16px;bottom:16px;background:var(--yellow);color:var(--navy-text);font-weight:600;font-size:24px;box-shadow:0 6px 16px rgba(0,0,0,.35)}
+.prem .card__body{padding:14px 18px 20px;gap:10px}
+.prem .card__cat{font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--muted)}
+.prem .card__name{font-weight:650;font-size:15px;line-height:1.38;letter-spacing:.005em}
+.prem .card__name:hover{color:#fff}
+.prem .card__foot{gap:8px}
+.prem .pill{background:transparent;box-shadow:none;color:var(--text);padding:0;font-weight:750;font-size:17px;letter-spacing:.01em;border-radius:0}
+.prem .pill small{color:var(--muted);font-weight:600;opacity:1}
+.prem .pill--ask{color:var(--text2);font-weight:600;font-size:13px;padding:4px 12px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line2)}
+.prem .uah{color:var(--muted)}
+.prem .stock{color:var(--muted);font-weight:600;font-size:12px}
+.prem .stock::before{width:6px;height:6px;background:#6fcf97;box-shadow:none}
+.prem .stock--ask::before{background:var(--muted)}
+.prem .stock--way::before{background:#9fb4d6}
+.prem .stock--way{color:var(--muted)}
+.prem .stock--out{color:#d9a3a0}.prem .stock--out::before{background:#d9a3a0}
+.prem .tdsb,.prem .vidb{background:transparent;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line2);font-weight:650;letter-spacing:.06em;border-radius:999px;padding:0 8px}
+.prem .cmpt{background:transparent;color:var(--text2);box-shadow:inset 0 0 0 1px var(--line2);border-radius:999px;font-weight:600}
+.prem .cmpt:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.3)}
+.prem .cmpt.on{background:rgba(255,215,0,.1);color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,215,0,.75)}
+
+/* бейджі: ті самі підписи, але статичні й стримані (без неону та миготіння) */
+.prem .promo,.prem .promo--new,.prem .promo--hit{animation:none;text-shadow:none;border:0;top:16px;left:16px;padding:5px 11px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.08em;line-height:1.3;
+  color:#fff;background:rgba(8,17,31,.78);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.prem .promo--new{text-transform:none;letter-spacing:.03em}
+.prem .promo--hit{color:var(--yellow);box-shadow:inset 0 0 0 1px rgba(255,215,0,.5)}
+.prem .rel__tag{background:rgba(8,17,31,.78);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.22);font-weight:700}
+.prem details.preview--top>summary{animation:none;color:var(--text2);font-weight:650;font-size:14px;letter-spacing:.01em;text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:4px}
+.prem details.preview--top>summary:hover{color:var(--text)}
+
+/* --- модалки --- */
+.prem .modal__bg{background:rgba(3,7,14,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.prem .modal__box{background:var(--surface);border:1px solid var(--line);border-radius:24px;box-shadow:0 40px 100px rgba(0,0,0,.6)}
+.prem .modal__x{background:rgba(255,255,255,.08);color:var(--text);font-weight:500;box-shadow:inset 0 0 0 1px var(--line2)}
+.prem .modal__x:hover{background:rgba(255,255,255,.14)}
+.prem .pm__info{padding:30px 30px 28px;gap:16px}
+.prem .pm__info::before{display:none}
+.prem .pm__cat{letter-spacing:.16em;font-weight:600;font-size:11px}
+.prem .pm h2{font-size:24px;font-weight:750;letter-spacing:.015em;line-height:1.25}
+.prem .pm__img,.prem .card__img.pm__img{background:#0b1524}
+.prem #pm .pill{font-size:26px!important;padding:0!important}
+.prem #pm .pill--ask{font-size:15px!important;padding:6px 14px!important}
+.prem .pm__desc{line-height:1.7;color:var(--text2)}
+.prem .pm__note{border-left:2px solid var(--line2)}
+.prem .var{background:transparent;border:1px solid var(--line2);border-radius:14px;font-weight:600}
+.prem .var b{color:var(--text)}
+.prem .var.on{background:rgba(255,215,0,.07);border-color:rgba(255,215,0,.75);box-shadow:none}
+.prem .qty{background:transparent;border:1px solid var(--line2);border-radius:999px}
+.prem .btn{border-radius:999px;font-weight:700;letter-spacing:.015em}
+.prem .btn--y{background:var(--yellow);color:var(--navy-text);box-shadow:none}
+.prem .btn--y:hover{background:var(--yellow-hi)}
+.prem .btn--b,.prem .btn--o{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.prem .btn--b:hover,.prem .btn--o:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);background:rgba(255,255,255,.03)}
+.prem .btn--bot{background:#eef1f6;color:var(--navy-text);box-shadow:none}
+.prem .btn--bot:hover{filter:none;background:#fff}
+.prem .tds{background:var(--bg2);border:1px solid var(--line);box-shadow:none;border-radius:16px}
+.prem .tds summary{color:var(--text);font-weight:700}
+.prem .tds__dl>div,.prem .tds__src{border-top-color:var(--line)}
+.prem .tds__src a{color:var(--text)}
+.prem .gal__nav,.prem .pm__zoom{background:rgba(8,17,31,.72);box-shadow:inset 0 0 0 1px var(--line2)}
+.prem .gal__dots button{background:rgba(255,255,255,.4);box-shadow:none;width:7px;height:7px}
+.prem .gal__dots button.on{background:var(--yellow);width:20px}
+.prem .gal__cnt{background:rgba(8,17,31,.78)}
+.prem .vids__ttl,.prem .rel__ttl{font-weight:700;letter-spacing:.015em}
+.prem .vid{box-shadow:inset 0 0 0 1px var(--line)}
+.prem .rel__it{background:var(--bg2);border-color:var(--line);border-radius:14px}
+.prem .rel__it:hover{border-color:var(--line2)}
+.prem .rel__img{background:#0b1524}
+.prem .rel__pr{color:var(--text)}
+.prem .rel__add{box-shadow:0 3px 10px rgba(0,0,0,.35)}
+.prem .rel__list{scrollbar-color:rgba(255,255,255,.2) transparent}
+.prem .rel__list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2)}
+.prem .lb__cnt{background:rgba(8,17,31,.85);box-shadow:inset 0 0 0 1px var(--line2);color:var(--text)}
+.prem .lb__x{background:rgba(255,255,255,.1);color:#fff;box-shadow:inset 0 0 0 1px var(--line2)}
+.prem .lb__nav{background:rgba(8,17,31,.75)}
+.prem .lb{background:#05090f}
+.prem .toast{background:#eef1f6;color:var(--navy-text);box-shadow:0 14px 40px rgba(0,0,0,.5);border-radius:999px;font-weight:650}
+
+/* --- 5) кошик: кроки, чисті позиції, рядок довіри --- */
+.prem #cart-ttl{background:none;padding-bottom:0;margin:0 48px 18px 0;font-size:22px;font-weight:750;letter-spacing:.02em}
+.prem .modal--cart .modal__box{padding:26px 26px 24px}
+.prem .csteps{list-style:none;margin:0 0 22px;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;counter-reset:none}
+.prem .csteps li{min-width:0}
+.prem .cstep{width:100%;display:flex;align-items:center;gap:8px;padding:10px 0 0;border:0;background:none;color:var(--muted);font-weight:600;font-size:13px;letter-spacing:.02em;border-top:2px solid var(--line2);text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prem .cstep span{flex:none;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;font-size:11.5px;font-weight:700;box-shadow:inset 0 0 0 1px var(--line2);color:var(--muted)}
+.prem .cstep.done{color:var(--text2);border-top-color:rgba(255,215,0,.45)}
+.prem .cstep.done span{color:var(--text2);box-shadow:inset 0 0 0 1px rgba(255,215,0,.45)}
+.prem .cstep.on{color:var(--text);border-top-color:var(--yellow)}
+.prem .cstep.on span{background:var(--yellow);color:var(--navy-text);box-shadow:none}
+.prem .csec{margin:0 0 22px}
+.prem .csec__ttl{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-size:16px;font-weight:700;letter-spacing:.02em}
+.prem .csec__ttl span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;font-size:12px;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line2)}
+.prem .citems{gap:0;margin:0 0 6px;border-top:1px solid var(--line)}
+.prem .citem{background:none;box-shadow:none;border-radius:0;padding:16px 0;border-bottom:1px solid var(--line);grid-template-columns:72px 1fr auto;gap:16px;align-items:start}
+.prem .citem img{width:72px;height:72px;border-radius:14px;background:#0b1524}
+.prem .citem__n{font-weight:650;font-size:14.5px;line-height:1.35}
+.prem .citem__v{margin-top:2px}
+.prem .citem__p{margin-top:6px;color:var(--text2);font-weight:600;font-size:13.5px}
+.prem .citem__t{margin-top:2px;color:var(--text);font-weight:750;font-size:14.5px}
+.prem .citem__r{gap:10px}
+.prem .citem .qty{border-radius:999px}
+.prem .rm{color:var(--muted);text-decoration:none;font-size:12px;font-weight:600;letter-spacing:.02em}
+.prem .rm:hover{color:var(--text)}
+.prem .ctotal{border-top:0;padding:16px 0 10px;margin-bottom:4px}
+.prem .ctotal>span{font-weight:600;color:var(--text2)}
+.prem .ctotal b{color:var(--text);font-size:24px;font-weight:800;letter-spacing:.01em}
+.prem .cnote{color:var(--muted);line-height:1.55}
+.prem .cform{gap:14px;margin-bottom:0}
+.prem .cform label{font-weight:600;letter-spacing:.02em;color:var(--muted)}
+.prem .cform input,.prem .cform textarea{background:var(--bg2);border:1px solid var(--line2);border-radius:12px;padding:12px 14px;font-weight:500}
+.prem .cform input:focus,.prem .cform textarea:focus{border-color:rgba(255,215,0,.7);box-shadow:0 0 0 3px rgba(255,215,0,.1)}
+.prem details.preview pre{background:var(--bg2);border:1px solid var(--line)}
+.prem #cartbody .cactions .btn{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.prem #cartbody .cactions .btn:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.prem #cartbody .cactions .btn--bot{background:var(--yellow);color:var(--navy-text);box-shadow:none}
+.prem #cartbody .cactions .btn--bot:hover{background:var(--yellow-hi)}
+.prem #cartbody .cactions [data-send]{background:#eef1f6;color:var(--navy-text);box-shadow:none}
+.prem #cartbody .cactions [data-send]:hover{background:#fff}
+.prem .ctrust{list-style:none;margin:6px 0 0;padding:16px 0 0;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:center}
+.prem .ctrust li{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12.5px;font-weight:600;letter-spacing:.01em}
+.prem .ctrust svg{flex:none;color:var(--yellow);opacity:.85}
+.prem .cempty .btn{margin-top:4px}
+.prem .acct__tabs button.on{background:rgba(255,255,255,.1)}
+.prem .acct__ava{background:var(--yellow)}
+.prem .acct__link{color:var(--text)}
+.prem .acct__form input{background:var(--bg2);border:1px solid var(--line2);border-radius:12px}
+
+/* порівняння */
+.prem #cmp-ttl{background:none;padding-bottom:0;font-weight:750;letter-spacing:.02em}
+.prem .cmp{background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);border-radius:16px}
+.prem .cmp>div{border-top-color:var(--line)}
+.prem .cmp__l{background:rgba(255,255,255,.02)}
+.prem .cmp__v,.prem .cmp__h{border-left-color:var(--line)}
+.prem .cmp__h{background:var(--surface2)}
+.prem .cmp__img{box-shadow:inset 0 0 0 1px var(--line);background:#0b1524}
+.prem .cmp__hint{background:rgba(255,255,255,.04);color:var(--text2)}
+.prem .cmpbar{background:#eef1f6;box-shadow:0 14px 40px rgba(0,0,0,.5);border-radius:999px}
+.prem .cmpbar__arr{background:var(--navy-text);color:#fff}
+.prem .cmpbar__x:hover,.prem .cmpbar__go:hover{background:#fff}
+
+/* --- як замовити / SEO --- */
+.prem .how{padding-top:72px;padding-bottom:48px}
+.prem .how::before,.prem .how::after{display:none}
+.prem .how h2{font-size:28px;font-weight:750;letter-spacing:.02em;margin:0 0 24px}
+.prem .how__bot{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px 20px;margin-bottom:24px;gap:18px}
+.prem .steps{gap:16px;margin-bottom:24px}
+.prem .steps li{background:var(--surface);border:1px solid var(--line);border-top:1px solid var(--line);border-radius:20px;padding:24px 22px 22px;gap:8px}
+.prem .steps li::before{background:none;color:var(--yellow);box-shadow:inset 0 0 0 1px rgba(255,215,0,.4);font-weight:700;width:34px;height:34px;margin-bottom:6px}
+.prem .steps b{font-weight:700;letter-spacing:.01em}
+.prem .how__grid{gap:16px}
+.prem .how__card{background:var(--surface);border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.prem .how__card h3{background:transparent;padding:22px 22px 6px;font-size:18px}
+.prem .how__card ul{background:transparent;padding:6px 22px 18px}
+.prem .contacts li{border-bottom:1px solid var(--line)}
+.prem .contacts a{color:var(--text);font-weight:650}
+.prem .moti__in{background:transparent;padding:28px 22px}
+.prem .moti__logo{box-shadow:0 0 0 1px var(--line2)}
+.prem .moti__sign{color:var(--text)}
+.prem .seo{padding-bottom:40px}
+.prem .seo__wrap>summary{color:var(--muted);font-weight:600;letter-spacing:.02em}
+.prem .seo__card{background:var(--surface);border:1px solid var(--line)}
+.prem .seo__card a{color:var(--text);text-decoration:underline;text-decoration-color:var(--line2);text-underline-offset:3px}
+.prem .seo__all summary{color:var(--text)}
+.prem .seo__all{border-top-color:var(--line)}
+
+/* --- 7) темний преміум-футер --- */
+.prem .ftr{background:#050b15;border-top:1px solid var(--line);padding:64px 0 36px;margin-top:24px;box-shadow:0 180px 0 0 #050b15}
+.prem .ftr::before{display:none}
+.prem .ftr__in{display:grid;grid-template-columns:1.4fr 1fr 1.2fr;gap:40px 48px;align-items:start}
+.prem .ftr__logo{display:inline-flex;align-items:center;gap:14px;color:var(--text)}
+.prem .ftr__logo img{width:56px;height:56px;border-radius:50%;box-shadow:0 0 0 1px var(--line2)}
+.prem .ftr__brand{font-weight:750;font-size:20px;letter-spacing:.03em;color:var(--text)}
+.prem .ftr__line{margin:14px 0 0;color:var(--text2);font-size:14px;line-height:1.6;max-width:380px}
+.prem .ftr__line.muted{margin-top:8px;color:var(--muted);font-size:13px}
+.prem .ftr__h{margin:4px 0 16px;color:var(--muted);font-size:11px;font-weight:650;letter-spacing:.22em;text-transform:uppercase}
+.prem .ftr__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.prem .ftr__list a{color:var(--text2);font-weight:550;font-size:14px;word-break:break-word}
+.prem .ftr__list a:hover{color:#fff}
+.prem .ftr__bottom{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 24px;padding-top:24px;border-top:1px solid var(--line)}
+.prem .ftr__ua{margin:0!important;padding:0;background:none;color:var(--text2);font-size:13.5px;font-weight:650;letter-spacing:.04em;border-radius:0;text-align:left}
+.prem .ftr .small{grid-column:auto;color:var(--muted);font-size:12.5px}
+
+/* --- нижнє меню (мобільний): та сама висота, спокійні кольори --- */
+.prem .tabbar{background:rgba(8,17,31,.96);border-top:3px solid #0d1828;box-shadow:0 -1px 0 var(--line);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.prem .tabbar a,.prem .tabbar button{color:var(--text2);font-weight:600;letter-spacing:.01em}
+.prem .tabbar a.on{color:var(--yellow)}
+.prem .tabbar .badge{background:var(--yellow);color:var(--navy-text)}
+
+/* --- адаптив --- */
+@media (max-width:1024px){
+  .prem .trust__row{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .prem .hm__ttl{font-size:42px}
+  .prem .hm__jq{font-size:18px}
+  .prem .hm__txt{padding-left:40px}
+}
+@media (max-width:760px){
+  body.prem{font-size:14.5px}
+  .prem .wrap{padding:0 16px}
+  .prem .tgpromo{padding:7px 16px}
+  .prem .hdr__in{padding-top:12px;padding-bottom:12px;gap:12px}
+  .prem .brand__logo{width:40px;height:40px}
+  .prem .brand__name{font-size:17px}
+  .prem .main{padding-top:20px}
+  .prem .hero{margin-bottom:32px}
+  .prem .hero__frame{border-radius:18px}
+  .prem .bnr__slide .hero__frame{margin-bottom:12px}
+  .prem .hero__btn{width:100%;height:50px}
+  .prem .hm__pic{right:2%}
+  .prem .tgpromo__txt b{font-size:12.5px}
+  .prem .tgpromo__sub{font-size:11.5px}
+  .prem .hm__txt{width:57%;gap:7px;padding-left:18px}
+  .prem .hm__eyebrow{font-size:8.5px;letter-spacing:.14em}
+  .prem .hm__ttl{font-size:28px}
+  .prem .hm__jq{margin-top:4px;font-size:10.5px;letter-spacing:.2em}
+  .prem .hm__line{font-size:11.5px;line-height:1.45}
+  .prem .bnr__promo{padding:14px 14px 16px}
+  .prem .bnr__items{gap:10px;margin-top:10px}
+  .prem .bnr__tag{top:8px;right:8px}
+  .prem .brands{margin-bottom:28px;gap:10px}
+  .prem .trust{margin-bottom:32px}
+  .prem .trust__row{gap:10px}
+  .prem .trust__it,.prem .trust__lnk{flex-direction:column;gap:8px;padding:14px 14px 16px}
+  .prem .trust__lnk{margin:-14px -14px -16px}
+  .prem .trust__ico{width:36px;height:36px}
+  .prem .trust__ico svg{width:19px;height:19px}
+  .prem .trust__txt b{font-size:14px}
+  .prem .trust__txt span{font-size:12px}
+  .prem .chips{gap:8px;padding-bottom:24px}
+  .prem .toolbar{margin-bottom:16px}
+  .prem .toolbar h2{font-size:19px}
+  .prem .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .prem .card{border-radius:16px}
+  .prem .card__in{border-radius:16px}
+  .prem .card__img,.prem .card__img:hover{padding:6px}
+  .prem .card__img img{border-radius:11px}
+  .prem .card__img::before{inset:6px;border-radius:11px}
+  .prem .card__add{width:36px;height:36px;line-height:36px;font-size:22px;right:12px;bottom:12px}
+  .prem .card__body{padding:12px 12px 14px;gap:8px}
+  .prem .card__cat{font-size:9.5px;letter-spacing:.1em}
+  .prem .card__name{font-size:13.5px}
+  .prem .pill{font-size:15px;padding:0}
+  .prem .pill--ask{font-size:12px;padding:3px 10px}
+  .prem .promo,.prem .promo--new,.prem .promo--hit{top:12px;left:12px;font-size:10px;padding:4px 9px}
+  .prem .modal__box{border-radius:22px 22px 0 0;border-bottom:0}
+  .prem .pm__info{padding:22px 18px 26px}
+  .prem .pm h2{font-size:20px}
+  .prem #pm .pill{font-size:22px!important}
+  .prem .modal--cart .modal__box{padding:22px 18px calc(22px + env(safe-area-inset-bottom))}
+  .prem .citem{grid-template-columns:60px 1fr auto;gap:12px;padding:14px 0}
+  .prem .citem img{width:60px;height:60px;border-radius:12px}
+  .prem .cstep{font-size:12px;gap:6px}
+  .prem .how{padding-top:48px;padding-bottom:36px}
+  .prem .how h2{font-size:23px}
+  .prem .steps li{padding:20px 18px}
+  .prem .ftr{padding:48px 0 28px}
+  .prem .ftr__in{grid-template-columns:1fr;gap:32px}
+  .prem .ftr__bottom{flex-direction:column;align-items:flex-start}
+}
+@media (max-width:380px){
+  .prem .hm__line{display:none}
+}
+@media (prefers-reduced-motion:reduce){.prem .card,.prem .trust__lnk{transition:none}}
