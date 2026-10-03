@@ -206,7 +206,7 @@
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
-      '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + '</button>' +
+      '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + (spinOf(p) ? '<span class="spinb" title="Є обертання 360°">' + SPIN_IC + '360°</span>' : '') + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + '</div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео">🎬 Відео</span>' : '') + '</span>' +
@@ -431,6 +431,7 @@
   function galleryHTML(p) {
     var g = galleryOf(p), n = g.length;
     var zoom = g.length && !(n === 1 && g[0].src && p.photo_is_placeholder) ? '<button class="pm__zoom" type="button" data-lb-open aria-label="Відкрити фото на весь екран"><span aria-hidden="true">⤢</span></button>' : '';
+    if (spinOf(p)) zoom += '<button class="pm__360" type="button" data-spin-open aria-label="Обертання 360°: подивитися фарбопульт з усіх боків">' + SPIN_IC + '<span>360°</span></button>';
     if (n <= 1) return '<div class="pm__img' + (zoom ? ' is-zoomable' : '') + '"><img ' + imgAttrs(p, g[0]) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + zoom + '</div>';
     return '<div class="pm__img gal is-zoomable" data-gal>' + zoom +
       '<div class="gal__track" tabindex="0" aria-label="Фото товару, гортайте">' + g.map(function (x, i) {
@@ -493,6 +494,114 @@
     var i = Math.round(tr.scrollLeft / Math.max(1, w));
     var j = rel ? i + to : to; if (j < 0) j = n - 1; if (j >= n) j = 0;
     tr.scrollTo({ left: j * w, behavior: 'smooth' });
+  }
+  /* ---------- обертання 360° (03.10.2026) ----------
+     p.spin = { dir: 'img/360/<id>/', frames: N, ext: 'webp' } — справжня серія кадрів (джерело — _work/spin_sources.json), кадри 01…NN.
+     Кадри вантажаться лише після натискання «360°»: спершу кожен 4-й (можна крутити одразу), потім решта; показуємо найближчий готовий.
+     Тягніть по горизонталі (миша / палець; вертикальний свайп лишається прокруткою), стрілки ←/→. Один м'який оберт-підказка
+     після завантаження (без prefers-reduced-motion), зупиняється від першого дотику. */
+  var SPIN_IC = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="12" rx="9.5" ry="3.6"/><path d="M12 3.2v1.6M12 19.2v1.6" opacity=".55"/><path d="M17.6 6.4l2.3.4-.6 2.2"/><path d="M19.9 6.8C18.2 5.1 15.3 4 12 4"/></svg>';
+  function spinOf(p) {
+    var b = p && (BASE[p.id] || p), s = b && b.spin;
+    return s && typeof s.dir === 'string' && /^img\/360\/[\w-]+\/$/.test(s.dir) && s.frames > 7 && s.frames <= 120 ? s : null;
+  }
+  function spinSrc(s, i) { var n = String(i + 1); while (n.length < 2) n = '0' + n; return s.dir + n + '.' + (s.ext || 'webp') + (s.v ? '?v=' + s.v : ''); }
+  var spin = null; // { el, img, s, n, cur, ok[], imgs[], left, drag, hint }
+  function spinStop() {
+    if (!spin) return;
+    if (spin.hint) cancelAnimationFrame(spin.hint);
+    spin.imgs.forEach(function (im) { im.onload = im.onerror = null; });
+    if (spin.el && spin.el.parentNode) spin.el.parentNode.removeChild(spin.el);
+    var box = $('#pm .pm__img'); if (box) box.classList.remove('is-spin');
+    spin = null;
+  }
+  function spinShow(i) {
+    if (!spin) return;
+    var n = spin.n; i = ((Math.round(i) % n) + n) % n; spin.cur = i;
+    var k = i; if (!spin.ok[k]) { for (var d = 1; d < n; d++) { if (spin.ok[(i + d) % n]) { k = (i + d) % n; break; } if (spin.ok[(i - d + n) % n]) { k = (i - d + n) % n; break; } } }
+    if (spin.ok[k] && spin.shown !== k) { spin.img.src = spin.imgs[k].src; spin.shown = k; }
+  }
+  function spinOpen() {
+    var p = byId[pmState.id], s = spinOf(p), box = $('#pm .pm__img'); if (!s || !box) return;
+    spinStop();
+    var el = document.createElement('div');
+    el.className = 'spin'; el.tabIndex = 0;
+    el.setAttribute('role', 'slider'); el.setAttribute('aria-label', 'Обертання 360°: ' + p.name + '. Тягніть ліворуч або праворуч чи використовуйте стрілки');
+    el.setAttribute('aria-valuemin', '0'); el.setAttribute('aria-valuemax', '359');
+    el.innerHTML = '<img class="spin__f" alt="' + esc(p.name) + ' — обертання 360°" draggable="false" decoding="async">' +
+      '<span class="spin__bar" aria-hidden="true"><i></i></span>' +
+      '<span class="spin__hint" aria-hidden="true">' + SPIN_IC + 'Потягніть, щоб обернути</span>' +
+      '<button class="spin__x" type="button" data-spin-close aria-label="Закрити обертання 360°, повернутися до фото"><span aria-hidden="true">✕</span> 360°</button>';
+    box.appendChild(el); box.classList.add('is-spin');
+    spin = { el: el, img: $('.spin__f', el), s: s, n: s.frames, cur: 0, shown: -1, ok: [], imgs: [], loaded: 0, drag: null, hint: 0, touched: false };
+    var order = [], seen = {}, step;
+    [8, 4, 2, 1].forEach(function (st) { for (var i = 0; i < s.frames; i += st) if (!seen[i]) { seen[i] = 1; order.push(i); } });
+    var me = spin, bar = $('.spin__bar i', el), q = 0, active = 0, MAXC = 6;
+    function next() {
+      while (me === spin && active < MAXC && q < order.length) {
+        (function (i) {
+          var im = new Image(); active++;
+          im.decoding = 'async';
+          im.onload = im.onerror = function (ev) {
+            active--; if (me !== spin) return;
+            if (ev.type === 'load') me.ok[i] = true;
+            me.loaded++; bar.style.transform = 'scaleX(' + (me.loaded / me.n) + ')';
+            if (i === 0 || (me.shown < 0 && me.ok[i])) spinShow(me.cur);
+            else if (me.shown !== me.cur && me.ok[i]) spinShow(me.cur);
+            if (me.loaded >= me.n) { el.classList.add('is-ready'); spinHint(); }
+            next();
+          };
+          me.imgs[i] = im; im.src = spinSrc(s, i);
+        })(order[q++]);
+      }
+    }
+    next();
+    el.addEventListener('pointerdown', spinDown);
+    el.addEventListener('pointermove', spinMove);
+    el.addEventListener('pointerup', spinUp);
+    el.addEventListener('pointercancel', spinUp);
+    el.addEventListener('dragstart', function (e) { e.preventDefault(); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); spinTouch(); spinShow(spin.cur + (e.key === 'ArrowLeft' ? -1 : 1)); spinAria(); }
+    });
+    try { el.focus({ preventScroll: true }); } catch (x) {}
+    track('360/' + p.id, '360°: ' + p.name);
+  }
+  function spinAria() { if (spin) spin.el.setAttribute('aria-valuenow', String(Math.round(spin.cur * 360 / spin.n))); }
+  function spinTouch() { if (!spin) return; spin.touched = true; if (spin.hint) { cancelAnimationFrame(spin.hint); spin.hint = 0; } spin.el.classList.add('is-used'); }
+  function spinHint() { // один повільний оберт-підказка
+    if (!spin || spin.touched || RM.matches) return;
+    var me = spin, t0 = null, from = me.cur, dur = 2600;
+    function f(t) {
+      if (me !== spin || me.touched) return;
+      if (t0 == null) t0 = t;
+      var k = Math.min(1, (t - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+      spinShow(from + e * me.n);
+      if (k < 1) me.hint = requestAnimationFrame(f); else { me.hint = 0; spinAria(); }
+    }
+    me.hint = requestAnimationFrame(f);
+  }
+  function spinDown(e) {
+    if (!spin || e.target.closest('button')) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    spinTouch();
+    spin.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, f: spin.cur, on: e.pointerType === 'mouse' };
+    if (e.pointerType === 'mouse') { try { spin.el.setPointerCapture(e.pointerId); } catch (x) {} spin.el.classList.add('is-drag'); }
+  }
+  function spinMove(e) {
+    var d = spin && spin.drag; if (!d || d.id !== e.pointerId) return;
+    var dx = e.clientX - d.x, dy = e.clientY - d.y;
+    if (!d.on) { // палець: обертаємо лише після явно горизонтального руху, інакше — прокрутка сторінки
+      if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+      if (Math.abs(dy) > Math.abs(dx)) { spin.drag = null; return; }
+      d.on = true; try { spin.el.setPointerCapture(e.pointerId); } catch (x) {} spin.el.classList.add('is-drag');
+    }
+    var w = spin.el.clientWidth || 300;
+    spinShow(d.f - dx / (w * 0.9) * spin.n); // ~ ширина кадру = один оберт; праворуч — проти годинникової
+  }
+  function spinUp(e) {
+    var d = spin && spin.drag; if (!d || d.id !== e.pointerId) return;
+    spin.drag = null; spin.el.classList.remove('is-drag'); spinAria();
   }
   /* ---------- повноекранний перегляд фото з зумом (03.10.2026) ----------
      Тап по головному фото в картці товару → темний лайтбокс: свайп між фото галереї, лічильник «1 / 3»,
@@ -820,6 +929,7 @@
       }).join('') + '</ul></section>';
   }
   function renderProduct() {
+    spinStop();
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
       return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + '</b></button>';
@@ -1097,7 +1207,7 @@
     sheetClose();
     if (!openModalEl) return;
     lbHide();
-    stopMedia();
+    stopMedia(); spinStop();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = listTitle();
     if (/^#\/p\/|^#cart|^#compare|^#pick/.test(location.hash)) history.replaceState(null, '', lastListHash);
@@ -1441,12 +1551,14 @@
     var t = e.target.closest('button, a');
     if (!t) {
       if (e.target.hasAttribute && e.target.hasAttribute('data-close')) { hideModal(); return; }
-      if (!lb.open && e.target.closest && e.target.closest('#pm .pm__img.is-zoomable')) lbOpen(pmGalIndex()); // тап по головному фото → повний екран
+      if (!lb.open && e.target.closest && e.target.closest('#pm .pm__img.is-zoomable') && !e.target.closest('.spin')) lbOpen(pmGalIndex()); // тап по головному фото → повний екран
       return;
     }
     if (t.hasAttribute('data-lb-close')) { lbClose(); return; }
     if (t.hasAttribute('data-lb-step')) { lbGo(+t.getAttribute('data-lb-step'), true); return; }
     if (t.hasAttribute('data-lb-open')) { lbOpen(pmGalIndex()); return; }
+    if (t.hasAttribute('data-spin-open')) { spinOpen(); return; }
+    if (t.hasAttribute('data-spin-close')) { spinStop(); var sb = $('#pm .pm__360'); if (sb) sb.focus({ preventScroll: true }); return; }
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-map')) { track('карта', 'Як доїхати (Google Maps, ST Service)'); return; } // repair banner: link opens Google Maps in a new tab
@@ -1544,7 +1656,7 @@
       return;
     }
     if (e.key === 'Escape') { hideModal(); return; }
-    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && openModalEl && openModalEl === $('#pmodal') && !/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) { galGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
+    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && openModalEl && openModalEl === $('#pmodal') && !/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) { if (spin) { spinTouch(); spinShow(spin.cur + (e.key === 'ArrowLeft' ? -1 : 1)); spinAria(); } else galGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
   });
   window.addEventListener('hashchange', route);
 
