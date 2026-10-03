@@ -1004,7 +1004,8 @@
      Характеристики НЕ вигадуємо: лише те, що є в назві, описі та p.specs.rows товару. Немає значення — «—». */
   var CMP_MAX = 3, CMP_KEY = 'alexbes_compare';
   var GUN_CATS = { meiji: 1, sata: 1, china: 1 }; // Фарбопульти Meiji / SATA / Китай (NTools тощо)
-  function isGun(p) { return !!p && !!GUN_CATS[p.category]; }
+  var NOT_GUN = { 'sata-qmr-5500': 1 }; // аксесуари в розділах фарбопультів — без кнопки «Порівняти»
+  function isGun(p) { return !!p && !!GUN_CATS[p.category] && !NOT_GUN[p.id]; }
   var cmpIds = (function () { var a = load(CMP_KEY, []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, CMP_MAX) : []; })();
   function cmpList() { return cmpIds.filter(function (id) { return isGun(byId[id]); }); }
   function cmpHas(id) { return cmpList().indexOf(id) >= 0; }
