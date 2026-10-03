@@ -159,3 +159,4 @@ ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-we
   .adm-tabs a{flex:1 1 auto;padding:0 6px;font-size:13px;gap:4px}
   .adm-badge{min-width:19px;height:19px;font-size:11px;padding:0 5px}
 }
+.stc--1{justify-content:center}.stc--1 .stc__c{flex:0 0 120px}

@@ -172,9 +172,9 @@ export function renderStats() {
   const maxV = Math.max(1, ...per.map((p) => p.v));
   const wd = new Intl.DateTimeFormat('uk-UA', { weekday: 'short', timeZone: 'UTC' });
   const bars = '<div class="stc stc--' + stRange + '" role="img" aria-label="Візити по днях">' + per.map((p, i) => {
-    const dt = new Date(p.d + 'T00:00:00Z'), lbl = stRange === 7 ? wd.format(dt) + '<br>' + p.d.slice(8) + '.' + p.d.slice(5, 7) : (i % 5 === 4 || i === per.length - 1 ? p.d.slice(8) + '.' + p.d.slice(5, 7) : '');
+    const dt = new Date(p.d + 'T00:00:00Z'), lbl = stRange <= 7 ? wd.format(dt) + '<br>' + p.d.slice(8) + '.' + p.d.slice(5, 7) : (i % 5 === 4 || i === per.length - 1 ? p.d.slice(8) + '.' + p.d.slice(5, 7) : '');
     return '<div class="stc__c" title="' + p.d.slice(8) + '.' + p.d.slice(5, 7) + ': ' + p.v + ' візит.">' +
-      '<span class="stc__v">' + (stRange === 7 || p.v === maxV ? (p.v || '') : '') + '</span>' +
+      '<span class="stc__v">' + (stRange <= 7 || p.v === maxV ? (p.v || '') : '') + '</span>' +
       '<span class="stc__b" style="height:' + (p.v ? Math.max(3, Math.round(p.v / maxV * 100)) : 0) + '%"></span>' +
       '<span class="stc__l">' + lbl + '</span></div>';
   }).join('') + '</div>';
@@ -201,7 +201,7 @@ export function renderStats() {
 export function extrasClick(t) {
   if (t.hasAttribute('data-oflt')) { flt = t.getAttribute('data-oflt'); renderOrders(); return true; }
   if (t.hasAttribute('data-odel')) { delOrder(t); return true; }
-  if (t.hasAttribute('data-st-range')) { stRange = +t.getAttribute('data-st-range') === 30 ? 30 : 7; renderStats(); return true; }
+  if (t.hasAttribute('data-st-range')) { { const r = +t.getAttribute('data-st-range'); stRange = r === 30 ? 30 : r === 1 ? 1 : 7; } renderStats(); return true; }
   if (t.hasAttribute('data-st-reload')) { loadStats(); return true; }
   return false;
 }
