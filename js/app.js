@@ -997,8 +997,33 @@
     if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new')) state.cat = m[1]; else state.cat = 'all';
     lastListHash = h;
     renderGrid();
-    if (prevCat !== state.cat && window.scrollY > $('#catalog').offsetTop + 40) window.scrollTo(0, Math.max(0, $('#catalog').offsetTop - ($('.hdr') ? $('.hdr').offsetHeight : 0)));
+    var wantScroll = !catScrollSkip && (catScrollPending || (routedOnce && prevCat !== state.cat));
+    catScrollPending = catScrollSkip = false; routedOnce = true;
+    if (wantScroll) scrollToResults();
   }
+
+  /* ---------- вибір розділу → плавно до товарів цього розділу (а не на верх сторінки) ---------- */
+  var routedOnce = false, catScrollPending = false, catScrollSkip = false;
+  function reducedMotion() { return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches); }
+  function stickyOffset() { // висота того, що липне до верху екрана (шапка зараз не sticky — враховується лише якщо знову стане)
+    var off = 0;
+    ['.hdr', '#chips'].forEach(function (sel) {
+      var el = $(sel); if (!el) return;
+      var cs = getComputedStyle(el), r = el.getBoundingClientRect();
+      if (!r.height || cs.display === 'none') return;
+      if (cs.position === 'sticky') off = Math.max(off, (parseFloat(cs.top) || 0) + r.height);
+      else if (cs.position === 'fixed' && r.top < window.innerHeight / 2) off = Math.max(off, r.bottom);
+    });
+    return off;
+  }
+  function scrollToResults() {
+    var bar = $('.results .toolbar'), card = $('#grid > li'), el = bar || card || $('#grid');
+    if (!el) return;
+    var off = stickyOffset() + 12, y = el.getBoundingClientRect().top + window.scrollY - off;
+    if (card && el !== card) { var cy = card.getBoundingClientRect().top + window.scrollY - off; if (cy - y > window.innerHeight * 0.4) y = cy; } // довгий інтро розділу — одразу до першої картки
+    window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: reducedMotion() ? 'instant' : 'smooth' });
+  }
+  function isCatHref(h) { return h === '#/' || h === '' || /^#\/c\/[\w-]+$/.test(h); }
 
   /* ---------- порівняння фарбопультів (до 3 шт., localStorage) ----------
      Характеристики НЕ вигадуємо: лише те, що є в назві, описі та p.specs.rows товару. Немає значення — «—». */
@@ -1229,12 +1254,19 @@
       var bq = t.getAttribute('data-brand-q') || '', bh = t.getAttribute('href') || '#/';
       $('#q').value = bq; state.q = bq;
       if ((location.hash || '#/') !== bh) history.pushState(null, '', bh);
-      route();
-      var res = $('.results'), hdr = $('.hdr');
-      if (res) window.scrollTo({ top: Math.max(0, res.getBoundingClientRect().top + window.scrollY - (hdr ? hdr.offsetHeight : 0) - 12), behavior: 'smooth' });
+      catScrollPending = true; route();
       return;
     }
-    if (t.hasAttribute('data-go-chips')) { e.preventDefault(); var to = t.getAttribute('data-go-chips') || '#/'; if (location.hash !== to && !(to === '#/' && location.hash === '')) location.hash = to; setTimeout(function () { var c = to === '#/' ? $('#chips') : ($('#restitle').parentElement || $('#restitle')), hd = $('.hdr'); if (c) window.scrollTo({ top: Math.max(0, c.getBoundingClientRect().top + window.scrollY - (hd ? hd.offsetHeight : 0) - 12), behavior: 'smooth' }); }, 80); return; }
+    if (t.hasAttribute('data-go-chips')) { e.preventDefault(); var to = t.getAttribute('data-go-chips') || '#/'; var same = location.hash === to || (to === '#/' && location.hash === '');
+      if (to === '#/') { // «Каталог» у нижньому меню → до списку розділів (чіпів)
+        if (!same) { catScrollSkip = true; location.hash = to; }
+        setTimeout(function () { var c = $('#chips'); if (c && c.getBoundingClientRect().height) window.scrollTo({ top: Math.max(0, Math.round(c.getBoundingClientRect().top + window.scrollY - stickyOffset() - 12)), behavior: reducedMotion() ? 'instant' : 'smooth' }); else scrollToResults(); }, 80);
+      } else if (same) scrollToResults(); else { catScrollPending = true; location.hash = to; }
+      return; }
+    if (t.tagName === 'A' && !t.target && !t.hasAttribute('data-focus-search') && isCatHref(t.getAttribute('href') || '')) { // чіпи, бокове меню, банери, текстові посилання на розділи
+      var ch = t.getAttribute('href'), cur = location.hash || '#/';
+      if (ch === cur || (ch === '' && cur === '#/')) scrollToResults(); else catScrollPending = true;
+    }
     if (t.hasAttribute('data-focus-search')) { e.preventDefault(); if (location.hash !== '#/' && !/^#\/c\//.test(location.hash)) location.hash = '#/'; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function () { $('#q').focus(); }, 250); return; }
   });
   document.addEventListener('input', function (e) {
