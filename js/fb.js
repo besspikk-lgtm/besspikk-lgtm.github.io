@@ -230,4 +230,14 @@ async function onSubmit(e) {
   if (f.isConnected) busy(f, false);
 }
 
-main();
+// Firebase (~300 КБ SDK) стартує після завантаження сторінки, у вільну хвилину (≤ 2,5 с), або одразу при першій дії користувача —
+// перший екран не чекає на SDK; останні відомі зміни товарів сайт уже показує з localStorage.
+(function () {
+  let started = false;
+  const go = () => { if (started) return; started = true; EV.forEach((e) => removeEventListener(e, go, true)); main(); };
+  const EV = ['pointerdown', 'keydown', 'touchstart'];
+  EV.forEach((e) => addEventListener(e, go, { capture: true, passive: true }));
+  if (/^#(account|cart)|^#\/p\//.test(location.hash)) { go(); return; } // акаунт / кошик / товар за посиланням — одразу
+  const idle = () => (window.requestIdleCallback ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 1200));
+  if (document.readyState === 'complete') idle(); else addEventListener('load', idle, { once: true });
+})();

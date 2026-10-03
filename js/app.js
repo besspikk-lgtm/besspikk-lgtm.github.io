@@ -98,12 +98,17 @@
     });
     return out;
   }
-  function imgAttrs(p, g) {
+  // 400 px копії фото каталогу (img/t/…, _work/make_thumbs.py) для карток і каруселей: srcset, браузер сам бере 800 px, коли треба
+  function thumbOf(src) { return /^img\/[pv]\/[^/]+\.webp(\?|$)/.test(src) ? 'img/t/' + src.slice(4) : null; }
+  function imgAttrs(p, g, sizes) {
     if (!g) return 'src="' + PLACEHOLDER + '"';
+    var th = sizes && g.src && thumbOf(g.src);
+    if (th) return 'src="' + esc(th) + '" srcset="' + esc(th) + ' 400w, ' + esc(g.src) + ' 800w" sizes="' + sizes + '"';
     if (g.src) return 'src="' + esc(g.src) + '"';
     return photoData[g.doc] ? 'src="' + photoData[g.doc] + '"' : 'src="' + (p.photo || PLACEHOLDER) + '" data-ph="' + esc(g.doc) + '"';
   }
-  function mainImg(p) { return imgAttrs(p, galleryOf(p)[0]); }
+  function mainImg(p, sizes) { return imgAttrs(p, galleryOf(p)[0], sizes); }
+  var SZ_CARD = '(max-width:760px) 48vw, 300px', SZ_SM = '200px';
   function stockHTML(p) {
     var s = p.in_stock || '';
     var cls = /немає/i.test(s) ? ' stock--out' : /наявн/i.test(s) && !/уточн/i.test(s) ? '' : /дороз|замовл/i.test(s) ? ' stock--way' : ' stock--ask';
@@ -201,7 +206,7 @@
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
-      '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + '</button>' +
+      '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + '</div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео">🎬 Відео</span>' : '') + '</span>' +
@@ -323,6 +328,7 @@
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
+    var pc = $('#pickcta'); if (pc) pc.hidden = !!state.q || !/^(meiji|sata|china)$/.test(state.cat);
     var ci = $('#catintro'); if (ci) { var it = !state.q && CAT_INTRO[state.cat]; ci.textContent = it || ''; ci.hidden = !it; }
     if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
@@ -807,7 +813,7 @@
       '<ul class="rel__list">' + list.map(function (x) {
         var pr = unitPrice(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoText(x);
         return '<li class="rel__it"><button class="rel__open" type="button" data-open="' + esc(x.id) + '" aria-label="Відкрити: ' + esc(x.name) + '">' +
-          '<span class="rel__img"><img ' + mainImg(x) + ' alt="" loading="lazy" decoding="async" width="200" height="200">' + (pm ? '<span class="rel__tag">' + esc(pm) + '</span>' : '') + '</span>' +
+          '<span class="rel__img"><img ' + mainImg(x, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="200" height="200">' + (pm ? '<span class="rel__tag">' + esc(pm) + '</span>' : '') + '</span>' +
           '<span class="rel__nm">' + esc(x.name) + '</span>' +
           '<span class="rel__pr">' + (pr != null ? uah(pr) + (lb ? ' <small>· ' + esc(uahText(lb)) + '</small>' : '') : '<small>Ціну уточнюйте</small>') + '</span></button>' +
           '<button class="rel__add" type="button" data-radd="' + esc(x.id) + '" aria-label="Додати «' + esc(x.name) + '» в кошик">+</button></li>';
@@ -1022,7 +1028,7 @@
     var items = cart.map(function (l, i) {
       var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
       if (up != null) sum += toUah(up) * l.qty; else ask++;
-      return '<li class="citem"><img ' + mainImg(p) + ' alt="">' +
+      return '<li class="citem"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="72" height="72">' +
         '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(uahText(v ? v.label : (p.price_label || ''))) + '</div>' +
         '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div>' +
         (up != null && l.qty > 1 ? '<div class="citem__t">' + fmtUah(toUah(up) * l.qty).replace(/ /g, '\u00a0') + '</div>' : '') + '</div>' +
@@ -1094,11 +1100,125 @@
     stopMedia();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = listTitle();
-    if (/^#\/p\/|^#cart|^#compare/.test(location.hash)) history.replaceState(null, '', lastListHash);
+    if (/^#\/p\/|^#cart|^#compare|^#pick/.test(location.hash)) history.replaceState(null, '', lastListHash);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   var tt;
   function toast(msg) { var t = $('#toast'); t.textContent = msg; t.hidden = false; clearTimeout(tt); tt = setTimeout(function () { t.hidden = true; }, 2600); }
+
+  /* ---------- «Підібрати фарбопульт» (#pick): 4 кроки -> 1–3 фарбопульти з каталогу ----------
+     Дюзи та витрата повітря — лише з характеристик товарів (gun_specs.py / data). Загальні рекомендації дюз:
+     база 1,2–1,3 · лак 1,3–1,4 · ґрунт 1,6–1,8 · дрібний ремонт — міні-пістолет. */
+  var PK_MAT = {
+    base: { t: 'База', s: 'базове покриття під лак', nz: '1,2–1,3 мм' },
+    clear: { t: 'Лак', s: 'прозорий лак, фінішний шар', nz: '1,3–1,4 мм' },
+    primer: { t: 'Ґрунт', s: 'ґрунти й наповнювачі', nz: '1,6–1,8 мм' },
+    spot: { t: 'Дрібний ремонт', s: 'локальне підфарбовування', nz: 'міні-пістолет' }
+  };
+  var PK_AIR = [{ k: 250, t: 'До 250 л/хв', s: 'невеликий компресор' }, { k: 350, t: '250–350 л/хв', s: 'середній компресор' }, { k: 9999, t: 'Понад 350 л/хв', s: 'потужний компресор' }, { k: 0, t: 'Не знаю', s: 'підберемо без цього' }];
+  var PK_BUD = [{ k: 'lo', lo: 0, hi: 5000, t: 'До 5 000 грн' }, { k: 'mid', lo: 5000, hi: 16000, t: '5 000–16 000 грн' }, { k: 'hi', lo: 16000, hi: 30000, t: '16 000–30 000 грн' }, { k: 'top', lo: 30000, hi: 1e9, t: 'Без обмежень', s: 'преміум-клас' }];
+  var PK_BR = [{ k: 'meiji', t: 'Meiji', s: 'Японія' }, { k: 'sata', t: 'SATA', s: 'Німеччина' }, { k: 'china', t: 'Бюджетні', s: 'Китай' }, { k: 'any', t: 'Будь-який', s: 'головне — результат' }];
+  // u: для чого підходить (за призначенням і дюзами з характеристик); a: витрата повітря, л/хв (з даних виробника; null — не вказана); n: дюзи
+  var PK_GUNS = [
+    { id: 'meiji-finer-core', u: { base: 1, clear: 1 }, a: 300, an: 'SP — 300 · HVLP — 380 л/хв', n: '1,3 або 1,5 мм (SP / HVLP)' },
+    { id: 'sata-jet-x-pro', u: { base: 1, clear: 1 }, a: 330, n: '1,2 або 1,3 мм' },
+    { id: 'meiji-f410', u: { base: 1, clear: 1, primer: 1 }, a: { base: 280, clear: 290, primer: 325 }, an: { base: '1,2 — 270 · 1,3 — 280 л/хв', clear: '1,4 — 290 л/хв', primer: '1,8 — 325 л/хв' }, n: '1,0–2,5 мм (серія EV)', nf: { base: '1,2 або 1,3 мм', clear: '1,4 мм', primer: '1,8 мм' } },
+    { id: 'meiji-finer-3', u: { clear: 1 }, a: 220, n: '1,4 мм' },
+    { id: 'meiji-finer-2-plus-g14', u: { base: 1, clear: 1 }, a: 220, n: '1,4 мм (бічний бачок)', alt: { base: 'Дюза 1,4 мм — за даними Meiji, для баз металік і перламутр' } },
+    { id: 'meiji-finer-core-black', u: { base: 1, clear: 1 }, a: 300, an: 'SP — 300 · HVLP — 380 л/хв', n: '1,3 або 1,5 мм (SP / HVLP)' },
+    { id: 'meiji-finer-core-liberty-walk', u: { base: 1, clear: 1 }, a: 300, an: 'SP — 300 · HVLP — 380 л/хв', n: '1,3 або 1,5 мм (SP / HVLP)' },
+    { id: 'meiji-finer-core-sv17', u: { base: 1 }, a: 275, n: '1,7 мм', alt: { base: 'Для водних баз і HS-матеріалів (дюза 1,7 мм)' } },
+    { id: 'sata-100b', u: { primer: 1 }, a: 290, n: '1,4 мм (RP) — для ґрунтів і наповнювачів' },
+    { id: 'spi-pro-te20-sticker-bomb', u: { base: 1, clear: 1 }, a: 300, n: '1,3 мм' },
+    { id: 'ntools-5000b-upgrades', u: { base: 1, clear: 1 }, a: null, n: '1,3 мм (HVLP)' },
+    { id: 'gun-hvlp-13', u: { base: 1, clear: 1 }, a: null, n: '1,3 мм (HVLP)' },
+    { id: 'gun-pps-set', u: { base: 1, clear: 1, primer: 1 }, a: null, n: '1,3 · 1,4 · 1,7 · 1,8 мм (PPS)', nf: { base: '1,3 мм', clear: '1,4 мм', primer: '1,7 або 1,8 мм' } },
+    { id: 'gun-primer-17-pps', u: { primer: 1 }, a: null, n: '1,7 мм (PPS)' },
+    { id: 'meiji-finer-spot', u: { spot: 1 }, a: 80, n: '1,2 мм (міні-джет)' },
+    { id: 'ntools-mini-5002', u: { spot: 1 }, a: 200, n: '1,2 мм (HVLP, міні)' }
+  ];
+  var PK_IC = {
+    base: '<path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/>',
+    clear: '<path d="M12 3.2c3.4 4.1 5.6 7.2 5.6 10.1a5.6 5.6 0 0 1-11.2 0c0-2.9 2.2-6 5.6-10.1Z"/><path d="M9.6 14.2a2.6 2.6 0 0 0 2.2 2.4"/>',
+    primer: '<rect x="3" y="4" width="18" height="6.5" rx="1.2"/><rect x="3" y="13.5" width="8" height="6.5" rx="1.2"/><rect x="13" y="13.5" width="8" height="6.5" rx="1.2"/>',
+    spot: '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
+    air: '<path d="M3 8.5h11a3 3 0 1 0-3-3"/><path d="M3 12.5h15a3 3 0 1 1-3 3"/><path d="M3 16.5h7"/>',
+    bud: '<rect x="2.5" y="6" width="19" height="12.5" rx="2.2"/><path d="M2.5 10h19"/><path d="M6.5 15h4"/>',
+    brand: '<path d="M12 2.8 14.6 8l5.7.8-4.1 4 1 5.7-5.2-2.7-5.1 2.7 1-5.7-4.2-4 5.8-.8L12 2.8Z"/>',
+    ok: '<path d="m5 12.5 4.2 4.2L19 7"/>', warn: '<path d="M12 8v5"/><circle cx="12" cy="16.5" r=".6" fill="currentColor"/><path d="M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/>',
+    back: '<path d="M15 5 8 12l7 7"/>', tg: '<path fill="currentColor" stroke="none" d="M21.9 4.3 18.7 19.4c-.2 1.1-.9 1.3-1.8.8l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9.1-8.2c.4-.4-.1-.6-.6-.2L6.2 13.1l-4.8-1.5c-1-.3-1.1-1 .2-1.5L20.5 2.9c.9-.3 1.6.2 1.4 1.4Z"/>'
+  };
+  function pkIc(k, sz) { return '<svg viewBox="0 0 24 24" width="' + (sz || 24) + '" height="' + (sz || 24) + '" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + PK_IC[k] + '</svg>'; }
+  var pk = { step: 0, mat: null, air: null, bud: null, br: null };
+  var PK_STEPS = [
+    { key: 'mat', ic: 'base', q: 'Що будете фарбувати?', opts: function () { return Object.keys(PK_MAT).map(function (k) { return { v: k, t: PK_MAT[k].t, s: PK_MAT[k].s, ic: k }; }); } },
+    { key: 'air', ic: 'air', q: 'Скільки повітря дає ваш компресор?', note: 'Витрата повітря фарбопульта — з даних виробника. Компресор краще мати із запасом.', opts: function () { return PK_AIR.map(function (o) { return { v: o.k, t: o.t, s: o.s, ic: 'air' }; }); } },
+    { key: 'bud', ic: 'bud', q: 'Який бюджет на фарбопульт?', opts: function () { return PK_BUD.map(function (o) { return { v: o.k, t: o.t, s: o.s || '', ic: 'bud' }; }); } },
+    { key: 'br', ic: 'brand', q: 'Якому бренду надаєте перевагу?', opts: function () { return PK_BR.map(function (o) { return { v: o.k, t: o.t, s: o.s, ic: 'brand' }; }); } }
+  ];
+  function pkGroup(p) { return p.category === 'meiji' ? 'meiji' : p.category === 'sata' ? 'sata' : 'china'; }
+  function pkPick() {
+    var mat = pk.mat, bud = PK_BUD.filter(function (b) { return b.k === pk.bud; })[0] || PK_BUD[3];
+    var out = [];
+    PK_GUNS.forEach(function (g, i) {
+      var p = byId[g.id]; if (!p || !g.u[mat]) return;
+      var air = g.a && typeof g.a === 'object' ? g.a[mat] : g.a, price = hasPrice(p) ? toUah(unitPrice(p, 0)) : null, miss = [];
+      if (pk.air && air && air > pk.air) miss.push('Потрібно ' + air + ' л/хв повітря — більше, ніж дає ваш компресор');
+      if (price != null && price > bud.hi) miss.push('Дорожче за обраний бюджет');
+      if (pk.br !== 'any' && pkGroup(p) !== pk.br) miss.push('Інший бренд');
+      var inBand = price == null || price >= bud.lo ? 0 : 1;
+      out.push({ g: g, p: p, air: air, miss: miss, score: miss.length * 10 + inBand * 3 + (g.alt && g.alt[mat] ? 4 : 0) + (/^в наявності/i.test(p.in_stock || '') ? 0 : 1), i: i });
+    });
+    out.sort(function (a, b) { return a.score - b.score || a.i - b.i; });
+    return out.slice(0, 3);
+  }
+  function renderPick() {
+    var body = $('#pickbody'); if (!body) return;
+    if (pk.step < PK_STEPS.length) {
+      var st = PK_STEPS[pk.step];
+      body.innerHTML = '<div class="pk__top">' +
+        (pk.step ? '<button class="pk__back" type="button" data-pk-back aria-label="Назад">' + pkIc('back', 20) + '</button>' : '<span class="pk__back pk__back--ph"></span>') +
+        '<div class="pk__prog" aria-hidden="true">' + PK_STEPS.map(function (s, i) { return '<span class="' + (i <= pk.step ? 'on' : '') + '"></span>'; }).join('') + '</div>' +
+        '<span class="pk__cnt">Крок ' + (pk.step + 1) + ' з ' + PK_STEPS.length + '</span></div>' +
+        '<h3 class="pk__q">' + st.q + '</h3>' +
+        '<div class="pk__opts">' + st.opts().map(function (o) {
+          var on = String(pk[st.key]) === String(o.v);
+          return '<button class="pk__opt' + (on ? ' on' : '') + '" type="button" data-pk-v="' + esc(String(o.v)) + '"><span class="pk__ic">' + pkIc(o.ic) + '</span><span class="pk__ot"><b>' + esc(o.t) + '</b>' + (o.s ? '<span>' + esc(o.s) + '</span>' : '') + '</span></button>';
+        }).join('') + '</div>' +
+        (st.note ? '<p class="pk__note">' + esc(st.note) + '</p>' : '');
+      return;
+    }
+    var res = pkPick(), m = PK_MAT[pk.mat], exact = res.length && !res[0].miss.length;
+    var html = '<div class="pk__top"><button class="pk__back" type="button" data-pk-back aria-label="Назад">' + pkIc('back', 20) + '</button><div class="pk__prog" aria-hidden="true">' + PK_STEPS.map(function () { return '<span class="on"></span>'; }).join('') + '</div><span class="pk__cnt">Готово</span></div>' +
+      '<h3 class="pk__q">' + (exact ? 'Вам підійде' : 'Точного збігу немає — найближчі варіанти') + '</h3>' +
+      '<p class="pk__sum">' + esc(m.t) + ' · рекомендована дюза: <b>' + esc(m.nz) + '</b></p><div class="pk__res">';
+    html += res.map(function (r, k) {
+      var p = r.p, g = r.g, nz = g.nf && g.nf[pk.mat] ? g.nf[pk.mat] : g.n, an = g.an && typeof g.an === 'object' ? g.an[pk.mat] : g.an;
+      return '<div class="pk__card' + (k === 0 && !r.miss.length ? ' pk__card--top' : '') + '">' +
+        '<button class="pk__img" type="button" data-open="' + esc(p.id) + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_SM) + ' alt="' + esc(p.name) + '" width="200" height="200" loading="lazy"></button>' +
+        '<div class="pk__cb"><button class="pk__name" type="button" data-open="' + esc(p.id) + '">' + esc(p.name) + '</button>' +
+        '<div class="pk__price">' + pillHTML(p) + '</div>' +
+        '<ul class="pk__facts"><li><span>Дюза</span>' + esc(nz) + '</li><li><span>Повітря</span>' + (an ? esc(an) : r.air ? r.air + ' л/хв' : 'уточнюйте в Telegram') + '</li></ul>' +
+        (g.alt && g.alt[pk.mat] ? '<p class="pk__hint">' + esc(g.alt[pk.mat]) + '</p>' : '') + (r.miss.length ? '<p class="pk__miss">' + pkIc('warn', 15) + esc(r.miss.join(' · ')) + '</p>' : '<p class="pk__ok">' + pkIc('ok', 15) + 'Підходить за всіма параметрами</p>') +
+        '</div></div>';
+    }).join('');
+    html += '</div><div class="pk__end"><a class="btn btn--bot btn--full" href="' + esc(CONFIG.orderTelegram + '?text=' + encodeURIComponent('Вітаю! Підбираю фарбопульт: ' + m.t.toLowerCase() + ', компресор — ' + (PK_AIR.filter(function (o) { return o.k === pk.air; })[0] || PK_AIR[3]).t.toLowerCase() + ', бюджет — ' + (PK_BUD.filter(function (o) { return o.k === pk.bud; })[0] || PK_BUD[3]).t.toLowerCase() + '. Варіанти з сайту: ' + res.map(function (r) { return r.p.name; }).join('; ') + '. Підкажіть, будь ласка, що краще взяти.')) + '" target="_blank" rel="noopener" data-pk-tg>' + pkIc('tg', 18) + '<span>Уточнити в Telegram</span></a>' +
+      '<button class="btn btn--o btn--full" type="button" data-pk-again>Пройти ще раз</button>' +
+      '<p class="pk__note">Підбір орієнтовний: дюзу й систему під ваш матеріал і компресор підкажемо в Telegram.</p></div>';
+    body.innerHTML = html;
+    track('підбір/' + pk.mat, 'Підбір фарбопульта: ' + [pk.mat, pk.air, pk.bud, pk.br].join(' / ') + ' → ' + res.map(function (r) { return r.p.id; }).join(', '));
+  }
+  function pickClick(t) {
+    if (t.hasAttribute('data-pk-v')) {
+      var st = PK_STEPS[pk.step], v = t.getAttribute('data-pk-v');
+      pk[st.key] = st.key === 'air' ? +v : v; pk.step++; renderPick();
+      var bx = $('#pickmodal .modal__box'); if (bx) bx.scrollTop = 0;
+      return true;
+    }
+    if (t.hasAttribute('data-pk-back')) { pk.step = Math.max(0, pk.step - 1); renderPick(); return true; }
+    if (t.hasAttribute('data-pk-again')) { pk = { step: 0, mat: null, air: null, bud: null, br: null }; renderPick(); return true; }
+    return false;
+  }
 
   /* ---------- routing ---------- */
   function route() {
@@ -1112,6 +1232,7 @@
       return;
     }
     if (h === '#cart') { renderCart(); showModal('#cmodal'); return; }
+    if (h === '#pick') { renderPick(); showModal('#pickmodal'); track('підбір', 'Підбір фарбопульта: відкрито'); return; }
     if (h === '#compare') { if (!$('#grid').children.length) renderGrid(); renderCompare(); showModal('#cmpmodal'); track('порівняння', 'Порівняння фарбопультів (' + cmpList().length + ')'); return; }
     if (openModalEl) { stopMedia(); openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     trackedOpen = null;
@@ -1295,7 +1416,7 @@
     var head = '<div class="cmp__l cmp__l--h">Фарбопульт</div>' + list.map(function (p) {
       return '<div class="cmp__h">' +
         '<button class="cmp__rm" type="button" data-cmp-rm="' + esc(p.id) + '" aria-label="Прибрати «' + esc(p.name) + '» з порівняння">✕</button>' +
-        '<button class="cmp__img" type="button" data-open="' + esc(p.id) + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" width="200" height="200"></button>' +
+        '<button class="cmp__img" type="button" data-open="' + esc(p.id) + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_SM) + ' alt="' + esc(p.name) + '" width="200" height="200"></button>' +
         '<span class="cmp__cat">' + esc(p.category_name) + '</span>' +
         '<button class="cmp__name" type="button" data-open="' + esc(p.id) + '">' + esc(p.name) + '</button>' +
         '<div class="cmp__price">' + pillHTML(p) + '</div>' +
@@ -1348,6 +1469,8 @@
     if (t.hasAttribute('data-cmp')) { toggleCmp(t.getAttribute('data-cmp')); return; }
     if (t.hasAttribute('data-cmp-rm')) { var ri = cmpIds.indexOf(t.getAttribute('data-cmp-rm')); if (ri >= 0) cmpIds.splice(ri, 1); cmpSave(); cmpSync(); renderCompare(); return; }
     if (t.hasAttribute('data-cmp-clear')) { cmpIds = []; cmpSave(); cmpSync(); if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare(); toast('Порівняння очищено'); return; }
+    if (pickClick(t)) return;
+    if (t.hasAttribute('data-open-pick')) { e.preventDefault(); if (location.hash !== '#pick') { if (!/^#\/p\/|^#cart|^#compare/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#pick'; } else { renderPick(); showModal('#pickmodal'); } return; }
     if (t.hasAttribute('data-open-cmp')) { e.preventDefault(); if (location.hash !== '#compare') { if (!/^#\/p\/|^#cart/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#compare'; } else { renderCompare(); showModal('#cmpmodal'); } return; }
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
     if (t.hasAttribute('data-cstep')) { var cs = +t.getAttribute('data-cstep'), sec = $('#cartbody [data-csec="' + cs + '"]'), box = $('#cmodal .modal__box'); cstepSet(cs); if (sec && box) box.scrollTo({ top: Math.max(0, sec.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 12), behavior: 'smooth' }); return; }
@@ -1543,7 +1666,7 @@
     sec.hidden = !list.length;
     ul.innerHTML = list.map(function (id) {
       var p = byId[id];
-      return '<li class="rv__it"><button class="rv__card" type="button" data-open="' + esc(p.id) + '"><span class="rv__img"><img ' + mainImg(p) + ' alt="" loading="lazy" decoding="async" width="160" height="160"></span>' +
+      return '<li class="rv__it"><button class="rv__card" type="button" data-open="' + esc(p.id) + '"><span class="rv__img"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="160" height="160"></span>' +
         '<span class="rv__n">' + esc(p.name) + '</span><span class="rv__p">' + (hasPrice(p) ? uah(p.price_eur) : 'Ціну уточнюйте') + '</span></button></li>';
     }).join('');
     fillPhotos();
@@ -1569,7 +1692,8 @@
   }
 
   /* --- Поділитися --- */
-  function productUrl(p) { return SITE_URL + '#/p/' + encodeURIComponent(p.id); }
+  // static SEO page p/<id>/ exists for every product from data/products.js except 3M/vens (_work/gen_product_pages.py); admin-only products -> SPA link
+  function productUrl(p) { return BASE[p.id] && !/vens|\b3m\b/i.test(p.id + ' ' + (BASE[p.id].name || '')) ? SITE_URL + 'p/' + encodeURIComponent(p.id) + '/' : SITE_URL + '#/p/' + encodeURIComponent(p.id); }
   function shareProduct(id) {
     var p = byId[id]; if (!p) return;
     var url = productUrl(p), text = p.name + (hasPrice(p) ? ' — ' + uahTxt(unitPrice(p, pmState.id === id ? pmState.vi : 0)) : '');
@@ -1613,7 +1737,7 @@
     track('швидке/відкрито/' + id, 'Купити в один клік (відкрито): ' + p.name);
     sheetOpen('quick',
       '<h3 class="sheet__ttl" id="sheet-ttl">' + svgI(IC.bolt, 20) + 'Купити в один клік</h3>' +
-      '<div class="qk__item"><img ' + mainImg(p) + ' alt="" width="64" height="64"><div><b>' + esc(L.name) + '</b><span>' + qty + ' шт' + (L.sum != null ? ' · ' + fmtUah(L.sum).replace(/ /g, '\u00a0') : ' · ціну уточнимо') + '</span></div></div>' +
+      '<div class="qk__item"><img ' + mainImg(p, SZ_SM) + ' alt="" width="64" height="64"><div><b>' + esc(L.name) + '</b><span>' + qty + ' шт' + (L.sum != null ? ' · ' + fmtUah(L.sum).replace(/ /g, '\u00a0') : ' · ціну уточнимо') + '</span></div></div>' +
       '<form class="qk__form" id="qkform" novalidate>' +
         '<label>Ім’я<input name="name" maxlength="100" autocomplete="name" required value="' + esc(form.name || '') + '" data-autofocus></label>' +
         '<label>Телефон<input name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" required placeholder="0XX XXX XX XX" value="' + esc(form.phone || '') + '"></label>' +
@@ -1725,7 +1849,7 @@
     var ttl = sale ? '🔥 Акції' : '✅ Новинки';
     var sub = n + ' ' + plural(n, 'товар', 'товари', 'товарів') + ' з позначкою «' + (sale ? 'Акція' : 'Новинка') + '»';
     var items = list.slice(0, 3).map(function (p) {
-      return '<span class="bnr__it"><img ' + mainImg(p) + ' alt="" loading="lazy" width="200" height="200"><span class="bnr__nm">' + esc(p.name) + '</span></span>';
+      return '<span class="bnr__it"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="200" height="200"><span class="bnr__nm">' + esc(p.name) + '</span></span>';
     }).join('');
     return '<div class="bnr__slide bnr__slide--' + kind + '" data-slide="' + kind + '" role="group" aria-roledescription="слайд" aria-label="' + ttl + '">' +
       '<a class="hero__frame bnr__promo" href="' + href + '" data-go-chips="' + href + '">' +

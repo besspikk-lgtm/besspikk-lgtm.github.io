@@ -56,7 +56,8 @@
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
 <link rel="preload" href="fonts/manrope-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=47">
+<link rel="preload" href="img/hero-liberty.webp?v=1" as="image" fetchpriority="high">
+<link rel="stylesheet" href="css/style.css?v=49">
 </head>
 <body class="prem">
 <div class="uastripe" aria-hidden="true"></div>
@@ -104,7 +105,7 @@
     <div class="bnr__track" id="bnr-track" aria-live="off">
       <div class="bnr__slide bnr__slide--meiji" data-slide="meiji" role="group" aria-roledescription="слайд" aria-label="Meiji · Japanese Quality">
         <a class="hero__frame hm" href="#/c/meiji" data-go-chips="#/c/meiji">
-          <span class="hm__pic hm__pic--duo"><span class="hm__tilt"><span class="hm__stage"><span class="hm__gun hm__gun--lw"><span class="hm__fl"><img class="hm__g" src="img/hero-liberty.webp?v=1" width="560" height="708" decoding="async" alt="Фарбопульт Meiji FINER-CORE × LIBERTY WALK у кольорі рожевого золота"><span class="hm__shine" aria-hidden="true"></span></span></span><span class="hm__gun hm__gun--blk"><span class="hm__fl"><img class="hm__g" src="img/hero-meiji-black.webp?v=1" width="436" height="528" decoding="async" fetchpriority="high" alt="Фарбопульт Meiji FINER-CORE Black Edition"><span class="hm__shine" aria-hidden="true"></span></span></span></span></span></span>
+          <span class="hm__pic hm__pic--duo"><span class="hm__tilt"><span class="hm__stage"><span class="hm__gun hm__gun--lw"><span class="hm__fl"><img class="hm__g" src="img/hero-liberty.webp?v=1" width="560" height="708" decoding="async" fetchpriority="high" alt="Фарбопульт Meiji FINER-CORE × LIBERTY WALK у кольорі рожевого золота"><span class="hm__shine" aria-hidden="true"></span></span></span><span class="hm__gun hm__gun--blk"><span class="hm__fl"><img class="hm__g" src="img/hero-meiji-black.webp?v=1" width="436" height="528" decoding="async" fetchpriority="high" alt="Фарбопульт Meiji FINER-CORE Black Edition"><span class="hm__shine" aria-hidden="true"></span></span></span></span></span></span>
           <span class="hm__txt">
             <span class="hm__eyebrow"><span class="hm__flag" aria-hidden="true"><svg viewBox="0 0 30 20" width="30" height="20" focusable="false"><defs><linearGradient id="hmFlagSh" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#000" stop-opacity="0"/><stop offset=".25" stop-color="#000" stop-opacity=".16"/><stop offset=".5" stop-color="#fff" stop-opacity=".22"/><stop offset=".75" stop-color="#000" stop-opacity=".16"/><stop offset="1" stop-color="#000" stop-opacity="0"/></linearGradient><clipPath id="hmFlagClip"><rect width="30" height="20" rx="2"/></clipPath></defs><g clip-path="url(#hmFlagClip)"><rect width="30" height="20" fill="#fff"/><circle cx="15" cy="10" r="6" fill="#bc002d"/><rect class="hm__flag-sh" x="-30" width="30" height="20" fill="url(#hmFlagSh)"/></g></svg></span>Офіційний представник в Україні</span>
             <span class="hm__ttl"><span class="hm__brand">Meiji<span class="hm__logo" aria-hidden="true"><span class="hm__lg-glow"></span><img class="hm__lg hm__lg--disc" src="img/meiji-badge-disc.webp?v=1" width="400" height="252" alt="" decoding="async"><img class="hm__lg hm__lg--gor" src="img/meiji-badge-gorilla.webp?v=1" width="400" height="252" alt="" decoding="async"><img class="hm__lg hm__lg--word" src="img/meiji-badge-word.webp?v=1" width="400" height="252" alt="" decoding="async"><span class="hm__lg-shine"></span></span></span> <span class="hm__dot" aria-hidden="true">·</span> <span class="hm__jq">Japanese Quality</span></span>
@@ -133,12 +134,10 @@
       </div>
       <div class="bnr__slide" data-slide="body" role="group" aria-roledescription="слайд" aria-label="🔧 Кузовний ремонт / битки з США">
         <div class="hero__frame">
-          <video class="hero__img bnr__vid" id="bnr-vid" width="720" height="404" autoplay muted loop playsinline preload="metadata"
-            poster="img/banner-bodywork-poster.webp?v=1" disablepictureinpicture disableremoteplayback
+          <video class="hero__img bnr__vid" id="bnr-vid" width="720" height="404" muted loop playsinline preload="none"
+            data-poster="img/banner-bodywork-poster.webp?v=1" disablepictureinpicture disableremoteplayback
             aria-label="Alex_bes — кузовні роботи любої складності під ключ. Телефон +380 (50) 540 73 35 — запис та консультація. Маляр фарбує авто фарбопультом">
-            <source src="img/banner-bodywork.mp4?v=1" type="video/mp4">
-            <img class="hero__img" src="img/banner-bodywork-poster.jpg?v=1" width="720" height="404" decoding="async"
-              alt="Alex_bes — кузовні роботи любої складності під ключ. Телефон +380 (50) 540 73 35 — запис та консультація">
+            <source src="img/banner-bodywork.mp4?v=2" type="video/mp4">
           </video>
           <a class="bnr__tel" href="tel:+380505407335" aria-label="Подзвонити: +380 (50) 540 73 35 — запис та консультація">
             <svg class="bnr__tel-ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
@@ -153,15 +152,21 @@
         </div>
         <a class="btn btn--y hero__btn" href="https://t.me/alex_bespik" target="_blank" rel="noopener" data-consult>💬 Отримати консультацію</a>
         <script>/* відео кузовних робіт: грає лише коли слайд видно; prefers-reduced-motion -> постер */
-        (function(){var v=document.getElementById('bnr-vid');if(!v)return;var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)'),on=true;
+        (function(){var v=document.getElementById('bnr-vid');if(!v)return;var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)'),on=!('IntersectionObserver'in window);
         function sync(){if(on&&!document.hidden&&!(rm&&rm.matches)){var p=v.play();if(p&&p.catch)p.catch(function(){});}else v.pause();}
-        if('IntersectionObserver'in window)new IntersectionObserver(function(e){on=e[0].isIntersecting;sync();},{threshold:.5}).observe(v);
+        function pst(){var u=v.getAttribute('data-poster');if(u){v.poster=u;v.removeAttribute('data-poster');}} /* постер вантажиться, лише коли слайд починає з'являтися */
+        if('IntersectionObserver'in window)new IntersectionObserver(function(e){if(e[0].isIntersecting)pst();on=e[0].intersectionRatio>=.5;sync();},{threshold:[0,.5]}).observe(v);else pst();
         document.addEventListener('visibilitychange',sync);if(rm&&rm.addEventListener)rm.addEventListener('change',sync);sync();})();</script>
       </div>
       <!-- слайди «🔥 Акції» і «✅ Новинки» додає js/app.js (renderBanner) з товарів з позначкою; без таких товарів слайд не показується -->
     </div>
     <div class="bnr__dots" id="bnr-dots" role="group" aria-label="Слайди банера" hidden></div>
   </section>
+  <a class="pickstrip" href="#pick" data-open-pick>
+    <span class="pickstrip__ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/><circle cx="20.8" cy="9" r=".2"/></svg></span>
+    <span class="pickstrip__t"><b>Підібрати фарбопульт</b><span>4 кроки: матеріал, компресор, бюджет, бренд</span></span>
+    <span class="pickstrip__go"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+  </a>
   <div class="chips" id="chips" role="tablist" aria-label="Категорії"></div>
   <div class="layout">
     <aside class="side" aria-label="Категорії">
@@ -189,6 +194,7 @@
         </label>
       </div>
       <p class="catintro" id="catintro" hidden></p>
+      <button class="pickcta" id="pickcta" type="button" data-open-pick hidden><span class="pickcta__ic"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/><circle cx="20.8" cy="9" r=".2"/></svg></span><span class="pickcta__t"><b>Не знаєте, який обрати?</b><span>Підберемо фарбопульт за 4 кроки</span></span><span class="pickcta__go">Підібрати <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></button>
       <ul class="grid" id="grid"></ul>
       <button class="btn btn--o more" id="more" type="button" hidden>Показати ще</button>
       <p class="empty" id="empty" hidden>Нічого не знайдено. Спробуйте інший запит або напишіть нам у Telegram — підберемо.</p>
@@ -350,6 +356,16 @@
   </div>
 </div>
 
+<!-- «Підібрати фарбопульт» (#pick, js/app.js renderPick) -->
+<div class="modal modal--pick" id="pickmodal" hidden>
+  <div class="modal__bg" data-close></div>
+  <div class="modal__box" role="dialog" aria-modal="true" aria-labelledby="pick-ttl">
+    <button class="modal__x" type="button" data-close aria-label="Закрити">✕</button>
+    <h2 id="pick-ttl" class="pk__ttl">Підібрати фарбопульт</h2>
+    <div id="pickbody"></div>
+  </div>
+</div>
+
 <!-- spray-gun comparison (up to 3, js/app.js) -->
 <div class="modal modal--cmp" id="cmpmodal" hidden>
   <div class="modal__bg" data-close></div>
@@ -376,11 +392,11 @@
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script src="data/products.js?v=36"></script>
-<script src="js/media.js?v=2"></script>
-<script src="js/app.js?v=46"></script>
-<script type="module" src="js/fb.js?v=3"></script>
-<script src="js/radio.js?v=2"></script>
+<script defer src="data/products.js?v=37"></script>
+<script defer src="js/media.js?v=2"></script>
+<script defer src="js/app.js?v=48"></script>
+<script type="module" src="js/fb.js?v=4"></script>
+<script defer src="js/radio.js?v=2"></script>
 <script data-goatcounter="https://alexbes.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
