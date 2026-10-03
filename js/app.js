@@ -113,9 +113,12 @@
   /* ---------- catalog render ---------- */
   function renderCats() {
     var total = PRODUCTS.length;
-    var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }, { id: 'sale', name: '🔥 Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: '✅ Новинки', count: PRODUCTS.filter(isNew).length }].concat(CATS);
+    var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }, { id: 'sale', name: '🔥 Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: '✅ Новинки', count: PRODUCTS.filter(isNew).length }];
+    var nx = PRODUCTS.filter(isExcl).length; // «💎 Ексклюзив» — окремо від «Новинок», лише коли є такі товари
+    if (nx || state.cat === 'excl') items.push({ id: 'excl', name: '💎 Ексклюзив', count: nx });
     var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
-    if (nf || state.cat === 'fav') items.splice(3, 0, { id: 'fav', name: 'Вибране', count: nf });
+    if (nf || state.cat === 'fav') items.push({ id: 'fav', name: 'Вибране', count: nf });
+    items = items.concat(CATS);
     var nm = function (c, short) { return c.id === 'fav' ? '<span class="chip__fav">' + svgI(IC.heart, 15) + 'Вибране</span>' : esc(short && c.id === 'all' ? 'Усі' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '"><span>' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
@@ -136,6 +139,7 @@
     var list = PRODUCTS.filter(function (p) {
       if (state.cat === 'sale') { if (!isSale(p)) return false; }
       else if (state.cat === 'new') { if (!isNew(p)) return false; }
+      else if (state.cat === 'excl') { if (!isExcl(p)) return false; }
       else if (state.cat === 'fav') { if (!isFav(p.id)) return false; }
       else if (state.cat !== 'all' && p.category !== state.cat) return false;
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
@@ -156,16 +160,32 @@
   }
   var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
-  function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
-  function isNew(p) { return /новинк/i.test(promoOf(p) || ''); }
+  // позначка може бути: 'Акція' / 'ХІТ' / 'Новинка' / 'Ексклюзив' / свій текст, комбінації через ' · ' ('Новинка · Ексклюзив')
+  // або короткі коди з адмінки через '+' ('new+excl', 'sale+excl', 'hit+excl', 'excl') — ліміт поля promo у Firestore 20 символів
+  var PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив' };
+  function promoTags(p) {
+    var t = promoOf(p); if (!t) return [];
+    var out = [], ex = false;
+    String(t).split(/\s*(?:·|\+)\s*/).forEach(function (x) {
+      if (!x) return; var k = PROMO_CODE[x.toLowerCase()] || x;
+      if (k === 'Ексклюзив') ex = true; else if (out.indexOf(k) < 0) out.push(k);
+    });
+    if (ex) out.push('Ексклюзив'); // «Ексклюзив» завжди другою позначкою (під основною)
+    return out;
+  }
+  function promoText(p) { return promoTags(p).join(' · '); }
+  function hasTag(p, re) { return promoTags(p).some(function (x) { return re.test(x); }); }
+  function isSale(p) { return hasTag(p, /акці/i); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
+  function isNew(p) { return hasTag(p, /новинк/i); }
+  function isExcl(p) { return hasTag(p, /ексклюзив/i); } // окремий розділ «Ексклюзив» (незалежно від «Новинки»)
   // діамант для позначки «Ексклюзив»: SVG-грані холодного кольору; обертання/світіння — у CSS (.promo__gem)
   var GEM = '<span class="promo__gem" aria-hidden="true"><span class="promo__gem-glow"></span><span class="promo__gem-in"><svg viewBox="0 0 24 20" width="24" height="20" focusable="false">' +
     '<path d="M6 1h12l-3 6H9z" fill="#f2feff"/><path d="M6 1 0 7h9z" fill="#c4f4ff"/><path d="M18 1l6 6h-9z" fill="#9fe9ff"/>' +
     '<path d="M0 7h9l3 12z" fill="#6fd8f7"/><path d="M9 7h6l-3 12z" fill="#dffaff"/><path d="M15 7h9L12 19z" fill="#43bfe8"/>' +
     '<path d="M6 1h12l6 6-12 12L0 7z" fill="none" stroke="#ffffff" stroke-opacity=".75" stroke-width=".7" stroke-linejoin="round"/></svg></span></span>';
   function promoHTML(p) {
-    var t = promoOf(p); if (!t) return '';
-    return String(t).split(' · ').map(function (x, i) { // кілька позначок: 'Новинка · Ексклюзив' — друга під першою
+    var tg = promoTags(p); if (!tg.length) return '';
+    return tg.map(function (x, i) { // кілька позначок: 'Новинка · Ексклюзив' — друга під першою
       var n2 = i ? ' promo--n' + (i + 1) : '';
       if (x === 'ХІТ') return '<span class="promo promo--hit' + n2 + '">⭐ ' + x + '</span>';
       if (/новинк/i.test(x)) return '<span class="promo promo--new' + n2 + '">Новинка ✅</span>';
@@ -264,6 +284,7 @@
   var CAT_INTRO = {
     sale: 'Товари з позначкою «Акція». Ціну і наявність підтверджуємо при замовленні.',
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
+    excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
     meiji: 'Японські фарбопульти Meiji від офіційного представника в Україні: FINER-CORE, FINER III, F410, міні-джет FINER SPOT. Дюзу і систему (HVLP / SP) підберемо в Telegram.',
     sata: 'Фарбопульти SATA з технологією RP: SATAjet X DIGITAL pro та SATAjet 100 B.',
     china: 'Бюджетні китайські фарбопульти, зокрема NTools: HVLP, міні-джети та ґрунтовочні на PPS-системі.',
@@ -281,6 +302,7 @@
     if (state.cat === 'all') return CONFIG.homeTitle;
     if (state.cat === 'sale') return 'Акції — ' + CONFIG.siteName;
     if (state.cat === 'new') return 'Новинки — ' + CONFIG.siteName;
+    if (state.cat === 'excl') return 'Ексклюзив — ' + CONFIG.siteName;
     if (state.cat === 'fav') return 'Вибране — ' + CONFIG.siteName;
     return catById[state.cat].name + ' — купити в Україні | ' + CONFIG.siteName;
   }
@@ -297,7 +319,7 @@
     $('#empty').hidden = list.length > 0;
     if (!EMPTY_TXT) EMPTY_TXT = $('#empty').textContent;
     $('#empty').textContent = state.cat === 'fav' && !state.q ? 'У вибраному поки порожньо. Натисніть сердечко на картці товару, щоб зберегти його тут.' : EMPTY_TXT;
-    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'new' ? '✅ Новинки' : state.cat === 'fav' ? 'Вибране' : state.cat === 'all' ? '' : catById[state.cat].name;
+    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'new' ? '✅ Новинки' : state.cat === 'excl' ? '💎 Ексклюзив' : state.cat === 'fav' ? 'Вибране' : state.cat === 'all' ? '' : catById[state.cat].name;
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
@@ -783,7 +805,7 @@
     var list = relatedOf(p); if (list.length < 2) return '';
     return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><span class="emo">🧰</span> Ще купують разом</p>' +
       '<ul class="rel__list">' + list.map(function (x) {
-        var pr = unitPrice(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoOf(x);
+        var pr = unitPrice(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoText(x);
         return '<li class="rel__it"><button class="rel__open" type="button" data-open="' + esc(x.id) + '" aria-label="Відкрити: ' + esc(x.name) + '">' +
           '<span class="rel__img"><img ' + mainImg(x) + ' alt="" loading="lazy" decoding="async" width="200" height="200">' + (pm ? '<span class="rel__tag">' + esc(pm) + '</span>' : '') + '</span>' +
           '<span class="rel__nm">' + esc(x.name) + '</span>' +
@@ -832,7 +854,7 @@
     vi = vi || 0; qty = Math.max(1, qty || 1);
     var l = cart.filter(function (x) { return x.id === id && x.vi === vi; })[0];
     if (l) l.qty += qty; else cart.push({ id: id, vi: vi, qty: qty });
-    saveCart(); updateBadges();
+    lastOrder = null; saveCart(); updateBadges();
     stat('cart', 'cart:' + id + ':' + vi);
     var p = byId[id];
     toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + uahText(variantOf(p, vi).label) + ')' : ''));
@@ -840,6 +862,8 @@
   function updateBadges() {
     var n = cartCount();
     $$('[data-cart-count]').forEach(function (b) { b.textContent = n; b.hidden = n === 0; });
+    var nf = favList().length; // «Вибране» у нижньому меню
+    $$('[data-fav-count]').forEach(function (b) { b.textContent = nf > 99 ? '99+' : nf; b.hidden = nf === 0; });
   }
   // кошик → start-параметр бота: c_<індекс36>-<к-сть>[-<варіант>]_..._m<невідомі> (ліміт Telegram 64 символи)
   function botCartTokens(room) { // "_<i36>-<qty>[-<vi>]…[_m<N>]": токени займають ≤ room символів, решта рахується в _m
@@ -889,10 +913,83 @@
     if (!orderWriter || !cart.length) return null;
     var id = genOrderId(), data;
     try { data = siteOrderData(); } catch (e) { return null; }
+    var snap = cart.map(function (l) { return { id: l.id, vi: l.vi, qty: l.qty }; }), stxt = orderText();
     var p = orderWriter(id, data);
     if (!p || typeof p.then !== 'function') return null;
-    p.then(function () { track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); }, function (e) { try { console.warn('order doc not saved', e && e.code); } catch (x) {} });
+    p.then(function () { track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); orderPlaced(id, snap, stxt); },
+      function (e) { try { console.warn('order doc not saved', e && e.code); } catch (x) {} markPending(); }); // не записалось — кошик НЕ чистимо, лише спитаємо пізніше
     return CONFIG.orderBot + '?start=o_' + id + botCartTokens(36); // 2+20+≤36+_mN ≤ 64
+  }
+  /* ---------- очищення кошика після замовлення (03.10.2026) ----------
+     1) замовлення збережено в Firestore (кнопка «Бот для замовлень») → прибираємо з кошика саме замовлені позиції і показуємо «Дякуємо!»;
+     2) надсилання через месенджер / копіювання / дзвінок — сайт не знає, чи дійшло: ставимо позначку і при поверненні питаємо «Очистити кошик?» */
+  var lastOrder = null; // { id, text, t } — для екрана «Дякуємо!» у кошику
+  function orderNo(id) { return String(id).slice(-6); } // в адмінці «Замовлення» — повний id, ці 6 символів — його кінець
+  function orderPlaced(id, snap, text) {
+    snap.forEach(function (s) {
+      for (var i = 0; i < cart.length; i++) if (cart[i].id === s.id && cart[i].vi === s.vi) {
+        if (cart[i].qty > s.qty) cart[i].qty -= s.qty; else cart.splice(i, 1); // додали ще після замовлення — залишок лишається
+        break;
+      }
+    });
+    saveCart(); updateBadges(); dropPending(); promptHide();
+    lastOrder = { id: id, text: text, t: Date.now() };
+    if (openModalEl && openModalEl === $('#cmodal')) renderCart();
+    else toast('Замовлення №' + orderNo(id) + ' прийнято ✅ Кошик очищено');
+  }
+  var PENDING_KEY = 'alexbes_cart_pending';
+  function cartHash() { var j = JSON.stringify(allLines()), h = 5381; for (var i = 0; i < j.length; i++) h = ((h << 5) + h + j.charCodeAt(i)) | 0; return (h >>> 0).toString(36) + '.' + j.length; }
+  function markPending() { if (cart.length) save(PENDING_KEY, { h: cartHash(), t: Date.now(), no: false }); }
+  function dropPending() { try { localStorage.removeItem(PENDING_KEY); } catch (e) {} delete mem[PENDING_KEY]; }
+  function pendingNow() { // позначка актуальна: < 7 днів, кошик той самий, «Ні, залишити» ще не натискали
+    var m = load(PENDING_KEY, null); if (!m || !m.t) return null;
+    if (!cart.length || m.h !== cartHash() || Date.now() - m.t > 7 * 864e5) { dropPending(); return null; }
+    return m.no ? null : m;
+  }
+  var CP_ICON = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.1a2 2 0 0 1-2 1.9H8.2a2 2 0 0 1-2-1.9z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/><path d="m9.3 14.2 1.9 1.9 3.6-3.8"/></svg>';
+  function promptHide() { var el = $('#cprompt'); if (el) { el.classList.remove('on'); setTimeout(function () { if (!el.classList.contains('on')) el.hidden = true; }, 260); } }
+  function checkPending() {
+    var m = pendingNow(); if (!m) { promptHide(); return; }
+    var el = $('#cprompt');
+    if (!el) {
+      el = document.createElement('div'); el.id = 'cprompt'; el.className = 'cprompt'; el.hidden = true;
+      el.setAttribute('role', 'dialog'); el.setAttribute('aria-labelledby', 'cprompt-t'); el.setAttribute('aria-live', 'polite');
+      document.body.appendChild(el);
+    }
+    if (!el.hidden) return;
+    var n = cartCount();
+    el.innerHTML = '<span class="cprompt__ico">' + CP_ICON + '</span><div class="cprompt__b"><p class="cprompt__t" id="cprompt-t">Замовлення оформлено?</p>' +
+      '<p class="cprompt__s">Ви надсилали замовлення з кошика (' + n + ' шт). Очистити кошик?</p>' +
+      '<div class="cprompt__a"><button class="btn btn--y" type="button" data-cp-yes>Так, очистити</button><button class="btn btn--o" type="button" data-cp-no>Ні, залишити</button></div></div>';
+    el.hidden = false; void el.offsetWidth; el.classList.add('on');
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-cp-yes], [data-cp-no], #cartbody a[href^="tel:"]') : null; if (!t) return;
+    if (t.hasAttribute('data-cp-yes')) {
+      cart = []; saveCart(); updateBadges(); dropPending(); promptHide(); lastOrder = null; // невідомі зараз позиції (orphans) не чіпаємо
+      if (openModalEl && openModalEl === $('#cmodal')) renderCart();
+      toast('Кошик очищено ✅'); track('кошик/очищено-після-замовлення', 'Кошик очищено після замовлення');
+    } else if (t.hasAttribute('data-cp-no')) {
+      var m = load(PENDING_KEY, null); if (m) { m.no = true; save(PENDING_KEY, m); } promptHide();
+    } else markPending(); // дзвінок з кошика
+  });
+  var hiddenAt = 0;
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { hiddenAt = Date.now(); return; }
+    if (hiddenAt && Date.now() - hiddenAt >= 8000) setTimeout(checkPending, 600); // повернулись із месенджера
+  });
+  setTimeout(checkPending, 3500); // після завантаження (і синхронізації кошика з акаунтом)
+  function orderDoneHTML() {
+    var o = lastOrder, no = orderNo(o.id);
+    return '<div class="cdone"><span class="cdone__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="m7.8 12.3 2.8 2.8 5.6-5.8"/></svg></span>' +
+      '<h3 class="cdone__t">Дякуємо! Замовлення №' + esc(no) + ' прийнято</h3>' +
+      '<p class="cdone__s">Ми зв’яжемося з вами, щоб підтвердити ціну, наявність і доставку. Кошик очищено.</p>' +
+      '<div class="cactions">' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=o_' + esc(o.id) + '" target="_blank" rel="noopener">🤖 Відкрити бота з замовленням</a>' +
+        '<a class="btn btn--y btn--full" href="' + CONFIG.orderTelegram + '?text=' + encodeURIComponent(o.text + '\n\nЗамовлення №' + no) + '" target="_blank" rel="noopener">✈️ Написати в Telegram</a>' +
+        '<a class="btn btn--o" href="tel:' + CONFIG.phone + '">📞 Подзвонити</a>' +
+        '<button class="btn btn--o" type="button" data-close>До каталогу</button>' +
+      '</div></div>';
   }
   function orderText() {
     var lines = ['Вітаю! Хочу замовити (з сайту ' + CONFIG.siteName + '):', ''];
@@ -916,6 +1013,7 @@
   }
   function renderCart() {
     var body = $('#cartbody');
+    if (!cart.length && lastOrder && Date.now() - lastOrder.t < 30 * 60000) { body.innerHTML = orderDoneHTML(); return; }
     if (!cart.length) {
       body.innerHTML = '<div class="cempty"><span class="emo">😈</span>Кошик порожній.<br>Додайте товари з каталогу — і надішліть замовлення в Telegram.<br><br><button class="btn btn--y" type="button" data-close>До каталогу</button></div>';
       return;
@@ -1018,10 +1116,10 @@
     if (openModalEl) { stopMedia(); openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
     trackedOpen = null;
     if (h === '#how') { $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === 'how'); }); return; }
-    var navOn = /^#\/c\/sale/.test(h) ? 'sale' : 'catalog';
+    var navOn = /^#\/c\/sale/.test(h) ? 'sale' : /^#\/c\/fav/.test(h) ? 'fav' : 'catalog';
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === navOn); });
     var prevCat = state.cat;
-    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) state.cat = m[1]; else state.cat = 'all';
+    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'excl' || m[1] === 'fav')) state.cat = m[1]; else state.cat = 'all';
     if (prevCat === 'fav' || state.cat === 'fav') { renderCats(); }
     renderRecent();
     lastListHash = h;
@@ -1258,13 +1356,14 @@
     if (t.hasAttribute('data-botcart')) {
       var bu = null;
       try { bu = siteOrderLink(); } catch (err) { bu = null; }
-      if (!bu) { t.setAttribute('href', CONFIG.orderBot + '?start=' + botCartPayload()); track('бот/кошик', 'Бот для замовлень (кошик)'); return; } // звичайне посилання
+      if (!bu) { t.setAttribute('href', CONFIG.orderBot + '?start=' + botCartPayload()); track('бот/кошик', 'Бот для замовлень (кошик)'); markPending(); return; } // звичайне посилання
       e.preventDefault();
       var bw = window.open(bu, '_blank'); // синхронно в обробнику кліку — не блокується
       if (bw) { try { bw.opener = null; } catch (err) {} } else location.href = bu;
       t.setAttribute('href', bu);
       return;
     }
+    if (t.hasAttribute('data-copy') || t.hasAttribute('data-send') || t.hasAttribute('data-wa') || t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) markPending(); // спитаємо «Очистити кошик?», коли повернуться
     if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано ✅' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
       var tgu = CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText());
@@ -1424,7 +1523,8 @@
       var s = b.querySelector('span'); if (s) s.textContent = on ? 'У вибраному' : 'У вибране';
     });
     toast(on ? 'Додано у вибране' : 'Прибрано з вибраного');
-    renderCats(); markCats();
+    renderCats(); markCats(); updateBadges();
+    if (on) $$('.tab--fav .tab__ico').forEach(function (ic) { ic.classList.remove('bump'); void ic.offsetWidth; ic.classList.add('bump'); }); // «стрибок» сердечка в нижньому меню
     if (state.cat === 'fav' && !openModalEl) renderGrid();
   }
   function markCats() { $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); }); }

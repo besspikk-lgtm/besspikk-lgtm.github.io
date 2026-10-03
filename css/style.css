@@ -1536,3 +1536,72 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .promo__xt{animation:exclFlicker 4.2s linear infinite}
 .promo--excl::before{animation:exclPulse 2.4s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.promo__gem-in,.promo__gem-glow,.promo__xt,.promo--excl::before{animation:none!important}}
+/* «💎 Ексклюзив» — окремий розділ поруч із «Новинки» (той самий вигляд чипа, що й «Акції»/«Новинки») */
+.chip[data-cat="excl"]{justify-content:center;gap:10px}
+/* кошик після замовлення: екран «Дякуємо!» + запит «Очистити кошик?» (03.10.2026) */
+.cdone{text-align:center;padding:22px 6px 8px}
+.cdone__ico{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;color:#7ee39f;background:radial-gradient(circle at 50% 40%,rgba(63,191,106,.22),rgba(63,191,106,.06) 70%);border:1px solid rgba(126,227,159,.45);box-shadow:0 0 22px rgba(63,191,106,.25);margin-bottom:12px;animation:cdonePop .5s cubic-bezier(.2,1.4,.4,1) both}
+.cdone__t{margin:0 0 8px;font-size:19px;line-height:1.3;color:var(--text)}
+.cdone__s{margin:0 auto 18px;max-width:34ch;color:var(--text2);font-size:14.5px;line-height:1.5}
+.cdone .cactions{text-align:left}
+@keyframes cdonePop{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+.cprompt{position:fixed;z-index:60;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));display:flex;gap:12px;align-items:flex-start;padding:14px 14px 14px 12px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(14,34,74,.98),rgba(8,20,46,.98));border:1px solid rgba(255,215,0,.45);box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.06);
+  transform:translateY(16px);opacity:0;transition:transform .26s ease,opacity .26s ease}
+.cprompt.on{transform:none;opacity:1}
+.cprompt[hidden]{display:none}
+.cprompt__ico{flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--yellow);background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3)}
+.cprompt__b{flex:1;min-width:0}
+.cprompt__t{margin:0 0 2px;font-weight:700;font-size:15.5px;color:var(--text)}
+.cprompt__s{margin:0 0 10px;font-size:13.5px;line-height:1.4;color:var(--text2)}
+.cprompt__a{display:flex;gap:8px;flex-wrap:wrap}
+.cprompt__a .btn{flex:1 1 120px;min-height:42px;padding:8px 12px;font-size:14px}
+@media (min-width:761px){.cprompt{left:auto;right:24px;bottom:24px;width:390px}}
+@media (prefers-reduced-motion:reduce){.cprompt{transition:none}.cdone__ico{animation:none}}
+/* «Вибране» у нижньому меню (6 вкладок) */
+.prem .tabbar .tab--fav.on .tab__heart{fill:currentColor;fill-opacity:.22}
+.prem .tabbar .tab__ico.bump{animation:tabBump .6s cubic-bezier(.2,1.5,.4,1)}
+.prem .tabbar .tab__ico.bump .badge{animation:tabBadge .6s ease}
+@keyframes tabBump{0%{transform:scale(1)}30%{transform:scale(1.32)}55%{transform:scale(.92)}100%{transform:scale(1)}}
+@keyframes tabBadge{0%,100%{transform:scale(1)}40%{transform:scale(1.35)}}
+@media (max-width:400px){
+  .prem .tabbar{padding-left:1px;padding-right:1px}
+  .prem .tabbar a,.prem .tabbar button{font-size:10.5px;letter-spacing:-.01em}
+  .prem .tabbar .badge{right:-11px}
+}
+@media (max-width:370px){.prem .tabbar a,.prem .tabbar button{font-size:10px;letter-spacing:-.02em}}
+@media (max-width:330px){.prem .tabbar a,.prem .tabbar button{font-size:9.5px}}
+@media (prefers-reduced-motion:reduce){.prem .tabbar .tab__ico.bump,.prem .tabbar .tab__ico.bump .badge{animation:none}}
+/* ===== слайд PALINAL (2-й): прапор Італії, логотип з блиском, дві банки в 3D (тепле контурне світло) ===== */
+.prem .hm--pal{background:radial-gradient(70% 90% at 78% 50%,#2a2216 0%,#141218 58%,#0a0d16 100%)}
+.prem .hm--pal::before{background:radial-gradient(closest-side,rgba(255,196,0,.20),rgba(255,170,0,.07) 45%,transparent 72%),radial-gradient(60% 50% at 30% 70%,rgba(220,40,30,.16),transparent 70%)}
+.prem .hm__pic--pal::before{background:radial-gradient(34% 30% at 32% 34%,rgba(255,200,70,.34),rgba(230,150,40,.12) 55%,transparent 78%),
+  radial-gradient(36% 30% at 68% 64%,rgba(235,60,40,.30),rgba(200,40,30,.10) 55%,transparent 80%)}
+.hm__can--pp{left:3%;top:9%;width:58%;transform:translate3d(0,0,-46px)}
+.hm__can--sp{right:2%;bottom:5%;width:50%;transform:translate3d(0,0,34px)}
+.hm__can--pp .hm__g{filter:drop-shadow(0 0 4px rgba(255,190,90,.5)) drop-shadow(0 8px 14px rgba(0,0,0,.55)) brightness(.86)}
+.hm__can--sp .hm__g{filter:drop-shadow(0 0 4px rgba(255,170,70,.55)) drop-shadow(0 12px 16px rgba(0,0,0,.6))}
+.hm__can--pp .hm__shine{-webkit-mask-image:url(../img/hero-pal-polypal.webp?v=1);mask-image:url(../img/hero-pal-polypal.webp?v=1)}
+.hm__can--sp .hm__shine{-webkit-mask-image:url(../img/hero-pal-speed.webp?v=1);mask-image:url(../img/hero-pal-speed.webp?v=1)}
+.hm__can--pp .hm__shine::before,.hm__can--sp .hm__shine::before{background:linear-gradient(90deg,transparent 0,rgba(255,236,200,.10) 30%,rgba(255,248,232,.66) 50%,rgba(255,236,200,.10) 70%,transparent 100%)}
+.prem .hm--pal .hm__eyebrow{color:#ffd23c}
+.prem .hm__plogo{position:relative;display:block;width:min(100%,300px);aspect-ratio:760/234;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+.prem .hm__plogo img{display:block;width:100%;height:100%}
+.prem .hm__plogo-shine{position:absolute;inset:0;overflow:hidden;pointer-events:none;
+  -webkit-mask:url(../img/brand-palinal-t.webp?v=1) center/100% 100% no-repeat;mask:url(../img/brand-palinal-t.webp?v=1) center/100% 100% no-repeat}
+.prem .hm__plogo-shine::before{content:"";position:absolute;top:-40%;bottom:-40%;left:0;width:26%;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.14) 30%,rgba(255,255,255,.8) 50%,rgba(255,255,255,.14) 70%,transparent)}
+.prem .hm--pal .hm__jq{letter-spacing:.16em;margin-top:10px}
+@media (max-width:760px){.prem .hm__plogo{width:min(100%,168px)}.prem .hm--pal .hm__jq{margin-top:6px;font-size:9.5px;letter-spacing:.12em;line-height:1.35}}
+.bnr--anim .bnr__slide:not(.is-on) .hm__plogo{opacity:0}
+.bnr--anim .bnr__slide.is-on .hm__plogo{animation:hmLogoPop .9s cubic-bezier(.3,.7,.4,1) .3s both}
+.bnr--anim .bnr__slide.is-on .hm__plogo-shine::before{animation:hmLgShine 6s cubic-bezier(.45,.05,.35,1) 1.5s infinite}
+.bnr--anim .bnr__slide.is-on .hm__can--sp .hm__fl{animation:hmFloat 5.2s ease-in-out 1s infinite}
+.bnr--anim .bnr__slide.is-on .hm__can--pp .hm__fl{animation:hmFloat 6.4s ease-in-out -2.2s infinite}
+.bnr--anim .bnr__slide.is-on .hm__can--pp .hm__shine::before{animation:hmGlint 3.5s cubic-bezier(.45,.05,.35,1) 1.2s infinite}
+.bnr--anim .bnr__slide.is-on .hm__can--sp .hm__shine::before{animation:hmGlint 3.5s cubic-bezier(.45,.05,.35,1) 1.55s infinite}
+@media (prefers-reduced-motion:reduce){
+  .bnr--anim .bnr__slide .hm__plogo{animation:none!important;opacity:1!important;transform:none!important}
+  .prem .hm__plogo-shine::before{animation:none!important;opacity:0!important}
+}
+@media (min-width:761px){.prem .hm--pal .hm__jq{font-size:17px;letter-spacing:.14em}}

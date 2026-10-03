@@ -125,7 +125,23 @@ function onUser(u) {
 
 /* ---------- list ---------- */
 // several badges: 'Новинка · Ексклюзив'
-function promoTag(t) { return t ? String(t).split(' · ').map(function (x) { return '<span class="tag tag--promo">' + (x === 'ХІТ' ? '⭐ ХІТ' : x === 'Новинка' ? '✅ Новинка' : x === 'Ексклюзив' ? '💎 Ексклюзив' : '🔥 ' + esc(x)) + '</span>'; }).join('') : ''; }
+// позначка: основна (Акція / ХІТ / Новинка / свій текст) + окремий прапорець «Ексклюзив».
+// Читаємо всі старі формати ('Новинка · Ексклюзив', 'Ексклюзив') і нові коди ('new+excl', 'sale+excl', 'hit+excl'); поле promo у Firestore ≤ 20 символів.
+const PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив' };
+const PROMO_TO_CODE = { 'Новинка': 'new', 'Акція': 'sale', 'ХІТ': 'hit' };
+function parsePromo(t) {
+  const main = []; let excl = false;
+  String(t || '').split(/\s*(?:·|\+)\s*/).forEach((x) => { if (!x) return; const k = PROMO_CODE[x.toLowerCase()] || x; if (k === 'Ексклюзив') excl = true; else if (!main.includes(k)) main.push(k); });
+  return { main: main.join(' · '), excl };
+}
+function buildPromo(main, excl) {
+  if (!excl) return main || '';
+  if (!main) return 'Ексклюзив';
+  const c = PROMO_TO_CODE[main] || main;
+  return (c + '+excl').length <= 20 ? c + '+excl' : null; // null — свій текст задовгий для поєднання з «Ексклюзив»
+}
+const promoKey = (t) => { const x = parsePromo(t); return x.main + (x.excl ? '|excl' : ''); };
+function promoTag(t) { if (!t) return ''; const x = parsePromo(t), l = (x.main ? x.main.split(' · ') : []).concat(x.excl ? ['Ексклюзив'] : []); return l.map(function (y) { return '<span class="tag tag--promo">' + (y === 'ХІТ' ? '⭐ ХІТ' : y === 'Новинка' ? '✅ Новинка' : y === 'Ексклюзив' ? '💎 Ексклюзив' : '🔥 ' + esc(y)) + '</span>'; }).join(''); }
 function priceTxt(p) { return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + ' (≈ ' + uahOf(p.price_eur) + ')' + (p.price_label ? ' · ' + p.price_label : '')); }
 function renderList() {
   const q = $('#adm-q').value.trim().toLowerCase(), cat = $('#adm-cat').value || 'all', flt = $('#adm-flt').value;
@@ -202,6 +218,7 @@ function openEdit(id) {
   const v = p || { name: '', category: CATS[0] ? CATS[0].id : '', price_eur: null, price_label: '', in_stock: 'В наявності', description: '', promo: '', variants: null, code: '', hidden: false };
   const stockKnown = STOCKS.includes(v.in_stock);
   const b = p && p.isStatic ? baseVals(p.id) : null;
+  const pm = parsePromo(v.promo);
   const was = (k, txt) => (b && JSON.stringify(b[k] ?? '') !== JSON.stringify(v[k] ?? '') ? '<span class="ed__base">було: ' + esc(txt != null ? txt : b[k]) + '</span>' : '');
   $('#ed-form').innerHTML =
     '<h2 id="ed-ttl">' + (isNew ? '➕ Новий товар' : '✏️ Редагування') + '</h2>' +
@@ -213,7 +230,9 @@ function openEdit(id) {
       '<label>Текст до ціни <span class="hint">(необов’язково, напр. «1 л», «комплект»)</span><input name="price_label" maxlength="120" value="' + esc(v.price_label || '') + '"></label>' +
       '<label>Наявність<select name="in_stock_sel">' + STOCKS.map((s) => '<option' + (s === v.in_stock ? ' selected' : '') + '>' + esc(s) + '</option>').join('') + '<option value="__custom"' + (stockKnown ? '' : ' selected') + '>Інше (свій текст)…</option></select>' + was('in_stock') + '</label>' +
       '<label class="full" data-custom-stock' + (stockKnown ? ' hidden' : '') + '>Свій текст наявності<input name="in_stock_custom" maxlength="120" value="' + esc(stockKnown ? '' : v.in_stock) + '" placeholder="напр. У дорозі · 2 шт"></label>' +
-      '<label>Позначка<select name="promo"><option value="">Немає</option><option value="Акція"' + (v.promo === 'Акція' ? ' selected' : '') + '>🔥 Акція</option><option value="ХІТ"' + (v.promo === 'ХІТ' ? ' selected' : '') + '>⭐ ХІТ</option><option value="Новинка"' + (v.promo === 'Новинка' ? ' selected' : '') + '>✅ Новинка</option><option value="Ексклюзив"' + (v.promo === 'Ексклюзив' ? ' selected' : '') + '>💎 Ексклюзив</option><option value="Новинка · Ексклюзив"' + (v.promo === 'Новинка · Ексклюзив' ? ' selected' : '') + '>✅ Новинка + 💎 Ексклюзив</option>' + (v.promo && ['Акція', 'ХІТ', 'Новинка', 'Ексклюзив', 'Новинка · Ексклюзив'].indexOf(v.promo) < 0 ? '<option value="' + esc(v.promo) + '" selected>' + esc(v.promo) + '</option>' : '') + '</select></label>' +
+      '<label>Позначка<select name="promo"><option value="">Немає</option>' + [['Акція', '🔥 Акція'], ['ХІТ', '⭐ ХІТ'], ['Новинка', '✅ Новинка']].map((o) => '<option value="' + o[0] + '"' + (pm.main === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') +
+        (pm.main && !PROMO_TO_CODE[pm.main] ? '<option value="' + esc(pm.main) + '" selected>' + esc(pm.main) + '</option>' : '') + '</select></label>' +
+      '<label class="ed__chk ed__excl"><input name="promo_excl" type="checkbox"' + (pm.excl ? ' checked' : '') + '><span>💎 Ексклюзив <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
       '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна в €», напр. «Дюза 1.3 = 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea><span class="hint" data-uah-vars>' + esc(varsHint(varsToText(v.variants))) + '</span></label>' +
@@ -344,8 +363,10 @@ function readForm(f) {
   const sel = g('in_stock_sel'), stock = sel === '__custom' ? g('in_stock_custom') : sel;
   if (!stock) throw new Error('Вкажіть наявність.');
   const variants = textToVars(f.elements.variants.value);
+  const promo = buildPromo(g('promo'), !!(f.elements.promo_excl && f.elements.promo_excl.checked));
+  if (promo == null) throw new Error('Свій текст позначки задовгий, щоб поєднати його з «Ексклюзив» (до 15 символів).');
   return { name, category: g('category'), price_eur: price, price_label: g('price_label'), in_stock: stock, description: f.elements.description.value.trim(),
-    promo: g('promo'), variants, code: g('code'), hidden: f.elements.hidden.checked };
+    promo, variants, code: g('code'), hidden: f.elements.hidden.checked };
 }
 function slugId(name) {
   const tr = { а: 'a', б: 'b', в: 'v', г: 'h', ґ: 'g', д: 'd', е: 'e', є: 'ie', ж: 'zh', з: 'z', и: 'y', і: 'i', ї: 'i', й: 'i', к: 'k', л: 'l', м: 'm', н: 'n', о: 'o', п: 'p', р: 'r', с: 's', т: 't', у: 'u', ф: 'f', х: 'kh', ц: 'ts', ч: 'ch', ш: 'sh', щ: 'shch', ь: '', ю: 'iu', я: 'ia' };
@@ -373,7 +394,8 @@ async function save(f) {
   if (edit.isStatic) {
     // store only what differs from the static catalog, so future catalog updates still apply to untouched fields
     const b = baseVals(id); docv = {};
-    FIELDS.forEach((k) => { const a = v[k] === '' ? null : v[k], z = b[k] === '' ? null : b[k]; if (JSON.stringify(a ?? null) !== JSON.stringify(z ?? null)) docv[k] = v[k]; });
+    FIELDS.forEach((k) => { const a = v[k] === '' ? null : v[k], z = b[k] === '' ? null : b[k];
+      if (k === 'promo' ? promoKey(a) !== promoKey(z) : JSON.stringify(a ?? null) !== JSON.stringify(z ?? null)) docv[k] = v[k]; }); // 'new+excl' = 'Новинка · Ексклюзив' з каталогу — не перекриваємо
     if (v.hidden) docv.hidden = true;
     if (hasPhoto) docv.hasPhoto = true;
     if (JSON.stringify(gallery) !== '["static"]') docv.gallery = gallery;
