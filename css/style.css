@@ -1438,14 +1438,38 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .prem .hm__flag svg{display:block;width:100%;height:100%}
 /* логотип Meiji поруч із заголовком «Meiji» */
 .prem .hm__brand{display:inline-flex;align-items:center;gap:.28em;white-space:nowrap}
-.prem .hm__logo{display:block;height:1.5em;width:auto;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.prem .hm__logo{display:block;position:relative;height:1.5em;aspect-ratio:400/252;width:auto}
+/* бейдж Meiji шарами (03.10.2026): червоне коло, горила, напис meiji — горила рухається окремо всередині кола */
+.prem .hm__lg{position:absolute;inset:0;width:100%;height:100%;max-width:none}
+.prem .hm__lg--disc,.prem .hm__lg--word{filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
+.prem .hm__lg--disc{transform-origin:63.9% 52%}
+.prem .hm__lg--gor{transform-origin:63.9% 97%}
+.prem .hm__lg-glow{position:absolute;left:25.9%;top:-8.5%;width:76%;height:121%;border-radius:50%;pointer-events:none;opacity:0;
+  background:radial-gradient(closest-side,rgba(255,40,30,.55),rgba(255,30,20,.18) 55%,transparent 75%)}
+.prem .hm__lg-shine{position:absolute;inset:0;overflow:hidden;pointer-events:none;
+  -webkit-mask:url(../img/meiji-logo-badge.webp?v=1) center/100% 100% no-repeat;mask:url(../img/meiji-logo-badge.webp?v=1) center/100% 100% no-repeat}
+.prem .hm__lg-shine::before{content:"";position:absolute;top:-40%;bottom:-40%;left:0;width:26%;opacity:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12) 30%,rgba(255,255,255,.7) 50%,rgba(255,255,255,.12) 70%,transparent)}
+@keyframes hmLogoPop{0%{opacity:0;transform:scale(.35) rotate(-14deg)}45%{opacity:1;transform:scale(1.16) rotate(4deg)}65%{transform:scale(.94) rotate(-1.5deg)}82%{transform:scale(1.03) rotate(.5deg)}100%{opacity:1;transform:none}}
+/* «живий» цикл 3,6 с: два удари в груди (стиск + підйом), потім спокійне погойдування головою/тілом */
+@keyframes hmGor{0%,100%{transform:translate3d(0,0,0) rotate(0) scale(1)}
+  8%{transform:translate3d(0,-2.5%,0) scale(1.06,1.04)}13%{transform:translate3d(0,0,0) scale(.99,1.01)}
+  19%{transform:translate3d(0,-2.5%,0) scale(1.06,1.04)}25%{transform:translate3d(0,0,0) scale(1)}
+  50%{transform:translate3d(-.6%,-1.6%,0) rotate(-2.2deg)}75%{transform:translate3d(.6%,-.8%,0) rotate(1.6deg)}}
+@keyframes hmDisc{0%,25%,100%{transform:scale(1)}9%,20%{transform:scale(1.035)}}
+@keyframes hmLgGlow{0%,30%,100%{opacity:0;transform:scale(.9)}9%,20%{opacity:.95;transform:scale(1.06)}14%{opacity:.5;transform:scale(1)}}
+@keyframes hmLgShine{0%{transform:translate3d(-130%,0,0) skewX(-20deg);opacity:0}4%{opacity:1}22%{transform:translate3d(420%,0,0) skewX(-20deg);opacity:1}25%,100%{transform:translate3d(420%,0,0) skewX(-20deg);opacity:0}}
 @media (max-width:760px){.prem .hm__flag{width:15px;height:10px;margin-right:5px;vertical-align:-1.5px}.prem .hm__logo{height:1.55em}}
 
 /* --- запуск анімацій на активному слайді --- */
 .bnr--anim .bnr__slide:not(.is-on) :is(.hm__eyebrow,.hm__ttl,.hm__line,.hm__pic,.hm__logo,.bnr__ttl,.bnr__sub,.bnr__it){opacity:0}
 .bnr--anim .bnr__slide.is-on .hm__eyebrow{animation:bnrInX .7s cubic-bezier(.22,.61,.36,1) .08s both}
 .bnr--anim .bnr__slide.is-on .hm__ttl{animation:bnrIn .75s cubic-bezier(.22,.61,.36,1) .18s both}
-.bnr--anim .bnr__slide.is-on .hm__logo{animation:hmLogo .8s cubic-bezier(.22,.61,.36,1) .3s both}
+.bnr--anim .bnr__slide.is-on .hm__logo{animation:hmLogoPop .9s cubic-bezier(.3,.7,.4,1) .3s both}
+.bnr--anim .bnr__slide.is-on .hm__lg--gor{will-change:transform;animation:hmGor 3.6s ease-in-out 1.3s infinite}
+.bnr--anim .bnr__slide.is-on .hm__lg--disc{animation:hmDisc 3.6s ease-in-out 1.3s infinite}
+.bnr--anim .bnr__slide.is-on .hm__lg-glow{animation:hmLgGlow 3.6s ease-in-out 1.3s infinite}
+.bnr--anim .bnr__slide.is-on .hm__lg-shine::before{animation:hmLgShine 7.2s cubic-bezier(.45,.05,.35,1) 2.4s infinite}
 .bnr--anim .bnr__slide.is-on .hm__jq{animation:bnrIn .75s cubic-bezier(.22,.61,.36,1) .28s both}
 .bnr--anim .bnr__slide.is-on .hm__line{animation:bnrIn .75s cubic-bezier(.22,.61,.36,1) .38s both}
 .bnr--anim .bnr__slide.is-on .hm__flag{animation:hmWave 3.2s ease-in-out .6s infinite}
@@ -1478,6 +1502,37 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .bnr--anim .bnr__slide :is(.hm__eyebrow,.hm__ttl,.hm__jq,.hm__line,.hm__pic,.hm__logo,.hm__flag,.hm__flag-sh,.hm__stage,.hm__fl,.bnr__ttl,.bnr__sub,.bnr__it){animation:none!important;opacity:1!important}
   .bnr--anim .bnr__slide :is(.hm__eyebrow,.hm__ttl,.hm__jq,.hm__line,.hm__logo,.hm__flag,.hm__flag-sh,.hm__fl,.bnr__ttl,.bnr__sub,.bnr__it){transform:none!important}
   .prem .hm::before,.prem .bnr__promo::before,.hm__shine::before{animation:none!important;opacity:0!important}
+  .prem .hm__lg,.prem .hm__lg-glow,.prem .hm__lg-shine::before{animation:none!important;transform:none!important}
+  .prem .hm__lg-glow,.prem .hm__lg-shine::before{opacity:0!important}
   .prem .hm__pic--duo::before{animation:none!important}
   .prem .hm__txt,.hm__tilt,.prem .hm__pic--duo::before,.prem .bnr__promo .bnr__items{transition:none!important}
 }
+
+/* 03.10.2026: позначка «Ексклюзив 💎» + друга позначка під першою; рядок «Лімітована серія» в описі товару */
+.promo.promo--n2{top:calc(16px + 30px)}
+@media (max-width:760px){.promo.promo--n2{top:calc(12px + 26px)}}
+.pm__ltd{display:block;margin:0 0 8px;font-weight:800;color:var(--yellow)}
+
+/* 03.10.2026: «Ексклюзив 💎» — золотий неон; діамант крутиться (rotateY) і світить холодним неоном. Анімації — лише transform/opacity */
+.promo.promo--excl,.prem .promo.promo--excl{display:inline-flex;align-items:center;gap:5px;text-transform:none;letter-spacing:.04em;font-weight:800;color:#ffd76a;
+  background:rgba(10,8,4,.92);border:0;backdrop-filter:none;-webkit-backdrop-filter:none;
+  box-shadow:inset 0 0 0 1px rgba(255,207,74,.95),inset 0 0 8px rgba(255,190,40,.28),0 0 6px rgba(255,196,48,.55),0 0 14px rgba(255,170,0,.28)}
+.promo--excl::before{content:"";position:absolute;inset:-4px;border-radius:inherit;pointer-events:none;opacity:.55;
+  box-shadow:0 0 10px 1px rgba(255,200,60,.55),inset 0 0 10px rgba(255,200,60,.25)}
+.promo__xt{position:relative;color:#ffd76a;
+  text-shadow:0 0 1px #fff6d6,0 0 3px #ffe08a,0 0 7px rgba(255,200,60,.95),0 0 13px rgba(255,170,20,.75),0 0 22px rgba(255,150,0,.45)}
+.promo__gem{position:relative;display:inline-block;width:1.35em;height:1.15em;perspective:60px;flex:none}
+.promo__gem-in{position:absolute;inset:0;display:block;transform-style:preserve-3d;
+  filter:drop-shadow(0 0 1.5px #e9fdff) drop-shadow(0 0 4px rgba(110,230,255,.95)) drop-shadow(0 0 8px rgba(70,200,255,.6))}
+.promo__gem-in svg{display:block;width:100%;height:100%}
+.promo__gem-glow{position:absolute;left:50%;top:50%;width:2.4em;height:2.4em;margin:-1.2em 0 0 -1.2em;border-radius:50%;pointer-events:none;opacity:.55;
+  background:radial-gradient(closest-side,rgba(190,245,255,.75),rgba(90,215,255,.32) 45%,transparent 72%)}
+@keyframes exclSpin{from{transform:rotateY(0)}to{transform:rotateY(360deg)}}
+@keyframes exclCold{0%,100%{opacity:.35;transform:scale(.85)}50%{opacity:.95;transform:scale(1.12)}}
+@keyframes exclFlicker{0%,18%,22%,62%,64%,70%,100%{opacity:1}20%{opacity:.72}63%{opacity:.82}67%{opacity:.9}}
+@keyframes exclPulse{0%,100%{opacity:.35}50%{opacity:.85}}
+.promo__gem-in{animation:exclSpin 2.8s linear infinite}
+.promo__gem-glow{animation:exclCold 1.4s ease-in-out infinite}
+.promo__xt{animation:exclFlicker 4.2s linear infinite}
+.promo--excl::before{animation:exclPulse 2.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.promo__gem-in,.promo__gem-glow,.promo__xt,.promo--excl::before{animation:none!important}}

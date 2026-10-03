@@ -7,7 +7,7 @@ const CATS = DATA.categories;
 const catById = Object.fromEntries(CATS.map((c) => [c.id, c]));
 const BASE = Object.fromEntries(DATA.products.map((p) => [p.id, p]));
 // Same as PROMO in js/app.js (static badges); Firestore field `promo` overrides it.
-const PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+const PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
 const STOCKS = ['В наявності', 'Немає в наявності', 'Наявність уточнюйте', 'Під замовлення', 'У дорозі'];
 DATA.products.forEach((p) => { if (p.in_stock && !STOCKS.includes(p.in_stock)) STOCKS.push(p.in_stock); });
 const PLACEHOLDER = 'img/logo.webp?v=3';
@@ -124,7 +124,8 @@ function onUser(u) {
 }
 
 /* ---------- list ---------- */
-function promoTag(t) { return t ? '<span class="tag tag--promo">' + (t === 'ХІТ' ? '⭐ ХІТ' : t === 'Новинка' ? '✅ Новинка' : '🔥 ' + esc(t)) + '</span>' : ''; }
+// several badges: 'Новинка · Ексклюзив'
+function promoTag(t) { return t ? String(t).split(' · ').map(function (x) { return '<span class="tag tag--promo">' + (x === 'ХІТ' ? '⭐ ХІТ' : x === 'Новинка' ? '✅ Новинка' : x === 'Ексклюзив' ? '💎 Ексклюзив' : '🔥 ' + esc(x)) + '</span>'; }).join('') : ''; }
 function priceTxt(p) { return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + ' (≈ ' + uahOf(p.price_eur) + ')' + (p.price_label ? ' · ' + p.price_label : '')); }
 function renderList() {
   const q = $('#adm-q').value.trim().toLowerCase(), cat = $('#adm-cat').value || 'all', flt = $('#adm-flt').value;
@@ -212,7 +213,7 @@ function openEdit(id) {
       '<label>Текст до ціни <span class="hint">(необов’язково, напр. «1 л», «комплект»)</span><input name="price_label" maxlength="120" value="' + esc(v.price_label || '') + '"></label>' +
       '<label>Наявність<select name="in_stock_sel">' + STOCKS.map((s) => '<option' + (s === v.in_stock ? ' selected' : '') + '>' + esc(s) + '</option>').join('') + '<option value="__custom"' + (stockKnown ? '' : ' selected') + '>Інше (свій текст)…</option></select>' + was('in_stock') + '</label>' +
       '<label class="full" data-custom-stock' + (stockKnown ? ' hidden' : '') + '>Свій текст наявності<input name="in_stock_custom" maxlength="120" value="' + esc(stockKnown ? '' : v.in_stock) + '" placeholder="напр. У дорозі · 2 шт"></label>' +
-      '<label>Позначка<select name="promo"><option value="">Немає</option><option value="Акція"' + (v.promo === 'Акція' ? ' selected' : '') + '>🔥 Акція</option><option value="ХІТ"' + (v.promo === 'ХІТ' ? ' selected' : '') + '>⭐ ХІТ</option><option value="Новинка"' + (v.promo === 'Новинка' ? ' selected' : '') + '>✅ Новинка</option></select></label>' +
+      '<label>Позначка<select name="promo"><option value="">Немає</option><option value="Акція"' + (v.promo === 'Акція' ? ' selected' : '') + '>🔥 Акція</option><option value="ХІТ"' + (v.promo === 'ХІТ' ? ' selected' : '') + '>⭐ ХІТ</option><option value="Новинка"' + (v.promo === 'Новинка' ? ' selected' : '') + '>✅ Новинка</option><option value="Ексклюзив"' + (v.promo === 'Ексклюзив' ? ' selected' : '') + '>💎 Ексклюзив</option><option value="Новинка · Ексклюзив"' + (v.promo === 'Новинка · Ексклюзив' ? ' selected' : '') + '>✅ Новинка + 💎 Ексклюзив</option>' + (v.promo && ['Акція', 'ХІТ', 'Новинка', 'Ексклюзив', 'Новинка · Ексклюзив'].indexOf(v.promo) < 0 ? '<option value="' + esc(v.promo) + '" selected>' + esc(v.promo) + '</option>' : '') + '</select></label>' +
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
       '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна в €», напр. «Дюза 1.3 = 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea><span class="hint" data-uah-vars>' + esc(varsHint(varsToText(v.variants))) + '</span></label>' +

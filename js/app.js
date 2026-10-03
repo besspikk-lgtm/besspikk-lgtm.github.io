@@ -154,15 +154,29 @@
     }
     return list;
   }
-  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
   function isNew(p) { return /новинк/i.test(promoOf(p) || ''); }
+  // діамант для позначки «Ексклюзив»: SVG-грані холодного кольору; обертання/світіння — у CSS (.promo__gem)
+  var GEM = '<span class="promo__gem" aria-hidden="true"><span class="promo__gem-glow"></span><span class="promo__gem-in"><svg viewBox="0 0 24 20" width="24" height="20" focusable="false">' +
+    '<path d="M6 1h12l-3 6H9z" fill="#f2feff"/><path d="M6 1 0 7h9z" fill="#c4f4ff"/><path d="M18 1l6 6h-9z" fill="#9fe9ff"/>' +
+    '<path d="M0 7h9l3 12z" fill="#6fd8f7"/><path d="M9 7h6l-3 12z" fill="#dffaff"/><path d="M15 7h9L12 19z" fill="#43bfe8"/>' +
+    '<path d="M6 1h12l6 6-12 12L0 7z" fill="none" stroke="#ffffff" stroke-opacity=".75" stroke-width=".7" stroke-linejoin="round"/></svg></span></span>';
   function promoHTML(p) {
     var t = promoOf(p); if (!t) return '';
-    if (t === 'ХІТ') return '<span class="promo promo--hit">⭐ ' + t + '</span>';
-    if (/новинк/i.test(t)) return '<span class="promo promo--new">Новинка ✅</span>';
-    return '<span class="promo">🔥 ' + esc(t) + '</span>';
+    return String(t).split(' · ').map(function (x, i) { // кілька позначок: 'Новинка · Ексклюзив' — друга під першою
+      var n2 = i ? ' promo--n' + (i + 1) : '';
+      if (x === 'ХІТ') return '<span class="promo promo--hit' + n2 + '">⭐ ' + x + '</span>';
+      if (/новинк/i.test(x)) return '<span class="promo promo--new' + n2 + '">Новинка ✅</span>';
+      if (/ексклюзив/i.test(x)) return '<span class="promo promo--excl' + n2 + '" aria-label="Ексклюзив"><span class="promo__xt">Ексклюзив</span>' + GEM + '</span>'; // золотий неон + діамант, що крутиться
+      return '<span class="promo' + n2 + '">🔥 ' + esc(x) + '</span>';
+    }).join('');
+  }
+  // опис у картці товару: «Лімітована серія — …!» на початку — виділяємо окремим рядком
+  function pmDesc(d) {
+    var t = uahText(d || ''), m = t.match(/^(Лімітована серія[^!]*!)\s*/);
+    return m ? '<strong class="pm__ltd">' + esc(m[1]) + '</strong>' + esc(t.slice(m[0].length)) : esc(t);
   }
   function cardHTML(p, i) {
     var eager = i < 8 ? 'eager' : 'lazy';
@@ -794,7 +808,7 @@
         '<div class="pm__tools">' + favBtnHTML(p, 'favb--pm') + '<button class="pmt" type="button" data-share="' + esc(p.id) + '" aria-label="Поділитися: ' + esc(p.name) + '">' + svgI(IC.share, 19) + '<span>Поділитися</span></button></div>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
-        '<p class="pm__desc">' + esc(uahText(p.description)) + '</p>' + videosHTML(p) + relatedHTML(p) +
+        '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
         '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
