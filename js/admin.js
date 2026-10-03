@@ -7,7 +7,7 @@ const CATS = DATA.categories;
 const catById = Object.fromEntries(CATS.map((c) => [c.id, c]));
 const BASE = Object.fromEntries(DATA.products.map((p) => [p.id, p]));
 // Same as PROMO in js/app.js (static badges); Firestore field `promo` overrides it.
-const PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+const PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
 const STOCKS = ['В наявності', 'Немає в наявності', 'Наявність уточнюйте', 'Під замовлення', 'У дорозі'];
 DATA.products.forEach((p) => { if (p.in_stock && !STOCKS.includes(p.in_stock)) STOCKS.push(p.in_stock); });
 const PLACEHOLDER = 'img/logo.webp?v=3';
