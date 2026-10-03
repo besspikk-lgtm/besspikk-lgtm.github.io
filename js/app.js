@@ -150,7 +150,7 @@
     }
     return list;
   }
-  var PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  var PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
   function isNew(p) { return /новинк/i.test(promoOf(p) || ''); }
