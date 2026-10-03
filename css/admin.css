@@ -160,3 +160,6 @@ ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-we
   .adm-badge{min-width:19px;height:19px;font-size:11px;padding:0 5px}
 }
 .stc--1{justify-content:center}.stc--1 .stc__c{flex:0 0 120px}
+/* «Купити в один клік» (03.10.2026) */
+.oquick{margin-left:auto;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;white-space:nowrap;color:var(--yellow);box-shadow:inset 0 0 0 1px var(--yellow)}
+.ocard--quick{box-shadow:inset 3px 0 0 var(--yellow)}

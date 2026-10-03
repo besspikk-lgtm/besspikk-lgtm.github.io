@@ -56,7 +56,7 @@
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png?v=3">
 <link rel="preload" href="fonts/manrope-cyrillic-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/style.css?v=39">
+<link rel="stylesheet" href="css/style.css?v=40">
 </head>
 <body class="prem">
 <div class="uastripe" aria-hidden="true"></div>
@@ -197,6 +197,14 @@
     </section>
   </div>
 </main>
+
+<section class="wrap rv" id="recent" aria-labelledby="recent-ttl" hidden>
+  <div class="rv__head">
+    <h2 id="recent-ttl"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Нещодавно переглянуті</h2>
+    <button class="rv__clr" type="button" data-recent-clear>Очистити</button>
+  </div>
+  <ul class="rv__list" id="recent-list"></ul>
+</section>
 
 <section id="how" class="wrap how">
   <h2>Як замовити</h2>
@@ -359,11 +367,19 @@
 
 </div>
 
+<!-- нижній аркуш: «Купити в один клік» / «Поділитися» -->
+<div class="sheet" id="sheet" hidden>
+  <div class="sheet__bg" data-sheet-close></div>
+  <div class="sheet__box" role="dialog" aria-modal="true" aria-labelledby="sheet-ttl">
+    <button class="sheet__x" type="button" data-sheet-close aria-label="Закрити"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <div id="sheetbody"></div>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script src="data/products.js?v=33"></script>
 <script src="js/media.js?v=2"></script>
-<script src="js/app.js?v=40"></script>
+<script src="js/app.js?v=41"></script>
 <script type="module" src="js/fb.js?v=3"></script>
 <script src="js/radio.js?v=2"></script>
 <script data-goatcounter="https://alexbes.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>

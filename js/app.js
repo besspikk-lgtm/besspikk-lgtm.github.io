@@ -114,11 +114,14 @@
   function renderCats() {
     var total = PRODUCTS.length;
     var items = [{ id: 'all', name: 'Усі товари', count: total, icon: '😈' }, { id: 'sale', name: '🔥 Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: '✅ Новинки', count: PRODUCTS.filter(isNew).length }].concat(CATS);
+    var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
+    if (nf || state.cat === 'fav') items.splice(3, 0, { id: 'fav', name: 'Вибране', count: nf });
+    var nm = function (c, short) { return c.id === 'fav' ? '<span class="chip__fav">' + svgI(IC.heart, 15) + 'Вибране</span>' : esc(short && c.id === 'all' ? 'Усі' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
-      return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '"><span>' + esc(c.name) + '</span><span class="n">' + c.count + '</span></a></li>';
+      return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '"><span>' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
     }).join('');
     $('#chips').innerHTML = items.map(function (c) {
-      return '<a class="chip" role="tab" href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + esc(c.id === 'all' ? 'Усі' : c.name) + '<small>' + c.count + '</small></a>';
+      return '<a class="chip" role="tab" href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + nm(c, true) + '<small>' + c.count + '</small></a>';
     }).join('');
   }
   function norm(s) { return String(s).toLowerCase().replace(/[’'`ʼ]/g, '').replace(/ґ/g, 'г'); }
@@ -133,6 +136,7 @@
     var list = PRODUCTS.filter(function (p) {
       if (state.cat === 'sale') { if (!isSale(p)) return false; }
       else if (state.cat === 'new') { if (!isNew(p)) return false; }
+      else if (state.cat === 'fav') { if (!isFav(p.id)) return false; }
       else if (state.cat !== 'all' && p.category !== state.cat) return false;
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
@@ -164,7 +168,7 @@
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
       '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + '</button>' +
-      '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button></div>' +
+      '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + '</div>' +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео">🎬 Відео</span>' : '') + '</span>' +
         '<button class="card__name" type="button" data-open="' + p.id + '">' + esc(p.name) + '</button>' +
@@ -263,8 +267,10 @@
     if (state.cat === 'all') return CONFIG.homeTitle;
     if (state.cat === 'sale') return 'Акції — ' + CONFIG.siteName;
     if (state.cat === 'new') return 'Новинки — ' + CONFIG.siteName;
+    if (state.cat === 'fav') return 'Вибране — ' + CONFIG.siteName;
     return catById[state.cat].name + ' — купити в Україні | ' + CONFIG.siteName;
   }
+  var EMPTY_TXT = '';
   function renderGrid() {
     var list = filtered();
     curList = list; shown = 0;
@@ -275,7 +281,9 @@
     renderMore();
     revealQuiet = false;
     $('#empty').hidden = list.length > 0;
-    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'new' ? '✅ Новинки' : state.cat === 'all' ? '' : catById[state.cat].name;
+    if (!EMPTY_TXT) EMPTY_TXT = $('#empty').textContent;
+    $('#empty').textContent = state.cat === 'fav' && !state.q ? 'У вибраному поки порожньо. Натисніть сердечко на картці товару, щоб зберегти його тут.' : EMPTY_TXT;
+    var cn = state.cat === 'sale' ? '🔥 Акції' : state.cat === 'new' ? '✅ Новинки' : state.cat === 'fav' ? 'Вибране' : state.cat === 'all' ? '' : catById[state.cat].name;
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
@@ -360,6 +368,7 @@
     lbHide();
     pmState = { id: id, vi: 0, qty: 1, gi: 0 };
     renderProduct();
+    pushRecent(id);
     showModal('#pmodal');
     if (swap) { var bx = $('#pmodal .modal__box'); if (bx) bx.scrollTop = 0; }
     document.title = p.name + ' — ' + CONFIG.siteName;
@@ -782,11 +791,13 @@
       '<div class="pm__info">' +
         '<span class="pm__cat">' + esc(p.category_name) + '</span>' +
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
+        '<div class="pm__tools">' + favBtnHTML(p, 'favb--pm') + '<button class="pmt" type="button" data-share="' + esc(p.id) + '" aria-label="Поділитися: ' + esc(p.name) + '">' + svgI(IC.share, 19) + '<span>Поділитися</span></button></div>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
         '<p class="pm__desc">' + esc(uahText(p.description)) + '</p>' + videosHTML(p) + relatedHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
+        '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
         '<div class="cactions">' +
           '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">🤖 Замовити через бота</a>' +
           '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Telegram</a>' +
@@ -965,6 +976,7 @@
     var x = openModalEl.querySelector('.modal__x'); if (x) x.focus({ preventScroll: true });
   }
   function hideModal() {
+    sheetClose();
     if (!openModalEl) return;
     lbHide();
     stopMedia();
@@ -979,6 +991,7 @@
   /* ---------- routing ---------- */
   function route() {
     var h = location.hash || '#/';
+    sheetClose();
     var m;
     if ((m = h.match(/^#\/p\/([\w-]+)/))) {
       if (!$('#grid').children.length) renderGrid(); // direct product link: have the catalog ready behind the modal
@@ -994,7 +1007,9 @@
     var navOn = /^#\/c\/sale/.test(h) ? 'sale' : 'catalog';
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === navOn); });
     var prevCat = state.cat;
-    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new')) state.cat = m[1]; else state.cat = 'all';
+    if ((m = h.match(/^#\/c\/([\w-]+)/)) && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) state.cat = m[1]; else state.cat = 'all';
+    if (prevCat === 'fav' || state.cat === 'fav') { renderCats(); }
+    renderRecent();
     lastListHash = h;
     renderGrid();
     var wantScroll = !catScrollSkip && (catScrollPending || (routedOnce && prevCat !== state.cat));
@@ -1021,7 +1036,10 @@
     if (!el) return;
     var off = stickyOffset() + 12, y = el.getBoundingClientRect().top + window.scrollY - off;
     if (card && el !== card) { var cy = card.getBoundingClientRect().top + window.scrollY - off; if (cy - y > window.innerHeight * 0.4) y = cy; } // довгий інтро розділу — одразу до першої картки
-    window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: reducedMotion() ? 'instant' : 'smooth' });
+    var top = Math.max(0, Math.round(y)), y0 = window.scrollY, rm = reducedMotion();
+    window.scrollTo({ top: top, behavior: rm ? 'instant' : 'smooth' });
+    // страховка: Chrome інколи «глушить» програмну плавну прокрутку (напр. після закриття аркуша) — тоді просто стрибок
+    if (!rm && Math.abs(top - y0) > 4) setTimeout(function () { if (Math.abs(window.scrollY - y0) < 2) window.scrollTo({ top: top, behavior: 'instant' }); }, 180);
   }
   function isCatHref(h) { return h === '#/' || h === '' || /^#\/c\/[\w-]+$/.test(h); }
 
@@ -1330,7 +1348,7 @@
     CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; });
     splitCart(allLines()); saveCart(true); updateBadges();
     renderCats(); renderBanner();
-    renderGrid(); cmpSync();
+    renderGrid(); cmpSync(); renderRecent();
     if (openModalEl && openModalEl === $('#pmodal') && pmState.id) { if (byId[pmState.id]) renderProduct(); else hideModal(); }
     else if (openModalEl && openModalEl === $('#cmodal')) renderCart();
     else if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare();
@@ -1351,6 +1369,216 @@
       }, function () { delete photoReq[id]; });
     });
   }
+  /* ---------- 03.10.2026: «Вибране», «Нещодавно переглянуті», «Поділитися», «Купити в один клік» ----------
+     Усе локально (localStorage), без нових залежностей. Швидке замовлення йде тим самим шляхом, що й кошик:
+     документ orders/<id> у Firestore (orderWriter із js/fb.js) → адмінка «Замовлення»; посилання o_<id> — у Telegram-бот.
+     Маркер «Швидке замовлення» — на початку text і в note (окремого поля правила Firestore не дозволяють). */
+  var SITE_URL = 'https://besspikk-lgtm.github.io/';
+  var QUICK_MARK = 'Швидке замовлення';
+  function svgI(d, sz) { return '<svg viewBox="0 0 24 24" width="' + (sz || 20) + '" height="' + (sz || 20) + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + d + '</svg>'; }
+  var IC = {
+    heart: '<path class="i-fill" d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
+    share: '<path d="M12 3.5v11"/><path d="m7.8 7.7 4.2-4.2 4.2 4.2"/><path d="M5.5 12.5v5.8A2.2 2.2 0 0 0 7.7 20.5h8.6a2.2 2.2 0 0 0 2.2-2.2v-5.8"/>',
+    bolt: '<path d="M13.2 2.8 5 13.4h6.2l-1.3 7.8 8.2-10.6h-6.2z"/>',
+    check: '<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16 9.6"/>',
+    x: '<path d="M6 6l12 12M18 6 6 18"/>',
+    tg: '<path d="M21.2 4.2 2.9 11.3c-.8.3-.8 1.4 0 1.7l4.6 1.6 1.8 5.5c.2.7 1.1.9 1.6.4l2.6-2.5 4.6 3.4c.6.4 1.4.1 1.6-.6l3-15.4c.2-.8-.6-1.5-1.3-1.2z"/><path d="m7.5 14.6 9.8-6.6-6.9 7.6"/>',
+    chat: '<path d="M12 3.5c-4.8 0-8.5 3.2-8.5 7.6 0 2.5 1.2 4.6 3.2 6v3.4l3.2-1.9c.7.1 1.4.2 2.1.2 4.8 0 8.5-3.3 8.5-7.7S16.8 3.5 12 3.5z"/><path d="M9.2 8.6c.4 1.9 1.9 3.8 4.2 4.8"/>',
+    link: '<path d="M10.3 13.7a4.2 4.2 0 0 0 5.9 0l2.9-2.9a4.2 4.2 0 0 0-5.9-5.9l-1.1 1.1"/><path d="M13.7 10.3a4.2 4.2 0 0 0-5.9 0l-2.9 2.9a4.2 4.2 0 0 0 5.9 5.9l1.1-1.1"/>',
+    clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+    phone: '<path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12.5 12.5 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/>'
+  };
+
+  /* --- Вибране --- */
+  var favs = (function () { var a = load('alexbes_favs', []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, 300) : []; })();
+  function isFav(id) { return favs.indexOf(id) >= 0; }
+  function favList() { return favs.filter(function (id) { return byId[id]; }); }
+  function favBtnHTML(p, cls) {
+    var on = isFav(p.id);
+    return '<button class="favb ' + cls + (on ? ' is-on' : '') + '" type="button" data-fav="' + esc(p.id) + '" aria-pressed="' + on + '" aria-label="' + (on ? 'Прибрати з вибраного' : 'Додати у вибране') + ': ' + esc(p.name) + '" title="' + (on ? 'У вибраному' : 'У вибране') + '">' + svgI(IC.heart, cls === 'favb--pm' ? 19 : 18) + (cls === 'favb--pm' ? '<span>' + (on ? 'У вибраному' : 'У вибране') + '</span>' : '') + '</button>';
+  }
+  function toggleFav(id) {
+    var p = byId[id]; if (!p) return;
+    var on = !isFav(id);
+    if (on) favs.unshift(id); else favs = favs.filter(function (x) { return x !== id; });
+    save('alexbes_favs', favs);
+    track('вибране/' + (on ? 'додано' : 'прибрано') + '/' + id, (on ? 'Вибране +: ' : 'Вибране −: ') + p.name);
+    $$('[data-fav="' + id + '"]').forEach(function (b) {
+      b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on);
+      b.setAttribute('aria-label', (on ? 'Прибрати з вибраного' : 'Додати у вибране') + ': ' + p.name);
+      b.title = on ? 'У вибраному' : 'У вибране';
+      var s = b.querySelector('span'); if (s) s.textContent = on ? 'У вибраному' : 'У вибране';
+    });
+    toast(on ? 'Додано у вибране' : 'Прибрано з вибраного');
+    renderCats(); markCats();
+    if (state.cat === 'fav' && !openModalEl) renderGrid();
+  }
+  function markCats() { $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); }); }
+
+  /* --- Нещодавно переглянуті (до 8) --- */
+  var RECENT_MAX = 8;
+  var recent = (function () { var a = load('alexbes_recent', []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, 16) : []; })();
+  function pushRecent(id) {
+    recent = [id].concat(recent.filter(function (x) { return x !== id; })).slice(0, 16); // запас на приховані товари
+    save('alexbes_recent', recent);
+    renderRecent();
+  }
+  function renderRecent() {
+    var sec = $('#recent'), ul = $('#recent-list'); if (!sec || !ul) return;
+    var list = recent.filter(function (id) { return byId[id]; }).slice(0, RECENT_MAX);
+    sec.hidden = !list.length;
+    ul.innerHTML = list.map(function (id) {
+      var p = byId[id];
+      return '<li class="rv__it"><button class="rv__card" type="button" data-open="' + esc(p.id) + '"><span class="rv__img"><img ' + mainImg(p) + ' alt="" loading="lazy" decoding="async" width="160" height="160"></span>' +
+        '<span class="rv__n">' + esc(p.name) + '</span><span class="rv__p">' + (hasPrice(p) ? uah(p.price_eur) : 'Ціну уточнюйте') + '</span></button></li>';
+    }).join('');
+    fillPhotos();
+  }
+
+  /* --- нижній аркуш (швидке замовлення, меню «Поділитися») --- */
+  var sheetFocus = null, sheetKind = null;
+  function sheetOpen(kind, html, label) {
+    var sh = $('#sheet'); if (!sh) return;
+    sheetFocus = document.activeElement; sheetKind = kind;
+    $('#sheetbody').innerHTML = html;
+    sh.querySelector('.sheet__box').setAttribute('aria-label', label || '');
+    sh.setAttribute('data-kind', kind);
+    sh.hidden = false;
+    var f = sh.querySelector('[data-autofocus]') || sh.querySelector('.sheet__x');
+    if (f) setTimeout(function () { try { f.focus({ preventScroll: true }); } catch (e) {} }, 30);
+  }
+  function sheetClose() {
+    var sh = $('#sheet'); if (!sh || sh.hidden) return false;
+    sh.hidden = true; sheetKind = null; $('#sheetbody').innerHTML = '';
+    if (sheetFocus && sheetFocus.focus && sheetFocus.isConnected) { try { sheetFocus.focus({ preventScroll: true }); } catch (e) {} }
+    return true;
+  }
+
+  /* --- Поділитися --- */
+  function productUrl(p) { return SITE_URL + '#/p/' + encodeURIComponent(p.id); }
+  function shareProduct(id) {
+    var p = byId[id]; if (!p) return;
+    var url = productUrl(p), text = p.name + (hasPrice(p) ? ' — ' + uahTxt(unitPrice(p, pmState.id === id ? pmState.vi : 0)) : '');
+    if (navigator.share) {
+      navigator.share({ title: p.name, text: text, url: url }).then(function () { track('поділитися/системне/' + id, 'Поділитися (системне меню): ' + p.name); },
+        function (e) { if (!e || e.name !== 'AbortError') shareMenu(p, url, text); });
+      return;
+    }
+    shareMenu(p, url, text);
+  }
+  function shareMenu(p, url, text) {
+    track('поділитися/меню/' + p.id, 'Поділитися (меню): ' + p.name);
+    sheetOpen('share',
+      '<h3 class="sheet__ttl" id="sheet-ttl">Поділитися</h3><p class="sheet__sub">' + esc(p.name) + '</p>' +
+      '<div class="shr">' +
+        '<a class="shr__it" href="https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text) + '" target="_blank" rel="noopener" data-shr="telegram" data-shr-id="' + esc(p.id) + '" data-autofocus>' + svgI(IC.tg, 22) + '<span>Telegram</span></a>' +
+        '<a class="shr__it" href="viber://forward?text=' + encodeURIComponent(text + ' ' + url) + '" data-shr="viber" data-shr-id="' + esc(p.id) + '">' + svgI(IC.chat, 22) + '<span>Viber</span></a>' +
+        '<button class="shr__it" type="button" data-shr="copy" data-shr-id="' + esc(p.id) + '" data-url="' + esc(url) + '">' + svgI(IC.link, 22) + '<span>Копіювати посилання</span></button>' +
+      '</div><p class="sheet__url">' + esc(url) + '</p>', 'Поділитися');
+  }
+
+  /* --- Купити в один клік --- */
+  function normPhoneUA(s) { // 0XX XXX XX XX | +380… | 380… | 80… → "+380 XX XXX XX XX" або null
+    var d = String(s || '').replace(/\D/g, '');
+    if (d.length === 12 && d.slice(0, 3) === '380') d = '0' + d.slice(3);
+    else if (d.length === 11 && d.slice(0, 2) === '80') d = d.slice(1);
+    else if (d.length === 9) d = '0' + d;
+    if (!/^0[3-9]\d{8}$/.test(d)) return null;
+    return '+380 ' + d.slice(1, 3) + ' ' + d.slice(3, 6) + ' ' + d.slice(6, 8) + ' ' + d.slice(8);
+  }
+  var quick = null; // { id, vi, qty, busy }
+  function quickLine(p, vi, qty) {
+    var v = variantOf(p, vi), up = unitPrice(p, vi);
+    return { name: p.name + (v ? ' (' + uahText(v.label).replace(/\u00a0/g, ' ') + ')' : ''), up: up, sum: up != null ? toUah(up) * qty : null };
+  }
+  function quickOpen(id) {
+    var p = byId[id]; if (!p) return;
+    var vi = pmState.id === id ? pmState.vi : 0, qty = pmState.id === id ? Math.max(1, Math.min(999, parseInt(($('#pmq') || {}).value, 10) || 1)) : 1;
+    quick = { id: id, vi: vi, qty: qty, busy: false };
+    var L = quickLine(p, vi, qty);
+    track('швидке/відкрито/' + id, 'Купити в один клік (відкрито): ' + p.name);
+    sheetOpen('quick',
+      '<h3 class="sheet__ttl" id="sheet-ttl">' + svgI(IC.bolt, 20) + 'Купити в один клік</h3>' +
+      '<div class="qk__item"><img ' + mainImg(p) + ' alt="" width="64" height="64"><div><b>' + esc(L.name) + '</b><span>' + qty + ' шт' + (L.sum != null ? ' · ' + fmtUah(L.sum).replace(/ /g, '\u00a0') : ' · ціну уточнимо') + '</span></div></div>' +
+      '<form class="qk__form" id="qkform" novalidate>' +
+        '<label>Ім’я<input name="name" maxlength="100" autocomplete="name" required value="' + esc(form.name || '') + '" data-autofocus></label>' +
+        '<label>Телефон<input name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" required placeholder="0XX XXX XX XX" value="' + esc(form.phone || '') + '"></label>' +
+        '<p class="qk__err" id="qkerr" role="alert" hidden></p>' +
+        '<button class="btn btn--y btn--full qk__go" type="submit">Надіслати замовлення</button>' +
+        '<p class="qk__note">Alex зателефонує або напише вам, щоб підтвердити ціну, наявність і деталі замовлення.</p>' +
+      '</form>', 'Купити в один клік');
+    fillPhotos();
+  }
+  function quickErr(msg, field) {
+    var e = $('#qkerr'); if (e) { e.textContent = msg; e.hidden = !msg; }
+    $$('#qkform input').forEach(function (i) { i.classList.toggle('is-bad', !!field && i.name === field); i.setAttribute('aria-invalid', !!field && i.name === field); });
+    if (field) { var f = $('#qkform input[name="' + field + '"]'); if (f) f.focus(); }
+  }
+  function quickSubmit() {
+    if (!quick || quick.busy) return;
+    var p = byId[quick.id]; if (!p) return;
+    var f = $('#qkform'), name = clipS(f.elements.name.value, 100), phone = normPhoneUA(f.elements.phone.value);
+    if (name.length < 2) return quickErr('Вкажіть, будь ласка, ім’я.', 'name');
+    if (!phone) return quickErr('Перевірте номер телефону: формат 0XX XXX XX XX або +380 XX XXX XX XX.', 'phone');
+    quickErr('');
+    form.name = name; form.phone = phone; save('alexbes_form', form);
+    var L = quickLine(p, quick.vi, quick.qty), v = variantOf(p, quick.vi);
+    var it = { id: clipS(p.id, 80), name: clipS(p.name, 300), qty: quick.qty, price_uah: L.up != null ? toUah(L.up) : null };
+    if (v) it.variant = clipS(uahText(v.label).replace(/\u00a0/g, ' '), 200);
+    var text = [QUICK_MARK + ' (в один клік) з сайту ' + CONFIG.siteName, '',
+      '1. ' + L.name + ' — ' + quick.qty + ' шт' + (L.up != null ? ' × ' + uahTxt(L.up) + ' = ' + fmtUah(L.sum) : ' — ціну уточнити'),
+      '', "Ім'я: " + name, 'Телефон: ' + phone, '', 'Передзвоніть, будь ласка, для підтвердження.'].join('\n');
+    var data = { v: 1, items: JSON.stringify([it]), count: 1, total_uah: L.sum != null ? Math.min(1e9, L.sum) : 0, ask: L.up != null ? 0 : 1,
+      text: clipS(text, 6000), name: name, phone: phone, note: QUICK_MARK + ' (в один клік)' };
+    var id = genOrderId(), btn = $('#qkform .qk__go');
+    quick.busy = true; if (btn) { btn.disabled = true; btn.textContent = 'Надсилаємо…'; }
+    var done = false, q = quick;
+    function fail(why) {
+      if (done) return; done = true; q.busy = false;
+      track('швидке/помилка/' + p.id, 'Купити в один клік (не надіслано: ' + why + '): ' + p.name);
+      if (sheetKind !== 'quick' || quick !== q) return;
+      $('#sheetbody').innerHTML = '<div class="qk__done qk__done--err"><h3 class="sheet__ttl" id="sheet-ttl">Не вдалося надіслати автоматично</h3>' +
+        '<p>Схоже, з’єднання недоступне. Замовте цей товар через бота або зателефонуйте — це займе хвилину.</p>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">' + svgI(IC.tg, 18) + 'Замовити через бота</a>' +
+        '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">' + svgI(IC.phone, 18) + 'Подзвонити ' + CONFIG.phoneLabel + '</a></div>';
+    }
+    var w = null;
+    try { w = orderWriter ? orderWriter(id, data) : null; } catch (e) { w = null; }
+    if (!w || typeof w.then !== 'function') return fail('немає з’єднання з базою');
+    var to = setTimeout(function () { fail('тайм-аут'); }, 12000);
+    w.then(function () {
+      clearTimeout(to); if (done) return; done = true; q.busy = false;
+      track('швидке/надіслано/' + p.id, 'Купити в один клік (надіслано): ' + p.name);
+      if (sheetKind !== 'quick' || quick !== q) return;
+      $('#sheetbody').innerHTML = '<div class="qk__done"><span class="qk__ok">' + svgI(IC.check, 44) + '</span>' +
+        '<h3 class="sheet__ttl" id="sheet-ttl">Дякуємо! Замовлення прийнято</h3>' +
+        '<p>' + esc(L.name) + ' — ' + q.qty + ' шт.</p>' +
+        '<p>Alex зв’яжеться з вами за номером <b>' + esc(phone) + '</b>, щоб підтвердити ціну, наявність і деталі.</p>' +
+        '<p class="qk__no">Номер замовлення: <b>' + esc(id.slice(0, 6).toUpperCase()) + '</b></p>' +
+        '<a class="btn btn--o btn--full" href="' + CONFIG.orderBot + '?start=o_' + id + '" target="_blank" rel="noopener" data-quickbot>' + svgI(IC.tg, 18) + 'Надіслати також у Telegram-бот</a>' +
+        '<button class="btn btn--y btn--full" type="button" data-sheet-close>Готово</button></div>';
+      var ok = $('#sheetbody .btn--y'); if (ok) ok.focus({ preventScroll: true });
+    }, function (e) { clearTimeout(to); try { console.warn('quick order not saved', e && e.code); } catch (x) {} fail(e && e.code ? e.code : 'помилка запису'); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('[data-sheet-close], [data-fav], [data-share], [data-quick], [data-shr], [data-recent-clear]') : null;
+    if (!t) return;
+    if (t.hasAttribute('data-sheet-close')) { e.preventDefault(); sheetClose(); return; }
+    if (t.hasAttribute('data-fav')) { e.preventDefault(); e.stopPropagation(); toggleFav(t.getAttribute('data-fav')); return; }
+    if (t.hasAttribute('data-share')) { e.preventDefault(); shareProduct(t.getAttribute('data-share')); return; }
+    if (t.hasAttribute('data-quick')) { e.preventDefault(); quickOpen(t.getAttribute('data-quick')); return; }
+    if (t.hasAttribute('data-recent-clear')) { e.preventDefault(); recent = []; save('alexbes_recent', recent); renderRecent(); return; }
+    if (t.hasAttribute('data-shr')) {
+      var ch = t.getAttribute('data-shr'), sid = t.getAttribute('data-shr-id'), sp = byId[sid];
+      track('поділитися/' + ch + '/' + sid, 'Поділитися (' + ch + '): ' + (sp ? sp.name : sid));
+      if (ch === 'copy') { e.preventDefault(); copyText(t.getAttribute('data-url')).then(function (ok) { toast(ok ? 'Посилання скопійовано' : 'Не вдалося скопіювати'); if (ok) sheetClose(); }); }
+      else setTimeout(sheetClose, 300);
+    }
+  }, true);
+  document.addEventListener('submit', function (e) { if (e.target && e.target.id === 'qkform') { e.preventDefault(); quickSubmit(); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('#sheet') && !$('#sheet').hidden) { e.preventDefault(); e.stopImmediatePropagation(); sheetClose(); } }, true);
+
   window.AlexBes = {
     applyRemote: applyRemote,
     setPhotoLoader: function (fn) { photoLoader = fn; fillPhotos(); },

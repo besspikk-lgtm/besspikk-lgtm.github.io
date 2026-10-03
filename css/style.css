@@ -1284,3 +1284,91 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .bnr__map-txt span{font-size:9.5px}
   .bnr__map-smt{display:none}
 }
+
+/* ===== 03.10.2026: «Вибране», «Нещодавно переглянуті», «Поділитися», «Купити в один клік» ===== */
+/* сердечко */
+.favb{display:inline-flex;align-items:center;justify-content:center;gap:7px;border:0;cursor:pointer;color:var(--text2);background:transparent;transition:color .15s,background .15s,box-shadow .15s,transform .15s}
+.favb .i-fill{fill:transparent;transition:fill .15s}
+.favb.is-on{color:var(--yellow)}
+.favb.is-on .i-fill{fill:currentColor}
+.favb:focus-visible,.pmt:focus-visible,.rv__card:focus-visible,.shr__it:focus-visible,.sheet__x:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.favb--card{position:absolute;top:10px;right:10px;z-index:3;width:36px;height:36px;border-radius:50%;background:rgba(8,17,31,.62);box-shadow:inset 0 0 0 1px var(--line2);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.prem .favb--card{top:16px;right:16px}
+.favb--card:hover{color:#fff;background:rgba(8,17,31,.82)}
+.favb--card:active{transform:scale(.92)}
+@media (max-width:760px){.favb--card,.prem .favb--card{top:12px;right:12px;width:34px;height:34px}}
+/* інструменти в картці товару: вибране + поділитися */
+.pm__tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:-4px}
+.favb--pm,.pmt{height:36px;padding:0 14px 0 11px;border-radius:999px;font-size:13px;font-weight:650;letter-spacing:.01em;color:var(--text2);background:transparent;box-shadow:inset 0 0 0 1px var(--line2);display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer}
+.favb--pm:hover,.pmt:hover{color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.favb--pm.is-on{color:var(--yellow);box-shadow:inset 0 0 0 1px rgba(255,215,0,.55);background:rgba(255,215,0,.06)}
+/* «Купити в один клік» */
+.btn--1c{background:transparent;color:var(--yellow);box-shadow:inset 0 0 0 1.5px var(--yellow)}
+.prem .btn--1c{background:transparent;color:var(--yellow);box-shadow:inset 0 0 0 1.5px rgba(255,215,0,.85)}
+.btn--1c:hover,.prem .btn--1c:hover{background:rgba(255,215,0,.08)}
+.btn svg{flex:none}
+/* чіп «Вибране» */
+.chip__fav{display:inline-flex;align-items:center;gap:6px}
+.chip__fav svg{color:var(--yellow)}
+.chip__fav .i-fill{fill:currentColor}
+/* нещодавно переглянуті */
+.rv{margin-top:8px;margin-bottom:28px}
+.rv__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.rv__head h2{display:flex;align-items:center;gap:10px;margin:0;font-size:19px}
+.rv__head h2 svg{color:var(--yellow)}
+.rv__clr{border:0;background:none;color:var(--muted);font-size:13px;font-weight:600;padding:6px 2px;cursor:pointer}
+.rv__clr:hover{color:var(--text)}
+.rv{--rvpad:20px}
+@media (max-width:760px){.rv{--rvpad:16px}}
+.rv__list{list-style:none;margin:0 calc(-1 * var(--rvpad));padding:2px var(--rvpad) 10px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.rv__list::-webkit-scrollbar{display:none}
+.rv__it{flex:0 0 150px;scroll-snap-align:start}
+.rv__card{display:flex;flex-direction:column;gap:8px;width:100%;height:100%;padding:8px 8px 12px;border:0;border-radius:16px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);color:var(--text);text-align:left;font:inherit;cursor:pointer;transition:box-shadow .2s}
+.rv__card:hover{box-shadow:inset 0 0 0 1px var(--line2)}
+.rv__img{display:block;aspect-ratio:1;border-radius:11px;overflow:hidden;background:#0b1524}
+.rv__img img{width:100%;height:100%;object-fit:cover}
+.rv__n{font-size:12.5px;font-weight:650;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;padding:0 2px}
+.rv__p{font-size:13px;font-weight:750;color:var(--yellow);padding:0 2px;margin-top:auto}
+@media (min-width:900px){.rv__it{flex-basis:170px}.rv__list{margin:0;padding:2px 0 10px}}
+/* нижній аркуш */
+.sheet{position:fixed;inset:0;z-index:70;display:flex;align-items:flex-end;justify-content:center}
+.sheet__bg{position:absolute;inset:0;background:rgba(3,7,14,.62);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:shFade .2s ease}
+.sheet__box{position:relative;width:100%;max-width:460px;max-height:calc(100% - 40px);overflow:auto;background:var(--surface);color:var(--text2);border-radius:24px 24px 0 0;box-shadow:0 0 0 1px var(--line),0 -20px 60px rgba(0,0,0,.5);padding:26px 22px calc(22px + env(safe-area-inset-bottom));animation:shUp .26s cubic-bezier(.2,.8,.2,1)}
+@media (min-width:761px){.sheet{align-items:center}.sheet__box{border-radius:24px;padding-bottom:24px}}
+@keyframes shUp{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes shFade{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.sheet__box,.sheet__bg{animation:none}}
+.sheet__x{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.07);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:inset 0 0 0 1px var(--line2)}
+.sheet__ttl{display:flex;align-items:center;gap:9px;margin:0 40px 6px 0;font-size:19px;font-weight:750;color:var(--text);line-height:1.3}
+.sheet__ttl svg{color:var(--yellow)}
+.sheet__sub{margin:0 0 16px;color:var(--muted);font-size:13.5px}
+.sheet__url{margin:14px 0 0;font-size:12px;color:var(--muted);word-break:break-all}
+/* меню «Поділитися» */
+.shr{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.shr__it{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:86px;padding:12px 6px;border:0;border-radius:16px;background:var(--bg2);box-shadow:inset 0 0 0 1px var(--line);color:var(--text);font:inherit;font-size:12.5px;font-weight:650;text-align:center;cursor:pointer;text-decoration:none!important}
+.shr__it svg{color:var(--yellow)}
+.shr__it:hover{box-shadow:inset 0 0 0 1px var(--line2);color:#fff}
+/* швидке замовлення */
+.qk__item{display:flex;align-items:center;gap:12px;margin:14px 0 18px;padding:10px;border-radius:16px;background:var(--bg2);box-shadow:inset 0 0 0 1px var(--line)}
+.qk__item img{width:64px;height:64px;border-radius:11px;object-fit:cover;flex:none;background:#0b1524}
+.qk__item b{display:block;color:var(--text);font-size:14px;font-weight:700;line-height:1.35}
+.qk__item span{display:block;margin-top:3px;font-size:13px;color:var(--yellow);font-weight:700}
+.qk__form{display:grid;gap:12px}
+.qk__form label{display:flex;flex-direction:column;gap:6px;font-size:12.5px;font-weight:600;letter-spacing:.02em;color:var(--muted)}
+.qk__form input{height:48px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);color:var(--text);padding:0 14px;font:inherit;font-size:16px;outline:none}
+.qk__form input:focus{border-color:var(--yellow)}
+.qk__form input.is-bad{border-color:#ff8a8a}
+.qk__err{margin:0;color:#ffb3b3;font-size:13px;font-weight:600}
+.qk__go{margin-top:4px}
+.qk__go:disabled{opacity:.7;cursor:progress}
+.qk__note{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.qk__done{display:grid;gap:10px;text-align:center;justify-items:center}
+.qk__done .sheet__ttl{margin:0;justify-content:center}
+.qk__done p{margin:0;line-height:1.55}
+.qk__done .btn{width:100%}
+.qk__done--err{text-align:left;justify-items:stretch}
+.qk__done--err .sheet__ttl{justify-content:flex-start;margin-right:40px}
+.qk__ok{color:var(--yellow);margin-top:4px}
+.qk__no{font-size:13px;color:var(--muted)}
+.qk__no b{color:var(--text);letter-spacing:.06em}
+.qk__done p b{white-space:nowrap}
