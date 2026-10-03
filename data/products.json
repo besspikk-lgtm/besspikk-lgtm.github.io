@@ -25,7 +25,7 @@
    "id": "acc",
    "name": "Манометри, PPS та аксесуари",
    "icon": "⚙️",
-   "count": 5
+   "count": 6
   },
   {
    "id": "lak",
@@ -1171,6 +1171,46 @@
    "photo_source": "https://spraygunsusa.com/products/meiji-finer-core-1-5-replacement-nozzle",
    "in_stock": "Немає в наявності",
    "flag": null
+  },
+  {
+   "id": "3m-d7915-prefilters",
+   "category": "acc",
+   "category_name": "Манометри, PPS та аксесуари",
+   "name": "Предфільтри 3M D7915 P1 R на маску",
+   "description": "Комплект предфільтрів 3M D7915 класу P1 R для захисту від пилу та частинок. У комплекті: 4 предфільтри та пара фіксаторів 3M D701. Стандарт EN 143:2000.",
+   "price_eur": 20,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна вказана за комплект: 4 предфільтри + пара фіксаторів.",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/3m-d7915-prefilters.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 03.10.2026)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "code": "D7915",
+   "brand": "3M",
+   "photos_extra": [
+    "img/p/3m-d7915-prefilters-2.webp?v=20261003"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Клас захисту",
+      "P1 R"
+     ],
+     [
+      "Стандарт",
+      "EN 143:2000+A1:2006"
+     ],
+     [
+      "Комплектація",
+      "4 предфільтри 3M D7915 + пара фіксаторів 3M D701"
+     ]
+    ],
+    "src": "Дані з упаковки 3M"
+   }
   },
   {
    "id": "pal-223-ultra",

@@ -89,7 +89,11 @@
     var out = [];
     g.forEach(function (k) {
       if (typeof k !== 'string' || out.length >= 10) return;
-      if (k === 'static') { var st = BASE[p.id] ? BASE[p.id].photo : p.photo; if (st) out.push({ src: st }); }
+      if (k === 'static') {
+        var bp = BASE[p.id] || p, st = bp.photo; if (st) out.push({ src: st });
+        // photos_extra: additional static catalog photos (img/p/...) shown after the main one
+        (Array.isArray(bp.photos_extra) ? bp.photos_extra : []).forEach(function (x) { if (typeof x === 'string' && /^img\//.test(x) && out.length < 10) out.push({ src: x }); });
+      }
       else if (/^[\w-]{1,40}$/.test(k)) out.push({ doc: k === 'main' ? p.id : p.id + '__' + k });
     });
     return out;
