@@ -154,7 +154,7 @@
     }
     return list;
   }
-  var PROMO = { 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   function isSale(p) { return /акці/i.test(promoOf(p) || ''); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
   function isNew(p) { return /новинк/i.test(promoOf(p) || ''); }
@@ -1633,9 +1633,27 @@
     bnr.dots.innerHTML = n > 1 ? bnrSlides().map(function (s, i) { return '<button class="bnr__dot" type="button" data-bnr-dot="' + i + '" aria-label="Слайд ' + (i + 1) + ': ' + esc(s.getAttribute('aria-label')) + '"></button>'; }).join('') : '';
     bnr.dots.hidden = n < 2;
     if (bnr.i >= n) bnr.i = 0;
-    bnrGo(bnr.i, true); fillPhotos(); bnrPlan();
+    bnrGo(bnr.i, true); fillPhotos(); bnrPlan(); bnrAnimWatch();
   }
   function bnrSlides() { return $$('.bnr__slide', bnr.track); }
+  /* анімація слайдів (03.10.2026): слайд, що увійшов у кадр на ≥60%, отримує .is-on (CSS запускає появу тексту, Ken Burns, відблиск);
+     коли слайд повністю пішов з кадру — .is-on знімається, тож при наступній появі анімація стартує заново.
+     Лише CSS transform/opacity; prefers-reduced-motion або без IntersectionObserver — клас .bnr--anim не ставиться, усе статичне й видиме. */
+  var bnrIO = null;
+  function bnrAnimWatch() {
+    if (!bnr.track) return;
+    if (bnr.rm.matches || !('IntersectionObserver' in window)) { bnr.el.classList.remove('bnr--anim'); return; }
+    bnr.el.classList.add('bnr--anim');
+    if (!bnrIO) bnrIO = new IntersectionObserver(function (en) {
+      en.forEach(function (e) {
+        var s = e.target;
+        if (e.intersectionRatio >= 0.6) s.classList.add('is-on');
+        else if (!e.isIntersecting || e.intersectionRatio === 0) s.classList.remove('is-on');
+      });
+    }, { root: bnr.track, threshold: [0, 0.6] });
+    var cur = bnrSlides()[bnr.i]; if (cur) cur.classList.add('is-on'); // поточний слайд — одразу, без миготіння до першого колбеку IO
+    bnrSlides().forEach(function (s) { if (!s.bnrAnim) { s.bnrAnim = 1; bnrIO.observe(s); } });
+  }
   function bnrGo(i, instant) {
     var sl = bnrSlides(), n = sl.length; if (!n) return;
     bnr.i = (i + n) % n;
@@ -1668,7 +1686,23 @@
     bnr.el.addEventListener('focusout', function () { bnrHold(false, 3000); });
     bnr.dots.addEventListener('click', function (e) { var d = e.target.closest('[data-bnr-dot]'); if (d) { bnrGo(+d.getAttribute('data-bnr-dot')); bnrPlan(); } });
     document.addEventListener('visibilitychange', bnrPlan);
-    if (bnr.rm.addEventListener) bnr.rm.addEventListener('change', bnrPlan);
+    // 3D-нахил банера за мишею (лише десктоп з точним вказівником, без prefers-reduced-motion): --mx/--my від -1 до 1 на .hero__frame
+    if (window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      var tiltF = null, tiltE = null, tiltRaf = 0;
+      bnr.el.addEventListener('pointermove', function (e) {
+        if (bnr.rm.matches || e.pointerType !== 'mouse') return;
+        tiltE = e; if (tiltRaf) return;
+        tiltRaf = requestAnimationFrame(function () {
+          tiltRaf = 0; var f = tiltE.target.closest && tiltE.target.closest('.hero__frame');
+          if (tiltF && tiltF !== f) { tiltF.style.removeProperty('--mx'); tiltF.style.removeProperty('--my'); }
+          tiltF = f; if (!f) return;
+          var r = f.getBoundingClientRect(), x = (tiltE.clientX - r.left) / r.width * 2 - 1, y = (tiltE.clientY - r.top) / r.height * 2 - 1;
+          f.style.setProperty('--mx', Math.max(-1, Math.min(1, x)).toFixed(3)); f.style.setProperty('--my', Math.max(-1, Math.min(1, y)).toFixed(3));
+        });
+      });
+      bnr.el.addEventListener('mouseleave', function () { if (tiltF) { tiltF.style.removeProperty('--mx'); tiltF.style.removeProperty('--my'); tiltF = null; } });
+    }
+    if (bnr.rm.addEventListener) bnr.rm.addEventListener('change', function () { bnrPlan(); bnrAnimWatch(); });
     window.addEventListener('resize', function () { bnrGo(bnr.i, true); });
     if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { bnr.vis = en[0].isIntersecting; bnrPlan(); }, { threshold: 0.25 }).observe(bnr.el);
   }
