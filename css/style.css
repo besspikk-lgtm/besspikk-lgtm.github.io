@@ -1263,3 +1263,6 @@ html:has(body.prem){scroll-padding-top:96px}
 .hradio__vol input{display:block;width:170px;accent-color:var(--yellow)}
 @media (max-width:1024px){.hradio__txt{display:none}.hradio__btn{padding:0 6px 0 14px}}
 @media (max-width:760px){.hradio{display:none!important}}
+
+/* шапка з пошуком відкріплена (03.10.2026) */
+body.prem .hdr,.hdr{position:relative;top:auto}
