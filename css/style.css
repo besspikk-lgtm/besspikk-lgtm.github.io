@@ -1605,3 +1605,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .prem .hm__plogo-shine::before{animation:none!important;opacity:0!important}
 }
 @media (min-width:761px){.prem .hm--pal .hm__jq{font-size:17px;letter-spacing:.14em}}
+
+/* PALINAL: пігулка «Завод PALINAL» на карті */
+.hm-palwrap{position:relative}
+.hm-palwrap .bnr__map--pal{z-index:3}
