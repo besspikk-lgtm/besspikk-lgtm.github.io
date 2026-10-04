@@ -41,6 +41,8 @@
   var state = { cat: 'all', q: '', sort: 'def', brand: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
   var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['guns', ''], guns2: ['guns', ''], putty: ['shpak', ''] };
+  /* об’єднані картки: старе посилання #/p/<id> веде на нову */
+  var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341' };
   var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
   function inCats(p, arr) { return arr.indexOf(p.category) >= 0 || (!!p.sub && arr.indexOf(p.sub) >= 0); }
@@ -1415,6 +1417,7 @@
     sheetClose();
     var m;
     if ((m = h.match(/^#\/p\/([\w-]+)/))) {
+      if (PROD_ALIAS[m[1]] && !byId[m[1]]) { h = '#/p/' + PROD_ALIAS[m[1]]; try { history.replaceState(null, '', h); } catch (e) {} m = h.match(/^#\/p\/([\w-]+)/); }
       if (!$('#grid').children.length) renderGrid(); // direct product link: have the catalog ready behind the modal
       if (byId[m[1]]) { openProduct(m[1]); return; }
       if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; } // unknown/hidden product (maybe loads from Firestore later)
