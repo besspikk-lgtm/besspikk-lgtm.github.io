@@ -329,6 +329,8 @@
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
     var pc = $('#pickcta'); if (pc) pc.hidden = !!state.q || !/^(meiji|sata|china)$/.test(state.cat);
+    var cc = $('#codecta'); if (cc) cc.hidden = !!state.q || !/^(emal2k|baza)$/.test(state.cat);
+    var cq = $('#codeq'); if (cq) { var qq = state.q.trim(); cq.hidden = !(qq && !list.length && /^(RAL\s?\d{4}|[A-Za-zА-Яа-яІі0-9]{2,7}([\/-][A-Za-z0-9]{1,5})?)$/.test(qq)); if (!cq.hidden) { var cqb = cq.querySelector('[data-cq-code]'); if (cqb) cqb.textContent = qq; } }
     var ci = $('#catintro'); if (ci) { var it = !state.q && CAT_INTRO[state.cat]; ci.textContent = it || ''; ci.hidden = !it; }
     if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
@@ -959,8 +961,10 @@
         '</div>' +
         specsHTML(p) + tdsHTML(p) +
         '<p class="pm__note">' + esc(uahText(p.price_note || '')) + (src ? ' · <a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' +
+        pmBarHTML(p) +
       '</div>';
     galInit();
+    pmBarWatch();
     fillPhotos();
   }
 
@@ -1210,7 +1214,7 @@
     stopMedia(); spinStop();
     openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; trackedOpen = null;
     document.title = listTitle();
-    if (/^#\/p\/|^#cart|^#compare|^#pick/.test(location.hash)) history.replaceState(null, '', lastListHash);
+    if (/^#\/p\/|^#cart|^#compare|^#pick|^#code/.test(location.hash)) history.replaceState(null, '', lastListHash);
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   var tt;
@@ -1342,6 +1346,7 @@
       return;
     }
     if (h === '#cart') { renderCart(); showModal('#cmodal'); return; }
+    if (h === '#code') { renderCode(); showModal('#codemodal'); track('код-фарби', 'Фарба за кодом: відкрито'); var ci0 = $('#cs-code'); if (ci0 && window.innerWidth > 760) setTimeout(function () { ci0.focus({ preventScroll: true }); }, 60); return; }
     if (h === '#pick') { renderPick(); showModal('#pickmodal'); track('підбір', 'Підбір фарбопульта: відкрито'); return; }
     if (h === '#compare') { if (!$('#grid').children.length) renderGrid(); renderCompare(); showModal('#cmpmodal'); track('порівняння', 'Порівняння фарбопультів (' + cmpList().length + ')'); return; }
     if (openModalEl) { stopMedia(); openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; }
@@ -1582,7 +1587,7 @@
     if (t.hasAttribute('data-cmp-rm')) { var ri = cmpIds.indexOf(t.getAttribute('data-cmp-rm')); if (ri >= 0) cmpIds.splice(ri, 1); cmpSave(); cmpSync(); renderCompare(); return; }
     if (t.hasAttribute('data-cmp-clear')) { cmpIds = []; cmpSave(); cmpSync(); if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare(); toast('Порівняння очищено'); return; }
     if (pickClick(t)) return;
-    if (t.hasAttribute('data-open-pick')) { e.preventDefault(); if (location.hash !== '#pick') { if (!/^#\/p\/|^#cart|^#compare/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#pick'; } else { renderPick(); showModal('#pickmodal'); } return; }
+    if (t.hasAttribute('data-open-pick')) { e.preventDefault(); if (location.hash !== '#pick') { if (!/^#\/p\/|^#cart|^#compare|^#code/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#pick'; } else { renderPick(); showModal('#pickmodal'); } return; }
     if (t.hasAttribute('data-open-cmp')) { e.preventDefault(); if (location.hash !== '#compare') { if (!/^#\/p\/|^#cart/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#compare'; } else { renderCompare(); showModal('#cmpmodal'); } return; }
     if (t.hasAttribute('data-open-cart')) { e.preventDefault(); if (location.hash !== '#cart') { if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#cart'; } else { renderCart(); showModal('#cmodal'); } return; }
     if (t.hasAttribute('data-cstep')) { var cs = +t.getAttribute('data-cstep'), sec = $('#cartbody [data-csec="' + cs + '"]'), box = $('#cmodal .modal__box'); cstepSet(cs); if (sec && box) box.scrollTo({ top: Math.max(0, sec.getBoundingClientRect().top - box.getBoundingClientRect().top + box.scrollTop - 12), behavior: 'smooth' }); return; }
@@ -2055,6 +2060,220 @@
     if (bnr.rm.addEventListener) bnr.rm.addEventListener('change', function () { bnrPlan(); bnrAnimWatch(); });
     window.addEventListener('resize', function () { bnrGo(bnr.i, true); });
     if ('IntersectionObserver' in window) new IntersectionObserver(function (en) { bnr.vis = en[0].isIntersecting; bnrPlan(); }, { threshold: 0.25 }).observe(bnr.el);
+  }
+
+  /* ---------- 04.10.2026: «Підібрати фарбу за кодом» (#code) ----------
+     Шукає лише серед товарів каталогу (готові кольори PALINAL: emal2k, baza + усе з RAL у назві) за кодом у назві / полі code.
+     Нічого не обіцяємо понад каталог: якщо готового кольору немає — чесно пишемо це і пропонуємо уточнити в Telegram.
+     «Де знайти код фарби» — загальнодоступні довідки виробників фарб/дилерів (перевірено 04.10.2026):
+     bumpersthatdeliver.com/locate-your-paint-code, paintscratch.com/touch-up-paint-codes/paint-code, chipex.co.uk (how-to-find-your-car-paint-code),
+     paintnuts.co.uk/pages/find-your-code, centralalbertapaintsupply.ca, fastcarcheck.uk (Renault), car-editor.com (BMW). */
+  var CS_MAKES = [
+    { k: 'vw', re: /^(vw|volks|фольк|audi|ауд|skoda|škoda|шкод|seat|сеат|cupra|купра)/i, tok: ['VW', 'SKODA', 'AUDI', 'SEAT'], t: 'Volkswagen, Audi, Škoda, Seat' },
+    { k: 'toyota', re: /^(toyota|тойот|lexus|лексус)/i, tok: ['TOY', 'TOYOTA', 'LEXUS'], t: 'Toyota, Lexus' },
+    { k: 'bmw', re: /^(bmw|бмв|mini|міні)/i, tok: ['BMW'], t: 'BMW, MINI' },
+    { k: 'merc', re: /^(merc|мерс|мерседес|benz|бенц|mb$|smart|смарт)/i, tok: ['MERC', 'MERCEDES', 'DB'], t: 'Mercedes-Benz' },
+    { k: 'ford', re: /^(ford|форд)/i, tok: ['FORD'], t: 'Ford' },
+    { k: 'ren', re: /^(renault|рено|dacia|дачія|дачия)/i, tok: ['REN', 'RENAULT', 'DACIA'], t: 'Renault, Dacia' },
+    { k: 'psa', re: /^(peugeot|пежо|citro|сітро|ситро|ds$)/i, tok: ['CITR', 'CITROEN', 'PEUG', 'PEUGEOT'], t: 'Peugeot, Citroën' },
+    { k: 'opel', re: /^(opel|опель|vauxhall)/i, tok: ['OPEL'], t: 'Opel' },
+    { k: 'hk', re: /^(hyundai|хюнд|хенд|хунд|kia|кіа|киа)/i, tok: ['HYUNDAI', 'KIA'], t: 'Hyundai, Kia' },
+    { k: 'honda', re: /^(honda|хонда|acura|акура)/i, tok: ['HONDA'], t: 'Honda, Acura' },
+    { k: 'nissan', re: /^(nissan|ніссан|нисан|нісан|infiniti|інфініті)/i, tok: ['NISSAN', 'NISS'], t: 'Nissan, Infiniti' },
+    { k: 'gm', re: /^(chevr|шевр|gm$|cadillac|buick|gmc)/i, tok: ['CHEVROLET', 'GM'], t: 'Chevrolet / GM' },
+    { k: 'volvo', re: /^(volvo|вольво)/i, tok: ['VOLVO'], t: 'Volvo' },
+    { k: 'fiat', re: /^(fiat|фіат|фиат)/i, tok: ['FIAT'], t: 'Fiat' },
+    { k: 'lada', re: /^(lada|лада|ваз)/i, tok: ['LADA'], t: 'Lada' },
+    { k: 'daf', re: /^daf/i, tok: ['DAF'], t: 'DAF' }
+  ];
+  // м — місце (1 стійка дверей, 2 під капотом, 3 багажник, 4 бардачок), w — де шукати, ex — приклади формату коду
+  var CS_WHERE = [
+    { k: 'vw', m: [3], w: 'Наклейка в багажнику — у ніші запасного колеса, під килимком або на кришці багажника; дублюється в сервісній книжці. На наклейці VW код часто з літерою L попереду (LA7W), у каталогах фарб — без неї (A7W).', ex: 'LY9B, LA7W, 2T' },
+    { k: 'toyota', m: [1], w: 'Наклейка на стійці дверей водія. Код — після «C/TR»: у записі C/TR 040/FB13 код фарби — 040, а FB13 — код салону.', ex: '040, 202, 1C0, 1D6' },
+    { k: 'bmw', m: [1, 2], w: 'Новіші моделі — наклейка на стійці дверей водія; старіші — під капотом, на опорі амортизатора з боку водія.', ex: '475, 300, A96' },
+    { k: 'merc', m: [1, 2], w: 'Стійка дверей водія, верхня поперечина радіатора під капотом або внутрішній бік капота. Старі коди — з префіксом DB.', ex: '040, 197, 775, 149' },
+    { k: 'ford', m: [1], w: 'Табличка або наклейка на стійці дверей водія; код — у полі PAINT або EXT PNT.', ex: 'J7, D3, ZY' },
+    { k: 'ren', m: [1, 2, 3], w: 'Стійка дверей водія або табличка під капотом; на деяких моделях — у багажнику.', ex: 'TEGNE, OV369, KNG' },
+    { k: 'psa', m: [1], w: 'Стійка дверей водія або зона дверної завіси.', ex: 'EWP, KTV, M0YG' },
+    { k: 'opel', m: [1], w: 'Стійка дверей водія — поле PNT або Body Colour.', ex: '' },
+    { k: 'hk', m: [1, 2], w: 'Наклейка на стійці дверей водія (поле PAINT); зрідка — на моторному щиті під капотом.', ex: 'SWP, ABT, UD' },
+    { k: 'honda', m: [1], w: 'Наклейка на стійці дверей водія.', ex: 'NH731P, NH578, B92P' },
+    { k: 'nissan', m: [1, 2], w: 'Стійка дверей водія або під капотом — на моторному щиті чи на панелі радіатора.', ex: 'KH3, KAD, G41' },
+    { k: 'gm', m: [1, 4, 3], w: 'Стійка дверей водія, наклейка Service Parts Identification у бардачку або в ніші запасного колеса. Код — поруч із BC/CC або з префіксом WA чи U: WA926L, U926L і 926L — той самий колір.', ex: 'WA926L, 926L' },
+    { k: 'volvo', m: [1, 2], w: 'Наклейка на стійці між передніми й задніми дверима (знизу); на старших моделях — під капотом. Потрібні перші 3 цифри: з «446-46» — 446.', ex: '446' }
+  ];
+  var CS_SPOTS = ['Стійка дверей водія', 'Під капотом', 'Багажник, ніша запаски', 'Бардачок'];
+  var CS_LAT = { 'А': 'A', 'В': 'B', 'С': 'C', 'Е': 'E', 'Н': 'H', 'І': 'I', 'К': 'K', 'М': 'M', 'О': 'O', 'Р': 'P', 'Т': 'T', 'Х': 'X', 'У': 'Y' };
+  var CS_STOP = { MET: 1, RAL: 1, TOY: 1, REN: 1, BMW: 1, DAF: 1, ALU: 1, VAN: 1 };
+  var cs = { code: '', make: '', where: false };
+  function csUp(s) { return String(s || '').toUpperCase().replace(/[АВСЕНІКМОРТХУ]/g, function (c) { return CS_LAT[c]; }); }
+  function csMake(s) { s = String(s || '').trim(); if (!s) return null; for (var i = 0; i < CS_MAKES.length; i++) if (CS_MAKES[i].re.test(s)) return CS_MAKES[i]; return null; }
+  function csIc(d, sz) { return svgI(d, sz || 20); }
+  var CS_IC = {
+    can: '<path d="M7 6.5h10v12.5a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M8.5 6.5V4.5h7v2"/><path d="M7 11h10"/><circle cx="12" cy="15.5" r="1.6"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/>',
+    pin: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+    info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><circle cx="12" cy="7.8" r=".7" fill="currentColor"/>'
+  };
+  function csTokens(p) { // токени коду з назви: 'MERC 744/Y BRILLANTSILBER' -> 744, Y? (ні), ...
+    var nm = csUp(String(p.name || '').replace(/^Palinal\s+(2K\s+автоемаль|базова\s+фарба)\s+/i, ''));
+    var all = nm.split(/[^A-Z0-9]+/).filter(Boolean), makes = [], toks = [];
+    all.forEach(function (t) {
+      CS_MAKES.forEach(function (m) { if (m.tok.indexOf(t) >= 0 && makes.indexOf(m.k) < 0) makes.push(m.k); });
+      if (t === 'RAL' && makes.indexOf('ral') < 0) makes.push('ral');
+      if ((t.length >= 2 && t.length <= 7 && /\d/.test(t)) || (t.length === 3 && /^[A-Z]+$/.test(t) && !CS_STOP[t] && !CS_MAKES.some(function (m) { return m.tok.indexOf(t) >= 0; }))) toks.push(t);
+    });
+    return { nm: nm, makes: makes, toks: toks };
+  }
+  function csPool() { return PRODUCTS.filter(function (p) { return p.category === 'emal2k' || p.category === 'baza' || /\bRAL\b/i.test(p.name || ''); }); }
+  function csSearch(code, makeStr) {
+    var q = csUp(code).replace(/\s+/g, ' ').trim(), mk = csMake(makeStr), out = [];
+    if (q.length < 2) return { q: q, mk: mk, list: [] };
+    var ral = q.match(/^RAL\s*-?\s*(\d{4})$/) || (/^\d{4}$/.test(q) ? [q, q] : null);
+    var whole = q.replace(/[^A-Z0-9]/g, ''), first = q.split('/')[0].replace(/[^A-Z0-9]/g, '');
+    var qs = [whole]; if (first && first !== whole) qs.push(first);
+    csPool().forEach(function (p) {
+      var t = csTokens(p), how = '';
+      if (ral && t.makes.indexOf('ral') >= 0 && t.toks.indexOf(ral[1]) >= 0) how = 'ral';
+      else if (!/^RAL/.test(q)) {
+        qs.forEach(function (c) {
+          if (how || c.length < 2) return;
+          if (t.toks.indexOf(c) >= 0) how = 'code';
+          else if (/^\d{3,4}$/.test(c) && t.toks.some(function (x) { return /^\d+$/.test(x) && x.length >= 3 && +x === +c; })) how = 'code';
+          else if (/^L[A-Z0-9]{3}$/.test(c) && t.makes.indexOf('vw') >= 0 && t.toks.indexOf(c.slice(1)) >= 0) how = 'vwl';
+          else if (p.code && csUp(p.code).replace(/[^A-Z0-9]/g, '') === c && c.length >= 5) how = 'sku';
+        });
+        if (!how && /^[A-Z]{4,}$/.test(whole) && t.nm.replace(/[^A-Z]/g, '').indexOf(whole) >= 0) how = 'name';
+      }
+      if (!how) return;
+      var rel = !mk ? 'any' : (t.makes.indexOf(mk.k) >= 0 ? 'same' : (t.makes.filter(function (m) { return m !== 'ral'; }).length ? 'other' : 'any'));
+      out.push({ p: p, how: how, rel: rel, makes: t.makes });
+    });
+    var rank = { same: 0, any: 1, other: 2 };
+    out.sort(function (a, b) { return rank[a.rel] - rank[b.rel] || (/^в наявності/i.test(a.p.in_stock || '') ? 0 : 1) - (/^в наявності/i.test(b.p.in_stock || '') ? 0 : 1); });
+    return { q: q, mk: mk, list: out.slice(0, 12) };
+  }
+  function csTgHref(code, make) {
+    return CONFIG.orderTelegram + '?text=' + encodeURIComponent('Вітаю! Потрібна фарба за кодом.\nМарка авто: ' + (make || 'не вказано') + '\nКод фарби: ' + (code || '—') + '\nПідкажіть, будь ласка, наявність і підбір кольору.');
+  }
+  var CS_HOW = { ral: 'Збіг за RAL', code: 'Збіг за кодом', vwl: 'Код VW без L', sku: 'Збіг за артикулом', name: 'Збіг за назвою' };
+  function csCard(r) {
+    var p = r.p;
+    return '<li class="cs__card' + (r.rel === 'other' ? ' cs__card--other' : '') + '">' +
+      '<button class="pk__img" type="button" data-open="' + esc(p.id) + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_SM) + ' alt="" width="200" height="200" loading="lazy" decoding="async"></button>' +
+      '<div class="pk__cb"><span class="cs__how">' + esc(CS_HOW[r.how]) + '</span><button class="pk__name" type="button" data-open="' + esc(p.id) + '">' + esc(p.name) + '</button>' +
+      '<div class="pk__price">' + pillHTML(p) + (p.price_label ? ' <small class="muted">' + esc(uahText(p.price_label)) + '</small>' : '') + '</div>' + stockHTML(p) + '</div>' +
+      '<button class="cs__add" type="button" data-add="' + esc(p.id) + '" aria-label="Додати «' + esc(p.name) + '» в кошик">' + csIc('<path d="M12 5v14M5 12h14"/>', 18) + '</button></li>';
+  }
+  function csWhereHTML(mk) {
+    var car = '<svg class="cs__car" viewBox="0 0 320 112" role="img" aria-label="Де зазвичай розташована табличка з кодом фарби" focusable="false">' +
+      '<path class="cs__body" d="M18 80l7-17c3-6 8-8 16-8.5l50-3.5 28-20c5-4 10-5 19-5h64c10 0 16 2 23 8l27 20 38 5c11 1.6 14 7 14 17v8c0 3-2 5-5 5h-18a22 22 0 0 0-44 0H104a22 22 0 0 0-44 0H24c-4 0-6-3-6-7z"/>' +
+      '<path class="cs__glass" d="M126 33l-14 18h56V31h-32c-4 0-7 .7-10 2zM176 31v20h62l-18-15c-4-3-8-5-14-5z"/>' +
+      '<path class="cs__line" d="M172 52v34M60 56c8 0 14 2 18 8M270 58v28"/>' +
+      '<circle class="cs__wh" cx="82" cy="88" r="16"/><circle class="cs__wh" cx="258" cy="88" r="16"/>' +
+      [[176, 66, 1], [52, 64, 2], [286, 68, 3], [122, 50, 4]].map(function (s) {
+        var on = mk && mk.m.indexOf(s[2]) >= 0;
+        return '<g class="cs__spot' + (on ? ' on' : '') + '"><circle cx="' + s[0] + '" cy="' + s[1] + '" r="10"/><text x="' + s[0] + '" y="' + (s[1] + 4.2) + '" text-anchor="middle">' + s[2] + '</text></g>';
+      }).join('') + '</svg>';
+    var rows = CS_WHERE.slice().sort(function (a, b) { return (mk && a.k === mk.k ? -1 : 0) - (mk && b.k === mk.k ? -1 : 0); });
+    return car + '<ol class="cs__spots">' + CS_SPOTS.map(function (s, i) { return '<li' + (mk && mk.m.indexOf(i + 1) >= 0 ? ' class="on"' : '') + '><b>' + (i + 1) + '</b>' + s + '</li>'; }).join('') + '</ol>' +
+      '<p class="cs__tip">' + csIc(CS_IC.info, 16) + '<span>Найчастіше код — на наклейці в отворі дверей водія. Шукайте поля <b>PAINT</b>, <b>COLOR</b>, <b>C/TR</b>, <b>LACK</b> або <b>FARBE</b>. Таблички немає — код за VIN підкаже дилер марки.</span></p>' +
+      '<ul class="cs__mk">' + rows.map(function (w) {
+        var m = CS_MAKES.filter(function (x) { return x.k === w.k; })[0];
+        return '<li' + (mk && mk.k === w.k ? ' class="on"' : '') + '><b>' + esc(m.t) + '</b><span>' + esc(w.w) + '</span>' + (w.ex ? '<small>Приклади кодів: ' + esc(w.ex) + '</small>' : '') + '</li>';
+      }).join('') +
+      '<li><b>RAL</b><span>Промислова шкала кольорів, не автомобільний код: «RAL» + 4 цифри, напр. RAL 9010. Беруть з документації, проєкту або віяла RAL.</span></li></ul>';
+  }
+  function csResHTML() {
+    var r = csSearch(cs.code, cs.make), q = r.q;
+    if (q.length < 2) {
+      var n2 = PRODUCTS.filter(function (p) { return p.category === 'emal2k'; }).length, nb = PRODUCTS.filter(function (p) { return p.category === 'baza'; }).length;
+      return '<p class="cs__intro">Шукаємо серед готових кольорів у каталозі: ' + n2 + ' ' + plural(n2, 'автоемаль', 'автоемалі', 'автоемалей') + ' 2K PALINAL і ' + nb + ' ' + plural(nb, 'базова фарба', 'базові фарби', 'базових фарб') + ' під лак. Введіть код з таблички авто або RAL.</p>';
+    }
+    var mkName = cs.make.trim(), main = r.list.filter(function (x) { return x.rel !== 'other'; }), other = r.list.filter(function (x) { return x.rel === 'other'; });
+    var tg = '<a class="btn btn--bot btn--full cs__tg" href="' + esc(csTgHref(q, mkName)) + '" target="_blank" rel="noopener" data-cs-tg>' + pkIc('tg', 18) + '<span>Замовити підбір у Telegram</span></a>';
+    var h = '';
+    if (main.length) {
+      h += '<h3 class="cs__h">' + csIc(CS_IC.can, 19) + 'Є в каталозі (' + main.length + ')</h3><ul class="cs__list">' + main.map(csCard).join('') + '</ul>' +
+        '<p class="cs__warn">' + csIc(CS_IC.info, 15) + '<span>Звірте марку і назву кольору: однаковий код у різних виробників означає різні кольори' + (r.mk ? '' : ' — вкажіть марку авто для точнішого пошуку') + '. Відтінок одного коду також може мати варіанти.</span></p>';
+    } else {
+      h += '<div class="cs__none"><h3 class="cs__h">' + csIc(CS_IC.can, 19) + 'Готового кольору «' + esc(q) + '»' + (mkName ? ' для ' + esc(mkName) : '') + ' у каталозі зараз немає</h3>' +
+        '<p>У каталозі — лише готові кольори PALINAL, і цього коду серед них немає. Уточніть наявність і підбір кольору в Telegram: надішліть марку, модель, рік випуску і код фарби, а краще — фото таблички з кодом.</p></div>';
+    }
+    if (other.length) h += '<h3 class="cs__h cs__h--sub">Той самий код в іншої марки — це інший колір</h3><ul class="cs__list">' + other.map(csCard).join('') + '</ul>';
+    h += '<div class="cs__acts">' + tg + '<a class="btn btn--o" href="tel:' + CONFIG.phone + '">' + csIc(IC.phone, 18) + '<span>' + CONFIG.phoneLabel + '</span></a>' +
+      '<a class="btn btn--o" href="#/c/emal2k" data-cs-cat>' + csIc(CS_IC.can, 18) + '<span>Усі готові кольори</span></a></div>';
+    if (!main.length && r.mk) { var w = CS_WHERE.filter(function (x) { return x.k === r.mk.k; })[0]; if (w) h += '<p class="cs__wmini">' + csIc(CS_IC.pin, 16) + '<span><b>Де код на ' + esc(r.mk.t) + ':</b> ' + esc(w.w) + '</span></p>'; }
+    return h;
+  }
+  function renderCode() {
+    var body = $('#codebody'); if (!body) return;
+    if (!$('#csform')) {
+      body.innerHTML = '<form class="cs__form" id="csform" autocomplete="off" novalidate>' +
+        '<label class="cs__f cs__f--code"><span>Код фарби або RAL</span><input id="cs-code" type="text" maxlength="24" autocapitalize="characters" autocorrect="off" spellcheck="false" placeholder="Напр.: LY9B, 040, 475, RAL 9010" enterkeyhint="search"></label>' +
+        '<label class="cs__f"><span>Марка авто <i>— необов’язково</i></span><input id="cs-make" type="text" maxlength="30" list="cs-makes" autocorrect="off" spellcheck="false" placeholder="Напр.: Toyota" enterkeyhint="search"></label>' +
+        '<datalist id="cs-makes">' + ['Volkswagen', 'Audi', 'Škoda', 'Seat', 'Toyota', 'Lexus', 'BMW', 'Mercedes-Benz', 'Ford', 'Renault', 'Dacia', 'Peugeot', 'Citroën', 'Opel', 'Hyundai', 'Kia', 'Honda', 'Nissan', 'Chevrolet', 'Volvo', 'Fiat', 'Lada'].map(function (m) { return '<option value="' + m + '">'; }).join('') + '</datalist>' +
+        '<button class="btn btn--y cs__go" type="submit">' + csIc(CS_IC.search, 18) + '<span>Знайти</span></button></form>' +
+        '<div class="cs__ex"><span>Приклади:</span>' + ['RAL 9010', 'LY9B', '040', '475', '1G3'].map(function (x) { return '<button type="button" data-cs-ex="' + x + '">' + x + '</button>'; }).join('') + '</div>' +
+        '<div id="cs-res" class="cs__res" aria-live="polite"></div>' +
+        '<details class="cs__where" id="cs-where"><summary>' + csIc(CS_IC.pin, 20) + '<span>Де знайти код фарби</span>' + csIc('<path d="m6 9 6 6 6-6"/>', 18) + '</summary><div id="cs-wbody"></div></details>';
+    }
+    $('#cs-code').value = cs.code; $('#cs-make').value = cs.make;
+    csUpdate();
+  }
+  function csUpdate() {
+    var res = $('#cs-res'); if (!res) return;
+    res.innerHTML = csResHTML();
+    var wb = $('#cs-wbody'); if (wb) wb.innerHTML = csWhereHTML(CS_WHERE.filter(function (w) { var m = csMake(cs.make); return m && w.k === m.k; })[0] || null);
+    fillPhotos();
+  }
+  var csTimer = null, csTracked = '';
+  function csTrack() { var key = cs.code.trim() + '|' + cs.make.trim(); if (cs.code.trim().length >= 2 && key !== csTracked) { csTracked = key; track('код-фарби', 'Фарба за кодом: ' + key); } }
+  function openCode(q) {
+    if (typeof q === 'string' && q) cs.code = q;
+    if (location.hash !== '#code') { if (!/^#\/p\/|^#cart|^#compare|^#pick/.test(location.hash)) lastListHash = location.hash || '#/'; location.hash = '#code'; }
+    else { renderCode(); showModal('#codemodal'); }
+  }
+  document.addEventListener('input', function (e) {
+    var t = e.target; if (!t || (t.id !== 'cs-code' && t.id !== 'cs-make')) return;
+    cs[t.id === 'cs-code' ? 'code' : 'make'] = t.value;
+    clearTimeout(csTimer); csTimer = setTimeout(function () { csUpdate(); }, 220);
+  });
+  document.addEventListener('submit', function (e) {
+    if (!e.target || e.target.id !== 'csform') return;
+    e.preventDefault(); clearTimeout(csTimer);
+    cs.code = $('#cs-code').value; cs.make = $('#cs-make').value; csUpdate(); csTrack();
+    var r = $('#cs-res'), bx = $('#codemodal .modal__box'); if (r && bx && window.innerWidth < 761) bx.scrollTo({ top: Math.max(0, r.offsetTop - 12), behavior: 'smooth' });
+    if (document.activeElement && document.activeElement.blur && window.innerWidth < 761) document.activeElement.blur();
+  });
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-open-code],[data-cs-ex],[data-cs-where],[data-cs-tg],[data-cs-cat]'); if (!t) return;
+    if (t.hasAttribute('data-open-code')) { e.preventDefault(); openCode(t.hasAttribute('data-code-q') ? state.q : null); return; }
+    if (t.hasAttribute('data-cs-ex')) { cs.code = t.getAttribute('data-cs-ex'); $('#cs-code').value = cs.code; csUpdate(); csTrack(); return; }
+    if (t.hasAttribute('data-cs-where')) { e.preventDefault(); var d = $('#cs-where'); if (d) { d.open = true; d.scrollIntoView({ behavior: 'smooth', block: 'start' }); } return; }
+    if (t.hasAttribute('data-cs-tg')) { csTrack(); track('код-фарби/telegram', 'Фарба за кодом → Telegram: ' + cs.code.trim() + ' ' + cs.make.trim()); return; }
+    if (t.hasAttribute('data-cs-cat')) { hideModal(); return; } // link #/c/emal2k opens the category
+  });
+
+  /* ---------- 04.10.2026: картка товару — липка панель замовлення (видна, коли основний блок «В кошик» поза екраном) ---------- */
+  var pmIO = null;
+  function pmBarHTML(p) {
+    var v = variantOf(p, pmState.vi), pr = hasPrice(p) ? uahTxt(unitPrice(p, pmState.vi)) : '';
+    var txt = 'Вітаю! Хочу замовити: ' + p.name + (v ? ' (' + uahText(v.label) + ')' : '') + (pr ? ' — ' + pr : '') + '.\n' + productUrl(p);
+    return '<div class="pmbar" id="pmbar">' +
+      '<div class="pmbar__pr"><b>' + (hasPrice(p) ? uah(unitPrice(p, pmState.vi)) : 'Ціну уточнюйте') + '</b><span>' + esc(p.name) + '</span></div>' +
+      '<a class="pmbar__ic" href="' + esc(CONFIG.orderTelegram + '?text=' + encodeURIComponent(txt)) + '" target="_blank" rel="noopener" aria-label="Замовити в Telegram" data-order="' + esc(p.id) + '">' + pkIc('tg', 20) + '</a>' +
+      '<a class="pmbar__ic" href="tel:' + CONFIG.phone + '" aria-label="Подзвонити: ' + CONFIG.phoneLabel + '">' + svgI(IC.phone, 20) + '</a>' +
+      '<button class="btn btn--y pmbar__add" type="button" data-addpm>' + svgI('<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>', 19) + '<span>В кошик</span></button>' +
+    '</div>';
+  }
+  function pmBarWatch() {
+    if (pmIO) { pmIO.disconnect(); pmIO = null; }
+    var bar = $('#pmbar'), buy = $('#pm .pm__buy'), box = $('#pmodal .modal__box');
+    if (!bar || !buy || !box || !('IntersectionObserver' in window)) return;
+    bar.classList.add('is-off');
+    pmIO = new IntersectionObserver(function (en) { bar.classList.toggle('is-off', en[0].isIntersecting); }, { root: box, threshold: 0 });
+    pmIO.observe(buy);
   }
 
   /* ---------- init ---------- */

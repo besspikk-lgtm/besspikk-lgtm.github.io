@@ -1703,3 +1703,123 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .prem .spinb{left:16px;bottom:16px}
 @media (max-width:760px){.spinb{font-size:10.5px;padding:3px 7px 3px 5px}.spinb svg{width:13px;height:13px}.prem .spinb{left:12px;bottom:12px}.pm__360{height:34px;font-size:12px}}
 @media (prefers-reduced-motion:reduce){.spin__bar,.spin__bar i,.spin__hint{transition:none}}
+
+/* ===== 04.10.2026: «Фарба за кодом» (#code), «Поради малярам» на головній, 4-та колонка футера, липка панель замовлення в картці товару ===== */
+.strips{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
+.strips .pickstrip{margin:0}
+.modal--code .modal__box{width:min(680px,100%)}
+.cs__sub{margin:-6px 40px 16px 0;color:var(--muted);font-size:14px;line-height:1.5}
+.cs__sub a{color:var(--yellow);font-weight:700;white-space:nowrap}
+.cs__form{display:grid;grid-template-columns:1.25fr 1fr auto;gap:10px;align-items:end}
+.cs__f{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cs__f>span{font-size:12.5px;font-weight:700;color:var(--text2);letter-spacing:.02em}
+.cs__f i{font-style:normal;color:var(--muted);font-weight:500}
+.cs__f input{width:100%;min-width:0;height:50px;padding:0 14px;border:0;border-radius:14px;outline:none;background:rgba(255,255,255,.04);color:var(--text);font:inherit;font-size:16px;box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .15s}
+.cs__f--code input{font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.cs__f input::placeholder{text-transform:none;letter-spacing:0;font-weight:500;color:var(--muted)}
+.cs__f input:focus{box-shadow:inset 0 0 0 1.5px var(--yellow),0 0 0 3px rgba(255,215,0,.12)}
+.cs__go{height:50px;padding:0 20px}
+.cs__ex{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 0;font-size:13px;color:var(--muted)}
+.cs__ex button{height:32px;padding:0 12px;border:0;border-radius:999px;background:rgba(255,255,255,.04);color:var(--text2);font:inherit;font-size:13px;font-weight:700;letter-spacing:.03em;box-shadow:inset 0 0 0 1px var(--line2);cursor:pointer}
+.cs__ex button:hover,.cs__ex button:focus-visible{color:var(--text);box-shadow:inset 0 0 0 1px var(--yellow)}
+.cs__res{margin-top:16px}
+.cs__intro{margin:0;padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);box-shadow:inset 0 0 0 1px var(--line);color:var(--text2);font-size:14px;line-height:1.55}
+.cs__h{display:flex;align-items:flex-start;gap:8px;margin:2px 0 10px;font-size:16.5px;line-height:1.35}
+.cs__h svg{flex:none;margin-top:1px;color:var(--yellow)}
+.cs__h--sub{margin-top:18px;font-size:14.5px;color:var(--text2)}
+.cs__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.cs__card{position:relative;display:flex;gap:12px;padding:12px 60px 12px 12px;border-radius:16px;background:linear-gradient(180deg,var(--surface2),var(--surface));box-shadow:inset 0 0 0 1px var(--line2)}
+.cs__card .pk__img{width:78px;height:78px}
+.cs__card--other{opacity:.8}
+.cs__how{display:block;margin-bottom:3px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow)}
+.cs__card--other .cs__how{color:#f2b84b}
+.cs__card .pk__price small{font-size:12px}
+.cs__card .stock{display:inline-block;margin-top:2px}
+.cs__add{position:absolute;right:12px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;border-radius:12px;display:grid;place-items:center;background:var(--yellow);color:var(--navy-text);cursor:pointer}
+.cs__add:hover{background:var(--yellow-hi)}
+.cs__warn,.cs__tip,.cs__wmini{display:flex;gap:8px;align-items:flex-start;margin:12px 0 0;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.cs__warn svg,.cs__tip svg,.cs__wmini svg{flex:none;margin-top:1px;color:var(--yellow)}
+.cs__wmini{color:var(--text2);font-size:13px}
+.cs__tip b,.cs__wmini b{color:var(--text)}
+.cs__none{padding:16px;border-radius:16px;background:linear-gradient(120deg,rgba(255,215,0,.08),rgba(255,255,255,.02) 55%);box-shadow:inset 0 0 0 1px rgba(255,215,0,.25)}
+.cs__none .cs__h{margin-bottom:8px}
+.cs__none p{margin:0;color:var(--text2);font-size:14px;line-height:1.55}
+.cs__acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.cs__acts .btn--full{grid-column:1/-1}
+.prem .cs__acts .btn--bot{color:var(--navy-text)}
+.cs__where{margin-top:18px;border-radius:16px;background:rgba(255,255,255,.025);box-shadow:inset 0 0 0 1px var(--line2)}
+.cs__where summary{display:flex;align-items:center;gap:10px;padding:14px 16px;font-weight:800;font-size:15px;cursor:pointer;list-style:none;border-radius:16px}
+.cs__where summary::-webkit-details-marker{display:none}
+.cs__where summary:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.cs__where summary svg:first-child{color:var(--yellow)}
+.cs__where summary svg:last-child{margin-left:auto;color:var(--muted);transition:transform .2s}
+.cs__where[open] summary svg:last-child{transform:rotate(180deg)}
+#cs-wbody{padding:0 16px 16px}
+.cs__car{display:block;width:100%;max-width:420px;height:auto;margin:0 auto 8px}
+.cs__body{fill:rgba(255,255,255,.035);stroke:var(--text2);stroke-width:1.6;stroke-linejoin:round}
+.cs__glass{fill:rgba(140,170,210,.08);stroke:var(--muted);stroke-width:1.2;stroke-linejoin:round}
+.cs__line{fill:none;stroke:var(--muted);stroke-width:1.1;stroke-linecap:round;opacity:.7}
+.cs__wh{fill:#0b1626;stroke:var(--text2);stroke-width:1.6}
+.cs__spot circle{fill:#0b1626;stroke:var(--yellow);stroke-width:1.6}
+.cs__spot text{fill:var(--yellow);font:800 11px var(--font)}
+.cs__spot.on circle{fill:var(--yellow)}
+.cs__spot.on text{fill:var(--navy-text)}
+.cs__spots{list-style:none;margin:4px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;font-size:13px;color:var(--text2)}
+.cs__spots li{display:flex;align-items:center;gap:8px}
+.cs__spots b{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:var(--yellow);box-shadow:inset 0 0 0 1.4px var(--yellow)}
+.cs__spots li.on{color:var(--text);font-weight:700}
+.cs__spots li.on b{background:var(--yellow);color:var(--navy-text)}
+.cs__mk{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column}
+.cs__mk li{display:flex;flex-direction:column;gap:3px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px;line-height:1.45}
+.cs__mk b{font-size:14px;color:var(--text)}
+.cs__mk span{color:var(--text2)}
+.cs__mk small{color:var(--muted);font-size:12px}
+.cs__mk li.on{margin:0 -10px 4px;padding:10px;border-top-color:transparent;border-radius:12px;background:rgba(255,215,0,.06);box-shadow:inset 0 0 0 1px rgba(255,215,0,.32)}
+.pickcta--q{margin:0 0 14px}
+@media (max-width:760px){
+  .strips{grid-template-columns:1fr;gap:8px;margin:10px 0 2px}
+  .modal--code .modal__box{padding:18px 14px calc(18px + env(safe-area-inset-bottom))}
+  .cs__sub{margin-right:36px;font-size:13.5px}
+  .cs__form{grid-template-columns:1fr auto}
+  .cs__f--code{grid-column:1/-1}
+  .cs__go{padding:0 16px}
+  .cs__acts{grid-template-columns:1fr}
+  .cs__card{padding-right:56px}
+  .cs__card .pk__img{width:66px;height:66px}
+  .cs__spots{font-size:12.5px}
+}
+
+/* «Поради малярам» — секція на головній (генерує _work/gen_articles.py) */
+.tips{margin-top:28px}
+.tips__head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.tips__head h2{display:flex;align-items:center;gap:10px;margin:0;font-size:22px}
+.tips__head h2 svg{color:var(--yellow)}
+.tips__all{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:14px;color:var(--yellow);white-space:nowrap}
+.tips__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tips__list a{display:flex;align-items:center;gap:12px;height:100%;padding:14px;border-radius:16px;color:var(--text);background:linear-gradient(180deg,var(--surface2),var(--surface));box-shadow:inset 0 0 0 1px var(--line2);transition:box-shadow .2s,transform .2s}
+.tips__list a:hover{text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,215,0,.5);transform:translateY(-1px)}
+.tips__list b{font-size:14.5px;line-height:1.35;font-weight:750}
+.tips__ic{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:var(--yellow);background:rgba(255,215,0,.08);box-shadow:inset 0 0 0 1px rgba(255,215,0,.22)}
+@media (max-width:760px){
+  .tips{margin-top:22px}
+  .tips__head h2{font-size:19px}
+  .tips__list{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px;padding:0 16px 6px;scrollbar-width:none}
+  .tips__list::-webkit-scrollbar{display:none}
+  .tips__list li{flex:0 0 76%;scroll-snap-align:start}
+}
+@media (min-width:761px){.prem .ftr__in{grid-template-columns:1.3fr 1fr 1.15fr 1fr;gap:40px 36px}}
+
+/* картка товару: липка панель «ціна · Telegram · дзвінок · в кошик» (js/app.js pmBarHTML; ховається, коли основний блок «В кошик» на екрані) */
+.pmbar{position:sticky;bottom:0;z-index:5;display:flex;align-items:center;gap:8px;margin:4px -18px -26px;padding:10px 18px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(15,27,46,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line2);box-shadow:0 -12px 26px rgba(0,0,0,.32);
+  transition:transform .25s ease,opacity .25s ease,visibility .25s}
+.pmbar.is-off{transform:translateY(110%);opacity:0;visibility:hidden;pointer-events:none}
+.pmbar__pr{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.pmbar__pr b{color:var(--yellow);font-size:17px;font-weight:800;white-space:nowrap}
+.pmbar__pr span{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pmbar__ic{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.pmbar__ic:hover{text-decoration:none;color:var(--yellow);box-shadow:inset 0 0 0 1px var(--yellow)}
+.pmbar__add{flex:none;height:44px;padding:0 16px}
+@media (min-width:761px){.pmbar{margin:4px -30px -28px;padding:12px 30px}}
+@media (max-width:360px){.pmbar__add span{display:none}.pmbar__add{width:44px;padding:0}}
+@media (prefers-reduced-motion:reduce){.pmbar{transition:none}}
