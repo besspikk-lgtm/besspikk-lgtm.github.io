@@ -103,7 +103,7 @@
    "id": "tools",
    "name": "Інструмент і обладнання",
    "icon": "🛠️",
-   "count": 15
+   "count": 13
   }
  ],
  "products": [
@@ -9217,44 +9217,6 @@
    }
   },
   {
-   "id": "orange-sanding-planer",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
-   "name": "Шліфрубанок з пиловідводом, помаранчевий",
-   "description": "Ручний шліфрубанок з патрубком для пиловідводу для вирівнювання шпаклівки на великих площинах.",
-   "price_eur": 16.8077,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/orange-sanding-planer.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04"
-  },
-  {
-   "id": "flex-sanding-block-yellow",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
-   "name": "Гнучкий шліфрубанок, жовта ручка",
-   "description": "Гнучкий ручний шліфрубанок для шліфування шпаклівки на вигнутих поверхнях кузова.",
-   "price_eur": 18.0,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/flex-sanding-block-yellow.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04"
-  },
-  {
    "id": "shpateli-85-600",
    "category": "tools",
    "category_name": "Інструмент і обладнання",
@@ -9266,7 +9228,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/shpateli-85-600.webp?v=20261004i",
+   "photo": "img/p/shpateli-85-600-blades.webp?v=20261004i",
    "photo_is_placeholder": false,
    "photo_source": "фото Alex (власне фото магазину), фон прибрано",
    "in_stock": "В наявності",
@@ -9277,10 +9239,29 @@
      [
       "Кількість",
       "4 шт"
+     ],
+     [
+      "Ширина",
+      "50, 80, 100, 120 мм"
+     ],
+     [
+      "Лезо",
+      "загартована сталь"
+     ],
+     [
+      "Артикул",
+      "85-600"
+     ],
+     [
+      "Виробник",
+      "CIRET GmbH (Німеччина)"
      ]
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
-   }
+   },
+   "photos_extra": [
+    "img/p/shpateli-85-600.webp?v=20261004i"
+   ]
   },
   {
    "id": "hardy-japonki",
@@ -10429,11 +10410,24 @@
    "description": "Багаторазовий чорний малярний комбінезон з капюшоном, блискавкою та еластичними манжетами на рукавах і штанинах. Захищає від забруднень під час фарбувальних робіт.",
    "price_eur": 19.1923,
    "price_label": null,
-   "variants": null,
+   "variants": [
+    {
+     "label": "L",
+     "price_eur": 19.1923
+    },
+    {
+     "label": "XL",
+     "price_eur": 19.1923
+    },
+    {
+     "label": "XXL",
+     "price_eur": 19.1923
+    }
+   ],
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/mobihel-coverall.webp?v=20261004i",
+   "photo": "img/p/mobihel-coverall-model.webp?v=20261004i",
    "photo_is_placeholder": false,
    "photo_source": "фото Alex (власне фото магазину), фон прибрано",
    "in_stock": "В наявності",
@@ -10452,7 +10446,11 @@
      ]
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
-   }
+   },
+   "photos_extra": [
+    "img/p/mobihel-coverall-back.webp?v=20261004i",
+    "img/p/mobihel-coverall.webp?v=20261004i"
+   ]
   },
   {
    "id": "cartec-pads",
