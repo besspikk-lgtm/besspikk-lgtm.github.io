@@ -1823,3 +1823,58 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 @media (min-width:761px){.pmbar{margin:4px -30px -28px;padding:12px 30px}}
 @media (max-width:360px){.pmbar__add span{display:none}.pmbar__add{width:44px;padding:0}}
 @media (prefers-reduced-motion:reduce){.pmbar{transition:none}}
+
+/* ===== категорії: SVG-іконки, плитки на головній, фільтр брендів фарбопультів (2026-10-04) ===== */
+.cic{display:inline-flex;align-items:center;justify-content:center;flex:none;color:var(--yellow)}
+.cic svg{display:block}
+.prem .side li a{justify-content:flex-start;align-items:center;gap:10px}
+.prem .side li a .side__nm{flex:1;min-width:0;line-height:1.3}
+.prem .side li a .cic{width:28px;height:28px;border-radius:9px;background:rgba(255,215,0,.07);box-shadow:inset 0 0 0 1px rgba(255,215,0,.16)}
+.prem .side li a.on .cic{background:rgba(255,215,0,.16)}
+.prem .chip{justify-content:flex-start;gap:10px}
+.prem .chip .chip__nm{flex:1;min-width:0}
+.prem .chip .cic{width:30px;height:30px;border-radius:10px;background:rgba(255,215,0,.07);box-shadow:inset 0 0 0 1px rgba(255,215,0,.16)}
+.prem .chip[data-cat="all"]{justify-content:flex-start}
+.prem .chip[data-cat="sale"],.prem .chip[data-cat="new"]{justify-content:flex-start}
+.prem .chip[data-cat="sale"] .cic{color:#ff8a80;background:rgba(229,83,75,.1);box-shadow:inset 0 0 0 1px rgba(229,83,75,.3)}
+.prem .chip[data-cat="new"] .cic{color:#6fdc95;background:rgba(63,191,106,.1);box-shadow:inset 0 0 0 1px rgba(63,191,106,.3)}
+.prem .side li a[data-cat="sale"] .cic{color:#ff8a80}
+.prem .side li a[data-cat="new"] .cic{color:#6fdc95}
+
+.cattiles{margin:4px 0 30px}
+.cattiles[hidden]{display:none}
+.cattiles__hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 2px 14px}
+.cattiles__hd h2{margin:0;font-size:22px}
+.cattiles__all{font-size:14px;font-weight:600;color:var(--muted)!important}
+.cattiles__all:hover{color:var(--yellow)!important;text-decoration:none}
+.ctiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
+.ctile{display:flex;align-items:center;gap:14px;height:100%;min-height:76px;padding:14px 14px 14px 16px;border-radius:18px;background:var(--surface);
+  box-shadow:inset 0 0 0 1px var(--line);color:var(--text)!important;transition:box-shadow .18s ease,transform .18s ease,background-color .18s ease}
+.ctile:hover{text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,215,0,.55);background:var(--surface2);transform:translateY(-1px)}
+.ctile .cic{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,rgba(255,215,0,.12),rgba(255,215,0,.04));box-shadow:inset 0 0 0 1px rgba(255,215,0,.22)}
+.ctile__t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.ctile__t b{font-size:14.5px;font-weight:650;line-height:1.3;color:var(--text)}
+.ctile__t small{font-size:12.5px;color:var(--muted);font-weight:600}
+.ctile__go{flex:none;color:var(--muted);opacity:.7;transition:transform .18s ease,color .18s ease}
+.ctile:hover .ctile__go{color:var(--yellow);transform:translateX(2px);opacity:1}
+@media (max-width:899px){.cattiles{display:none}} /* на мобільному ту саму роль виконує сітка #chips з іконками й кількістю */
+@media (prefers-reduced-motion:reduce){.ctile,.ctile__go{transition:none}.ctile:hover{transform:none}}
+
+.bbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px}
+.bbar[hidden]{display:none}
+.bbar__l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:4px}
+.bbar__b{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);
+  color:var(--text2)!important;font-weight:600;font-size:13.5px;line-height:1.2}
+.bbar__b small{font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.06);border-radius:999px;padding:1px 7px}
+.bbar__b:hover{text-decoration:none;box-shadow:inset 0 0 0 1px var(--line2)}
+.bbar__b.on{background:rgba(255,215,0,.08);box-shadow:inset 0 0 0 1px rgba(255,215,0,.75);color:var(--text)!important}
+.bbar__b.on small{background:var(--yellow);color:var(--navy-text)}
+@media (max-width:760px){.bbar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px 16px;padding:0 16px}.bbar::-webkit-scrollbar{display:none}.bbar__b{flex:none}}
+@media (max-width:899px){
+  .prem .chip{gap:8px;padding:9px 10px;font-size:13px;line-height:1.25}
+  .prem .chip .cic{width:26px;height:26px;border-radius:8px}
+  .prem .chip .cic svg{width:16px;height:16px}
+  .prem .chip small{padding:2px 7px}
+}
+.results{min-width:0}
+@media (max-width:760px){.bbar{max-width:calc(100% + 32px)}}
