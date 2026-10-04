@@ -16,40 +16,16 @@
    "count": 10
   },
   {
-   "id": "lak",
-   "name": "Palinal лаки",
-   "icon": "✨",
-   "count": 16
-  },
-  {
-   "id": "emal2k",
-   "name": "Palinal 2K автоемалі (готові кольори)",
-   "icon": "🎨",
-   "count": 44
-  },
-  {
-   "id": "baza",
-   "name": "Palinal базові фарби під лак",
-   "icon": "🌈",
-   "count": 25
-  },
-  {
-   "id": "grunt",
-   "name": "Palinal ґрунти",
-   "icon": "🧱",
-   "count": 10
+   "id": "palinal",
+   "name": "PALINAL",
+   "icon": "",
+   "count": 116
   },
   {
    "id": "shpak",
    "name": "Шпаклівки",
    "icon": "🪣",
    "count": 12
-  },
-  {
-   "id": "rozch",
-   "name": "Palinal розчинники та добавки",
-   "icon": "🧪",
-   "count": 19
   },
   {
    "id": "savex",
@@ -103,7 +79,7 @@
    "id": "tools",
    "name": "Інструмент і обладнання",
    "icon": "🛠️",
-   "count": 13
+   "count": 11
   }
  ],
  "products": [
@@ -2311,8 +2287,8 @@
   },
   {
    "id": "pal-223-ultra",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 ULTRA — лак",
    "description": "Один з топових лаків у лінійці Palinal. На банці: «Ultra rapid air / oven».",
    "price_eur": 50,
@@ -2396,12 +2372,13 @@
     "https://www.tiktok.com/@alex_bespik/video/7645910959684390151",
     "https://www.tiktok.com/@alex_bespik/video/7571022544619179276",
     "https://www.tiktok.com/@alex_bespik/video/7616631324983545096"
-   ]
+   ],
+   "sub": "lak"
   },
   {
    "id": "pal-223-shine",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 SHINE — лак",
    "description": "Двокомпонентний акриловий лак Palinal 223 SHINE.",
    "price_eur": 50,
@@ -2489,12 +2466,13 @@
     "https://www.tiktok.com/@alex_bespik/video/7611893696715427090",
     "https://www.tiktok.com/@alex_bespik/video/7665207020315888904",
     "https://www.tiktok.com/@alex_bespik/video/7647181116062895367"
-   ]
+   ],
+   "sub": "lak"
   },
   {
    "id": "pal-223-flash-new",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 FLASH NEW — лак",
    "description": "Акриловий лак Palinal 223 FLASH NEW.",
    "price_eur": 47.2,
@@ -2581,12 +2559,13 @@
       "прискорювач 958.1000 скорочує сушіння на повітрі на 8–12 год"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-223-speed",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 SPEED — лак",
    "description": "Акриловий лак Palinal 223 SPEED.",
    "price_eur": 47.2,
@@ -2659,12 +2638,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-223-us90",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 US 90 — лак",
    "description": "Двокомпонентний акриловий лак Palinal 223.US90.",
    "price_eur": 36,
@@ -2734,12 +2714,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-923-smart",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 SMART — HS лак",
    "description": "Бюджетний варіант HS-лаку від Palinal — двокомпонентний антивандальний акриловий лак. Іде без додавання розчинника.",
    "price_eur": 23.1,
@@ -2814,12 +2795,13 @@
       "через 7 діб при 20 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-923-as90",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 AS 90 — лак",
    "description": "Міцний двокомпонентний акриловий лак Palinal 923.AS90.",
    "price_eur": 32.9,
@@ -2907,12 +2889,13 @@
     "https://www.tiktok.com/@alex_bespik/video/7608182659105246482",
     "https://www.tiktok.com/@alex_bespik/video/7611404103851281682",
     "https://www.tiktok.com/@alex_bespik/video/7579021538536525067"
-   ]
+   ],
+   "sub": "lak"
   },
   {
    "id": "pal-923-hs90",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 HS 90 — лак",
    "description": "Акриловий HS-лак Palinal 923.HS90.",
    "price_eur": 32.9,
@@ -2980,12 +2963,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-923-st95",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 ST 95 — лак",
    "description": "Акриловий лак Palinal 923.ST95.",
    "price_eur": 32.9,
@@ -3053,12 +3037,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-923-grip",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 GRIP — лак",
    "description": "Лак Palinal 923 GRIP.",
    "price_eur": 36,
@@ -3101,12 +3086,13 @@
       "35–45 мкм (суха)"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-923-grip-mat",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 GRIP MAT — матовий лак",
    "description": "Матовий лак Palinal 923 GRIP MAT.",
    "price_eur": 29,
@@ -3121,12 +3107,13 @@
    "photo_is_placeholder": true,
    "photo_source": null,
    "in_stock": "В наявності",
-   "flag": null
+   "flag": null,
+   "sub": "lak"
   },
   {
    "id": "pal-923-mat5",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 MAT5 — матовий лак",
    "description": "Матовий лак Palinal 923 (мат 5).",
    "price_eur": 30,
@@ -3199,12 +3186,13 @@
       "до виходу на вулицю лак має повністю зшитися — це 1–2 тижні після висихання"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-873-filler-51",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 873 Acryl Filler 5:1 — акриловий ґрунт-наповнювач",
    "description": "Акриловий ґрунт-наповнювач 5:1: 873.2K, 873.ST, 873.22, 873.11. Кольори: білий, світло-сірий, сірий, чорний.",
    "price_eur": 19.3,
@@ -3289,12 +3277,13 @@
       "24 місяці"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-873-fast",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 873.6005 / 6011 / 6022 — швидкий акриловий ґрунт 5:1",
    "description": "Швидкий акриловий ґрунт-наповнювач 5:1. На фото: при 20 °C — 60 хв. Чесний 1 л.",
    "price_eur": 20.5,
@@ -3368,12 +3357,13 @@
       "24 місяці"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-873-gt-wet",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 873.GT — ґрунт «мокрий по мокрому»",
    "description": "Акриловий ґрунт «мокрий по мокрому» 873.GT05 / GT11 / GT22 / GT00. Іде як сілер. Прозорий, білий, сірий, чорний.",
    "price_eur": 36.0,
@@ -3446,12 +3436,13 @@
    },
    "videos": [
     "https://www.tiktok.com/@alex_bespik/video/7637210388873972999"
-   ]
+   ],
+   "sub": "grunt"
   },
   {
    "id": "pal-844-upp",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 844 UPP — ґрунт-праймер по пластику",
    "description": "Ґрунт-праймер «мокрий по мокрому» на голий пластик (844UPP22 білий, 844UPP11). Можна використовувати і як структуру.",
    "price_eur": 29.0,
@@ -3524,12 +3515,13 @@
    "videos": [
     "https://www.tiktok.com/@alex_bespik/video/7608135027074813192",
     "https://www.tiktok.com/@alex_bespik/video/7631431381666630920"
-   ]
+   ],
+   "sub": "grunt"
   },
   {
    "id": "pal-844-1k",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 844 — 1K адгезійний ґрунт по пластику",
    "description": "Однокомпонентний адгезійний ґрунт по пластику.",
    "price_eur": 22.0,
@@ -3581,12 +3573,13 @@
       "не використовувати нижче 15 °C; поліпропілен перед фарбуванням прогріти до 60 °C і очистити"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-881-epoxy",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 881.7777 — епоксидний ґрунт",
    "description": "Епоксидний ґрунт Palinal 881.7777.",
    "price_eur": 22.1,
@@ -3663,12 +3656,13 @@
       "не працювати нижче 10 °C і при вологості понад 80 %"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-868-wash",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal Wash Primer 868.2000 + затверджувач 009",
    "description": "Реактивний ґрунт (Wash Primer) з затверджувачем 009.",
    "price_eur": 35.8,
@@ -3733,12 +3727,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-hydropal-filler",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal Hydropal Filler 1K",
    "description": "Ґрунт-наповнювач Hydropal Filler 1K.",
    "price_eur": 32.5,
@@ -3799,12 +3794,13 @@
       "100D2996"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-fast-air",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal FAST-AIR HS Filler",
    "description": "Ґрунт-наповнювач FAST-AIR HS Filler.",
    "price_eur": 20.6,
@@ -3877,12 +3873,13 @@
       "24 місяці"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-873-ff90",
-   "category": "grunt",
-   "category_name": "Palinal ґрунти",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 873.FF90 — ґрунт",
    "description": "Ґрунт Palinal 873.FF90.",
    "price_eur": 19.3,
@@ -3955,7 +3952,8 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "grunt"
   },
   {
    "id": "pal-862-7777",
@@ -4288,8 +4286,8 @@
   },
   {
    "id": "pal-075-0020",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.0020 — стандартний розчинник",
    "description": "Multicryl Standard Thinner — стандартний розчинник для 2K матеріалів.",
    "price_eur": 11.5,
@@ -4314,12 +4312,13 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/075.0020_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "code": "O75.0020"
+   "code": "O75.0020",
+   "sub": "rozch"
   },
   {
    "id": "pal-075-0030",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.0030 — повільний розчинник",
    "description": "Multicryl Slow Thinner — повільний розчинник для 2K матеріалів.",
    "price_eur": 11.5,
@@ -4344,12 +4343,13 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/075.0030_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "code": "075.00301"
+   "code": "075.00301",
+   "sub": "rozch"
   },
   {
    "id": "pal-075-0015",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.0015 — швидкий розчинник",
    "description": "Multicryl Fast Thinner — швидкий розчинник для 2K матеріалів.",
    "price_eur": 11.5,
@@ -4365,12 +4365,13 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/075.0015_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "code": "075.0015"
+   "code": "075.0015",
+   "sub": "rozch"
   },
   {
    "id": "pal-077",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 077 — розчинник для епоксиду",
    "description": "Epoxy Thinner — розчинник для епоксидних ґрунтів. Тара 5 л — ціну уточнюйте.",
    "price_eur": 11.5,
@@ -4386,12 +4387,13 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/077_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "code": "077-----1"
+   "code": "077-----1",
+   "sub": "rozch"
   },
   {
    "id": "pal-075-t926",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.T926 — розчинник для тришарових фарб",
    "description": "Multicryl Thinner — розчинник для тришарових фарб.",
    "price_eur": 11,
@@ -4432,12 +4434,13 @@
    "videos": [
     "https://www.tiktok.com/@alex_bespik/video/7571734066534419768",
     "https://www.tiktok.com/@alex_bespik/video/7664974390211251464"
-   ]
+   ],
+   "sub": "rozch"
   },
   {
    "id": "pal-958-1000m",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 958.1000M — прискорювач сушіння",
    "description": "2K Accelerante — прискорювач сушіння.",
    "price_eur": 10,
@@ -4469,12 +4472,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "rozch"
   },
   {
    "id": "pal-100d1998",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 100D1998 — водний антисилікон (Hydropal)",
    "description": "Antisilicon Thinner Hydropal — водний знежирювач, очищує від солей і статики.",
    "price_eur": 5.8,
@@ -4489,12 +4493,13 @@
    "photo_is_placeholder": false,
    "photo_source": "tg-prices/product-photos/palinal_thinners/100D1998_1l.png",
    "in_stock": "В наявності",
-   "flag": null
+   "flag": null,
+   "sub": "rozch"
   },
   {
    "id": "pal-950",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 950 — антисилікон (сольвент)",
    "description": "Antisilicon Washing Thinner — сольвентний знежирювач по кузову і пластику.",
    "price_eur": 7.2,
@@ -4529,12 +4534,13 @@
       "36 місяців при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "rozch"
   },
   {
    "id": "pal-981-1000m",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 981.1000M — антисиліконова добавка",
    "description": "Universal Antisilicon Additive — універсальна антисиліконова добавка.",
    "price_eur": 29,
@@ -4575,12 +4581,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "rozch"
   },
   {
    "id": "pal-957",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 957 — еластифікатор",
    "description": "2K Elastic Additive — еластична добавка.",
    "price_eur": 19,
@@ -4625,12 +4632,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "rozch"
   },
   {
    "id": "pal-900-fix1",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 900.FIX1 — біндер для переходу по базі",
    "description": "FIX 1 — безбарвна база для переходів по металіках. «Фікс для переходів по базі — без нього ніяк».",
    "price_eur": 29,
@@ -4674,12 +4682,13 @@
    },
    "videos": [
     "https://www.tiktok.com/@alex_bespik/video/7657550933303299335"
-   ]
+   ],
+   "sub": "rozch"
   },
   {
    "id": "pal-955-blend",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 955 BLEND — Easy Blend",
    "description": "Easy Blend 955 — для переходів 2K емалей і лаків по блиску.",
    "price_eur": 29,
@@ -4719,12 +4728,13 @@
       "36 місяців при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "rozch"
   },
   {
    "id": "pal-074-ds",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 074.DS — Thinner for metallic",
    "description": "Добавка в металік від хмар і плям.",
    "price_eur": 29,
@@ -4740,12 +4750,13 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/074.DS_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "code": "074.DS--"
+   "code": "074.DS--",
+   "sub": "rozch"
   },
   {
    "id": "pal-955-policonverter",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 955 POLICONVERTER",
    "description": "2K конвертор для аерозолей.",
    "price_eur": 29,
@@ -4760,12 +4771,13 @@
    "photo_is_placeholder": true,
    "photo_source": null,
    "in_stock": "В наявності",
-   "flag": null
+   "flag": null,
+   "sub": "rozch"
   },
   {
    "id": "pal-075-0040",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.0040 — екстра повільний розчинник",
    "description": "Multicryl Extra Slow Thinner — екстра повільний розчинник.",
    "price_eur": 11.5,
@@ -4781,12 +4793,13 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/075.0040_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "code": "075.00401"
+   "code": "075.00401",
+   "sub": "rozch"
   },
   {
    "id": "pal-color-catalog",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Каталог готових кольорів Palinal",
    "description": "Каталог готових кольорів Палінал.",
    "price_eur": 22,
@@ -4801,7 +4814,8 @@
    "photo_is_placeholder": true,
    "photo_source": null,
    "in_stock": "В наявності",
-   "flag": null
+   "flag": null,
+   "sub": "rozch"
   },
   {
    "id": "foam-sprayer",
@@ -4927,8 +4941,8 @@
   },
   {
    "id": "pal-075-0020-5l",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.0020 — стандартний розчинник, 5 л",
    "description": "Стандартний розчинник Multicryl для 2K акрил-поліуретанових емалей, лаків і ґрунтів. Для роботи при 15–25 °C. Каністра 5 л.",
    "price_eur": 50.0,
@@ -4943,12 +4957,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "075.00205",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "rozch"
   },
   {
    "id": "pal-075-0030-5l",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 075.0030 — повільний розчинник, 5 л",
    "description": "Повільний розчинник Multicryl для 2K емалей, лаків і ґрунтів — для роботи в спеку (понад 25 °C). Каністра 5 л.",
    "price_eur": 50.0,
@@ -4963,12 +4978,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "075.00305",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "rozch"
   },
   {
    "id": "pal-077-5l",
-   "category": "rozch",
-   "category_name": "Palinal розчинники та добавки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 077 — розчинник для епоксиду, 5 л",
    "description": "Розчинник для епоксидних ґрунтів Palinal (зокрема 881.7777) — регулює в’язкість. Каністра 5 л.",
    "price_eur": 60.0,
@@ -4983,7 +4999,8 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "077-----5",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "rozch"
   },
   {
    "id": "savex-acrylic-1l",
@@ -5127,8 +5144,8 @@
   },
   {
    "id": "palinal-stand-multicryl-900",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Змішувальна система Palinal MULTICRYL 900 (стійка)",
    "description": "Стійка-міксер з пігментними пастами Palinal Multicryl 900 для підбору та змішування фарб на розчиннику в майстерні: двошарові базові й прямий глянець. Комплектацію уточнюйте.",
    "price_eur": 7124.0,
@@ -5143,12 +5160,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "900MCR",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "system"
   },
   {
    "id": "palinal-stand-polypal-607",
-   "category": "tools",
-   "category_name": "Інструмент і обладнання",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Змішувальна система Palinal POLYPAL 607 (стійка)",
    "description": "Колориметрична система розчинних фарб Polypal 607 для комерційного, промислового та спецтранспорту: пастельні кольори за RAL, NCS, Pantone. Комплектацію уточнюйте.",
    "price_eur": 6000.0,
@@ -5163,7 +5181,8 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "PALINAL POLYPAL 607",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "system"
   },
   {
    "id": "pdr-set",
@@ -5203,8 +5222,8 @@
   },
   {
    "id": "pal-923-smart-5l",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 SMART — HS лак, 5 л + 2,5 л",
    "description": "Прозорий 2K акриловий HS лак 2:1, стійкий до подряпин. Сушіння на повітрі або в камері. Комплект: 5 л лаку + 2,5 л затверджувача 999.HS98M.",
    "price_eur": 105.5,
@@ -5267,12 +5286,13 @@
       "через 7 діб при 20 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-923-as90-5l",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 923 AS 90 — лак, 5 л + 2,5 л",
    "description": "Прозорий 2K акриловий HS лак 2:1 Anti Scratch — тверде покриття, стійке до подряпин. Комплект: 5 л лаку + 2,5 л затверджувача 993.MS.",
    "price_eur": 157.0,
@@ -5344,12 +5364,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-223-flash-5l",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 FLASH — UHS лак, 5 л + 2,5 л",
    "description": "UHS лак 2:1 з швидким сушінням (близько 15 хв при 60 °C). Комплект: 5 л лаку + 2,5 л затверджувача HS.20.",
    "price_eur": 210.0,
@@ -5425,12 +5446,13 @@
       "прискорювач 958.1000 скорочує сушіння на повітрі на 8–12 год"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-223-shine-5l",
-   "category": "lak",
-   "category_name": "Palinal лаки",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 223 SHINE — UHS лак, 5 л + 2,5 л",
    "description": "UHS лак 2:1 EXTRA з високим глянцем, швидке сушіння в камері. Комплект: 5 л лаку + 2,5 л затверджувача HS.20.",
    "price_eur": 220.0,
@@ -5502,12 +5524,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "lak"
   },
   {
    "id": "pal-2k-merc-7103-schwarzgrau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 7103 SCHWARZGRAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 7103 SCHWARZGRAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06631.",
    "price_eur": 31.9,
@@ -5522,12 +5545,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X06631",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ral-vw-9010-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль RAL/VW 9010 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL/VW 9010 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815.90101.",
    "price_eur": 32.8,
@@ -5542,12 +5566,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815.90101",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-h3t-kirschrot",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW H3T KIRSCHROT",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW H3T KIRSCHROT. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907X72591.",
    "price_eur": 42.2,
@@ -5562,12 +5587,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907X72591",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-candy-weiss-b9a-y-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW CANDY WEISS B9A/Y GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW CANDY WEISS B9A/Y GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814WB9AY1.",
    "price_eur": 31.9,
@@ -5582,12 +5608,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814WB9AY1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ral-5002-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль RAL 5002 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL 5002 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.50021.",
    "price_eur": 31.9,
@@ -5602,12 +5629,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814.50021",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ral-5005-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль RAL 5005 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL 5005 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.50051.",
    "price_eur": 31.9,
@@ -5622,12 +5650,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814.50051",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-r902-weiss-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW R902 WEISS GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW R902 WEISS GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06611.",
    "price_eur": 31.9,
@@ -5642,12 +5671,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X06611",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-0373-atlantisblau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 0373 ATLANTISBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 0373 ATLANTISBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M03731.",
    "price_eur": 32.8,
@@ -5662,12 +5692,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815M03731",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-907-tool-green-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 907 TOOL GREEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 907 TOOL GREEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M09071.",
    "price_eur": 31.7,
@@ -5682,12 +5713,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814M09071",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-5376-hyazinth-blau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 5376 HYAZINTH BLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5376 HYAZINTH BLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X02501.",
    "price_eur": 31.7,
@@ -5702,12 +5734,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X02501",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ren-489-blu-myosotis-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль REN 489 BLU MYOSOTIS GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі REN 489 BLU MYOSOTIS GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814R94891.",
    "price_eur": 31.9,
@@ -5722,12 +5755,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814R94891",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-citr-ewp-blanc-banquise-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль CITR EWP BLANC BANQUISE GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі CITR EWP BLANC BANQUISE GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06621.",
    "price_eur": 31.9,
@@ -5742,12 +5776,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X06621",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-6464-orchidgruen-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 6464 ORCHIDGRUEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 6464 ORCHIDGRUEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M64641.",
    "price_eur": 32.8,
@@ -5762,12 +5797,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815M64641",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-0583-velvetrot-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 0583 VELVETROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 0583 VELVETROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M05831.",
    "price_eur": 40.4,
@@ -5782,12 +5818,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814M05831",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-lada-601-deep-black-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль LADA 601 DEEP BLACK GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі LADA 601 DEEP BLACK GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.00331.",
    "price_eur": 31.9,
@@ -5802,12 +5839,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814.00331",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-5856-tuerkisgruen-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 5856 TUERKISGRUEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5856 TUERKISGRUEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X03171.",
    "price_eur": 31.7,
@@ -5822,12 +5860,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X03171",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ral-7001-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль RAL 7001 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL 7001 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.70011.",
    "price_eur": 31.9,
@@ -5842,12 +5881,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814.70011",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-5522-ozeanblau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 5522 OZEANBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5522 OZEANBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M55221.",
    "price_eur": 31.9,
@@ -5862,12 +5902,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814M55221",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-7709-mercedes-blaugrau-maschinengrau",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль 7709 MERCEDES BLAUGRAU/MASCHINENGRAU",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі 7709 MERCEDES BLAUGRAU/MASCHINENGRAU. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814AG2321.",
    "price_eur": 31.9,
@@ -5882,12 +5923,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814AG2321",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-p6m-karabikgruen-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW P6M KARABIKGRUEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW P6M KARABIKGRUEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814W0P6M1.",
    "price_eur": 31.9,
@@ -5902,12 +5944,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814W0P6M1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-5115-13m-schwefelgelb-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW 5115 13M SCHWEFELGELB GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW 5115 13M SCHWEFELGELB GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907W51161.",
    "price_eur": 40.2,
@@ -5922,12 +5965,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907W51161",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-3530-lavarot-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 3530 LAVAROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 3530 LAVAROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907M35301.",
    "price_eur": 41.9,
@@ -5942,12 +5986,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907M35301",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-147-artikweiss-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 147 ARTIKWEISS GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 147 ARTIKWEISS GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814ML1471.",
    "price_eur": 31.4,
@@ -5962,12 +6007,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814ML1471",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-lada-325-sea-depth-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль LADA 325 SEA DEPTH GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі LADA 325 SEA DEPTH GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815XU3971.",
    "price_eur": 35.8,
@@ -5982,12 +6028,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815XU3971",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-513-dunkelviolet-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 513 DUNKELVIOLET GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 513 DUNKELVIOLET GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815X74281.",
    "price_eur": 33.7,
@@ -6002,12 +6049,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815X74281",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-830-aquagrun-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 830 AQUAGRUN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 830 AQUAGRUN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M08301.",
    "price_eur": 31.4,
@@ -6022,12 +6070,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814M08301",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-lada-440-l-atlantica",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль LADA 440/L ATLANTICA",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі LADA 440/L ATLANTICA. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814 LADA 440/L.",
    "price_eur": 32.5,
@@ -6042,12 +6091,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814 LADA 440/L",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ren-232-jaune-poste-allemagne",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль REN 232 JAUNE POSTE ALLEMAGNE",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі REN 232 JAUNE POSTE ALLEMAGNE. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815X29481.",
    "price_eur": 35.8,
@@ -6062,12 +6112,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815X29481",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ford-5048-frozen-white-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль FORD 5048 FROZEN WHITE GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі FORD 5048 FROZEN WHITE GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06601.",
    "price_eur": 31.4,
@@ -6082,12 +6133,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X06601",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-5389-g-stahlblau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 5389/G STAHLBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5389/G STAHLBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815AE9991.",
    "price_eur": 33.7,
@@ -6102,12 +6154,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815AE9991",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-y3r-tornadorot",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW Y3R TORNADOROT",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW Y3R TORNADOROT. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907WY3DR1.",
    "price_eur": 41.9,
@@ -6122,12 +6175,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907WY3DR1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-1239-verkehersgelb-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 1239 VERKEHERSGELB GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 1239 VERKEHERSGELB GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907M12391.",
    "price_eur": 40.2,
@@ -6142,12 +6196,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907M12391",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-h7-paprikarot-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW H7 PAPRIKAROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW H7 PAPRIKAROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907W0K3A1.",
    "price_eur": 41.9,
@@ -6162,12 +6217,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907W0K3A1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ford-4856-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль FORD 4856 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі FORD 4856 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907D48561.",
    "price_eur": 40.2,
@@ -6182,12 +6238,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907D48561",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-a5e-maritimblau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW A5E MARITIMBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW A5E MARITIMBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815X74291.",
    "price_eur": 32.5,
@@ -6202,12 +6259,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815X74291",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-h7j-pure-grey",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW H7J PURE GREY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW H7J PURE GREY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814W0H7J1.",
    "price_eur": 31.4,
@@ -6222,12 +6280,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814W0H7J1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-ren-389-blanc-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль REN 389 BLANC GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі REN 389 BLANC GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814R83891.",
    "price_eur": 31.4,
@@ -6242,12 +6301,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814R83891",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-fiat-249-white-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль FIAT 249 WHITE GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі FIAT 249 WHITE GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814F62491.",
    "price_eur": 31.4,
@@ -6262,12 +6322,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814F62491",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-daf-h3915-spring-green-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль DAF H3915 SPRING GREEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі DAF H3915 SPRING GREEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907J60251.",
    "price_eur": 40.2,
@@ -6282,12 +6343,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "907J60251",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-vw-l5m-indienblau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль VW L5M INDIENBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW L5M INDIENBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814W0L5M1.",
    "price_eur": 31.4,
@@ -6302,12 +6364,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814W0L5M1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-5515-himmelblau-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 5515 HIMMELBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5515 HIMMELBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X74271.",
    "price_eur": 31.4,
@@ -6322,12 +6385,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X74271",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-3636-piemonte-rot-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 3636 PIEMONTE ROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 3636 PIEMONTE ROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M363R1.",
    "price_eur": 32.5,
@@ -6342,12 +6406,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815M363R1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-1243-calcitgelb-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 1243 CALCITGELB GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 1243 CALCITGELB GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06581.",
    "price_eur": 35.8,
@@ -6362,12 +6427,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "814X06581",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-2k-merc-586-magmarot-glossy",
-   "category": "emal2k",
-   "category_name": "Palinal 2K автоемалі (готові кольори)",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal 2K автоемаль MERC 586 MAGMAROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 586 MAGMAROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M05861.",
    "price_eur": 40.2,
@@ -6382,12 +6448,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "815M05861",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "emal2k"
   },
   {
    "id": "pal-base-bmw-475-blacksapphire-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба BMW 475 BLACKSAPPHIRE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі BMW 475 BLACKSAPPHIRE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAE998.",
    "price_eur": 28.6,
@@ -6402,12 +6469,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTAE998",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-bmw-317-3739-orient-blau-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба BMW 317 3739 ORIENT BLAU MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі BMW 317 3739 ORIENT BLAU MET. Наноситься під 2K лак. Банка 1 л. Код: SMTB3739.",
    "price_eur": 28.6,
@@ -6422,12 +6490,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTB3739",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-ford-j7-magnetic-grey-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба FORD J7 MAGNETIC GREY MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі FORD J7 MAGNETIC GREY MET. Наноситься під 2K лак. Банка 1 л. Код: FORD  J7.",
    "price_eur": 26.5,
@@ -6442,12 +6511,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "FORD J7",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-c6m",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW C6M",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW C6M. Наноситься під 2K лак. Банка 1 л. Код: SMTW0C6M.",
    "price_eur": 25.0,
@@ -6462,12 +6532,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTW0C6M",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-nissan-g41",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба NISSAN G41",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі NISSAN G41. Наноситься під 2K лак. Банка 1 л. Код: SMTY0G411.",
    "price_eur": 26.5,
@@ -6482,12 +6553,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTY0G411",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-mercedes-735",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERCEDES 735",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERCEDES 735. Наноситься під 2K лак. Банка 1 л. Код: SMTM735D.",
    "price_eur": 25.0,
@@ -6502,12 +6574,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTM735D",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-mercedes-154-carbonschwarz-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERCEDES 154 CARBONSCHWARZ MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERCEDES 154 CARBONSCHWARZ MET. Наноситься під 2K лак. Банка 1 л. Код: SMTM91541.",
    "price_eur": 26.5,
@@ -6522,12 +6595,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTM91541",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-a3w-red-spice-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW A3W RED SPICE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW A3W RED SPICE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWA3W.",
    "price_eur": 30.0,
@@ -6542,12 +6616,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTWA3W",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-a7w-reflexsilber-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW A7W REFLEXSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW A7W REFLEXSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTW0A7W.",
    "price_eur": 28.5,
@@ -6562,12 +6637,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTW0A7W",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-niss-k23-d-yellowwish-silver-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба NISS K23/D YELLOWWISH SILVER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі NISS K23/D YELLOWWISH SILVER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAC5191.",
    "price_eur": 26.5,
@@ -6582,12 +6658,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTAC5191",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-renault-rpl",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба RENAULT RPL",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі RENAULT RPL. Наноситься під 2K лак. Банка 1 л. Код: SMTXT7301.",
    "price_eur": 30.0,
@@ -6602,12 +6679,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTXT7301",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-d7x-platinum-grey-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW D7X PLATINUM GREY MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW D7X PLATINUM GREY MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWD7XL.",
    "price_eur": 26.5,
@@ -6622,12 +6700,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTWD7XL",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-ren-kng-gris-cassiopee-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба REN KNG GRIS CASSIOPEE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі REN KNG GRIS CASSIOPEE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTRKNGL.",
    "price_eur": 25.0,
@@ -6642,12 +6721,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTRKNGL",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-merc-723-cubamitsilber-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERC 723 CUBAMITSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 723 CUBAMITSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTM723L1.",
    "price_eur": 25.0,
@@ -6662,12 +6742,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTM723L1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-mercedes-197-obsidianshwarz-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERCEDES 197 OBSIDIANSHWARZ MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERCEDES 197 OBSIDIANSHWARZ MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAG2381.",
    "price_eur": 26.5,
@@ -6682,12 +6763,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTAG2381",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-d7u-offroad-grey-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW D7U OFFROAD GREY MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW D7U OFFROAD GREY MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWD7UL.",
    "price_eur": 30.0,
@@ -6702,12 +6784,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTWD7UL",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-merc-744-y-brillantsilber-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERC 744/Y BRILLANTSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 744/Y BRILLANTSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTM744Y1.",
    "price_eur": 25.0,
@@ -6722,12 +6805,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTM744Y1",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-merc-744-brillantsilber-m",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERC 744 BRILLANTSILBER M",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 744 BRILLANTSILBER M. Наноситься під 2K лак. Банка 1 л. Код: SMTM07441.",
    "price_eur": 25.0,
@@ -6742,12 +6826,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTM07441",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-d5q-shadowblue-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW D5Q SHADOWBLUE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW D5Q SHADOWBLUE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWBD5Q.",
    "price_eur": 28.5,
@@ -6762,12 +6847,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTWBD5Q",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-a5w-ravennablau-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW A5W RAVENNABLAU MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW A5W RAVENNABLAU MET. Наноситься під 2K лак. Банка 1 л. Код: SMTW0A5W.",
    "price_eur": 26.5,
@@ -6782,12 +6868,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTW0A5W",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-merc-775-iridiumsilber-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба MERC 775 IRIDIUMSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 775 IRIDIUMSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAA4971.",
    "price_eur": 26.5,
@@ -6802,12 +6889,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTAA4971",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-skoda-9910-vw-c9z",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба SKODA 9910 / VW C9Z",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі SKODA 9910 / VW C9Z. Наноситься під 2K лак. Банка 1 л. Код: SMTAB3491.",
    "price_eur": 30.0,
@@ -6822,12 +6910,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTAB3491",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-vw-b5n-indigoblue",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба VW B5N INDIGOBLUE",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW B5N INDIGOBLUE. Наноситься під 2K лак. Банка 1 л. Код: SMT799671.",
    "price_eur": 28.5,
@@ -6842,12 +6931,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMT799671",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-toy-202-black",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба TOY 202 BLACK",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі TOY 202 BLACK. Наноситься під 2K лак. Банка 1 л. Код: SMTT02021.",
    "price_eur": 31.0,
@@ -6862,12 +6952,13 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTT02021",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "pal-base-368-d-flintgrau-saphire-blue-met",
-   "category": "baza",
-   "category_name": "Palinal базові фарби під лак",
+   "category": "palinal",
+   "category_name": "PALINAL",
    "name": "Palinal базова фарба 368/D FLINTGRAU/SAPHIRE BLUE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі 368/D FLINTGRAU/SAPHIRE BLUE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAD0011.",
    "price_eur": 30.0,
@@ -6882,7 +6973,8 @@
    "in_stock": "В наявності",
    "flag": null,
    "code": "SMTAD0011",
-   "brand": "Palinal"
+   "brand": "Palinal",
+   "sub": "baza"
   },
   {
    "id": "novol-fiber-micro",

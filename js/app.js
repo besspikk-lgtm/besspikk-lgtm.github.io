@@ -38,13 +38,36 @@
     return s;
   }
 
-  var state = { cat: 'all', q: '', sort: 'def', brand: '' };
+  var state = { cat: 'all', q: '', sort: 'def', brand: '', sub: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
-  var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['guns', ''], guns2: ['guns', ''], putty: ['shpak', ''] };
+  var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['guns', ''], guns2: ['guns', ''], putty: ['shpak', ''],
+    lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'] }; // 04.10: усі PALINAL (крім шпаклівок) — один розділ
   /* об’єднані картки: старе посилання #/p/<id> веде на нову */
   var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341' };
   var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
+  /* 04.10: підрозділи (чипи) всередині розділу: PALINAL — за типом товару; фарбопульти — за типом (+ фільтр бренду) */
+  var GUN_MINI = /міні|mini|spot|\b0\.8\b/i;
+  var SUBCATS = {
+    palinal: { label: 'Розділ', items: [
+      { k: 'emal2k', t: '2K автоемалі', f: function (p) { return p.sub === 'emal2k'; } },
+      { k: 'baza', t: 'Базові фарби', f: function (p) { return p.sub === 'baza'; } },
+      { k: 'lak', t: 'Лаки', f: function (p) { return p.sub === 'lak'; } },
+      { k: 'grunt', t: 'Ґрунти', f: function (p) { return p.sub === 'grunt'; } },
+      { k: 'rozch', t: 'Розчинники', f: function (p) { return p.sub === 'rozch' && /розчинник|thinner/i.test(p.name); } },
+      { k: 'antisil', t: 'Антисилікони', f: function (p) { return p.sub === 'rozch' && /антисилікон/i.test(p.name) && !/добавк/i.test(p.name); } },
+      { k: 'dobavky', t: 'Добавки', f: function (p) { return p.sub === 'rozch' && !/розчинник|thinner|каталог/i.test(p.name) && !(/антисилікон/i.test(p.name) && !/добавк/i.test(p.name)); } },
+      { k: 'system', t: 'Змішувальні системи та каталог', f: function (p) { return p.sub === 'system' || (p.sub === 'rozch' && /каталог/i.test(p.name)); } }
+    ] },
+    guns: { label: 'Тип', items: [
+      { k: 'spray', t: 'Фарбопульти', f: function (p) { return p.sub !== 'air' && !GUN_MINI.test(p.name); } },
+      { k: 'mini', t: 'Міні-фарбопульти', f: function (p) { return p.sub !== 'air' && GUN_MINI.test(p.name); } },
+      { k: 'special', t: 'Спеціальні пістолети', f: function (p) { return p.sub === 'air'; } }
+    ] }
+  };
+  function subItem(cat, k) { var s = SUBCATS[cat]; if (!s || !k) return null; for (var i = 0; i < s.items.length; i++) if (s.items[i].k === k) return s.items[i]; return null; }
+  function subName(cat, k) { var it = subItem(cat, k); return it ? it.t : ''; }
+  function catHash(cat, sub, brand) { return '#/c/' + cat + (sub ? '/' + sub : '') + (brand ? '/' + brand : ''); }
   function inCats(p, arr) { return arr.indexOf(p.category) >= 0 || (!!p.sub && arr.indexOf(p.sub) >= 0); }
   var lastListHash = '#/';
 
@@ -131,6 +154,7 @@
     fav: '<path d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
     guns: '<path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/>',
     acc: '<circle cx="12" cy="13" r="7.5"/><path d="M12 13l3.2-3.2"/><path d="M8.2 17h7.6"/><path d="M12 5.5V3M10 3h4"/>',
+    palinal: '<path d="M12 3.2s6 6.4 6 10.8a6 6 0 0 1-12 0c0-4.4 6-10.8 6-10.8z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.8 2.4"/>',
     lak: '<path d="M12 3.2s6 6.4 6 10.8a6 6 0 0 1-12 0c0-4.4 6-10.8 6-10.8z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.4 2.6"/>',
     emal2k: '<path d="M5 7.5h14v11a2.5 2.5 0 0 1-2.5 2.5h-9A2.5 2.5 0 0 1 5 18.5z"/><path d="M5 7.5 6.5 4h11L19 7.5"/><path d="M9 12.5h6"/>',
     baza: '<path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.8 1.8-1.7 0-1.4-1.2-1.6-1.2-2.8 0-1 .8-1.6 1.8-1.6H17a3.5 3.5 0 0 0 3.5-3.5c0-4.1-3.8-7.4-8.5-7.4z"/><circle cx="7.6" cy="11" r="1"/><circle cx="10.4" cy="7.4" r="1"/><circle cx="15" cy="7.8" r="1"/>',
@@ -161,17 +185,32 @@
         '<span class="ctile__go" aria-hidden="true">' + svgI('<path d="M9 6l6 6-6 6"/>', 16) + '</span></a></li>';
     }).join('');
   }
-  /* розділ «Фарбопульти та пістолети»: фільтр за брендом */
+  /* підрозділи (#subbar) і фільтр бренду фарбопультів (#brandbar) */
   function renderBrandBar() {
-    var el = $('#brandbar'); if (!el) return;
+    var sb = $('#subbar'), el = $('#brandbar');
+    var sc = SUBCATS[state.cat];
+    if (sb) {
+      if (!sc || state.q) sb.hidden = true;
+      else {
+        var inCat = PRODUCTS.filter(function (p) { return p.category === state.cat && (state.cat !== 'guns' || !state.brand || gunBrand(p) === state.brand); });
+        var subs = [{ k: '', t: 'Усі', n: inCat.length }].concat(sc.items.map(function (s) { return { k: s.k, t: s.t, n: inCat.filter(s.f).length }; }).filter(function (s) { return s.n > 0 || s.k === state.sub; }));
+        sb.innerHTML = '<span class="bbar__l">' + esc(sc.label) + '</span>' + subs.map(function (s) {
+          return '<a class="bbar__b' + (state.sub === s.k ? ' on' : '') + '" href="' + catHash(state.cat, s.k, state.cat === 'guns' ? state.brand : '') + '"' + (state.sub === s.k ? ' aria-current="true"' : '') + '>' + esc(s.t) + '<small>' + s.n + '</small></a>';
+        }).join('');
+        sb.hidden = false; barToOn(sb);
+      }
+    }
+    if (!el) return;
     if (state.cat !== 'guns' || state.q) { el.hidden = true; return; }
-    var all = PRODUCTS.filter(function (p) { return p.category === 'guns'; });
-    var items = [{ k: '', t: 'Усі', n: all.length }].concat(GUN_BRANDS.map(function (b) { return { k: b.k, t: b.t, n: all.filter(function (p) { return gunBrand(p) === b.k; }).length }; }).filter(function (b) { return b.n > 0; }));
+    var si = subItem('guns', state.sub);
+    var all = PRODUCTS.filter(function (p) { return p.category === 'guns' && (!si || si.f(p)); });
+    var items = [{ k: '', t: 'Усі', n: all.length }].concat(GUN_BRANDS.map(function (b) { return { k: b.k, t: b.t, n: all.filter(function (p) { return gunBrand(p) === b.k; }).length }; }).filter(function (b) { return b.n > 0 || b.k === state.brand; }));
     el.innerHTML = '<span class="bbar__l">Бренд</span>' + items.map(function (b) {
-      return '<a class="bbar__b' + (state.brand === b.k ? ' on' : '') + '" href="#/c/guns' + (b.k ? '/' + b.k : '') + '"' + (state.brand === b.k ? ' aria-current="true"' : '') + '>' + esc(b.t) + '<small>' + b.n + '</small></a>';
+      return '<a class="bbar__b' + (state.brand === b.k ? ' on' : '') + '" href="' + catHash('guns', state.sub, b.k) + '"' + (state.brand === b.k ? ' aria-current="true"' : '') + '>' + esc(b.t) + '<small>' + b.n + '</small></a>';
     }).join('');
-    el.hidden = false;
+    el.hidden = false; barToOn(el);
   }
+  function barToOn(bar) { var on = bar.querySelector('.on'); if (on && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = Math.max(0, on.offsetLeft - bar.offsetLeft - 16); } // мобільний: обраний чип — у полі зору
 
   /* ---------- catalog render ---------- */
   function renderCats() {
@@ -207,6 +246,7 @@
       else if (state.cat === 'fav') { if (!isFav(p.id)) return false; }
       else if (state.cat !== 'all' && p.category !== state.cat) return false;
       if (state.cat === 'guns' && state.brand && !state.q && gunBrand(p) !== state.brand) return false;
+      if (state.sub && !state.q) { var si = subItem(state.cat, state.sub); if (si && !si.f(p)) return false; }
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
     var order = {}; CATS.forEach(function (c, i) { order[c.id] = i; });
@@ -217,7 +257,7 @@
       list.sort(function (a, b) { if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return 0; if (x == null) return 1; if (y == null) return -1; return (x - y) * dir; });
     } else if (state.sort === 'na') {
       list.sort(function (a, b) { return oos(a) - oos(b) || a.name.localeCompare(b.name, 'uk'); });
-    } else if (state.cat === 'guns') { // фарбопульти: від найдорожчого до найдешевшого
+    } else if (state.cat !== 'all') { // 04.10: у всіх розділах — від найдорожчого до найдешевшого (раніше лише фарбопульти)
       list.forEach(function (p, i) { p._i = i; });
       list.sort(function (a, b) { if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return a._i - b._i; if (x == null) return 1; if (y == null) return -1; return (y - x) || a._i - b._i; });
     } else {
@@ -355,6 +395,7 @@
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
     guns: 'Усі фарбопульти та пістолети в одному розділі: Meiji, SATA, ITALCO, Auarita, NTools та інші — від найдорожчих до найдешевших. Тут також пістолет для антигравію, обдувний та антистатичний пістолети.',
     acc: 'Манометри Meiji (електронний і механічний), бачки, додаткові дюзи та перехідники PPS.',
+    palinal: 'Лакофарбові матеріали PALINAL від офіційного представника в Україні: 2K автоемалі та базові фарби в готових кольорах, лаки, ґрунти, розчинники, антисилікони та добавки. Шпаклівки PALINAL — у розділі «Шпаклівки».',
     lak: 'Лаки Palinal серій 223 і 923: акрилові 2K, HS і UHS, матові — є комплекти 5 л + 2,5 л затверджувача.',
     emal2k: 'Palinal автоемаль 2K Multicryl 900 у готових кольорах RAL, VW, MERC, FORD та інших — глянцеве покриття без лаку.',
     baza: 'Базові фарби Palinal під лак у готових кольорах, банка 1 л — наносяться під 2K лак.',
@@ -378,7 +419,8 @@
   function brandName(k) { for (var i = 0; i < GUN_BRANDS.length; i++) if (GUN_BRANDS[i].k === k) return GUN_BRANDS[i].t; return ''; }
   function listTitle() {
     if (state.cat === 'all') return CONFIG.homeTitle;
-    if (state.cat === 'guns' && state.brand && state.brand !== 'other') return 'Фарбопульти ' + brandName(state.brand) + ' — купити в Україні | ' + CONFIG.siteName;
+    if (state.cat === 'guns' && state.brand && state.brand !== 'other') return (state.sub ? subName('guns', state.sub) : 'Фарбопульти') + ' ' + brandName(state.brand) + ' — купити в Україні | ' + CONFIG.siteName;
+    if (state.sub && subItem(state.cat, state.sub)) return (state.cat === 'palinal' ? 'PALINAL — ' + subName('palinal', state.sub).toLowerCase() : subName(state.cat, state.sub)) + ' — купити в Україні | ' + CONFIG.siteName;
     if (state.cat === 'sale') return 'Акції — ' + CONFIG.siteName;
     if (state.cat === 'new') return 'Новинки — ' + CONFIG.siteName;
     if (state.cat === 'excl') return 'Ексклюзив — ' + CONFIG.siteName;
@@ -399,15 +441,17 @@
     if (!EMPTY_TXT) EMPTY_TXT = $('#empty').textContent;
     $('#empty').textContent = state.cat === 'fav' && !state.q ? 'У вибраному поки порожньо. Натисніть сердечко на картці товару, щоб зберегти його тут.' : EMPTY_TXT;
     var cn = catLabel(state.cat);
+    if (state.sub && !state.q && subItem(state.cat, state.sub)) cn += ' · ' + subName(state.cat, state.sub);
     if (state.cat === 'guns' && state.brand && !state.q) cn += ' · ' + brandName(state.brand);
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
     var pc = $('#pickcta'); if (pc) pc.hidden = !!state.q || state.cat !== 'guns';
-    var cc = $('#codecta'); if (cc) cc.hidden = !!state.q || !/^(emal2k|baza)$/.test(state.cat);
+    var cc = $('#codecta'); if (cc) cc.hidden = !!state.q || !(state.cat === 'palinal' && /^(emal2k|baza)$/.test(state.sub));
     var cq = $('#codeq'); if (cq) { var qq = state.q.trim(); cq.hidden = !(qq && !list.length && /^(RAL\s?\d{4}|[A-Za-zА-Яа-яІі0-9]{2,7}([\/-][A-Za-z0-9]{1,5})?)$/.test(qq)); if (!cq.hidden) { var cqb = cq.querySelector('[data-cq-code]'); if (cqb) cqb.textContent = qq; } }
-    var ci = $('#catintro'); if (ci) { var it = !state.q && ((state.cat === 'guns' && BRAND_INTRO[state.brand]) || CAT_INTRO[state.cat]); ci.textContent = it || ''; ci.hidden = !it; }
+    var ci = $('#catintro'); if (ci) { var it = !state.q && ((state.cat === 'guns' && BRAND_INTRO[state.brand]) || (state.cat === 'palinal' && CAT_INTRO[state.sub]) || CAT_INTRO[state.cat]); ci.textContent = it || ''; ci.hidden = !it; }
     renderBrandBar();
+    var so = $('#sort option[value="def"]'); if (so) so.textContent = state.cat === 'all' ? 'За розділами' : 'Спочатку дорожчі';
     var ct = $('#cattiles'); if (ct) ct.hidden = state.cat !== 'all' || !!state.q;
     if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
@@ -1025,9 +1069,9 @@
         '<div class="pm__tools">' + favBtnHTML(p, 'favb--pm') + '<button class="pmt" type="button" data-share="' + esc(p.id) + '" aria-label="Поділитися: ' + esc(p.name) + '">' + svgI(IC.share, 19) + '<span>Поділитися</span></button></div>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
-        '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
-        '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' + relatedHTML(p) + // 04.10: кількість + кошик одразу після опису, «Ще купують разом» — під ними
+        '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
+        '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Ще купують разом» // 04.10: кількість + кошик одразу після опису, «Ще купують разом» — під ними
         '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
         '<div class="cactions">' +
           '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">🤖 Замовити через бота</a>' +
@@ -1433,21 +1477,26 @@
     var navOn = /^#\/c\/sale/.test(h) ? 'sale' : /^#\/c\/fav/.test(h) ? 'fav' : 'catalog';
     $$('[data-nav]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-nav') === navOn); });
     var prevCat = state.cat;
-    var prevBrand = state.brand; state.brand = '';
-    if ((m = h.match(/^#\/c\/([\w-]+)(?:\/([\w-]+))?/)) && CAT_ALIAS[m[1]] && !catById[m[1]]) { // старі посилання на розділи фарбопультів
+    var prevBrand = state.brand, prevSub = state.sub; state.brand = ''; state.sub = '';
+    var CRE = /^#\/c\/([\w-]+)(?:\/([\w-]+))?(?:\/([\w-]+))?/;
+    if ((m = h.match(CRE)) && CAT_ALIAS[m[1]] && !catById[m[1]]) { // старі посилання: розділи фарбопультів, Palinal-розділи
       var al = CAT_ALIAS[m[1]], nh = '#/c/' + al[0] + (al[1] ? '/' + al[1] : '');
       try { history.replaceState(null, '', nh); } catch (e) {}
-      h = nh; m = h.match(/^#\/c\/([\w-]+)(?:\/([\w-]+))?/);
+      h = nh; m = h.match(CRE);
     }
     if (m && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'excl' || m[1] === 'fav')) {
       state.cat = m[1];
-      if (m[1] === 'guns' && m[2] && GUN_BRANDS.some(function (b) { return b.k === m[2]; })) state.brand = m[2];
+      [m[2], m[3]].forEach(function (seg) {
+        if (!seg) return;
+        if (subItem(m[1], seg)) state.sub = seg;
+        else if (m[1] === 'guns' && GUN_BRANDS.some(function (b) { return b.k === seg; })) state.brand = seg;
+      });
     } else state.cat = 'all';
     if (prevCat === 'fav' || state.cat === 'fav') { renderCats(); }
     renderRecent();
     lastListHash = h;
     renderGrid();
-    var wantScroll = !catScrollSkip && (catScrollPending || (routedOnce && (prevCat !== state.cat || prevBrand !== state.brand)));
+    var wantScroll = !catScrollSkip && (catScrollPending || (routedOnce && (prevCat !== state.cat || prevBrand !== state.brand || prevSub !== state.sub)));
     catScrollPending = catScrollSkip = false; routedOnce = true;
     if (wantScroll) scrollToResults();
   }
@@ -2213,7 +2262,7 @@
     });
     return { nm: nm, makes: makes, toks: toks };
   }
-  function csPool() { return PRODUCTS.filter(function (p) { return p.category === 'emal2k' || p.category === 'baza' || /\bRAL\b/i.test(p.name || ''); }); }
+  function csPool() { return PRODUCTS.filter(function (p) { return p.sub === 'emal2k' || p.sub === 'baza' || /\bRAL\b/i.test(p.name || ''); }); }
   function csSearch(code, makeStr) {
     var q = csUp(code).replace(/\s+/g, ' ').trim(), mk = csMake(makeStr), out = [];
     if (q.length < 2) return { q: q, mk: mk, list: [] };
@@ -2275,7 +2324,7 @@
   function csResHTML() {
     var r = csSearch(cs.code, cs.make), q = r.q;
     if (q.length < 2) {
-      var n2 = PRODUCTS.filter(function (p) { return p.category === 'emal2k'; }).length, nb = PRODUCTS.filter(function (p) { return p.category === 'baza'; }).length;
+      var n2 = PRODUCTS.filter(function (p) { return p.sub === 'emal2k'; }).length, nb = PRODUCTS.filter(function (p) { return p.sub === 'baza'; }).length;
       return '<p class="cs__intro">Шукаємо серед готових кольорів у каталозі: ' + n2 + ' ' + plural(n2, 'автоемаль', 'автоемалі', 'автоемалей') + ' 2K PALINAL і ' + nb + ' ' + plural(nb, 'базова фарба', 'базові фарби', 'базових фарб') + ' під лак. Введіть код з таблички авто або RAL.</p>';
     }
     var mkName = cs.make.trim(), main = r.list.filter(function (x) { return x.rel !== 'other'; }), other = r.list.filter(function (x) { return x.rel === 'other'; });
