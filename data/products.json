@@ -8026,27 +8026,46 @@
      "price_eur": 48.5962
     },
     {
+     "label": "120+ (51431)",
+     "price_eur": 48.5962
+    },
+    {
      "label": "150+ (51432)",
      "price_eur": 48.5962
     },
     {
+     "label": "180+ (51433)",
+     "price_eur": 48.5962
+    },
+    {
+     "label": "220+ (51434)",
+     "price_eur": 48.5962
+    },
+    {
      "label": "240+ (51435)",
+     "price_eur": 48.5962
+    },
+    {
+     "label": "320+ (51436)",
+     "price_eur": 48.5962
+    },
+    {
+     "label": "400+ (51437)",
      "price_eur": 48.5962
     }
    ],
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/3m-cubitron-roll.webp?v=20261004i",
+   "photo": "img/p/3m-cubitron-roll.webp?v=20261004k",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника / магазинів: henmal.pl, refinishsupplies.co.uk, tradeinn.com",
+   "photo_source": "фото виробника / магазинів: henmal.pl, refinishsupplies.co.uk",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-04",
    "brand": "3M",
    "photos_extra": [
-    "img/p/3m-cubitron-roll-2.webp?v=20261004i",
-    "img/p/3m-cubitron-roll-3.webp?v=20261004i"
+    "img/p/3m-cubitron-roll-2.webp?v=20261004k"
    ],
    "specs": {
     "rows": [
@@ -8063,8 +8082,8 @@
       "3M Precision Shaped Grain (кераміка)"
      ],
      [
-      "Зернистості в наявності",
-      "80+ (51430), 150+ (51432), 240+ (51435)"
+      "Зернистості",
+      "80+ (51430), 120+ (51431), 150+ (51432), 180+ (51433), 220+ (51434), 240+ (51435), 320+ (51436), 400+ (51437)"
      ]
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
