@@ -8097,21 +8097,53 @@
    "description": "Шліфувальний диск з трикутним керамічним зерном 3M Precision Shaped Grain для швидкого та тривалого різання. Мультиотвірна перфорація покращує пиловідведення, а липучка Hookit дозволяє швидко змінювати диски. Для видалення фарби, формування шпаклівки, розтушовування країв та підготовки перед ґрунтуванням.",
    "price_eur": 0.9615,
    "price_label": null,
-   "variants": null,
+   "variants": [
+    {
+     "label": "80+ (51369)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "120+ (51370)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "150+ (51421)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "180+ (51422)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "220+ (51423)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "240+ (51424)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "320+ (51426)",
+     "price_eur": 0.9615
+    },
+    {
+     "label": "400+ (51428)",
+     "price_eur": 0.9615
+    }
+   ],
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/3m-purple-disc.webp?v=20261004i",
+   "photo": "img/p/3m-purple-disc.webp?v=20261004l",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника / магазинів: 3m.co.uk, auto-emali.com.ua",
+   "photo_source": "фото виробника / магазинів: 3m.co.uk",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-04",
    "code": "51370 (120+)",
    "brand": "3M",
    "photos_extra": [
-    "img/p/3m-purple-disc-2.webp?v=20261004i",
-    "img/p/3m-purple-disc-3.webp?v=20261004i"
+    "img/p/3m-purple-disc-2.webp?v=20261004l"
    ],
    "specs": {
     "rows": [
@@ -8124,8 +8156,8 @@
       "Multihole"
      ],
      [
-      "Зернистість",
-      "120+ (арт. 51370)"
+      "Зернистості",
+      "80+ (51369), 120+ (51370), 150+ (51421), 180+ (51422), 220+ (51423), 240+ (51424), 320+ (51426), 400+ (51428)"
      ],
      [
       "Упаковка виробника",
