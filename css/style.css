@@ -375,6 +375,9 @@ html{scroll-padding-top:104px}
 .chip[data-cat="all"]{grid-column:1/-1;justify-content:center;gap:10px}
 @media (min-width:600px){.chips{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (max-width:899px){.chips{display:grid}}
+/* 04.10: перша плитка «Усі товари» — на всю ширину; непарна остання — теж, щоб сітка не мала «дірки» */
+@media (max-width:599px){.chips>.chip:last-child:nth-child(even){grid-column:1/-1}}
+@media (min-width:600px) and (max-width:899px){.chips>.chip:last-child:nth-child(3n+2){grid-column:1/-1}}
 
 /* spray gun specs: compact 2-column table */
 .specs__dl>div{grid-template-columns:minmax(118px,38%) 1fr;gap:10px;align-items:baseline;padding:5px 0}

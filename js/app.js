@@ -41,7 +41,9 @@
   var state = { cat: 'all', q: '', sort: 'def', brand: '', sub: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
   var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['guns', ''], guns2: ['guns', ''], putty: ['shpak', ''],
-    lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'] }; // 04.10: усі PALINAL (крім шпаклівок) — один розділ
+    lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'], // 04.10: усі PALINAL (крім шпаклівок) — один розділ
+    acc: ['equip', ''], tools: ['equip', 'tools'], ppe: ['equip', 'ppe'],
+    cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
   /* об’єднані картки: старе посилання #/p/<id> веде на нову */
   var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341', 'pal-fast-air': 'pal-873-fast' };
   var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'other', t: 'Інші', re: null }];
@@ -59,12 +61,58 @@
       { k: 'dobavky', t: 'Добавки', f: function (p) { return p.sub === 'rozch' && !/розчинник|thinner|каталог/i.test(p.name) && !(/антисилікон/i.test(p.name) && !/добавк/i.test(p.name)); } },
       { k: 'system', t: 'Змішувальні системи та каталог', f: function (p) { return p.sub === 'system' || (p.sub === 'rozch' && /каталог/i.test(p.name)); } }
     ] },
+    equip: { label: 'Розділ', items: [
+      { k: 'gauge', t: 'Манометри та регулятори', f: function (p) { return eqType(p) === 'gauge'; } },
+      { k: 'pps', t: 'PPS-системи та бачки', f: function (p) { return eqType(p) === 'pps'; } },
+      { k: 'gunacc', t: 'Аксесуари для фарбопульта', f: function (p) { return eqType(p) === 'gunacc'; } },
+      { k: 'equipment', t: 'Обладнання', f: function (p) { return eqType(p) === 'equipment'; } },
+      { k: 'tools', t: 'Інструмент', f: function (p) { return eqType(p) === 'tools'; } },
+      { k: 'ppe', t: 'Засоби захисту', f: function (p) { return eqType(p) === 'ppe'; } }
+    ] },
+    polish: { label: 'Розділ', items: [
+      { k: 'paste', t: 'Полірувальні пасти', f: function (p) { return plType(p) === 'paste'; } },
+      { k: 'pads', t: 'Полірувальні круги', f: function (p) { return plType(p) === 'pads'; } },
+      { k: 'care', t: 'Догляд і захист', f: function (p) { return plType(p) === 'care'; } },
+      { k: 'cloth', t: 'Мікрофібра та серветки', f: function (p) { return plType(p) === 'cloth'; } }
+    ] },
+    chem: { label: 'Розділ', items: [
+      { k: 'seal', t: 'Герметики та клеї', f: function (p) { return chType(p) === 'seal'; } },
+      { k: 'antikor', t: 'Антикор і антигравій', f: function (p) { return chType(p) === 'antikor'; } },
+      { k: 'additive', t: 'Добавки та змивки', f: function (p) { return chType(p) === 'additive'; } }
+    ] },
     guns: { label: 'Тип', items: [
       { k: 'spray', t: 'Фарбопульти', f: function (p) { return p.sub !== 'air' && !GUN_MINI.test(p.name); } },
       { k: 'mini', t: 'Міні-фарбопульти', f: function (p) { return p.sub !== 'air' && GUN_MINI.test(p.name); } },
       { k: 'special', t: 'Спеціальні пістолети', f: function (p) { return p.sub === 'air'; } }
     ] }
   };
+  /* тип у розділі «equip»: p.type з даних (merge_guns.py); для товарів, доданих в адмінці, — за назвою */
+  function eqType(p) {
+    if (p.type) return p.type;
+    var n = (p.name || '').toLowerCase();
+    if (p.sub === 'ppe') return 'ppe';
+    if (/манометр|регулятор/.test(n)) return 'gauge';
+    if (/pps|бачок/.test(n)) return 'pps';
+    if (/дюз|фарбопульт/.test(n)) return 'gunacc';
+    if (/пінник|помп|мийк|фільтр|компресор/.test(n)) return 'equipment';
+    return 'tools';
+  }
+  /* типи в розділах «polish» і «chem»: p.type з даних (merge_guns.py); для товарів з адмінки — за назвою */
+  function plType(p) {
+    if (p.type) return p.type;
+    var n = (p.name || '').toLowerCase();
+    if (p.sub === 'cloth') return 'cloth';
+    if (/круг/.test(n)) return 'pads';
+    if (/віск|поліроль|очищувач|wax|glaze|remover/.test(n)) return 'care';
+    return 'paste';
+  }
+  function chType(p) {
+    if (p.type) return p.type;
+    var n = (p.name || '').toLowerCase();
+    if (p.sub === 'seal' || /герметик|клей/.test(n)) return 'seal';
+    if (/антиграв|ірж|антикор/.test(n)) return 'antikor';
+    return 'additive';
+  }
   function subItem(cat, k) { var s = SUBCATS[cat]; if (!s || !k) return null; for (var i = 0; i < s.items.length; i++) if (s.items[i].k === k) return s.items[i]; return null; }
   function subName(cat, k) { var it = subItem(cat, k); return it ? it.t : ''; }
   function catHash(cat, sub, brand) { return '#/c/' + cat + (sub ? '/' + sub : '') + (brand ? '/' + brand : ''); }
@@ -153,6 +201,7 @@
     excl: '<path d="M6.5 4h11l3.5 5-9 11L3 9z"/><path d="M3 9h18"/><path d="M9.5 4 8 9l4 11 4-11-1.5-5"/>',
     fav: '<path d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
     guns: '<path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/>',
+    equip: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V8"/><path d="M3 13.5h18"/><path d="M10.5 12.5v2h3v-2"/>',
     acc: '<circle cx="12" cy="13" r="7.5"/><path d="M12 13l3.2-3.2"/><path d="M8.2 17h7.6"/><path d="M12 5.5V3M10 3h4"/>',
     palinal: '<path d="M12 3.2s6 6.4 6 10.8a6 6 0 0 1-12 0c0-4.4 6-10.8 6-10.8z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.8 2.4"/>',
     lak: '<path d="M12 3.2s6 6.4 6 10.8a6 6 0 0 1-12 0c0-4.4 6-10.8 6-10.8z"/><path d="M9.2 14.6a2.9 2.9 0 0 0 2.4 2.6"/>',
@@ -225,7 +274,8 @@
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="side__nm">' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
     }).join('');
-    $('#chips').innerHTML = items.map(function (c) {
+    // 04.10: у мобільній сітці категорій без «Акцій» і «Новинок» (акції — вкладка нижнього меню й банер; у бічному меню на ПК лишаються)
+    $('#chips').innerHTML = items.filter(function (c) { return c.id !== 'sale' && c.id !== 'new'; }).map(function (c) {
       return '<a class="chip" role="tab" href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="chip__nm">' + nm(c, true) + '</span><small>' + c.count + '</small></a>';
     }).join('');
     renderHomeCats();
@@ -394,6 +444,7 @@
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
     guns: 'Усі фарбопульти та пістолети в одному розділі: Meiji, SATA, ITALCO, Auarita, NTools та інші — від найдорожчих до найдешевших. Тут також пістолет для антигравію, обдувний та антистатичний пістолети.',
+    equip: 'Манометри й регулятори Meiji та SATA, PPS-системи та бачки, аксесуари для фарбопульта, обладнання для майстерні (пінники, помпи, мийка, фільтр повітря), інструмент для маляра й ПДР та засоби захисту.',
     acc: 'Манометри Meiji (електронний і механічний), бачки, додаткові дюзи та перехідники PPS.',
     palinal: 'Лакофарбові матеріали PALINAL від офіційного представника в Україні: 2K автоемалі та базові фарби в готових кольорах, лаки, ґрунти, розчинники, антисилікони та добавки. Шпаклівки PALINAL — у розділі «Шпаклівки».',
     lak: 'Лаки Palinal серій 223 і 923: акрилові 2K, HS і UHS, матові — є комплекти 5 л + 2,5 л затверджувача.',
@@ -405,9 +456,9 @@
     savex: 'Розчинники та знежирювачі Savex (виробництво Литва): акрилові, для металіків, 646, 647 і GUN CLEANER.',
     tools: 'Інструмент для маляра: антистатичний пістолет EASY PAINT, шліфування, рубанки й бруски, шпателі, пінники й помпи, змішувальні системи Palinal та інструмент для ПДР.',
     abraz: 'Абразиви 3M, sia, Smirdex, KOVAX і APP: диски, рулони, аркуші під воду, поролонові та фінішні диски Trizact, губки, скотч-брайт і засоби для підготовки поверхні.',
-    polish: 'Полірувальні пасти 3M Perfect-It, Farécla і Cartec Refinish, полірувальні круги Cartec та засоби догляду за кузовом.',
+    polish: 'Полірувальні пасти 3M Perfect-It, Farécla і Cartec Refinish, полірувальні круги Cartec, засоби догляду за кузовом, мікрофібра NOWAX і серветки для майстерні.',
     mask: 'Маскувальний папір NCP 45 г/м² у різних розмірах, малярні стрічки APP, 3M, Helios, SOTRO та поролонова стрічка APP 3D Tape.',
-    chem: 'Антисиліконова добавка та антигравій APP, перетворювач іржі TEROSON VR 625 і змивка старої фарби PiTon.',
+    chem: 'Поліуретанові клеї-герметики TEROSON для вклеювання скла, антигравій APP і перетворювач іржі TEROSON VR 625, антисиліконова добавка APP та змивка старої фарби PiTon.',
     seal: 'Поліуретанові клеї-герметики TEROSON для вклеювання автомобільного скла.',
     cloth: 'Серветки з мікрофібри NOWAX, плюшева мікрофібра, паперові рушники та протирочні серветки для майстерні.',
     ppe: 'Засоби захисту для маляра: нітрилові рукавички MERCATOR GoGrip PRO та малярний комбінезон Mobihel.'
