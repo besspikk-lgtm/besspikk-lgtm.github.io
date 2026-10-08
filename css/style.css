@@ -1933,3 +1933,10 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .bnr__tag>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
 .bnr__tag-ico{flex:none;width:1.25em;height:1.25em;margin-left:-2px}
 .hero__btn-ico{flex:none;width:20px;height:20px}
+/* 08.10.2026: «Поділитися розділом» у заголовку списку (посилання c/<cat>/ з og-карткою) */
+.catshr{margin-left:auto;flex:none;height:38px;padding:0 14px 0 11px;border:0;border-radius:999px;display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:650;color:var(--text2);background:transparent;box-shadow:inset 0 0 0 1px var(--line2);cursor:pointer}
+.catshr[hidden]{display:none}
+.catshr:hover{color:var(--text);box-shadow:inset 0 0 0 1px var(--yellow2)}
+.catshr:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.toolbar h2{min-width:0}
+@media (max-width:640px){.catshr{width:38px;padding:0;justify-content:center}.catshr span{display:none}}

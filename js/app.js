@@ -497,6 +497,7 @@
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
+    var csh = $('#catshare'); if (csh) csh.hidden = !!state.q || state.cat === 'all' || state.cat === 'fav';
     var pc = $('#pickcta'); if (pc) pc.hidden = !!state.q || state.cat !== 'guns';
     var cc = $('#codecta'); if (cc) cc.hidden = !!state.q || !(state.cat === 'palinal' && /^(emal2k|baza)$/.test(state.sub));
     var cq = $('#codeq'); if (cq) { var qq = state.q.trim(); cq.hidden = !(qq && !list.length && /^(RAL\s?\d{4}|[A-Za-zА-Яа-яІі0-9]{2,7}([\/-][A-Za-z0-9]{1,5})?)$/.test(qq)); if (!cq.hidden) { var cqb = cq.querySelector('[data-cq-code]'); if (cqb) cqb.textContent = qq; } }
@@ -1804,7 +1805,7 @@
       window.open(CONFIG.instagram, '_blank', 'noopener');
       return;
     }
-    if (t.hasAttribute('data-share')) { window.open('https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
+    // 08.10.2026: старий обробник [data-share] (Telegram з текстом замовлення) прибрано — він спрацьовував і на кнопці «Поділитися» товару
     if (t.id === 'more') { renderMore(); return; }
     if (t.hasAttribute('data-brand')) {
       // brand logo cards: Meiji -> category, Palinal -> search across all Palinal categories
@@ -1997,26 +1998,39 @@
   }
 
   /* --- Поділитися --- */
-  // static SEO page p/<id>/ exists for every product from data/products.js except 3M/vens (_work/gen_product_pages.py); admin-only products -> SPA link
-  function productUrl(p) { return BASE[p.id] && !/vens|\b3m\b/i.test(p.id + ' ' + (BASE[p.id].name || '')) ? SITE_URL + 'p/' + encodeURIComponent(p.id) + '/' : SITE_URL + '#/p/' + encodeURIComponent(p.id); }
-  function shareProduct(id) {
-    var p = byId[id]; if (!p) return;
-    var url = productUrl(p), text = p.name + (hasPrice(p) ? ' — ' + uahTxt(unitPrice(p, pmState.id === id ? pmState.vi : 0)) : '');
+  // 08.10.2026 (Alex): ділимося лише назвою й посиланням — без ціни й тексту замовлення.
+  // Товар -> статична сторінка p/<id>/ (og:image = перше фото, JPEG img/og/<id>.jpg; _work/gen_product_pages.py) — відкривається одразу на товарі.
+  // Розділ -> c/<cat>/ (og-картка + перехід у #/c/<cat>[/<sub>]; _work/gen_cat_pages.py). Товари лише з адмінки / без сторінки -> #/p/<id>.
+  function productUrl(p) { return BASE[p.id] && !/vens/i.test(p.id + ' ' + (BASE[p.id].name || '')) ? SITE_URL + 'p/' + encodeURIComponent(p.id) + '/' : SITE_URL + '#/p/' + encodeURIComponent(p.id); }
+  function catShareUrl() {
+    if (!catById[state.cat]) return SITE_URL + '#/c/' + state.cat; // «Акції», «Новинки», «Ексклюзив»
+    var tail = [state.sub, state.cat === 'guns' ? state.brand : ''].filter(Boolean).join('/');
+    return SITE_URL + 'c/' + encodeURIComponent(state.cat) + '/' + (tail ? '#' + tail : '');
+  }
+  function shareLink(title, url, key) {
     if (navigator.share) {
-      navigator.share({ title: p.name, text: text, url: url }).then(function () { track('поділитися/системне/' + id, 'Поділитися (системне меню): ' + p.name); },
-        function (e) { if (!e || e.name !== 'AbortError') shareMenu(p, url, text); });
+      navigator.share({ title: title, url: url }).then(function () { track('поділитися/системне/' + key, 'Поділитися (системне меню): ' + title); },
+        function (e) { if (!e || e.name !== 'AbortError') shareMenu(title, url, key); });
       return;
     }
-    shareMenu(p, url, text);
+    shareMenu(title, url, key);
   }
-  function shareMenu(p, url, text) {
-    track('поділитися/меню/' + p.id, 'Поділитися (меню): ' + p.name);
+  function shareProduct(id) { var p = byId[id]; if (p) shareLink(p.name, productUrl(p), p.id); }
+  function shareCat() {
+    if (state.cat === 'all' || state.cat === 'fav') return;
+    var t = catLabel(state.cat);
+    if (state.sub && subItem(state.cat, state.sub)) t += ' · ' + subName(state.cat, state.sub);
+    if (state.cat === 'guns' && state.brand) t += ' · ' + brandName(state.brand);
+    shareLink(t + ' — Alex_bes', catShareUrl(), 'c/' + state.cat);
+  }
+  function shareMenu(title, url, key) {
+    track('поділитися/меню/' + key, 'Поділитися (меню): ' + title);
     sheetOpen('share',
-      '<h3 class="sheet__ttl" id="sheet-ttl">Поділитися</h3><p class="sheet__sub">' + esc(p.name) + '</p>' +
+      '<h3 class="sheet__ttl" id="sheet-ttl">Поділитися</h3><p class="sheet__sub">' + esc(title) + '</p>' +
       '<div class="shr">' +
-        '<a class="shr__it" href="https://t.me/share/url?url=' + encodeURIComponent(url) + '&text=' + encodeURIComponent(text) + '" target="_blank" rel="noopener" data-shr="telegram" data-shr-id="' + esc(p.id) + '" data-autofocus>' + svgI(IC.tg, 22) + '<span>Telegram</span></a>' +
-        '<a class="shr__it" href="viber://forward?text=' + encodeURIComponent(text + ' ' + url) + '" data-shr="viber" data-shr-id="' + esc(p.id) + '">' + svgI(IC.chat, 22) + '<span>Viber</span></a>' +
-        '<button class="shr__it" type="button" data-shr="copy" data-shr-id="' + esc(p.id) + '" data-url="' + esc(url) + '">' + svgI(IC.link, 22) + '<span>Копіювати посилання</span></button>' +
+        '<a class="shr__it" href="https://t.me/share/url?url=' + encodeURIComponent(url) + '" target="_blank" rel="noopener" data-shr="telegram" data-shr-id="' + esc(key) + '" data-autofocus>' + svgI(IC.tg, 22) + '<span>Telegram</span></a>' +
+        '<a class="shr__it" href="viber://forward?text=' + encodeURIComponent(url) + '" data-shr="viber" data-shr-id="' + esc(key) + '">' + svgI(IC.chat, 22) + '<span>Viber</span></a>' +
+        '<button class="shr__it" type="button" data-shr="copy" data-shr-id="' + esc(key) + '" data-url="' + esc(url) + '">' + svgI(IC.link, 22) + '<span>Копіювати посилання</span></button>' +
       '</div><p class="sheet__url">' + esc(url) + '</p>', 'Поділитися');
   }
 
@@ -2105,15 +2119,16 @@
   }
 
   document.addEventListener('click', function (e) {
-    var t = e.target.closest ? e.target.closest('[data-sheet-close], [data-fav], [data-share], [data-quick], [data-shr], [data-recent-clear]') : null;
+    var t = e.target.closest ? e.target.closest('[data-sheet-close], [data-fav], [data-share], [data-share-cat], [data-quick], [data-shr], [data-recent-clear]') : null;
     if (!t) return;
     if (t.hasAttribute('data-sheet-close')) { e.preventDefault(); sheetClose(); return; }
     if (t.hasAttribute('data-fav')) { e.preventDefault(); e.stopPropagation(); toggleFav(t.getAttribute('data-fav')); return; }
-    if (t.hasAttribute('data-share')) { e.preventDefault(); shareProduct(t.getAttribute('data-share')); return; }
+    if (t.hasAttribute('data-share')) { e.preventDefault(); e.stopPropagation(); shareProduct(t.getAttribute('data-share')); return; }
+    if (t.hasAttribute('data-share-cat')) { e.preventDefault(); e.stopPropagation(); shareCat(); return; }
     if (t.hasAttribute('data-quick')) { e.preventDefault(); quickOpen(t.getAttribute('data-quick')); return; }
     if (t.hasAttribute('data-recent-clear')) { e.preventDefault(); recent = []; save('alexbes_recent', recent); renderRecent(); return; }
     if (t.hasAttribute('data-shr')) {
-      var ch = t.getAttribute('data-shr'), sid = t.getAttribute('data-shr-id'), sp = byId[sid];
+      var ch = t.getAttribute('data-shr'), sid = t.getAttribute('data-shr-id'), sp = byId[sid] || { name: sid };
       track('поділитися/' + ch + '/' + sid, 'Поділитися (' + ch + '): ' + (sp ? sp.name : sid));
       if (ch === 'copy') { e.preventDefault(); copyText(t.getAttribute('data-url')).then(function (ok) { toast(ok ? 'Посилання скопійовано' : 'Не вдалося скопіювати'); if (ok) sheetClose(); }); }
       else setTimeout(sheetClose, 300);
@@ -2476,5 +2491,6 @@
     io.observe($('#more'));
   }
   var upd = $('#upd'); if (upd) upd.textContent = new Date(DATA.updated || Date.now()).toLocaleDateString('uk-UA');
+  if (/^#\/c\/[\w-]+/.test(location.hash)) catScrollPending = true; // 08.10: посилання на розділ (поділилися / c/<cat>/) — одразу до товарів розділу, не на банер
   route();
 })();
