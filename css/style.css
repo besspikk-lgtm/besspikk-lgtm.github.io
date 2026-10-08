@@ -1928,3 +1928,8 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 /* мобільна шапка: бренд займає залишок рядка (підпис «Meiji · Palinal…» обрізається трикрапкою), тож кнопка профілю
    з підписом «Реєстрація» лишається в тому самому рядку навіть на 360 px. Лише головна (статичні сторінки .pp мають свою шапку) */
 @media (max-width:760px){body:not(.pp) .hdr .brand{flex:1 1 0;min-width:0}body:not(.pp) .hdr .brand__txt{min-width:0}body:not(.pp) .hdr .brand__name{overflow:hidden;text-overflow:ellipsis}}
+/* 08.10.2026: один банер (кузовні роботи) — SVG-іконки замість емодзі в чипі й кнопці «Отримати консультацію» */
+.bnr__tag{display:inline-flex;align-items:center;gap:5px}
+.bnr__tag>span{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.bnr__tag-ico{flex:none;width:1.25em;height:1.25em;margin-left:-2px}
+.hero__btn-ico{flex:none;width:20px;height:20px}

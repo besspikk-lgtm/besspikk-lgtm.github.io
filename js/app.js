@@ -2147,6 +2147,10 @@
      Свайп — нативний scroll-snap; автопрокрутка ~5 с, пауза при дотику/наведенні/фокусі, поза екраном і у фоновій вкладці;
      prefers-reduced-motion — без автопрокрутки й анімації (лише свайп і крапки). */
   function plural(n, a, b, c) { var m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; }
+  /* 08.10.2026 (Alex): на головній лише банер кузовних робіт (статичний слайд у index.html).
+     Автослайди «Акції»/«Новинки» з товарів з позначкою промо в адмінці вимкнено — позначки на картках і вкладка «Акції» лишаються.
+     Повернути їх: BNR_PROMO = true. Один слайд -> крапок немає (dots.hidden), автопрокрутки немає (bnrPlan: < 2 слайдів). */
+  var BNR_PROMO = false;
   var bnr = { el: $('#bnr'), track: $('#bnr-track'), dots: $('#bnr-dots'), i: 0, timer: null, hold: false, holdT: null, vis: true,
     rm: window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false } };
   function bnrPromoSlide(kind, list) {
@@ -2170,7 +2174,7 @@
     if (!bnr || !bnr.track) return; // applyRemote() from cache runs before this block is initialised; init calls renderBanner() again
     $$('.bnr__slide[data-slide="sale"], .bnr__slide[data-slide="new"]', bnr.track).forEach(function (s) { s.remove(); });
     var sale = PRODUCTS.filter(isSale), nw = PRODUCTS.filter(isNew);
-    var html = (sale.length ? bnrPromoSlide('sale', sale) : '') + (nw.length ? bnrPromoSlide('new', nw) : '');
+    var html = BNR_PROMO ? (sale.length ? bnrPromoSlide('sale', sale) : '') + (nw.length ? bnrPromoSlide('new', nw) : '') : '';
     if (html) bnr.track.insertAdjacentHTML('beforeend', html);
     var n = bnrSlides().length;
     bnr.dots.innerHTML = n > 1 ? bnrSlides().map(function (s, i) { return '<button class="bnr__dot" type="button" data-bnr-dot="' + i + '" aria-label="Слайд ' + (i + 1) + ': ' + esc(s.getAttribute('aria-label')) + '"></button>'; }).join('') : '';
