@@ -146,3 +146,34 @@ body.has-ppbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 }
 @media (max-width:760px){.pp__tolink span{display:none}.pp__tolink{width:40px;padding:0;justify-content:center}}
 @media (max-width:480px){.pp__tolink{display:none}.pp__tolink+.pp__tocat{margin-left:auto}}
+/* «Оплата, доставка та повернення» (/povernennya/, _work/gen_info_pages.py) */
+.inf__toc ul{list-style:none;margin:0 0 6px;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.inf__toc a{display:flex;align-items:center;justify-content:center;gap:8px;padding:11px 10px;border-radius:12px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);color:var(--text);font-weight:700;font-size:14px}
+.inf__toc a svg{color:var(--yellow);flex:none}
+.inf__toc a:hover{text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,215,0,.5)}
+.inf__sec{margin-top:18px;padding:20px;border-radius:var(--radius);background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);font-size:15.5px;line-height:1.65;color:var(--text2);scroll-margin-top:80px}
+.inf__sec h2{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:21px;line-height:1.3;color:var(--text)}
+.inf__ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;color:var(--yellow);background:rgba(255,215,0,.08);box-shadow:inset 0 0 0 1px rgba(255,215,0,.25)}
+.inf__h3{margin:18px 0 8px;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.inf__sec p{margin:0 0 10px}
+.inf__sec b{color:var(--text)}
+.inf__list{margin:0;padding-left:20px}
+.inf__list li{margin:0 0 8px}
+.inf__list li::marker{color:var(--yellow)}
+.inf__note{display:flex;gap:12px;align-items:flex-start;margin:16px 0 4px;padding:14px 16px;border-radius:14px;background:linear-gradient(120deg,rgba(255,215,0,.09),rgba(255,255,255,.02) 60%);box-shadow:inset 3px 0 0 var(--yellow),inset 0 0 0 1px rgba(255,215,0,.2)}
+.inf__note svg{flex:none;margin-top:3px;color:var(--yellow)}
+.inf__note p{margin:0}
+.inf__steps{list-style:none;margin:0;padding:0;counter-reset:st}
+.inf__steps li{position:relative;margin:0 0 10px;padding:0 0 0 40px;counter-increment:st}
+.inf__steps li::before{content:counter(st);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-size:13.5px;font-weight:800;color:#0b1524;background:var(--yellow)}
+.inf__contacts{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inf__contacts a,.inf__contacts div{display:flex;align-items:center;gap:12px;height:100%;padding:12px 14px;border-radius:14px;background:var(--surface2);box-shadow:inset 0 0 0 1px var(--line);color:var(--text)}
+.inf__contacts a:hover{text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,215,0,.5)}
+.inf__contacts b{display:block;font-size:15px;word-break:break-word}
+.inf__contacts small{display:block;color:var(--muted);font-size:12.5px}
+@media (max-width:760px){
+  .inf__toc ul{grid-template-columns:1fr 1fr}
+  .inf__sec{padding:16px;font-size:15px}
+  .inf__sec h2{font-size:19px}
+  .inf__contacts{grid-template-columns:1fr}
+}
