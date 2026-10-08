@@ -696,7 +696,12 @@
     pushRecent(id);
     showModal('#pmodal');
     if (swap) { var bx = $('#pmodal .modal__box'); if (bx) bx.scrollTop = 0; }
-    document.title = p.name + ' | ' + CONFIG.titleName;
+    document.title = productTitle(p.name);
+  }
+  function productTitle(name) { // 09.10: як <title> статичних сторінок p/ — без ціни, до 65 символів
+    var n = String(name || '').trim().replace(/([^.])\.$/, '$1').trim();
+    var t = n + (n.indexOf('\u2014') >= 0 ? ', ' : ' \u2014 ') + 'купити в Чернівцях | ' + CONFIG.titleName;
+    return t.length > 65 ? n + ' | ' + CONFIG.titleName : t;
   }
   function tdsHTML(p) {
     var t = p.tds; if (!t || !t.rows) return '';
