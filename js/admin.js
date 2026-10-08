@@ -67,7 +67,7 @@ function merged() {
     const v = Object.assign({ name: '', category: '', price_eur: null, price_old_eur: null, price_label: '', in_stock: 'Наявність уточнюйте', description: '', promo: '', variants: null, code: '' }, b || {});
     if (r) { const rn = discNorm(BASE[id], r); FIELDS.forEach((k) => { if (rn[k] !== undefined) v[k] = rn[k]; }); }
     const gallery = effGallery(id, r);
-    out.push(Object.assign(v, { id, isStatic: !!b, changed: !!(b && r && FIELDS.some((k) => r[k] !== undefined)), hidden: !!(r && r.hidden), hasPhoto: !!(r && r.hasPhoto),
+    out.push(Object.assign(v, { id, isStatic: !!b, changed: !!(b && r && FIELDS.some((k) => r[k] !== undefined)), hidden: r && r.hidden !== undefined ? !!r.hidden : !!(b && BASE[id] && BASE[id].hidden), hasPhoto: !!(r && r.hasPhoto),
       gallery, photoChanged: !!(b && JSON.stringify(gallery) !== '["static"]'),
       photo: b ? BASE[id].photo : PLACEHOLDER, createdAt: (r && r.createdAt) || 0 }));
   };
@@ -443,7 +443,7 @@ async function save(f) {
     FIELDS.forEach((k) => { const a = v[k] === '' ? null : v[k], z = b[k] === '' ? null : b[k];
       if (k === 'promo' ? promoKey(a) !== promoKey(z) : JSON.stringify(a ?? null) !== JSON.stringify(z ?? null)) docv[k] = v[k]; }); // 'new+excl' = 'Новинка · Ексклюзив' з каталогу — не перекриваємо
     explicitOld(docv, v);
-    if (v.hidden) docv.hidden = true;
+    if (!!v.hidden !== !!BASE[id].hidden) docv.hidden = !!v.hidden; // 08.10: відносно hidden із products.json (false = показати прихований за замовчуванням)
     if (hasPhoto) docv.hasPhoto = true;
     if (JSON.stringify(gallery) !== '["static"]') docv.gallery = gallery;
     if (!Object.keys(docv).length) { await F.deleteDoc(F.doc(db, 'products', id)); await cleanup(); return { id, reset: true }; }
@@ -578,6 +578,7 @@ async function onClick(e) {
     try {
       const ref = F.doc(db, 'products', p.id);
       if (!p.hidden) await F.setDoc(ref, { hidden: true, updatedAt: Date.now() }, { merge: true });
+      else if (BASE[p.id] && BASE[p.id].hidden) await F.setDoc(ref, { hidden: false, updatedAt: Date.now() }, { merge: true }); // 08.10: прихований у каталозі (products.json) — показуємо явним hidden:false
       else if (p.isStatic && !p.changed && !p.photoChanged) await F.deleteDoc(ref);
       else await F.setDoc(ref, { hidden: F.deleteField(), updatedAt: Date.now() }, { merge: true });
       toast(p.hidden ? 'Товар знову видно на сайті' : 'Товар приховано');

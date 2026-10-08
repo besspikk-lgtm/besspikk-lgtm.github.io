@@ -13,7 +13,9 @@
     uahRate: 52 // фіксований курс: ціни зберігаються в € (price_eur), на сайті показуються в гривнях = € × uahRate
   };
   var DATA = window.ALEXBES_DATA || { categories: [], products: [] };
-  var PRODUCTS = DATA.products, CATS = DATA.categories;
+  // 08.10.2026: hidden:true у products.json — товар прихований за замовчуванням (адмінка може показати: products/{id}.hidden = false)
+  var ALL_STATIC = DATA.products, PRODUCTS = ALL_STATIC.filter(function (p) { return !p.hidden; }), CATS = DATA.categories;
+  CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; }); // лише видимі
   var byId = {}; PRODUCTS.forEach(function (p) { byId[p.id] = p; });
   var catById = {}; CATS.forEach(function (c) { catById[c.id] = c; });
 
@@ -243,6 +245,7 @@
     sale: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/>',
     'new': '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15.5l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z"/>',
     excl: '<path d="M6.5 4h11l3.5 5-9 11L3 9z"/><path d="M3 9h18"/><path d="M9.5 4 8 9l4 11 4-11-1.5-5"/>',
+    pdr: '<path d="M3 15.5c2-3.2 5-4.8 9-4.8s7 1.6 9 4.8"/><path d="M3 19.5h18"/><path d="M12 10.7V4.5"/><path d="M9.5 4.5h5"/><path d="M9.2 13.4c.8-.4 1.8-.6 2.8-.6s2 .2 2.8.6"/>',
     cn: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5s1.2-6.2 3.6-8.5z"/>',
     fav: '<path d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
     guns: '<path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/>',
@@ -315,7 +318,7 @@
     if (cn) items.push(cn);
     var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
     if (nf || state.cat === 'fav') items.push({ id: 'fav', name: 'Вибране', count: nf });
-    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn'; }));
+    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && c.count > 0; })); // порожні (усі товари приховані) розділи не показуємо
     var nm = function (c, short) { return esc(short && c.id === 'all' ? 'Усі товари' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="side__nm">' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
@@ -490,6 +493,7 @@
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
     guns: 'Фарбопульти Meiji і SATA — від найдорожчих до найдешевших. Тут також обдувні та антистатичний пістолети. Фарбопульти NTools, ITALCO, Auarita та інші китайського виробництва — у розділі «Товари з Китаю».',
+    pdr: 'Інструмент для ПДР — ремонту вм’ятин без фарбування: набори для витягування на клей, зворотні молотки й грибки, гачки, пневмоподушки та набори для осадження (tap-down). Ціну уточнюйте.',
     cn: 'Товари китайського виробництва: фарбопульти NTools, ITALCO, Auarita, SUTU, LISSON та інші, пістолет для антигравію, набір для чистки фарбопульта, пневматична шліфмашинка й товщиномір покриттів — від найдорожчих до найдешевших.',
     equip: 'Манометри й регулятори Meiji та SATA, PPS-системи та бачки, аксесуари для фарбопульта, обладнання для майстерні (пінники, помпи, мийка, фільтр повітря), інструмент для маляра й ПДР та засоби захисту.',
     acc: 'Манометри Meiji (електронний і механічний), бачки, додаткові дюзи та перехідники PPS.',
@@ -1643,7 +1647,7 @@
       try { history.replaceState(null, '', nh); } catch (e) {}
       h = nh; m = h.match(CRE);
     }
-    if (m && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) { // 08.10: #/c/excl більше немає -> «Усі товари»
+    if (m && ((catById[m[1]] && catById[m[1]].count > 0) || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) { // 08.10: розділ без видимих товарів (напр. «ПДР», усі hidden) -> «Усі товари» // 08.10: #/c/excl більше немає -> «Усі товари»
       state.cat = m[1];
       [m[2], m[3]].forEach(function (seg) {
         if (!seg) return;
@@ -1961,8 +1965,8 @@
   window.addEventListener('hashchange', route);
 
   /* ---------- Firebase bridge (js/fb.js is optional: if it never loads, everything above works from static data) ---------- */
-  var BASE = {}; PRODUCTS.forEach(function (p) { BASE[p.id] = p; });
-  var STATIC_ORDER = PRODUCTS.slice();
+  var BASE = {}; ALL_STATIC.forEach(function (p) { BASE[p.id] = p; });
+  var STATIC_ORDER = ALL_STATIC.slice(); // разом із прихованими за замовчуванням (адмінка може їх показати)
   var STATIC_IDX = {}; STATIC_ORDER.forEach(function (p, i) { STATIC_IDX[p.id] = i; });
   var EDITABLE = ['name', 'category', 'price_eur', 'price_old_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand', 'gallery', 'videos'];
   function catName(id) { return catById[id] ? catById[id].name : id; }
@@ -1987,8 +1991,9 @@
         if (p.variants && !(Array.isArray(p.variants) && p.variants.length)) p.variants = null;
         if (p.price_label === '') p.price_label = null;
         p.hasPhoto = !!d.hasPhoto;
-        if (d.hidden) return;
       }
+      if (d && d.hidden !== undefined ? d.hidden : p.hidden) return; // правка адмінки (true/false) важливіша за hidden із products.json
+      delete p.hidden;
       if (CAT_ALIAS[p.category] && !catById[p.category]) { if (!p.sub) p.sub = p.category; p.category = CAT_ALIAS[p.category][0]; }
       if (!catById[p.category]) { if (BASE[p.id]) p.category = BASE[p.id].category; else return; }
       p.category_name = catName(p.category);
