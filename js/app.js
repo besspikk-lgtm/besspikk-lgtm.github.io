@@ -9,7 +9,8 @@
     instagram: 'https://ig.me/m/alex_bespik',
     phone: '+380995264262', phoneLabel: '099 526 42 62',
     siteName: 'Alex_bes😈',
-    homeTitle: 'Купити фарбопульт Meiji, SATA, Palinal — Чернівці, Україна | Alex_bes😈',
+    titleName: 'Alex_bes', // 08.10: назва в <title> (без емодзі); siteName лишається в тексті замовлень
+    homeTitle: 'Фарбопульти Meiji, SATA і автофарби PALINAL | Alex_bes, Чернівці',
     uahRate: 52 // фіксований курс: ціни зберігаються в € (price_eur), на сайті показуються в гривнях = € × uahRate
   };
   var DATA = window.ALEXBES_DATA || { categories: [], products: [] };
@@ -521,13 +522,13 @@
   function brandName(k) { for (var i = 0; i < GUN_BRANDS.length; i++) if (GUN_BRANDS[i].k === k) return GUN_BRANDS[i].t; return ''; }
   function listTitle() {
     if (state.cat === 'all') return CONFIG.homeTitle;
-    if (state.cat === 'guns' && state.brand && state.brand !== 'other') return (state.sub ? subName('guns', state.sub) : 'Фарбопульти') + ' ' + brandName(state.brand) + ' — купити в Україні | ' + CONFIG.siteName;
-    if (state.sub && subItem(state.cat, state.sub)) return (state.cat === 'palinal' ? 'PALINAL — ' + subName('palinal', state.sub).toLowerCase() : subName(state.cat, state.sub)) + ' — купити в Україні | ' + CONFIG.siteName;
-    if (state.cat === 'sale') return 'Акції — ' + CONFIG.siteName;
-    if (state.cat === 'new') return 'Новинки — ' + CONFIG.siteName;
-    if (state.cat === 'excl') return 'Ексклюзив — ' + CONFIG.siteName;
-    if (state.cat === 'fav') return 'Вибране — ' + CONFIG.siteName;
-    return catById[state.cat].name + ' — купити в Україні | ' + CONFIG.siteName;
+    if (state.cat === 'guns' && state.brand && state.brand !== 'other') return (state.sub ? subName('guns', state.sub) : 'Фарбопульти') + ' ' + brandName(state.brand) + ' — купити в Україні | ' + CONFIG.titleName;
+    if (state.sub && subItem(state.cat, state.sub)) return (state.cat === 'palinal' ? 'PALINAL — ' + subName('palinal', state.sub).toLowerCase() : subName(state.cat, state.sub)) + ' — купити в Україні | ' + CONFIG.titleName;
+    if (state.cat === 'sale') return 'Акції | ' + CONFIG.titleName;
+    if (state.cat === 'new') return 'Новинки | ' + CONFIG.titleName;
+    if (state.cat === 'excl') return 'Ексклюзив | ' + CONFIG.titleName;
+    if (state.cat === 'fav') return 'Вибране | ' + CONFIG.titleName;
+    return catById[state.cat].name + ' — купити в Україні | ' + CONFIG.titleName;
   }
   var EMPTY_TXT = '';
   function renderGrid() {
@@ -695,7 +696,7 @@
     pushRecent(id);
     showModal('#pmodal');
     if (swap) { var bx = $('#pmodal .modal__box'); if (bx) bx.scrollTop = 0; }
-    document.title = p.name + ' — ' + CONFIG.siteName;
+    document.title = p.name + ' | ' + CONFIG.titleName;
   }
   function tdsHTML(p) {
     var t = p.tds; if (!t || !t.rows) return '';
