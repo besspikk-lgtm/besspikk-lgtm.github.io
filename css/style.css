@@ -1969,3 +1969,17 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .pold--pm{display:flex;margin:6px 0 0}
 }
 .citem__p .pold--sm{display:flex;width:max-content;margin:4px 0 0}
+/* 08.10.2026: замовлення з кошика не збереглося — повідомлення з іншими способами (бот з кошиком, Telegram, дзвінок) */
+.cfail{margin:0 0 14px;padding:14px;border-radius:16px;background:linear-gradient(180deg,rgba(255,215,0,.09),rgba(255,215,0,.03));border:1px solid rgba(255,215,0,.42);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.cfail__h{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.cfail__ico{flex:0 0 auto;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--yellow);background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3)}
+.cfail__t{margin:2px 0 4px;font-size:16.5px;line-height:1.3;color:var(--text)}
+.cfail__s{margin:0;font-size:14px;line-height:1.5;color:var(--text2)}
+.cfail__a{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cfail__a .btn{min-height:46px;gap:8px}
+.cfail__a .btn--full{grid-column:1/-1}
+.prem #cartbody .cfail__a .btn--o{background:transparent;color:var(--text);box-shadow:inset 0 0 0 1px var(--line2)}
+.cfail__n{margin:10px 0 0;font-size:13px;line-height:1.5;color:var(--muted)}
+.cfail__n a{color:var(--text);font-weight:700;text-decoration:none;white-space:nowrap}
+.cfail__lnk{appearance:none;border:0;background:none;padding:0;font:inherit;font-weight:700;color:var(--yellow);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+@media (max-width:380px){.cfail__a{grid-template-columns:1fr}}

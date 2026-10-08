@@ -1318,8 +1318,18 @@
     var snap = cart.map(function (l) { return { id: l.id, vi: l.vi, qty: l.qty }; }), stxt = orderText();
     var p = orderWriter(id, data);
     if (!p || typeof p.then !== 'function') return null;
-    p.then(function () { track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); formChanged('order'); orderPlaced(id, snap, stxt); },
-      function (e) { try { console.warn('order doc not saved', e && e.code); } catch (x) {} markPending(); }); // не записалось — кошик НЕ чистимо, лише спитаємо пізніше
+    // 08.10.2026: якщо запис не підтверджено за ORDER_WAIT (немає зв'язку) або відхилено — клієнт бачить у кошику повідомлення
+    // з іншими способами (бот з кошиком у посиланні, Telegram, дзвінок). Якщо запис усе ж пройде пізніше — звичайне «Дякуємо!».
+    var settled = false, to = setTimeout(function () { if (!settled) orderFailShow('тайм-аут'); }, ORDER_WAIT);
+    p.then(function () {
+      settled = true; clearTimeout(to); orderFail = null;
+      stat('o_botok', 'o_botok:' + id); // «Оформлено»: +1 ЛИШЕ після того, як orders/<id> збережено (кожне замовлення окремо)
+      track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); formChanged('order'); orderPlaced(id, snap, stxt);
+    }, function (e) {
+      settled = true; clearTimeout(to);
+      try { console.warn('order doc not saved', e && e.code); } catch (x) {}
+      orderFailShow(e && e.code ? e.code : 'помилка запису'); // кошик НЕ чистимо
+    });
     return CONFIG.orderBot + '?start=o_' + id + botCartTokens(36); // 2+20+≤36+_mN ≤ 64
   }
   /* ---------- очищення кошика після замовлення (03.10.2026) ----------
@@ -1368,7 +1378,7 @@
   document.addEventListener('click', function (e) {
     var t = e.target.closest ? e.target.closest('[data-cp-yes], [data-cp-no], #cartbody a[href^="tel:"]') : null; if (!t) return;
     if (t.hasAttribute('data-cp-yes')) {
-      cart = []; saveCart(); updateBadges(); dropPending(); promptHide(); lastOrder = null; // невідомі зараз позиції (orphans) не чіпаємо
+      cart = []; saveCart(); updateBadges(); dropPending(); promptHide(); lastOrder = null; orderFail = null; // невідомі зараз позиції (orphans) не чіпаємо
       if (openModalEl && openModalEl === $('#cmodal')) renderCart();
       toast('Кошик очищено ✅'); track('кошик/очищено-після-замовлення', 'Кошик очищено після замовлення');
     } else if (t.hasAttribute('data-cp-no')) {
@@ -1381,6 +1391,33 @@
     if (hiddenAt && Date.now() - hiddenAt >= 8000) setTimeout(checkPending, 600); // повернулись із месенджера
   });
   setTimeout(checkPending, 3500); // після завантаження (і синхронізації кошика з акаунтом)
+  /* 08.10.2026: замовлення з кошика не збереглося (немає зв'язку / відхилено) — зрозуміле повідомлення в кошику з іншими способами */
+  var ORDER_WAIT = 15000, orderFail = null; // { t, why }
+  var OF_WARN = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.4 17.6A2 2 0 0 0 4.1 20.6h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4.5"/><circle cx="12" cy="16.8" r=".7" fill="currentColor"/></svg>';
+  var OF_BOT = '<path d="M12 4v3"/><circle cx="12" cy="3.2" r=".9"/><rect x="4.5" y="7" width="15" height="11.5" rx="3.5"/><circle cx="9.3" cy="12.6" r="1.2"/><circle cx="14.7" cy="12.6" r="1.2"/><path d="M2.5 12v2.5M21.5 12v2.5"/>';
+  function orderFailShow(why) {
+    if (!cart.length) return;
+    orderFail = { t: Date.now(), why: String(why || '') };
+    track('бот/кошик-помилка', 'Замовлення з кошика не збереглося (' + orderFail.why + ')');
+    if (openModalEl && openModalEl === $('#cmodal')) { renderCart(); var bx = $('#cmodal .modal__box'); if (bx) bx.scrollTop = 0; return; }
+    if (location.hash === '#cart') { renderCart(); showModal('#cmodal'); return; }
+    if (!/^#\/p\//.test(location.hash)) lastListHash = location.hash || '#/';
+    location.hash = '#cart';
+  }
+  function orderFailHTML() {
+    return '<div class="cfail" role="alert">' +
+      '<div class="cfail__h"><span class="cfail__ico">' + OF_WARN + '</span><div>' +
+        '<h3 class="cfail__t">Замовлення не збереглося на сайті</h3>' +
+        '<p class="cfail__s">Схоже, зв’язок із сервером перервався, тому бот міг не отримати ваш кошик. Товари залишилися в кошику — завершіть замовлення зручним способом:</p>' +
+      '</div></div>' +
+      '<div class="cfail__a">' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-ofail="bot">' + svgI(OF_BOT, 19) + 'Відкрити бота з кошиком</a>' +
+        '<a class="btn btn--y" href="' + CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText()) + '" target="_blank" rel="noopener" data-ofail="tg">' + svgI(IC.tg, 18) + 'Написати в Telegram</a>' +
+        '<a class="btn btn--o" href="tel:' + CONFIG.phone + '" data-ofail="call">' + svgI(IC.phone, 18) + 'Подзвонити</a>' +
+      '</div>' +
+      '<p class="cfail__n">Телефон: <a href="tel:' + CONFIG.phone + '">' + CONFIG.phoneLabel + '</a>. Уже оформили в боті? <button class="cfail__lnk" type="button" data-cp-yes>Очистити кошик</button></p>' +
+    '</div>';
+  }
   function orderDoneHTML() {
     var o = lastOrder, no = orderNo(o.id);
     return '<div class="cdone"><span class="cdone__ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.2"/><path d="m7.8 12.3 2.8 2.8 5.6-5.8"/></svg></span>' +
@@ -1432,7 +1469,8 @@
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
         '<button class="rm" type="button" data-rm="' + i + '">видалити</button></div></li>';
     }).join('');
-    body.innerHTML = cstepsHTML() + '<div class="csec" data-csec="1"><ul class="citems">' + items + '</ul>' +
+    var fail = orderFail && Date.now() - orderFail.t < 30 * 60000 ? orderFailHTML() : '';
+    body.innerHTML = fail + cstepsHTML() + '<div class="csec" data-csec="1"><ul class="citems">' + items + '</ul>' +
       '<div class="ctotal"><span>Разом' + (ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '') + '</span><b>' + fmtUah(sum).replace(/ /g, '\u00a0') + '</b></div>' +
       (saved > 0 ? '<div class="csave"><span>Ваша економія зі знижками</span><b>\u2212' + fmtUah(saved).replace(/ /g, '\u00a0') + '</b></div>' : '') +
       '<p class="cnote">Ціни в гривнях. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p></div>' +

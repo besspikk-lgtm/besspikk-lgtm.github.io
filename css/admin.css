@@ -128,10 +128,20 @@
 .ocard__m{margin-top:8px;font-size:11.5px;color:var(--muted);word-break:break-all}
 /* stats */
 .st-tools{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 10px}
-.st-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.st-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
 .st-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 .st-card b{font-size:24px;color:var(--text);line-height:1.1}
-.st-card span{font-size:12.5px;color:var(--muted)}
+.st-card span{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.st-card span svg{flex:0 0 auto;color:var(--yellow)}
+.st-card small{font-size:11.5px;color:var(--muted)}
+/* 08.10: «Оформлено» — підтверджені замовлення (поруч із «Натиснули «Замовити»») */
+.st-card--done{border-color:rgba(126,227,159,.45);background:linear-gradient(180deg,rgba(63,191,106,.14),rgba(63,191,106,.04))}
+.st-card--done b{color:#9cf0b8}
+.st-card--done span svg{color:#7ee39f}
+.st-h{display:flex;align-items:center;gap:8px}
+.st-h svg{flex:0 0 auto;color:var(--yellow)}
+.st-top--done .st-bar i{background:#5fd68a}
+.st-hint{margin:8px 0 0;line-height:1.45}
 .st-h{margin:16px 0 8px;color:var(--text);font-size:16px}
 .stc{display:flex;align-items:stretch;gap:3px;height:180px;padding:8px 8px 0;background:var(--surface);border:1px solid var(--line);border-radius:14px}
 .stc__c{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
@@ -152,6 +162,7 @@ ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-we
 @media (max-width:760px){
   .ord-tools{top:66px}
   .st-cards{grid-template-columns:1fr 1fr}
+  .st-card--wide{grid-column:1/-1}
   .st-top li{grid-template-columns:1fr 60px 34px}
 }
 @media (max-width:480px){

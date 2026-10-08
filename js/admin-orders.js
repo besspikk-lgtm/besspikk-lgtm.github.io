@@ -1,4 +1,4 @@
-/* Alex_bes😈 — адмінка: «📦 Замовлення» (orders/{id}) і «📊 Статистика» (stats/{YYYY-MM-DD} + cart_events/{id} — що додають у кошик). Підключає js/admin.js. */
+/* Alex_bes — адмінка: «Замовлення» (orders/{id}) і «Статистика» (stats/{YYYY-MM-DD} + cart_events/{id} — що додають у кошик). Підключає js/admin.js. */
 import { authErr, esc } from './fb-common.js?v=1';
 
 const $ = (s, r) => (r || document).querySelector(s);
@@ -125,11 +125,28 @@ async function delOrder(btn) {
 }
 
 /* ---------- статистика ---------- */
-const CH = [
-  ['o_bot', '🤖 Бот для замовлень (кошик, кнопки сайту)'], ['o_botp', '🤖 «Замовити через бота» з картки товару'],
-  ['o_tg', '✈️ Telegram'], ['o_wa', '🟢 WhatsApp'], ['o_viber', '🟣 Viber'], ['o_ig', '📸 Instagram (Direct)'],
-  ['o_call', '📞 Дзвінок'], ['o_consult', '💬 «Отримати консультацію»']
+const CH = [ // кліки «Замовити» (рахуються в момент кліку)
+  ['o_bot', 'Бот для замовлень (кошик, кнопки сайту)'], ['o_botp', '«Замовити через бота» з картки товару'],
+  ['o_tg', 'Telegram'], ['o_wa', 'WhatsApp'], ['o_viber', 'Viber'], ['o_ig', 'Instagram (Direct)'],
+  ['o_call', 'Дзвінок'], ['o_consult', '«Отримати консультацію»']
 ];
+// 08.10.2026: «Оформлено» — лише підтверджені замовлення (НЕ кліки): o_botok — сайт зберіг orders/<id> (кошик → бот);
+// o_botpok — клієнт підтвердив у боті замовлення, почате кнопкою «Замовити через бота» з картки товару (пише бот)
+const DONE = [
+  ['o_botok', 'Кошик → бот: замовлення збережено'], ['o_botpok', 'Картка товару → бот: підтверджено в боті']
+];
+const DONE_KEYS = DONE.map((d) => d[0]);
+const stIc = (d, sz) => '<svg viewBox="0 0 24 24" width="' + (sz || 17) + '" height="' + (sz || 17) + '" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>';
+const SI = {
+  eye: '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  cart: '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>',
+  tap: '<path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M12 10.5V9a1.5 1.5 0 0 1 3 0v2"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.9-2.6L4 14.3a1.5 1.5 0 0 1 2.4-1.8L9 15"/>',
+  done: '<path d="M9 3.5h6a1 1 0 0 1 1 1V6H8V4.5a1 1 0 0 1 1-1z"/><path d="M16 5h1.5A2.5 2.5 0 0 1 20 7.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18.5v-11A2.5 2.5 0 0 1 6.5 5H8"/><path d="m8.5 13.5 2.4 2.4 4.6-4.9"/>',
+  bars: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+  top: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
+  send: '<path d="M21 3 10.5 13.5"/><path d="m21 3-6.5 18-4-7.5L3 9.5z"/>'
+};
 let stDocs = null, stRange = 7, stErr = '', stBusy = false;
 // 08.10: журнал «що додають у кошик» — cart_events (останні 31 день, до CE_LIMIT подій; читає лише адмін); список додавань з фото, фільтр за товаром
 let ceDocs = null, ceErr = '';
@@ -169,13 +186,13 @@ export function renderStats() {
   if (stErr) { body.innerHTML = '<p class="ed__msg">Помилка читання статистики: ' + esc(stErr) + '</p>'; return; }
   if (!stDocs) return;
   const days = lastDays(stRange), names = ctx.names();
-  const tot = { views: 0, cart: 0, opens: 0, clicks: 0 }, prod = {}, ch = {};
+  const tot = { views: 0, cart: 0, opens: 0, clicks: 0, done: 0 }, prod = {}, ch = {};
   const per = days.map((d) => {
     const x = stDocs[d] || {};
     tot.views += num(x.views); tot.cart += num(x.cart);
     Object.keys(x).forEach((k) => {
       if (k.startsWith('p_')) { prod[k.slice(2)] = (prod[k.slice(2)] || 0) + num(x[k]); tot.opens += num(x[k]); }
-      else if (k.startsWith('o_')) { ch[k] = (ch[k] || 0) + num(x[k]); tot.clicks += num(x[k]); }
+      else if (k.startsWith('o_')) { ch[k] = (ch[k] || 0) + num(x[k]); if (DONE_KEYS.includes(k)) tot.done += num(x[k]); else tot.clicks += num(x[k]); }
     });
     return { d, v: num(x.views), c: num(x.cart) };
   });
@@ -191,20 +208,27 @@ export function renderStats() {
   const top = Object.keys(prod).sort((a, b) => prod[b] - prod[a] || a.localeCompare(b)).slice(0, 10);
   const maxP = Math.max(1, ...top.map((k) => prod[k]));
   const maxC = Math.max(1, ...CH.map((c) => ch[c[0]] || 0));
-  const hasAny = tot.views || tot.opens || tot.cart || tot.clicks;
+  const hasAny = tot.views || tot.opens || tot.cart || tot.clicks || tot.done;
+  const botClicks = (ch.o_bot || 0) + (ch.o_botp || 0), maxD = Math.max(1, ...DONE.map((c) => ch[c[0]] || 0));
+  const conv = botClicks ? Math.min(100, Math.round(tot.done / botClicks * 100)) : null;
   body.innerHTML =
     '<div class="st-cards">' +
-      '<div class="st-card"><b>' + nf(tot.views) + '</b><span>👀 Візити</span></div>' +
-      '<div class="st-card"><b>' + nf(tot.opens) + '</b><span>🔎 Відкриття товарів</span></div>' +
-      '<div class="st-card"><b>' + nf(tot.cart) + '</b><span>🛒 Додавання в кошик</span></div>' +
-      '<div class="st-card"><b>' + nf(tot.clicks) + '</b><span>📨 Кліки «замовити»</span></div>' +
+      '<div class="st-card"><b>' + nf(tot.views) + '</b><span>' + stIc(SI.eye) + 'Візити</span></div>' +
+      '<div class="st-card"><b>' + nf(tot.opens) + '</b><span>' + stIc(SI.search) + 'Відкриття товарів</span></div>' +
+      '<div class="st-card st-card--wide"><b>' + nf(tot.cart) + '</b><span>' + stIc(SI.cart) + 'Додавання в кошик</span></div>' +
+      '<div class="st-card"><b>' + nf(tot.clicks) + '</b><span>' + stIc(SI.tap) + 'Натиснули «Замовити»</span></div>' +
+      '<div class="st-card st-card--done"><b>' + nf(tot.done) + '</b><span>' + stIc(SI.done) + 'Оформлено</span>' +
+        (conv != null ? '<small>' + conv + '% від кліків на бота</small>' : '') + '</div>' +
     '</div>' +
     (hasAny ? '' : '<p class="muted">За цей період даних ще немає.</p>') +
-    '<h3 class="st-h">👀 Візити по днях <span class="muted small">(' + stRange + ' днів, макс. ' + nf(maxV === 1 && !per.some((p) => p.v) ? 0 : maxV) + ' на день)</span></h3>' + bars +
-    '<h3 class="st-h">🔝 Топ-10 відкритих товарів</h3>' +
+    '<h3 class="st-h">' + stIc(SI.bars) + 'Візити по днях <span class="muted small">(' + stRange + ' днів, макс. ' + nf(maxV === 1 && !per.some((p) => p.v) ? 0 : maxV) + ' на день)</span></h3>' + bars +
+    '<h3 class="st-h">' + stIc(SI.top) + 'Топ-10 відкритих товарів</h3>' +
     (top.length ? '<ol class="st-top">' + top.map((k) => '<li><span class="st-top__n">' + esc(names[k] || k) + '</span><span class="st-bar"><i style="width:' + Math.max(4, Math.round(prod[k] / maxP * 100)) + '%"></i></span><b>' + nf(prod[k]) + '</b></li>').join('') + '</ol>' : '<p class="muted small">Ще немає відкриттів товарів.</p>') +
-    '<h3 class="st-h">📨 Кліки по каналах замовлення</h3>' +
+    '<h3 class="st-h">' + stIc(SI.send) + 'Натиснули «Замовити» — по каналах</h3>' +
     '<ul class="st-top st-top--ch">' + CH.map((c) => '<li><span class="st-top__n">' + c[1] + '</span><span class="st-bar"><i style="width:' + Math.round((ch[c[0]] || 0) / maxC * 100) + '%"></i></span><b>' + nf(ch[c[0]] || 0) + '</b></li>').join('') + '</ul>' +
+    '<h3 class="st-h">' + stIc(SI.done) + 'Оформлено</h3>' +
+    '<ul class="st-top st-top--ch st-top--done">' + DONE.map((c) => '<li><span class="st-top__n">' + c[1] + '</span><span class="st-bar"><i style="width:' + Math.round((ch[c[0]] || 0) / maxD * 100) + '%"></i></span><b>' + nf(ch[c[0]] || 0) + '</b></li>').join('') + '</ul>' +
+    '<p class="muted small st-hint">«Натиснули» рахується в момент кліку (раз за сеанс). «Оформлено» — лише коли замовлення справді збережено або підтверджено в боті (кожне окремо). Telegram, WhatsApp, Viber і дзвінки сайт підтвердити не може.</p>' +
     cartEventsHTML(days, names);
   if (ctx.lazy) ctx.lazy(); // фото товарів, додані в адмінці (photos/*)
 }
