@@ -7,13 +7,13 @@
    "id": "guns",
    "name": "Фарбопульти та пістолети",
    "icon": "",
-   "count": 35
+   "count": 15
   },
   {
    "id": "equip",
    "name": "Обладнання, аксесуари та захист",
    "icon": "",
-   "count": 24
+   "count": 22
   },
   {
    "id": "palinal",
@@ -56,6 +56,12 @@
    "name": "Автохімія та герметики",
    "icon": "",
    "count": 6
+  },
+  {
+   "id": "cn",
+   "name": "Товари з Китаю",
+   "icon": "",
+   "count": 22
   }
  ],
  "products": [
@@ -1024,912 +1030,6 @@
    "sub": "meiji"
   },
   {
-   "id": "italco-gloss-x1",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "ITALCO GLOSS X1 HVLP — фарбопульт",
-   "description": "ITALCO GLOSS X1 — фарбопульт HVLP з верхнім бачком 600 мл для фінішних шарів: базових фарб, зокрема металіків, лаків і водорозчинних фарб. Дюза та голка з нержавіючої сталі 303, корпус з антипригарним покриттям TEFLON — легко чиститься. Частково полегшена рукоятка зменшує вагу корпусу приблизно на 10 % і менше втомлює руку. Дюза на вибір: 1,3 або 1,4 мм.",
-   "price_eur": 108.0,
-   "price_label": null,
-   "variants": [
-    {
-     "label": "Дюза 1,3 мм",
-     "price_eur": 108.0
-    },
-    {
-     "label": "Дюза 1,4 мм",
-     "price_eur": 108.0
-    }
-   ],
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/italco-gloss-x1.webp?v=20261004j",
-   "photo_is_placeholder": false,
-   "photo_source": "фото магазинів kuvalda.ru, sprayandall.co.za (без водяних знаків) та фото коробок 1,3 / 1,4 з магазину Alex",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04",
-   "brand": "ITALCO",
-   "photos_extra": [
-    "img/p/italco-gloss-x1-2.webp?v=20261004j",
-    "img/p/italco-gloss-x1-3.webp?v=20261004j",
-    "img/p/italco-gloss-x1-4.webp?v=20261004j",
-    "img/p/italco-gloss-x1-5.webp?v=20261004j"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Технологія розпилення",
-      "HVLP"
-     ],
-     [
-      "Призначення",
-      "Фінішні покриття: базові фарби (зокрема металіки), лаки, водорозчинні фарби"
-     ],
-     [
-      "Дюза",
-      "1,3 мм або 1,4 мм"
-     ],
-     [
-      "Оптимальний робочий тиск",
-      "2,0 бар (29 psi)"
-     ],
-     [
-      "Максимальний робочий тиск",
-      "3,0 бар (43 psi)"
-     ],
-     [
-      "Витрата повітря",
-      "14–16 cfm (≈ 400–450 л/хв)"
-     ],
-     [
-      "Ширина факела",
-      "близько 30 см"
-     ],
-     [
-      "Оптимальна відстань нанесення",
-      "17 см"
-     ],
-     [
-      "Бачок",
-      "600 мл, верхній, пластиковий"
-     ],
-     [
-      "Вхід повітря",
-      "1/4″"
-     ],
-     [
-      "Вага",
-      "≈ 1,1 кг"
-     ],
-     [
-      "Дюза та голка",
-      "нержавіюча сталь 303"
-     ],
-     [
-      "Покриття корпусу",
-      "антипригарне TEFLON"
-     ],
-     [
-      "Країна виробництва",
-      "Китай"
-     ]
-    ],
-    "src": "За даними виробника ITALCO (italcojet.com) та магазинів-дистриб’юторів."
-   },
-   "sub": "guns2"
-  },
-  {
-   "id": "gun-ntools-tested",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт NTools X-4 1.3 RP з розрізною дюзою (відтестований)",
-   "description": "Відтестовано — відео в коментарях до поста. На корпусі — напис X-4, на повітряній голові — напис NTools.",
-   "price_eur": 97,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 370 (23.09.2026)",
-   "price_uah_original": "5000 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/370"
-   ],
-   "photo": "img/p/gun-ntools-tested.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/370 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "sub": "china",
-   "brand": "NTools"
-  },
-  {
-   "id": "ntools-te20",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт NTools High Efficiency TE20",
-   "description": "Фарбопульт NTools з повітряною головою High Efficiency TE20 і розрізною (щілинною) дюзою 1,3 мм — для нанесення фарб і лаків, зокрема водних. Чорний корпус, хромовані курок і повітряна голова, жовте кільце на штуцері повітря; регулювання факела, подачі матеріалу та повітря. Дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл. Робочий тиск — 2,5–3,0 бар, витрата повітря — 270 л/хв при 2,0 бар, ширина факела — 25–35 см. У комплекті — верхній пластиковий бачок, ключ, щіточка для чищення, перехідник і ущільнювачі в пакеті.",
-   "price_eur": 95,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Ціна від Alex (26.09.2026)",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/ntools-te20-w1.webp?v=20261004",
-   "photo_is_placeholder": false,
-   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "photos_extra": [
-    "img/p/ntools-te20-w2.webp?v=20261004",
-    "img/p/ntools-te20-w3.webp?v=20261004",
-    "img/p/ntools-te20-w4.webp?v=20261004"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Повітряна голова",
-      "High Efficiency TE20"
-     ],
-     [
-      "Тип",
-      "High Efficiency (за маркуванням повітряної голови)"
-     ],
-     [
-      "Дюза",
-      "Розрізна (щілинна), 1,3 мм; дюза й голка з нержавіючої сталі"
-     ],
-     [
-      "Призначення",
-      "Фарби та лаки, зокрема водні"
-     ],
-     [
-      "Робочий тиск",
-      "2,5–3,0 бар (макс. 10 бар)"
-     ],
-     [
-      "Витрата повітря",
-      "270 л/хв при 2,0 бар"
-     ],
-     [
-      "Ширина факела",
-      "25–35 см"
-     ],
-     [
-      "Подача фарби",
-      "Гравітаційна"
-     ],
-     [
-      "Бачок",
-      "Верхній пластиковий, 600 мл (у комплекті)"
-     ],
-     [
-      "Дизайн",
-      "Чорний корпус, хромовані курок і повітряна голова, жовте кільце на штуцері повітря"
-     ],
-     [
-      "Комплектація",
-      "Бачок, ключ, щіточка для чищення, перехідник, ущільнювачі в пакеті"
-     ]
-    ],
-    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
-   },
-   "sub": "china",
-   "brand": "NTools"
-  },
-  {
-   "id": "spi-pro-te20-sticker-bomb",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "SPI Pro TE20 High Efficiency 1.3 — дизайн Sticker Bomb",
-   "description": "Фарбопульт SPI Pro з повітряною головою High Efficiency TE20 і дюзою 1,3 мм для нанесення бази та лаку. Корпус з анодованим покриттям і яскравим різнокольоровим візерунком у стилі Sticker Bomb — такий пістолет не сплутаєш з жодним іншим. Хромовані повітряна голова та регулятори, червоний ковпачок на вході повітря, гравітаційна подача з кріпленням бачка зверху; на фото — без бачка, комплектацію уточнюйте.",
-   "price_eur": 88.4615,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Ціна від Alex (03.10.2026)",
-   "price_uah_original": "4600 грн",
-   "source": [],
-   "photo": "img/p/spi-pro-te20-sticker-bomb.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (надіслане в чат, 03.10.2026)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "brand": "SPI Pro",
-   "photos_extra": [
-    "img/p/spi-pro-te20-sticker-bomb-2.webp?v=20261003",
-    "img/p/spi-pro-te20-sticker-bomb-3.webp?v=20261003",
-    "img/p/spi-pro-te20-sticker-bomb-4.webp?v=20261003"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Призначення",
-      "База / лак"
-     ],
-     [
-      "Маркування",
-      "«SPI Pro» і «High Efficiency TE20» на повітряній голові, «SPI» на корпусі"
-     ],
-     [
-      "Повітряна голова",
-      "High Efficiency TE20"
-     ],
-     [
-      "Дюза",
-      "1,3 мм"
-     ],
-     [
-      "Витрата повітря",
-      "300 л/хв"
-     ],
-     [
-      "Подача фарби",
-      "Гравітаційна (кріплення бачка зверху)"
-     ],
-     [
-      "Бачок",
-      "На фото без бачка — комплектацію уточнюйте"
-     ],
-     [
-      "Покриття корпусу",
-      "Анодоване"
-     ],
-     [
-      "Дизайн",
-      "Анодований різнокольоровий візерунок у стилі Sticker Bomb; хромовані повітряна голова й регулятори, червоний ковпачок на вході повітря"
-     ]
-    ],
-    "src": "За фото, маркуванням та даними продавця."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "gun-372",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт SUTU",
-   "description": "Комплектація — як на фото в пості. На деталях видно напис SUTU.",
-   "price_eur": 87,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 372 (23.09.2026)",
-   "price_uah_original": "4500 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/372"
-   ],
-   "photo": "img/p/gun-372.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/372 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "sub": "china"
-  },
-  {
-   "id": "gun-374",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт з чорною рукояткою",
-   "description": "Комплектація — як на фото в пості.",
-   "price_eur": 87,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 374 (23.09.2026)",
-   "price_uah_original": "4500 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/374"
-   ],
-   "photo": "img/p/gun-374.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/374 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "sub": "china"
-  },
-  {
-   "id": "gun-375",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт NTools 4000B Upgrades (чорний, карбон)",
-   "description": "Фарбопульт NTools 4000B Upgrades системи HVLP у чорному корпусі з малюнком під карбон: на рукоятці — напис «NTOOLS 4000B UPGRADES», на повітряній голові — «NTOOLS 4000B HVLP». Чорні регулятори факела, подачі матеріалу та повітря, чорний курок; дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. Модель випускається з дюзою 1,3 або 1,4 мм — розмір уточнюйте. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг, червоний повітряний фільтр і рожеве кільце.",
-   "price_eur": 87,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 375 (23.09.2026)",
-   "price_uah_original": "4500 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/375"
-   ],
-   "photo": "img/p/gun-375-w1.webp?v=20261004",
-   "photo_is_placeholder": false,
-   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json); останнє фото — https://t.me/alex_bes_shoping/375 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "photos_extra": [
-    "img/p/gun-375-w2.webp?v=20261004",
-    "img/p/gun-375.webp?v=20261003"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Модель",
-      "NTools 4000B Upgrades"
-     ],
-     [
-      "Маркування",
-      "«NTOOLS 4000B UPGRADES» на рукоятці, «NTOOLS 4000B HVLP» на повітряній голові"
-     ],
-     [
-      "Система",
-      "HVLP"
-     ],
-     [
-      "Дюза",
-      "Модель випускається з дюзою 1,3 або 1,4 мм — уточнюйте; дюза й голка з нержавіючої сталі"
-     ],
-     [
-      "Робочий тиск",
-      "2,0–3,0 бар"
-     ],
-     [
-      "Подача фарби",
-      "Гравітаційна"
-     ],
-     [
-      "Бачок",
-      "Верхній пластиковий, 600 мл (у комплекті)"
-     ],
-     [
-      "Дизайн",
-      "Чорний корпус з малюнком під карбон, чорні регулятори й курок"
-     ],
-     [
-      "Комплектація (за фото)",
-      "Бачок, ключ, щіточка для чищення, фітинг, червоний повітряний фільтр, рожеве кільце"
-     ]
-    ],
-    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
-   },
-   "sub": "china",
-   "brand": "NTools"
-  },
-  {
-   "id": "gun-376",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт NTools 4000B Upgrades 1.4 (кольоровий дизайн)",
-   "description": "Фарбопульт NTools 4000B Upgrades системи HVLP з дюзою 1,4 мм у яскравому різнокольоровому дизайні в стилі графіті: на повітряній голові — напис «NTOOLS 4000B HVLP 1.4», на рукоятці — «NTOOLS 4000B UPGRADES». Чорні регулятори й курок, дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг і блакитний повітряний фільтр.",
-   "price_eur": 87,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 376 (23.09.2026)",
-   "price_uah_original": "4500 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/376"
-   ],
-   "photo": "img/p/gun-376-w1.webp?v=20261004",
-   "photo_is_placeholder": false,
-   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json); останнє фото — https://t.me/alex_bes_shoping/376 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "photos_extra": [
-    "img/p/gun-376-w2.webp?v=20261004",
-    "img/p/gun-376-w3.webp?v=20261004",
-    "img/p/gun-376.webp?v=20261003"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Модель",
-      "NTools 4000B Upgrades"
-     ],
-     [
-      "Маркування",
-      "«NTOOLS 4000B HVLP 1.4» на повітряній голові, «NTOOLS 4000B UPGRADES» на рукоятці"
-     ],
-     [
-      "Система",
-      "HVLP"
-     ],
-     [
-      "Дюза",
-      "1,4 мм; дюза й голка з нержавіючої сталі"
-     ],
-     [
-      "Робочий тиск",
-      "2,0–3,0 бар"
-     ],
-     [
-      "Подача фарби",
-      "Гравітаційна"
-     ],
-     [
-      "Бачок",
-      "Верхній пластиковий, 600 мл (у комплекті)"
-     ],
-     [
-      "Дизайн",
-      "Різнокольоровий малюнок у стилі графіті, чорні регулятори й курок"
-     ],
-     [
-      "Комплектація (за фото)",
-      "Бачок, ключ, щіточка для чищення, фітинг, блакитний повітряний фільтр"
-     ]
-    ],
-    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
-   },
-   "sub": "china",
-   "brand": "NTools"
-  },
-  {
-   "id": "gun-primer-17-pps",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Ґрунтовочний фарбопульт 1.7 (PPS)",
-   "description": "Ґрунтовочний фарбопульт з дюзою 1.7, працює на системі PPS.",
-   "price_eur": 85,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 255 (23.07.2026)",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/255"
-   ],
-   "photo": "img/p/gun-primer-17-pps.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/255 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "specs": {
-    "rows": [
-     [
-      "Призначення",
-      "Ґрунти"
-     ],
-     [
-      "Дюза",
-      "1,7 мм"
-     ],
-     [
-      "Система",
-      "PPS"
-     ]
-    ],
-    "src": "За описом товару; технічних даних виробника немає."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "ntools-5000b-upgrades",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт NTools 5000 B Upgrades HVLP 1.3",
-   "description": "Фарбопульт NTools 5000 B Upgrades системи HVLP з дюзою 1,3 мм — на повітряній голові напис «NTOOLS 5000 B HVLP 1.3». Червоно-помаранчевий корпус з алюмінієвого сплаву, чорні регулятори факела, подачі матеріалу та повітря, чорний курок; гравітаційна подача з верхнього бачка 600 мл, підключення повітря 1/4\". Робочий тиск — 2–3,5 бар, витрата повітря — 140 л/хв, ширина факела — 160–240 мм, відстань розпилення — 200–300 мм. Підійде для ґрунтів, фарб і лаків. У комплекті — верхній пластиковий бачок, універсальний ключ, щіточка для чищення та дрібні запчастини й ущільнювачі в пакеті.",
-   "price_eur": 85,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Ціна від Alex (26.09.2026)",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/ntools-5000b-upgrades-w1.webp?v=20261004",
-   "photo_is_placeholder": false,
-   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json); останнє фото — фото Alex (26.09.2026)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "photos_extra": [
-    "img/p/ntools-5000b-upgrades-w2.webp?v=20261004",
-    "img/p/ntools-5000b-upgrades.webp?v=20261003"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Маркування",
-      "«NTOOLS 5000 B HVLP 1.3» на повітряній голові, NTools на рукоятці"
-     ],
-     [
-      "Система",
-      "HVLP"
-     ],
-     [
-      "Дюза",
-      "1,3 мм"
-     ],
-     [
-      "Призначення",
-      "Ґрунти, фарби, лаки"
-     ],
-     [
-      "Робочий тиск",
-      "2–3,5 бар"
-     ],
-     [
-      "Витрата повітря",
-      "140 л/хв"
-     ],
-     [
-      "Ширина факела",
-      "160–240 мм"
-     ],
-     [
-      "Відстань розпилення",
-      "200–300 мм"
-     ],
-     [
-      "Подача фарби",
-      "Гравітаційна"
-     ],
-     [
-      "Бачок",
-      "Верхній пластиковий, 600 мл (у комплекті)"
-     ],
-     [
-      "Підключення повітря",
-      "1/4\""
-     ],
-     [
-      "Матеріал корпусу",
-      "Алюмінієвий сплав"
-     ],
-     [
-      "Дизайн",
-      "Червоно-помаранчевий корпус, чорні регулятори й курок"
-     ],
-     [
-      "Комплектація",
-      "Бачок, універсальний ключ, щіточка для чищення, дрібні запчастини й ущільнювачі в пакеті"
-     ]
-    ],
-    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
-   },
-   "sub": "china",
-   "brand": "NTools"
-  },
-  {
-   "id": "gun-373",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт LISSON (фіолетовий)",
-   "description": "Фарбопульт LISSON у фіолетовому корпусі з чорним курком і регуляторами — напис LISSON на корпусі та повітряних головах. У комплекті (за фото) три повітряні голови з дюзами 1,3, 1,7 і 2,0 мм, дві змінні дюзи з голками, прозорий мірний бачок з чорним кільцем і червоний перехідник — один пістолет під лак, базу та ґрунти.",
-   "price_eur": 82,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 373 (23.09.2026)",
-   "price_uah_original": "4200 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/373"
-   ],
-   "photo": "img/p/gun-373.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/373 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "specs": {
-    "rows": [
-     [
-      "Маркування",
-      "LISSON на корпусі та повітряних головах"
-     ],
-     [
-      "Дюзи",
-      "1,3 · 1,7 · 2,0 мм — три повітряні голови в комплекті, дві змінні дюзи з голками"
-     ],
-     [
-      "Бачок",
-      "Прозорий мірний бачок з чорним кільцем, червоний перехідник"
-     ],
-     [
-      "Дизайн",
-      "Фіолетовий корпус, чорні курок і регулятори"
-     ]
-    ],
-    "src": "За фото товару; технічних даних виробника для цієї моделі не знайдено."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "gun-hvlp-13",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт HVLP 1.3",
-   "description": "Фарбопульт HVLP з дюзою 1.3.",
-   "price_eur": 80,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 264 (30.07.2026)",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/264"
-   ],
-   "photo": "img/p/gun-hvlp-13.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/264 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "specs": {
-    "rows": [
-     [
-      "Система",
-      "HVLP"
-     ],
-     [
-      "Дюза",
-      "1,3 мм"
-     ]
-    ],
-    "src": "За описом товару; технічних даних виробника немає."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "gun-377",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульт (червоний дизайн)",
-   "description": "Комплектація — як на фото в пості.",
-   "price_eur": 78,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 377 (23.09.2026)",
-   "price_uah_original": "4000 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/377"
-   ],
-   "photo": "img/p/gun-377.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/377 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "sub": "china"
-  },
-  {
-   "id": "italco-mini-3003",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "ITALCO MINI H-3003 HVLP — міні-фарбопульт 1,0 мм",
-   "description": "Компактний фарбопульт HVLP з верхнім пластиковим бачком для локального ремонту та дрібних деталей.",
-   "price_eur": 72.0,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/italco-mini-3003.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото виробника / магазинів: profkolor.ru, storgom.ua, yakraska.ru",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04",
-   "code": "H-3003-MINI-1.0",
-   "brand": "ITALCO",
-   "photos_extra": [
-    "img/p/italco-mini-3003-2.webp?v=20261004i",
-    "img/p/italco-mini-3003-3.webp?v=20261004i"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Технологія",
-      "HVLP"
-     ],
-     [
-      "Сопло",
-      "1,0 мм"
-     ],
-     [
-      "Бачок",
-      "250 мл, пластик"
-     ],
-     [
-      "Робочий тиск",
-      "1,5 бар"
-     ]
-    ],
-    "src": "За даними виробника та офіційних дистриб’юторів."
-   },
-   "sub": "guns2"
-  },
-  {
-   "id": "ntools-mini-5002",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "NTools MINI 5002 1.2 HVLP — міні-фарбопульт",
-   "description": "Міні-фарбопульт NTools MINI 5002 з дюзою 1,2 мм, система HVLP, витрата повітря — 200 л/хв. Сріблястий корпус з анодованим покриттям, помаранчеві регулятори й чорний курок, гравітаційна подача з верхнім бачком — чудово підійде для локальних фарбувань. У комплекті (за фото): пластиковий бачок з мірною шкалою, червоний повітряний фільтр, рожеве кільце, ключ, шестигранний ключ, щіточка для чищення та невеликий фітинг.",
-   "price_eur": 69.2308,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Ціна від Alex (03.10.2026)",
-   "price_uah_original": "3600 грн",
-   "source": [],
-   "photo": "img/p/ntools-mini-5002.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (надіслане в чат, 03.10.2026)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "brand": "NTools",
-   "photos_extra": [
-    "img/p/ntools-mini-5002-2.webp?v=20261003",
-    "img/p/ntools-mini-5002-3.webp?v=20261003",
-    "img/p/ntools-mini-5002-4.webp?v=20261003",
-    "img/p/ntools-mini-5002-5.webp?v=20261003"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Тип",
-      "Міні-фарбопульт (міні-джет)"
-     ],
-     [
-      "Призначення",
-      "Локальні фарбування"
-     ],
-     [
-      "Маркування",
-      "«MINI 5002 1.2 HVLP» і «NTools» на повітряній голові"
-     ],
-     [
-      "Система",
-      "HVLP"
-     ],
-     [
-      "Дюза",
-      "1,2 мм"
-     ],
-     [
-      "Витрата повітря",
-      "200 л/хв"
-     ],
-     [
-      "Подача фарби",
-      "Гравітаційна (верхній бачок)"
-     ],
-     [
-      "Покриття корпусу",
-      "Анодоване"
-     ],
-     [
-      "Дизайн",
-      "Сріблястий корпус, помаранчеві регулятори, чорний курок"
-     ],
-     [
-      "Комплектація (за фото)",
-      "Пластиковий бачок з мірною шкалою (позначки 150 і 200 мл), червоний повітряний фільтр, рожеве кільце, ключ, шестигранний ключ, щіточка для чищення, невеликий фітинг"
-     ]
-    ],
-    "src": "За фото, маркуванням та даними продавця."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "gun-pps-set",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Фарбопульти на PPS-системі 1.3 / 1.4 / 1.7 / 1.8",
-   "description": "Усі на PPS-системі, дюзи 1.3, 1.4, 1.7 або 1.8.",
-   "price_eur": 68,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 341 (06.09.2026), також 346, 352",
-   "price_uah_original": "3500 грн / шт",
-   "source": [
-    "https://t.me/alex_bes_shoping/341",
-    "https://t.me/alex_bes_shoping/346",
-    "https://t.me/alex_bes_shoping/352"
-   ],
-   "photo": "img/p/gun-pps-set.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/346 (фото v0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "specs": {
-    "rows": [
-     [
-      "Система",
-      "PPS"
-     ],
-     [
-      "Дюзи",
-      "1,3 · 1,4 · 1,7 · 1,8 мм"
-     ]
-    ],
-    "src": "За описом товару; технічних даних виробника немає."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "gun-mini-08",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Міні-джет HVLP 0.8",
-   "description": "Міні-джет HVLP з дюзою 0.8.",
-   "price_eur": 40,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 262 (30.07.2026)",
-   "price_uah_original": null,
-   "source": [
-    "https://t.me/alex_bes_shoping/262"
-   ],
-   "photo": "img/p/gun-mini-08.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/262 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "specs": {
-    "rows": [
-     [
-      "Тип",
-      "Міні-джет"
-     ],
-     [
-      "Система",
-      "HVLP"
-     ],
-     [
-      "Дюза",
-      "0,8 мм"
-     ]
-    ],
-    "src": "За описом товару; технічних даних виробника немає."
-   },
-   "sub": "china"
-  },
-  {
-   "id": "auarita-lion",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Auarita LION 2 HVLP — фарбопульт",
-   "description": "Фарбопульт HVLP з пластиковим бачком і змінними соплами з нержавіючої сталі. Має регулювання подачі фарби, тиску повітря та ширини факела.",
-   "price_eur": 30.0,
-   "price_label": null,
-   "variants": [
-    {
-     "label": "Lion великий",
-     "price_eur": 36.0
-    },
-    {
-     "label": "Lion малий",
-     "price_eur": 30.0
-    }
-   ],
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/auarita-lion.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото виробника / магазинів: allegro.pl, elitsa-3.bg",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04",
-   "brand": "Auarita",
-   "photos_extra": [
-    "img/p/auarita-lion-2.webp?v=20261004i"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Технологія",
-      "HVLP"
-     ],
-     [
-      "Бачок",
-      "600 мл (LION 2)"
-     ],
-     [
-      "Сопла",
-      "1,3 / 1,4 / 1,7 / 2,0 мм"
-     ],
-     [
-      "Витрата повітря",
-      "310–340 л/хв"
-     ],
-     [
-      "Відстань нанесення",
-      "20 см"
-     ]
-    ],
-    "src": "За даними виробника та офіційних дистриб’юторів."
-   },
-   "sub": "guns2"
-  },
-  {
    "id": "meiji-ds3",
    "category": "guns",
    "category_name": "Фарбопульти та пістолети",
@@ -2008,54 +1108,6 @@
    "brand": "Meiji",
    "photos_extra": [
     "img/p/meiji-blow-2.webp?v=20261004i"
-   ],
-   "sub": "air"
-  },
-  {
-   "id": "auarita-mini",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Auarita — міні-фарбопульт",
-   "description": "Компактний фарбопульт Auarita з верхнім бачком для локального ремонту та дрібних деталей.",
-   "price_eur": 18.0,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/auarita-mini.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото виробника / магазинів: arena.pl, manomano.fr",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04",
-   "brand": "Auarita",
-   "photos_extra": [
-    "img/p/auarita-mini-2.webp?v=20261004i"
-   ],
-   "sub": "guns2"
-  },
-  {
-   "id": "auarita-ps5",
-   "category": "guns",
-   "category_name": "Фарбопульти та пістолети",
-   "name": "Auarita PS-5 — пістолет для антигравію",
-   "description": "Пневматичний пістолет Auarita PS-5 для нанесення антигравійних та захисних покриттів кузова.",
-   "price_eur": 10.8077,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/auarita-ps5.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04",
-   "brand": "Auarita",
-   "photos_extra": [
-    "img/p/auarita-ps5-2.webp?v=20261004i"
    ],
    "sub": "air"
   },
@@ -4901,29 +3953,6 @@
    "code": "Washer",
    "sub": "tools",
    "type": "equipment"
-  },
-  {
-   "id": "baishangsi-sander",
-   "category": "equip",
-   "category_name": "Обладнання, аксесуари та захист",
-   "name": "Пневматична орбітальна шліфмашинка BAISHANGSI",
-   "description": "Пневматична шліфмашинка з прямокутною підошвою на липучці. Акційна пропозиція, 1 шт.",
-   "price_eur": null,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 405 (25.09.2026): у дорозі, бронювання при повній оплаті",
-   "price_uah_original": "1600 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/405",
-    "https://t.me/alex_bes_shoping/135"
-   ],
-   "photo": "img/p/baishangsi-sander.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "скріншот фото шліфмашинки (пост https://t.me/alex_bes_shoping/405)",
-   "in_stock": "У дорозі · 1 шт",
-   "flag": null,
-   "sub": "tools",
-   "type": "tools"
   },
   {
    "id": "detailing-set",
@@ -9486,31 +8515,6 @@
    "type": "tools"
   },
   {
-   "id": "auarita-spj06",
-   "category": "equip",
-   "category_name": "Обладнання, аксесуари та захист",
-   "name": "Auarita SPJ-06 — набір для чистки фарбопульта",
-   "description": "Набір щіток для очищення фарбопультів, аерографів та інструменту. Щітки можна використовувати з будь-якими розчинниками та засобами для промивання пістолетів.",
-   "price_eur": 3.5962,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/auarita-spj06.webp?v=20261004i",
-   "photo_is_placeholder": false,
-   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-10-04",
-   "brand": "Auarita",
-   "photos_extra": [
-    "img/p/auarita-spj06-2.webp?v=20261004i"
-   ],
-   "sub": "acc",
-   "type": "gunacc"
-  },
-  {
    "id": "devilbiss-haf507",
    "category": "equip",
    "category_name": "Обладнання, аксесуари та захист",
@@ -10822,6 +9826,1050 @@
     ],
     "src": "За даними BarpiCAR (barpicar.com.ua) та маркуванням на коробці."
    }
+  },
+  {
+   "id": "italco-gloss-x1",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "ITALCO GLOSS X1 HVLP — фарбопульт",
+   "description": "ITALCO GLOSS X1 — фарбопульт HVLP з верхнім бачком 600 мл для фінішних шарів: базових фарб, зокрема металіків, лаків і водорозчинних фарб. Дюза та голка з нержавіючої сталі 303, корпус з антипригарним покриттям TEFLON — легко чиститься. Частково полегшена рукоятка зменшує вагу корпусу приблизно на 10 % і менше втомлює руку. Дюза на вибір: 1,3 або 1,4 мм.",
+   "price_eur": 108.0,
+   "price_label": null,
+   "variants": [
+    {
+     "label": "Дюза 1,3 мм",
+     "price_eur": 108.0
+    },
+    {
+     "label": "Дюза 1,4 мм",
+     "price_eur": 108.0
+    }
+   ],
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/italco-gloss-x1.webp?v=20261004j",
+   "photo_is_placeholder": false,
+   "photo_source": "фото магазинів kuvalda.ru, sprayandall.co.za (без водяних знаків) та фото коробок 1,3 / 1,4 з магазину Alex",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-10-04",
+   "brand": "ITALCO",
+   "photos_extra": [
+    "img/p/italco-gloss-x1-2.webp?v=20261004j",
+    "img/p/italco-gloss-x1-3.webp?v=20261004j",
+    "img/p/italco-gloss-x1-4.webp?v=20261004j",
+    "img/p/italco-gloss-x1-5.webp?v=20261004j"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Технологія розпилення",
+      "HVLP"
+     ],
+     [
+      "Призначення",
+      "Фінішні покриття: базові фарби (зокрема металіки), лаки, водорозчинні фарби"
+     ],
+     [
+      "Дюза",
+      "1,3 мм або 1,4 мм"
+     ],
+     [
+      "Оптимальний робочий тиск",
+      "2,0 бар (29 psi)"
+     ],
+     [
+      "Максимальний робочий тиск",
+      "3,0 бар (43 psi)"
+     ],
+     [
+      "Витрата повітря",
+      "14–16 cfm (≈ 400–450 л/хв)"
+     ],
+     [
+      "Ширина факела",
+      "близько 30 см"
+     ],
+     [
+      "Оптимальна відстань нанесення",
+      "17 см"
+     ],
+     [
+      "Бачок",
+      "600 мл, верхній, пластиковий"
+     ],
+     [
+      "Вхід повітря",
+      "1/4″"
+     ],
+     [
+      "Вага",
+      "≈ 1,1 кг"
+     ],
+     [
+      "Дюза та голка",
+      "нержавіюча сталь 303"
+     ],
+     [
+      "Покриття корпусу",
+      "антипригарне TEFLON"
+     ],
+     [
+      "Країна виробництва",
+      "Китай"
+     ]
+    ],
+    "src": "За даними виробника ITALCO (italcojet.com) та магазинів-дистриб’юторів."
+   },
+   "sub": "guns2",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-ntools-tested",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт NTools X-4 1.3 RP з розрізною дюзою (відтестований)",
+   "description": "Відтестовано — відео в коментарях до поста. На корпусі — напис X-4, на повітряній голові — напис NTools.",
+   "price_eur": 97,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 370 (23.09.2026)",
+   "price_uah_original": "5000 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/370"
+   ],
+   "photo": "img/p/gun-ntools-tested.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/370 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "sub": "china",
+   "brand": "NTools",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "ntools-te20",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт NTools High Efficiency TE20",
+   "description": "Фарбопульт NTools з повітряною головою High Efficiency TE20 і розрізною (щілинною) дюзою 1,3 мм — для нанесення фарб і лаків, зокрема водних. Чорний корпус, хромовані курок і повітряна голова, жовте кільце на штуцері повітря; регулювання факела, подачі матеріалу та повітря. Дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл. Робочий тиск — 2,5–3,0 бар, витрата повітря — 270 л/хв при 2,0 бар, ширина факела — 25–35 см. У комплекті — верхній пластиковий бачок, ключ, щіточка для чищення, перехідник і ущільнювачі в пакеті.",
+   "price_eur": 95,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (26.09.2026)",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/ntools-te20-w1.webp?v=20261004",
+   "photo_is_placeholder": false,
+   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "photos_extra": [
+    "img/p/ntools-te20-w2.webp?v=20261004",
+    "img/p/ntools-te20-w3.webp?v=20261004",
+    "img/p/ntools-te20-w4.webp?v=20261004"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Повітряна голова",
+      "High Efficiency TE20"
+     ],
+     [
+      "Тип",
+      "High Efficiency (за маркуванням повітряної голови)"
+     ],
+     [
+      "Дюза",
+      "Розрізна (щілинна), 1,3 мм; дюза й голка з нержавіючої сталі"
+     ],
+     [
+      "Призначення",
+      "Фарби та лаки, зокрема водні"
+     ],
+     [
+      "Робочий тиск",
+      "2,5–3,0 бар (макс. 10 бар)"
+     ],
+     [
+      "Витрата повітря",
+      "270 л/хв при 2,0 бар"
+     ],
+     [
+      "Ширина факела",
+      "25–35 см"
+     ],
+     [
+      "Подача фарби",
+      "Гравітаційна"
+     ],
+     [
+      "Бачок",
+      "Верхній пластиковий, 600 мл (у комплекті)"
+     ],
+     [
+      "Дизайн",
+      "Чорний корпус, хромовані курок і повітряна голова, жовте кільце на штуцері повітря"
+     ],
+     [
+      "Комплектація",
+      "Бачок, ключ, щіточка для чищення, перехідник, ущільнювачі в пакеті"
+     ]
+    ],
+    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
+   },
+   "sub": "china",
+   "brand": "NTools",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "spi-pro-te20-sticker-bomb",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "SPI Pro TE20 High Efficiency 1.3 — дизайн Sticker Bomb",
+   "description": "Фарбопульт SPI Pro з повітряною головою High Efficiency TE20 і дюзою 1,3 мм для нанесення бази та лаку. Корпус з анодованим покриттям і яскравим різнокольоровим візерунком у стилі Sticker Bomb — такий пістолет не сплутаєш з жодним іншим. Хромовані повітряна голова та регулятори, червоний ковпачок на вході повітря, гравітаційна подача з кріпленням бачка зверху; на фото — без бачка, комплектацію уточнюйте.",
+   "price_eur": 88.4615,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (03.10.2026)",
+   "price_uah_original": "4600 грн",
+   "source": [],
+   "photo": "img/p/spi-pro-te20-sticker-bomb.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 03.10.2026)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "brand": "SPI Pro",
+   "photos_extra": [
+    "img/p/spi-pro-te20-sticker-bomb-2.webp?v=20261003",
+    "img/p/spi-pro-te20-sticker-bomb-3.webp?v=20261003",
+    "img/p/spi-pro-te20-sticker-bomb-4.webp?v=20261003"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "База / лак"
+     ],
+     [
+      "Маркування",
+      "«SPI Pro» і «High Efficiency TE20» на повітряній голові, «SPI» на корпусі"
+     ],
+     [
+      "Повітряна голова",
+      "High Efficiency TE20"
+     ],
+     [
+      "Дюза",
+      "1,3 мм"
+     ],
+     [
+      "Витрата повітря",
+      "300 л/хв"
+     ],
+     [
+      "Подача фарби",
+      "Гравітаційна (кріплення бачка зверху)"
+     ],
+     [
+      "Бачок",
+      "На фото без бачка — комплектацію уточнюйте"
+     ],
+     [
+      "Покриття корпусу",
+      "Анодоване"
+     ],
+     [
+      "Дизайн",
+      "Анодований різнокольоровий візерунок у стилі Sticker Bomb; хромовані повітряна голова й регулятори, червоний ковпачок на вході повітря"
+     ]
+    ],
+    "src": "За фото, маркуванням та даними продавця."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-372",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт SUTU",
+   "description": "Комплектація — як на фото в пості. На деталях видно напис SUTU.",
+   "price_eur": 87,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 372 (23.09.2026)",
+   "price_uah_original": "4500 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/372"
+   ],
+   "photo": "img/p/gun-372.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/372 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-374",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт з чорною рукояткою",
+   "description": "Комплектація — як на фото в пості.",
+   "price_eur": 87,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 374 (23.09.2026)",
+   "price_uah_original": "4500 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/374"
+   ],
+   "photo": "img/p/gun-374.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/374 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-375",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт NTools 4000B Upgrades (чорний, карбон)",
+   "description": "Фарбопульт NTools 4000B Upgrades системи HVLP у чорному корпусі з малюнком під карбон: на рукоятці — напис «NTOOLS 4000B UPGRADES», на повітряній голові — «NTOOLS 4000B HVLP». Чорні регулятори факела, подачі матеріалу та повітря, чорний курок; дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. Модель випускається з дюзою 1,3 або 1,4 мм — розмір уточнюйте. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг, червоний повітряний фільтр і рожеве кільце.",
+   "price_eur": 87,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 375 (23.09.2026)",
+   "price_uah_original": "4500 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/375"
+   ],
+   "photo": "img/p/gun-375-w1.webp?v=20261004",
+   "photo_is_placeholder": false,
+   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json); останнє фото — https://t.me/alex_bes_shoping/375 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "photos_extra": [
+    "img/p/gun-375-w2.webp?v=20261004",
+    "img/p/gun-375.webp?v=20261003"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Модель",
+      "NTools 4000B Upgrades"
+     ],
+     [
+      "Маркування",
+      "«NTOOLS 4000B UPGRADES» на рукоятці, «NTOOLS 4000B HVLP» на повітряній голові"
+     ],
+     [
+      "Система",
+      "HVLP"
+     ],
+     [
+      "Дюза",
+      "Модель випускається з дюзою 1,3 або 1,4 мм — уточнюйте; дюза й голка з нержавіючої сталі"
+     ],
+     [
+      "Робочий тиск",
+      "2,0–3,0 бар"
+     ],
+     [
+      "Подача фарби",
+      "Гравітаційна"
+     ],
+     [
+      "Бачок",
+      "Верхній пластиковий, 600 мл (у комплекті)"
+     ],
+     [
+      "Дизайн",
+      "Чорний корпус з малюнком під карбон, чорні регулятори й курок"
+     ],
+     [
+      "Комплектація (за фото)",
+      "Бачок, ключ, щіточка для чищення, фітинг, червоний повітряний фільтр, рожеве кільце"
+     ]
+    ],
+    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
+   },
+   "sub": "china",
+   "brand": "NTools",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-376",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт NTools 4000B Upgrades 1.4 (кольоровий дизайн)",
+   "description": "Фарбопульт NTools 4000B Upgrades системи HVLP з дюзою 1,4 мм у яскравому різнокольоровому дизайні в стилі графіті: на повітряній голові — напис «NTOOLS 4000B HVLP 1.4», на рукоятці — «NTOOLS 4000B UPGRADES». Чорні регулятори й курок, дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг і блакитний повітряний фільтр.",
+   "price_eur": 87,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 376 (23.09.2026)",
+   "price_uah_original": "4500 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/376"
+   ],
+   "photo": "img/p/gun-376-w1.webp?v=20261004",
+   "photo_is_placeholder": false,
+   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json); останнє фото — https://t.me/alex_bes_shoping/376 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "photos_extra": [
+    "img/p/gun-376-w2.webp?v=20261004",
+    "img/p/gun-376-w3.webp?v=20261004",
+    "img/p/gun-376.webp?v=20261003"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Модель",
+      "NTools 4000B Upgrades"
+     ],
+     [
+      "Маркування",
+      "«NTOOLS 4000B HVLP 1.4» на повітряній голові, «NTOOLS 4000B UPGRADES» на рукоятці"
+     ],
+     [
+      "Система",
+      "HVLP"
+     ],
+     [
+      "Дюза",
+      "1,4 мм; дюза й голка з нержавіючої сталі"
+     ],
+     [
+      "Робочий тиск",
+      "2,0–3,0 бар"
+     ],
+     [
+      "Подача фарби",
+      "Гравітаційна"
+     ],
+     [
+      "Бачок",
+      "Верхній пластиковий, 600 мл (у комплекті)"
+     ],
+     [
+      "Дизайн",
+      "Різнокольоровий малюнок у стилі графіті, чорні регулятори й курок"
+     ],
+     [
+      "Комплектація (за фото)",
+      "Бачок, ключ, щіточка для чищення, фітинг, блакитний повітряний фільтр"
+     ]
+    ],
+    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
+   },
+   "sub": "china",
+   "brand": "NTools",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-primer-17-pps",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Ґрунтовочний фарбопульт 1.7 (PPS)",
+   "description": "Ґрунтовочний фарбопульт з дюзою 1.7, працює на системі PPS.",
+   "price_eur": 85,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 255 (23.07.2026)",
+   "price_uah_original": null,
+   "source": [
+    "https://t.me/alex_bes_shoping/255"
+   ],
+   "photo": "img/p/gun-primer-17-pps.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/255 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "Ґрунти"
+     ],
+     [
+      "Дюза",
+      "1,7 мм"
+     ],
+     [
+      "Система",
+      "PPS"
+     ]
+    ],
+    "src": "За описом товару; технічних даних виробника немає."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "ntools-5000b-upgrades",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт NTools 5000 B Upgrades HVLP 1.3",
+   "description": "Фарбопульт NTools 5000 B Upgrades системи HVLP з дюзою 1,3 мм — на повітряній голові напис «NTOOLS 5000 B HVLP 1.3». Червоно-помаранчевий корпус з алюмінієвого сплаву, чорні регулятори факела, подачі матеріалу та повітря, чорний курок; гравітаційна подача з верхнього бачка 600 мл, підключення повітря 1/4\". Робочий тиск — 2–3,5 бар, витрата повітря — 140 л/хв, ширина факела — 160–240 мм, відстань розпилення — 200–300 мм. Підійде для ґрунтів, фарб і лаків. У комплекті — верхній пластиковий бачок, універсальний ключ, щіточка для чищення та дрібні запчастини й ущільнювачі в пакеті.",
+   "price_eur": 85,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (26.09.2026)",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/ntools-5000b-upgrades-w1.webp?v=20261004",
+   "photo_is_placeholder": false,
+   "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json); останнє фото — фото Alex (26.09.2026)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "photos_extra": [
+    "img/p/ntools-5000b-upgrades-w2.webp?v=20261004",
+    "img/p/ntools-5000b-upgrades.webp?v=20261003"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Маркування",
+      "«NTOOLS 5000 B HVLP 1.3» на повітряній голові, NTools на рукоятці"
+     ],
+     [
+      "Система",
+      "HVLP"
+     ],
+     [
+      "Дюза",
+      "1,3 мм"
+     ],
+     [
+      "Призначення",
+      "Ґрунти, фарби, лаки"
+     ],
+     [
+      "Робочий тиск",
+      "2–3,5 бар"
+     ],
+     [
+      "Витрата повітря",
+      "140 л/хв"
+     ],
+     [
+      "Ширина факела",
+      "160–240 мм"
+     ],
+     [
+      "Відстань розпилення",
+      "200–300 мм"
+     ],
+     [
+      "Подача фарби",
+      "Гравітаційна"
+     ],
+     [
+      "Бачок",
+      "Верхній пластиковий, 600 мл (у комплекті)"
+     ],
+     [
+      "Підключення повітря",
+      "1/4\""
+     ],
+     [
+      "Матеріал корпусу",
+      "Алюмінієвий сплав"
+     ],
+     [
+      "Дизайн",
+      "Червоно-помаранчевий корпус, чорні регулятори й курок"
+     ],
+     [
+      "Комплектація",
+      "Бачок, універсальний ключ, щіточка для чищення, дрібні запчастини й ущільнювачі в пакеті"
+     ]
+    ],
+    "src": "Технічні дані моделі з відкритих джерел; маркування та комплектація — за фото товару."
+   },
+   "sub": "china",
+   "brand": "NTools",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-373",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт LISSON (фіолетовий)",
+   "description": "Фарбопульт LISSON у фіолетовому корпусі з чорним курком і регуляторами — напис LISSON на корпусі та повітряних головах. У комплекті (за фото) три повітряні голови з дюзами 1,3, 1,7 і 2,0 мм, дві змінні дюзи з голками, прозорий мірний бачок з чорним кільцем і червоний перехідник — один пістолет під лак, базу та ґрунти.",
+   "price_eur": 82,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 373 (23.09.2026)",
+   "price_uah_original": "4200 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/373"
+   ],
+   "photo": "img/p/gun-373.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/373 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "specs": {
+    "rows": [
+     [
+      "Маркування",
+      "LISSON на корпусі та повітряних головах"
+     ],
+     [
+      "Дюзи",
+      "1,3 · 1,7 · 2,0 мм — три повітряні голови в комплекті, дві змінні дюзи з голками"
+     ],
+     [
+      "Бачок",
+      "Прозорий мірний бачок з чорним кільцем, червоний перехідник"
+     ],
+     [
+      "Дизайн",
+      "Фіолетовий корпус, чорні курок і регулятори"
+     ]
+    ],
+    "src": "За фото товару; технічних даних виробника для цієї моделі не знайдено."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-hvlp-13",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт HVLP 1.3",
+   "description": "Фарбопульт HVLP з дюзою 1.3.",
+   "price_eur": 80,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 264 (30.07.2026)",
+   "price_uah_original": null,
+   "source": [
+    "https://t.me/alex_bes_shoping/264"
+   ],
+   "photo": "img/p/gun-hvlp-13.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/264 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "specs": {
+    "rows": [
+     [
+      "Система",
+      "HVLP"
+     ],
+     [
+      "Дюза",
+      "1,3 мм"
+     ]
+    ],
+    "src": "За описом товару; технічних даних виробника немає."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-377",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульт (червоний дизайн)",
+   "description": "Комплектація — як на фото в пості.",
+   "price_eur": 78,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 377 (23.09.2026)",
+   "price_uah_original": "4000 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/377"
+   ],
+   "photo": "img/p/gun-377.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/377 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "italco-mini-3003",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "ITALCO MINI H-3003 HVLP — міні-фарбопульт 1,0 мм",
+   "description": "Компактний фарбопульт HVLP з верхнім пластиковим бачком для локального ремонту та дрібних деталей.",
+   "price_eur": 72.0,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/italco-mini-3003.webp?v=20261004i",
+   "photo_is_placeholder": false,
+   "photo_source": "фото виробника / магазинів: profkolor.ru, storgom.ua, yakraska.ru",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-10-04",
+   "code": "H-3003-MINI-1.0",
+   "brand": "ITALCO",
+   "photos_extra": [
+    "img/p/italco-mini-3003-2.webp?v=20261004i",
+    "img/p/italco-mini-3003-3.webp?v=20261004i"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Технологія",
+      "HVLP"
+     ],
+     [
+      "Сопло",
+      "1,0 мм"
+     ],
+     [
+      "Бачок",
+      "250 мл, пластик"
+     ],
+     [
+      "Робочий тиск",
+      "1,5 бар"
+     ]
+    ],
+    "src": "За даними виробника та офіційних дистриб’юторів."
+   },
+   "sub": "guns2",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "ntools-mini-5002",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "NTools MINI 5002 1.2 HVLP — міні-фарбопульт",
+   "description": "Міні-фарбопульт NTools MINI 5002 з дюзою 1,2 мм, система HVLP, витрата повітря — 200 л/хв. Сріблястий корпус з анодованим покриттям, помаранчеві регулятори й чорний курок, гравітаційна подача з верхнім бачком — чудово підійде для локальних фарбувань. У комплекті (за фото): пластиковий бачок з мірною шкалою, червоний повітряний фільтр, рожеве кільце, ключ, шестигранний ключ, щіточка для чищення та невеликий фітинг.",
+   "price_eur": 69.2308,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Ціна від Alex (03.10.2026)",
+   "price_uah_original": "3600 грн",
+   "source": [],
+   "photo": "img/p/ntools-mini-5002.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (надіслане в чат, 03.10.2026)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "brand": "NTools",
+   "photos_extra": [
+    "img/p/ntools-mini-5002-2.webp?v=20261003",
+    "img/p/ntools-mini-5002-3.webp?v=20261003",
+    "img/p/ntools-mini-5002-4.webp?v=20261003",
+    "img/p/ntools-mini-5002-5.webp?v=20261003"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Тип",
+      "Міні-фарбопульт (міні-джет)"
+     ],
+     [
+      "Призначення",
+      "Локальні фарбування"
+     ],
+     [
+      "Маркування",
+      "«MINI 5002 1.2 HVLP» і «NTools» на повітряній голові"
+     ],
+     [
+      "Система",
+      "HVLP"
+     ],
+     [
+      "Дюза",
+      "1,2 мм"
+     ],
+     [
+      "Витрата повітря",
+      "200 л/хв"
+     ],
+     [
+      "Подача фарби",
+      "Гравітаційна (верхній бачок)"
+     ],
+     [
+      "Покриття корпусу",
+      "Анодоване"
+     ],
+     [
+      "Дизайн",
+      "Сріблястий корпус, помаранчеві регулятори, чорний курок"
+     ],
+     [
+      "Комплектація (за фото)",
+      "Пластиковий бачок з мірною шкалою (позначки 150 і 200 мл), червоний повітряний фільтр, рожеве кільце, ключ, шестигранний ключ, щіточка для чищення, невеликий фітинг"
+     ]
+    ],
+    "src": "За фото, маркуванням та даними продавця."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-pps-set",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Фарбопульти на PPS-системі 1.3 / 1.4 / 1.7 / 1.8",
+   "description": "Усі на PPS-системі, дюзи 1.3, 1.4, 1.7 або 1.8.",
+   "price_eur": 68,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 341 (06.09.2026), також 346, 352",
+   "price_uah_original": "3500 грн / шт",
+   "source": [
+    "https://t.me/alex_bes_shoping/341",
+    "https://t.me/alex_bes_shoping/346",
+    "https://t.me/alex_bes_shoping/352"
+   ],
+   "photo": "img/p/gun-pps-set.webp",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/346 (фото v0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "specs": {
+    "rows": [
+     [
+      "Система",
+      "PPS"
+     ],
+     [
+      "Дюзи",
+      "1,3 · 1,4 · 1,7 · 1,8 мм"
+     ]
+    ],
+    "src": "За описом товару; технічних даних виробника немає."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "gun-mini-08",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Міні-джет HVLP 0.8",
+   "description": "Міні-джет HVLP з дюзою 0.8.",
+   "price_eur": 40,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 262 (30.07.2026)",
+   "price_uah_original": null,
+   "source": [
+    "https://t.me/alex_bes_shoping/262"
+   ],
+   "photo": "img/p/gun-mini-08.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "https://t.me/alex_bes_shoping/262 (фото 0)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "specs": {
+    "rows": [
+     [
+      "Тип",
+      "Міні-джет"
+     ],
+     [
+      "Система",
+      "HVLP"
+     ],
+     [
+      "Дюза",
+      "0,8 мм"
+     ]
+    ],
+    "src": "За описом товару; технічних даних виробника немає."
+   },
+   "sub": "china",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "auarita-lion",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Auarita LION 2 HVLP — фарбопульт",
+   "description": "Фарбопульт HVLP з пластиковим бачком і змінними соплами з нержавіючої сталі. Має регулювання подачі фарби, тиску повітря та ширини факела.",
+   "price_eur": 30.0,
+   "price_label": null,
+   "variants": [
+    {
+     "label": "Lion великий",
+     "price_eur": 36.0
+    },
+    {
+     "label": "Lion малий",
+     "price_eur": 30.0
+    }
+   ],
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/auarita-lion.webp?v=20261004i",
+   "photo_is_placeholder": false,
+   "photo_source": "фото виробника / магазинів: allegro.pl, elitsa-3.bg",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-10-04",
+   "brand": "Auarita",
+   "photos_extra": [
+    "img/p/auarita-lion-2.webp?v=20261004i"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Технологія",
+      "HVLP"
+     ],
+     [
+      "Бачок",
+      "600 мл (LION 2)"
+     ],
+     [
+      "Сопла",
+      "1,3 / 1,4 / 1,7 / 2,0 мм"
+     ],
+     [
+      "Витрата повітря",
+      "310–340 л/хв"
+     ],
+     [
+      "Відстань нанесення",
+      "20 см"
+     ]
+    ],
+    "src": "За даними виробника та офіційних дистриб’юторів."
+   },
+   "sub": "guns2",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "auarita-mini",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Auarita — міні-фарбопульт",
+   "description": "Компактний фарбопульт Auarita з верхнім бачком для локального ремонту та дрібних деталей.",
+   "price_eur": 18.0,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/auarita-mini.webp?v=20261004i",
+   "photo_is_placeholder": false,
+   "photo_source": "фото виробника / магазинів: arena.pl, manomano.fr",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-10-04",
+   "brand": "Auarita",
+   "photos_extra": [
+    "img/p/auarita-mini-2.webp?v=20261004i"
+   ],
+   "sub": "guns2",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "auarita-ps5",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Auarita PS-5 — пістолет для антигравію",
+   "description": "Пневматичний пістолет Auarita PS-5 для нанесення антигравійних та захисних покриттів кузова.",
+   "price_eur": 10.8077,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/auarita-ps5.webp?v=20261004i",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-10-04",
+   "brand": "Auarita",
+   "photos_extra": [
+    "img/p/auarita-ps5-2.webp?v=20261004i"
+   ],
+   "sub": "air",
+   "home_cat": "guns",
+   "type": "guns"
+  },
+  {
+   "id": "auarita-spj06",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Auarita SPJ-06 — набір для чистки фарбопульта",
+   "description": "Набір щіток для очищення фарбопультів, аерографів та інструменту. Щітки можна використовувати з будь-якими розчинниками та засобами для промивання пістолетів.",
+   "price_eur": 3.5962,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/auarita-spj06.webp?v=20261004i",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-10-04",
+   "brand": "Auarita",
+   "photos_extra": [
+    "img/p/auarita-spj06-2.webp?v=20261004i"
+   ],
+   "sub": "acc",
+   "home_cat": "equip",
+   "type": "equip"
+  },
+  {
+   "id": "baishangsi-sander",
+   "category": "cn",
+   "category_name": "Товари з Китаю",
+   "name": "Пневматична орбітальна шліфмашинка BAISHANGSI",
+   "description": "Пневматична шліфмашинка з прямокутною підошвою на липучці. Акційна пропозиція, 1 шт.",
+   "price_eur": null,
+   "price_label": null,
+   "variants": null,
+   "price_note": "Пост 405 (25.09.2026): у дорозі, бронювання при повній оплаті",
+   "price_uah_original": "1600 грн",
+   "source": [
+    "https://t.me/alex_bes_shoping/405",
+    "https://t.me/alex_bes_shoping/135"
+   ],
+   "photo": "img/p/baishangsi-sander.webp?v=20261003",
+   "photo_is_placeholder": false,
+   "photo_source": "скріншот фото шліфмашинки (пост https://t.me/alex_bes_shoping/405)",
+   "in_stock": "У дорозі · 1 шт",
+   "flag": null,
+   "sub": "tools",
+   "home_cat": "equip",
+   "type": "equip"
   }
  ],
  "tiktok": {

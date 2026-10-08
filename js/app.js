@@ -40,7 +40,7 @@
 
   var state = { cat: 'all', q: '', sort: 'def', brand: '', sub: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
-  var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['guns', ''], guns2: ['guns', ''], putty: ['shpak', ''],
+  var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['cn', ''], guns2: ['guns', ''], putty: ['shpak', ''],
     lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'], // 04.10: усі PALINAL (крім шпаклівок) — один розділ
     acc: ['equip', ''], tools: ['equip', 'tools'], ppe: ['equip', 'ppe'],
     cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
@@ -79,6 +79,11 @@
       { k: 'seal', t: 'Герметики та клеї', f: function (p) { return chType(p) === 'seal'; } },
       { k: 'antikor', t: 'Антикор і антигравій', f: function (p) { return chType(p) === 'antikor'; } },
       { k: 'additive', t: 'Добавки та змивки', f: function (p) { return chType(p) === 'additive'; } }
+    ] },
+    // 08.10.2026: «Товари з Китаю» (cn) — тип з даних (merge_guns.py: p.type 'guns' / 'equip')
+    cn: { label: 'Тип', items: [
+      { k: 'guns', t: 'Фарбопульти та пістолети', f: function (p) { return p.type === 'guns'; } },
+      { k: 'equip', t: 'Обладнання та аксесуари', f: function (p) { return p.type !== 'guns'; } }
     ] },
     guns: { label: 'Тип', items: [
       { k: 'spray', t: 'Фарбопульти', f: function (p) { return p.sub !== 'air' && !GUN_MINI.test(p.name); } },
@@ -199,6 +204,7 @@
     sale: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/>',
     'new': '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15.5l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z"/>',
     excl: '<path d="M6.5 4h11l3.5 5-9 11L3 9z"/><path d="M3 9h18"/><path d="M9.5 4 8 9l4 11 4-11-1.5-5"/>',
+    cn: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5s1.2-6.2 3.6-8.5z"/>',
     fav: '<path d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
     guns: '<path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/>',
     equip: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V8"/><path d="M3 13.5h18"/><path d="M10.5 12.5v2h3v-2"/>',
@@ -265,11 +271,12 @@
   function renderCats() {
     var total = PRODUCTS.length;
     var items = [{ id: 'all', name: 'Усі товари', count: total }, { id: 'sale', name: 'Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: 'Новинки', count: PRODUCTS.filter(isNew).length }];
-    var nx = PRODUCTS.filter(isExcl).length; // «Ексклюзив» — окремо від «Новинок», лише коли є такі товари
-    if (nx || state.cat === 'excl') items.push({ id: 'excl', name: 'Ексклюзив', count: nx });
+    // 08.10.2026 (Alex): замість розділу «Ексклюзив» — «Товари з Китаю» на тому ж місці (позначки «Ексклюзив» на картках лишаються)
+    var cn = CATS.filter(function (c) { return c.id === 'cn' && c.count > 0; })[0];
+    if (cn) items.push(cn);
     var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
     if (nf || state.cat === 'fav') items.push({ id: 'fav', name: 'Вибране', count: nf });
-    items = items.concat(CATS);
+    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn'; }));
     var nm = function (c, short) { return esc(short && c.id === 'all' ? 'Усі товари' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="side__nm">' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
@@ -443,7 +450,8 @@
     sale: 'Товари з позначкою «Акція». Ціну і наявність підтверджуємо при замовленні.',
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
-    guns: 'Усі фарбопульти та пістолети в одному розділі: Meiji, SATA, ITALCO, Auarita, NTools та інші — від найдорожчих до найдешевших. Тут також пістолет для антигравію, обдувний та антистатичний пістолети.',
+    guns: 'Фарбопульти Meiji і SATA — від найдорожчих до найдешевших. Тут також обдувні та антистатичний пістолети. Фарбопульти NTools, ITALCO, Auarita та інші китайського виробництва — у розділі «Товари з Китаю».',
+    cn: 'Товари китайського виробництва: фарбопульти NTools, ITALCO, Auarita, SUTU, LISSON та інші, пістолет для антигравію, набір для чистки фарбопульта й пневматична шліфмашинка — від найдорожчих до найдешевших.',
     equip: 'Манометри й регулятори Meiji та SATA, PPS-системи та бачки, аксесуари для фарбопульта, обладнання для майстерні (пінники, помпи, мийка, фільтр повітря), інструмент для маляра й ПДР та засоби захисту.',
     acc: 'Манометри Meiji (електронний і механічний), бачки, додаткові дюзи та перехідники PPS.',
     palinal: 'Лакофарбові матеріали PALINAL від офіційного представника в Україні: 2K автоемалі та базові фарби в готових кольорах, лаки, ґрунти, розчинники, антисилікони та добавки. Шпаклівки PALINAL — у розділі «Шпаклівки».',
@@ -1536,7 +1544,7 @@
       try { history.replaceState(null, '', nh); } catch (e) {}
       h = nh; m = h.match(CRE);
     }
-    if (m && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'excl' || m[1] === 'fav')) {
+    if (m && (catById[m[1]] || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) { // 08.10: #/c/excl більше немає -> «Усі товари»
       state.cat = m[1];
       [m[2], m[3]].forEach(function (seg) {
         if (!seg) return;
