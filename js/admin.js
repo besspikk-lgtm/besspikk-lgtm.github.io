@@ -1,6 +1,6 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=4';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=5';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -107,7 +107,9 @@ function loginHTML(err) {
 async function main() {
   try { fb = await loadFirebase(); } catch (e) { gate('<h1>⚠️ Firebase не завантажився</h1><p class="muted">Перевірте інтернет або вимкніть блокувальник реклами для цього сайту й оновіть сторінку.</p>'); return; }
   const { A, auth } = fb;
-  initAdminExtras({ fb, toast, names: () => Object.fromEntries(merged().map((p) => [p.id, p.name || p.id])) });
+  initAdminExtras({ fb, toast, names: () => Object.fromEntries(merged().map((p) => [p.id, p.name || p.id])),
+    // 08.10: «Що додають у кошик» — фото й посилання на товар у списку додавань
+    products: () => Object.fromEntries(merged().map((p) => [p.id, p])), thumb: (p) => (p ? thumbHTML(p) : '<img src="' + PLACEHOLDER + '" alt="" width="64" height="64">'), lazy: () => lazyPhotos() });
   if (fb.emu) { $('#adm-site').href = './?emu=1'; }
   A.getRedirectResult(auth).catch((e) => gate(loginHTML(authErr(e))));
   A.onAuthStateChanged(auth, onUser);

@@ -4,7 +4,7 @@
     <title>Alex_bes — фарбопульти Meiji, PALINAL та матеріали для малярів</title>
     <link>https://besspikk-lgtm.github.io/</link>
     <description>Каталог Alex_bes, Чернівці: фарбопульти, автоемалі PALINAL, абразиви, полірування та аксесуари для малярів.</description>
-    <lastBuildDate>Thu, 08 Oct 2026 10:50:53 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 13:17:43 +0000</lastBuildDate>
     <item>
       <g:id>sata-jet-x-pro</g:id>
       <title>SATA jet X DIGITAL pro 1.2 / 1.3 RP I</title>
@@ -5885,20 +5885,6 @@
       <g:product_type>Товари з Китаю</g:product_type>
     </item>
     <item>
-      <g:id>gun-373</g:id>
-      <title>Фарбопульт LISSON (фіолетовий)</title>
-      <description>Фарбопульт LISSON у фіолетовому корпусі з чорним курком і регуляторами — напис LISSON на корпусі та повітряних головах. У комплекті (за фото) три повітряні голови з дюзами 1,3, 1,7 і 2,0 мм, дві змінні дюзи з голками, прозорий мірний бачок з чорним кільцем і червоний перехідник — один пістолет під лак, базу та ґрунти.</description>
-      <g:price>4264.00 UAH</g:price>
-      <g:sale_price>3837.00 UAH</g:sale_price>
-      <link>https://besspikk-lgtm.github.io/p/gun-373/</link>
-      <g:image_link>https://besspikk-lgtm.github.io/img/p/gun-373.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:identifier_exists>no</g:identifier_exists>
-      <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Товари з Китаю</g:product_type>
-    </item>
-    <item>
       <g:id>gun-hvlp-13</g:id>
       <title>Фарбопульт HVLP 1.3</title>
       <description>Фарбопульт HVLP з дюзою 1.3.</description>
@@ -6004,6 +5990,54 @@
       <g:condition>new</g:condition>
       <g:brand>Auarita</g:brand>
       <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
+    <item>
+      <g:id>hw-300mini-chornyi</g:id>
+      <g:item_group_id>hw-300mini</g:item_group_id>
+      <title>Товщиномір фарби HW-300MINI (Fe / NFE) — Чорний</title>
+      <description>Компактний цифровий товщиномір HW-300MINI показує товщину фарби та інших неметалевих покриттів на металі. Сам визначає основу: сталь і чавун (Fe, метод магнітної індукції) або алюміній, мідь та інші немагнітні метали (NFE, вихрострумовий метод), тож міряє і сталеві, і алюмінієві деталі кузова. Для чого: перевірити авто перед купівлею (битки з США, вживані авто) — якщо на одній деталі шар помітно товщий, ніж на сусідніх, її, найімовірніше, перефарбовували або шпаклювали; у малярці — контролювати шар ґрунту, бази й лаку під час кузовних робіт. Діапазон — 0–2000 мкм, точність — ±(3 % + 1 мкм); показ у мкм, мм або mils, режими AUTO, F і NF, дисплей з підсвіткою та статистикою вимірювань (MIN, MAX, AVG), калібрування нуля та за еталонними плівками. Живлення — 2 батарейки AAA 1,5 В. Колір корпусу на вибір: чорний, червоний або білий — ціна однакова.</description>
+      <g:price>1250.00 UAH</g:price>
+      <link>https://besspikk-lgtm.github.io/p/hw-300mini/</link>
+      <g:image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini.webp</g:image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-3.webp</g:additional_image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-4.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
+    <item>
+      <g:id>hw-300mini-chervonyi</g:id>
+      <g:item_group_id>hw-300mini</g:item_group_id>
+      <title>Товщиномір фарби HW-300MINI (Fe / NFE) — Червоний</title>
+      <description>Компактний цифровий товщиномір HW-300MINI показує товщину фарби та інших неметалевих покриттів на металі. Сам визначає основу: сталь і чавун (Fe, метод магнітної індукції) або алюміній, мідь та інші немагнітні метали (NFE, вихрострумовий метод), тож міряє і сталеві, і алюмінієві деталі кузова. Для чого: перевірити авто перед купівлею (битки з США, вживані авто) — якщо на одній деталі шар помітно товщий, ніж на сусідніх, її, найімовірніше, перефарбовували або шпаклювали; у малярці — контролювати шар ґрунту, бази й лаку під час кузовних робіт. Діапазон — 0–2000 мкм, точність — ±(3 % + 1 мкм); показ у мкм, мм або mils, режими AUTO, F і NF, дисплей з підсвіткою та статистикою вимірювань (MIN, MAX, AVG), калібрування нуля та за еталонними плівками. Живлення — 2 батарейки AAA 1,5 В. Колір корпусу на вибір: чорний, червоний або білий — ціна однакова.</description>
+      <g:price>1250.00 UAH</g:price>
+      <link>https://besspikk-lgtm.github.io/p/hw-300mini/</link>
+      <g:image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini.webp</g:image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-3.webp</g:additional_image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-4.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
+    <item>
+      <g:id>hw-300mini-bilyi</g:id>
+      <g:item_group_id>hw-300mini</g:item_group_id>
+      <title>Товщиномір фарби HW-300MINI (Fe / NFE) — Білий</title>
+      <description>Компактний цифровий товщиномір HW-300MINI показує товщину фарби та інших неметалевих покриттів на металі. Сам визначає основу: сталь і чавун (Fe, метод магнітної індукції) або алюміній, мідь та інші немагнітні метали (NFE, вихрострумовий метод), тож міряє і сталеві, і алюмінієві деталі кузова. Для чого: перевірити авто перед купівлею (битки з США, вживані авто) — якщо на одній деталі шар помітно товщий, ніж на сусідніх, її, найімовірніше, перефарбовували або шпаклювали; у малярці — контролювати шар ґрунту, бази й лаку під час кузовних робіт. Діапазон — 0–2000 мкм, точність — ±(3 % + 1 мкм); показ у мкм, мм або mils, режими AUTO, F і NF, дисплей з підсвіткою та статистикою вимірювань (MIN, MAX, AVG), калібрування нуля та за еталонними плівками. Живлення — 2 батарейки AAA 1,5 В. Колір корпусу на вибір: чорний, червоний або білий — ціна однакова.</description>
+      <g:price>1250.00 UAH</g:price>
+      <link>https://besspikk-lgtm.github.io/p/hw-300mini/</link>
+      <g:image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini.webp</g:image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-3.webp</g:additional_image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/hw-300mini-4.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>Товари з Китаю</g:product_type>
     </item>
     <item>

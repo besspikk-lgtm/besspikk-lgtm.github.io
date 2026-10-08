@@ -148,6 +148,9 @@
   splitCart(load('alexbes_cart', []));
   var form = load('alexbes_form', {});
   var cartListeners = [];
+  // 08.10.2026: синхронізація «Ім’я / Телефон / Місто / доставка» з профілем акаунта (слухача ставить js/fb.js; для гостя — нічого)
+  var formListener = null;
+  function formChanged(kind) { if (formListener) { try { formListener({ name: form.name || '', phone: form.phone || '', city: form.city || '' }, kind); } catch (e) {} } }
   function allLines() { return cart.concat(orphans).map(function (l) { return { id: l.id, vi: l.vi, qty: l.qty }; }); }
   function saveCart(silent) {
     save('alexbes_cart', allLines());
@@ -194,7 +197,8 @@
   }
   function pillHTML(p, cls) {
     if (!hasPrice(p)) return '<span class="pill pill--ask">Ціну уточнюйте</span>';
-    var from = p.variants && p.variants.length > 1 ? '<small>від</small>' : '';
+    // «від» лише коли ціни варіантів різні (08.10: однакова ціна для всіх кольорів — без «від»)
+    var from = p.variants && p.variants.length > 1 && new Set(p.variants.map(function (v) { return v && v.price_eur != null ? uah(v.price_eur) : '-'; })).size > 1 ? '<small>від</small>' : '';
     var old = oldOf(p);
     var pill = '<span class="pill' + (old != null ? ' pill--sale' : '') + '">' + from + uah(p.price_eur) + '</span>';
     return old != null ? '<span class="pbox' + (cls ? ' ' + cls : '') + '">' + pill + oldHTML(old, p.price_eur) + '</span>' : pill;
@@ -486,7 +490,7 @@
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
     guns: 'Фарбопульти Meiji і SATA — від найдорожчих до найдешевших. Тут також обдувні та антистатичний пістолети. Фарбопульти NTools, ITALCO, Auarita та інші китайського виробництва — у розділі «Товари з Китаю».',
-    cn: 'Товари китайського виробництва: фарбопульти NTools, ITALCO, Auarita, SUTU, LISSON та інші, пістолет для антигравію, набір для чистки фарбопульта й пневматична шліфмашинка — від найдорожчих до найдешевших.',
+    cn: 'Товари китайського виробництва: фарбопульти NTools, ITALCO, Auarita, SUTU, LISSON та інші, пістолет для антигравію, набір для чистки фарбопульта, пневматична шліфмашинка й товщиномір покриттів — від найдорожчих до найдешевших.',
     equip: 'Манометри й регулятори Meiji та SATA, PPS-системи та бачки, аксесуари для фарбопульта, обладнання для майстерні (пінники, помпи, мийка, фільтр повітря), інструмент для маляра й ПДР та засоби захисту.',
     acc: 'Манометри Meiji (електронний і механічний), бачки, додаткові дюзи та перехідники PPS.',
     palinal: 'Лакофарбові матеріали PALINAL від офіційного представника в Україні: 2K автоемалі та базові фарби в готових кольорах, лаки, ґрунти, розчинники, антисилікони та добавки. Шпаклівки PALINAL — у розділі «Шпаклівки».',
@@ -1310,7 +1314,7 @@
     var snap = cart.map(function (l) { return { id: l.id, vi: l.vi, qty: l.qty }; }), stxt = orderText();
     var p = orderWriter(id, data);
     if (!p || typeof p.then !== 'function') return null;
-    p.then(function () { track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); orderPlaced(id, snap, stxt); },
+    p.then(function () { track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); formChanged('order'); orderPlaced(id, snap, stxt); },
       function (e) { try { console.warn('order doc not saved', e && e.code); } catch (x) {} markPending(); }); // не записалось — кошик НЕ чистимо, лише спитаємо пізніше
     return CONFIG.orderBot + '?start=o_' + id + botCartTokens(36); // 2+20+≤36+_mN ≤ 64
   }
@@ -1934,7 +1938,7 @@
   document.addEventListener('input', function (e) {
     var t = e.target;
     if (t.id === 'q') { state.q = t.value.trim(); renderGridSearch(); return; }
-    if (t.hasAttribute('data-f')) { form[t.getAttribute('data-f')] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); return; }
+    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk !== 'note') formChanged('input'); return; }
     if (t.hasAttribute('data-ci')) { var i = +t.getAttribute('data-ci'); cart[i].qty = Math.max(1, parseInt(t.value, 10) || 1); saveCart(); updateBadges(); var o2 = $('#otext'); if (o2) o2.textContent = orderText(); return; }
   });
   function renderGridSearch() {
@@ -2211,6 +2215,7 @@
     w.then(function () {
       clearTimeout(to); if (done) return; done = true; q.busy = false;
       track('швидке/надіслано/' + p.id, 'Купити в один клік (надіслано): ' + p.name);
+      formChanged('order');
       if (sheetKind !== 'quick' || quick !== q) return;
       $('#sheetbody').innerHTML = '<div class="qk__done"><span class="qk__ok">' + svgI(IC.check, 44) + '</span>' +
         '<h3 class="sheet__ttl" id="sheet-ttl">Дякуємо! Замовлення прийнято</h3>' +
@@ -2252,6 +2257,9 @@
     setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
     setCartEventWriter: function (fn) { cartEvWriter = typeof fn === 'function' ? fn : null; if (cartEvWriter) { var q = cartEvQ; cartEvQ = []; q.forEach(cartEvSend); } },
     setStatWriter: function (fn) { statWriter = typeof fn === 'function' ? fn : null; if (statWriter) { var q = statQ; statQ = []; q.forEach(function (x) { statSend(x[0], x[1]); }); } },
+    onFormChange: function (fn) { formListener = typeof fn === 'function' ? fn : null; },
+    // профіль змінено явно (сторінка профілю / інший пристрій) → перезаписати поля кошика переданими значеннями
+    setForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (typeof f[k] === 'string' && f[k] !== (form[k] || '')) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },
     fillForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (f[k] && !form[k]) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },
     showModal: function (sel) { showModal(sel); },
     hideModal: hideModal,

@@ -184,22 +184,63 @@ ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-we
 .st-h2 svg{color:var(--yellow)}
 .stc--ce .stc__b{background:linear-gradient(180deg,#ffc2b8,#ff8a7a)}
 .st-top--ce small{font-weight:600}
-.ce-feed{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-.ce-it{display:grid;grid-template-columns:86px minmax(0,1fr) auto minmax(0,220px);gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13.5px;color:var(--text2)}
-.ce-t{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12.5px}
-.ce-p{min-width:0;display:flex;flex-direction:column;line-height:1.3}
-.ce-p b{color:var(--text);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ce-p small{color:var(--text2);font-size:12px}
-.ce-p em{font-style:normal;color:var(--muted);font-size:11.5px}
-.ce-q{white-space:nowrap;font-weight:700;color:var(--text)}
-.ce-q s{color:var(--muted);font-weight:600;font-size:12px;margin-left:4px}
+.ce-feed{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+/* 08.10.2026: список додавань у кошик — фото, назва-посилання, варіант, кількість і ціна, дата й час, акаунт/гість */
+.ce-it{display:grid;grid-template-columns:56px minmax(0,1fr) auto minmax(0,230px);gap:6px 14px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:9px 12px 9px 9px;font-size:13.5px;color:var(--text2)}
+.ce-ph{display:block;width:56px;height:56px;border-radius:10px;overflow:hidden;background:#fff;border:1px solid var(--line);flex:none}
+.ce-ph img{width:100%;height:100%;object-fit:contain;display:block}
+.ce-p{min-width:0;display:flex;flex-direction:column;gap:2px;line-height:1.3}
+.ce-n{display:inline-flex;align-items:center;gap:5px;min-width:0;color:var(--text);font-weight:700;text-decoration:none}
+.ce-n svg{flex:none;color:var(--muted);transition:color .15s}
+.ce-n:hover{color:var(--yellow)}.ce-n:hover svg{color:var(--yellow)}
+.ce-p .ce-n{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ce-p .ce-n svg{display:inline-block;vertical-align:-1px;margin-left:5px}
+.ce-v{color:var(--text2);font-size:12.5px}.ce-v b{color:var(--text);font-weight:700}
+.ce-s{color:var(--muted);font-size:11.5px}
+.ce-gone{display:inline-block;padding:0 6px;border-radius:999px;font-size:11px;font-weight:700;color:#ffb3a7;box-shadow:inset 0 0 0 1px rgba(255,138,122,.45)}
+.ce-q{display:flex;flex-direction:column;align-items:flex-end;gap:1px;white-space:nowrap;color:var(--text2);font-size:12.5px;text-align:right}
+.ce-q>b{color:var(--text);font-size:15px;font-weight:800}
+.ce-pr s{color:var(--muted);font-size:11.5px;margin-left:3px}
+.ce-pr--ask{color:var(--muted)}
+.ce-sum{color:var(--text);font-weight:700}
+.ce-m{display:flex;flex-direction:column;gap:4px;min-width:0}
+.ce-t{display:inline-flex;align-items:center;gap:5px;color:var(--text2);font-variant-numeric:tabular-nums;font-size:12.5px;white-space:nowrap}
+.ce-t svg{flex:none;color:var(--muted)}
 .ce-who{display:inline-flex;align-items:center;gap:6px;min-width:0;color:var(--text2);font-size:12.5px}
 .ce-who svg{flex:none;color:var(--muted)}
-.ce-who span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ce-who small{color:var(--muted)}
+.ce-who>span{min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.ce-who b,.ce-who small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ce-who b{color:var(--text);font-weight:700}
+.ce-who small{color:var(--muted);font-size:11.5px}
 .ce-who--u svg{color:var(--yellow)}
+.ce-more{display:inline-flex;align-items:center;gap:6px;margin-top:10px}
+.ce-more--feed{display:flex;width:100%;justify-content:center;min-height:42px}
+/* топ: кожен товар — кнопка-фільтр */
+.st-top--ce li{display:block;padding:0;overflow:hidden;transition:border-color .15s,background .15s}
+.ce-topb{display:grid;grid-template-columns:1fr 90px 40px;gap:8px;align-items:center;width:100%;padding:8px 10px;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.ce-topb b{text-align:right}
+.st-top--ce li:hover{border-color:rgba(255,214,0,.45)}
+.st-top--ce li.on{border-color:var(--yellow);background:linear-gradient(180deg,rgba(255,214,0,.10),rgba(255,214,0,.03))}
+.ce-topb:focus-visible{outline:2px solid var(--yellow);outline-offset:-2px;border-radius:10px}
+/* вибраний товар */
+.ce-sel{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:6px 14px;align-items:center;margin:0 0 10px;padding:10px 12px 10px 10px;border-radius:12px;border:1px solid var(--yellow);background:linear-gradient(180deg,rgba(255,214,0,.08),rgba(255,214,0,.02))}
+.ce-sel__i{min-width:0;display:flex;flex-direction:column;gap:3px}
+.ce-sel__k{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--yellow)}
+.ce-sel__s{font-size:12.5px;color:var(--text2)}
+.ce-vars{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px}
+.ce-var{padding:3px 9px;border-radius:999px;background:var(--surface2);font-size:12px;color:var(--text2)}
+.ce-var b{color:var(--text)}.ce-var small{color:var(--muted)}
+.ce-sel__x{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 @media (max-width:760px){
-  .ce-it{grid-template-columns:1fr auto;grid-template-areas:"p q" "w t"}
-  .ce-p{grid-area:p}.ce-q{grid-area:q}.ce-who{grid-area:w}.ce-t{grid-area:t;text-align:right}
+  .ce-it{grid-template-columns:52px minmax(0,1fr);grid-template-areas:"ph p" "ph q" "m m";padding:9px 10px 9px 9px;gap:5px 10px;align-items:start}
+  .ce-it .ce-ph{grid-area:ph;width:52px;height:52px}
+  .ce-p{grid-area:p}
+  .ce-q{grid-area:q;flex-direction:row;flex-wrap:wrap;align-items:baseline;justify-content:flex-start;gap:2px 8px;text-align:left}
+  .ce-q>b{font-size:14px}
+  .ce-m{grid-area:m;flex-direction:row;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 10px;padding-top:6px;border-top:1px dashed var(--line)}
+  .ce-topb{grid-template-columns:1fr 60px 34px}
+  .ce-sel{grid-template-columns:52px minmax(0,1fr)}
+  .ce-sel .ce-ph{width:52px;height:52px}
+  .ce-sel__x{grid-column:1/-1;justify-content:center}
 }
 .stc__b{max-height:calc(100% - 49px)}

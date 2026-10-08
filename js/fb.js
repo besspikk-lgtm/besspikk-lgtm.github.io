@@ -155,6 +155,7 @@ async function main() {
   document.addEventListener('submit', onSubmit);
   document.addEventListener('change', onChange);
   AB.onCartChange(onLocalCart);
+  if (AB.onFormChange) AB.onFormChange(onCartForm);
 
   A.getRedirectResult(auth).catch((e) => { msg = { t: authErr(e), ok: false }; });
   A.onAuthStateChanged(auth, onUser);
@@ -228,6 +229,13 @@ async function onUser(u) {
     unsubUser = F.onSnapshot(ref, (s) => {
       if (s.metadata.hasPendingWrites || saveT || user !== u || !s.exists()) return;
       const d = s.data();
+      const np = { name: d.name || '', phone: d.phone || '', city: d.city || '', np: d.np || '' };
+      if (!profT && ['name', 'phone', 'city', 'np'].some((k) => np[k] !== profile[k])) {   // профіль змінили на іншому пристрої
+        const was = cartOf(profile), now = cartOf(np), cur = AB.getForm(), set = {};
+        ['name', 'phone', 'city'].forEach((k) => { if (now[k] !== was[k] && (!cur[k] || cur[k] === was[k])) set[k] = now[k]; });
+        profile = np; setBtn();
+        if (Object.keys(set).length && AB.setForm) AB.setForm(set);
+      }
       if (Array.isArray(d.cart) && !same(mergeCarts(d.cart, []), AB.getCart())) AB.setCart(d.cart);
       const sp = typeof d.photo === 'string' ? d.photo : null;   // photo changed on another device
       if (sp !== serverPhoto) {
@@ -242,6 +250,41 @@ async function onUser(u) {
     msg = { t: 'Не вдалося синхронізувати кошик: ' + authErr(e), ok: false };
   }
   setBtn(); if (isOpen()) render();
+}
+
+// ---- 08.10.2026: «Ім’я / Телефон / Місто / доставка» кошика ⇄ профіль users/{uid} (name, phone, city, np) — одне джерело ----
+// Кошик має одне поле «Місто / доставка» = «місто, відділення НП»; профіль — два поля (city, np).
+let profT = null;
+const joinCity = (p) => [p.city, p.np].map((x) => String(x || '').trim()).filter(Boolean).join(', ');
+function splitCity(s, prev) {
+  s = String(s || '').trim();
+  if (s === joinCity(prev)) return { city: prev.city || '', np: prev.np || '' };
+  const pc = String(prev.city || '').trim();
+  if (pc && s.toLowerCase().startsWith(pc.toLowerCase()) && /^($|[\s,;])/.test(s.slice(pc.length))) {
+    return { city: pc, np: s.slice(pc.length).replace(/^[\s,;]+/, '').slice(0, 120) };
+  }
+  const i = s.indexOf(',');
+  return i < 0 ? { city: s.slice(0, 120), np: '' } : { city: s.slice(0, i).trim().slice(0, 120), np: s.slice(i + 1).trim().slice(0, 120) };
+}
+const cartOf = (p) => ({ name: p.name || '', phone: p.phone || '', city: joinCity(p) });
+// поля кошика змінились (введення — із затримкою; оформлене замовлення — одразу) → оновити профіль; порожні поля профіль не стирають
+function onCartForm(f, kind) {
+  if (!user) return;   // гість — нічого не синхронізуємо
+  const u = user;
+  clearTimeout(profT); profT = null;
+  const run = () => {
+    profT = null;
+    if (user !== u) return;
+    const patch = {}, name = String(f.name || '').trim().slice(0, 100), phone = String(f.phone || '').trim().slice(0, 40), city = String(f.city || '').trim();
+    if (name && name !== profile.name) patch.name = name;
+    if (phone && phone !== profile.phone) patch.phone = phone;
+    if (city && city !== joinCity(profile)) { const c = splitCity(city, profile); if (c.city !== profile.city) patch.city = c.city; if (c.np !== profile.np) patch.np = c.np; }
+    if (!Object.keys(patch).length) return;
+    Object.assign(profile, patch); setBtn();
+    fb.F.setDoc(fb.F.doc(fb.db, 'users', u.uid), Object.assign({}, patch, { updatedAt: Date.now() }), { merge: true }).catch(() => {});
+    if (isOpen() && view === 'account' && !document.activeElement?.closest?.('[data-form="profile"]')) render();
+  };
+  if (kind === 'order') run(); else profT = setTimeout(run, 1200);
 }
 
 function onLocalCart(lines) {
@@ -279,6 +322,7 @@ function render() {
         '<label>Телефон<input name="phone" maxlength="40" type="tel" autocomplete="tel" value="' + esc(profile.phone) + '" placeholder="099 123 45 67"></label>' +
         '<label>Місто<input name="city" maxlength="120" autocomplete="address-level2" value="' + esc(profile.city) + '"></label>' +
         '<label>Відділення Нової пошти<input name="np" maxlength="120" value="' + esc(profile.np) + '" placeholder="№ відділення або поштомату"></label>' +
+        '<p class="full muted small acct__ok--ic" style="margin:0">' + svgI(I_CART, 16) + '<span>Ці дані підставляються в кошик під час замовлення, а зміни з кошика зберігаються тут.</span></p>' +
         '<button class="btn btn--y btn--full full" type="submit">Зберегти профіль</button>' +
       '</form>' + msgHTML() +
       '<div class="acct__acts">' +
@@ -409,8 +453,11 @@ async function onSubmit(e) {
     } else if (kind === 'profile') {
       const p = { name: v('name').slice(0, 100), phone: v('phone').slice(0, 40), city: v('city').slice(0, 120), np: v('np').slice(0, 120) };
       await F.setDoc(F.doc(db, 'users', user.uid), Object.assign({}, p, { updatedAt: Date.now() }), { merge: true });
+      clearTimeout(profT); profT = null;
       profile = p; setBtn();
-      AB.fillForm({ name: p.name, phone: p.phone, city: [p.city, p.np].filter(Boolean).join(', ') });
+      // профіль збережено явно → ці дані стають даними кошика (порожні поля профілю кошик не стирають)
+      const cf = cartOf(p), set = {}; ['name', 'phone', 'city'].forEach((k) => { if (cf[k]) set[k] = cf[k]; });
+      if (AB.setForm) AB.setForm(set); else AB.fillForm(cf);
       msg = { t: 'Профіль збережено.', ok: true }; render(); return;
     }
   } catch (err) { say(authErr(err)); }
