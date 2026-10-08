@@ -4,7 +4,7 @@
     <title>Alex_bes — фарбопульти Meiji, PALINAL та матеріали для малярів</title>
     <link>https://besspikk-lgtm.github.io/</link>
     <description>Каталог Alex_bes, Чернівці: фарбопульти, автоемалі PALINAL, абразиви, полірування та аксесуари для малярів.</description>
-    <lastBuildDate>Thu, 08 Oct 2026 13:20:47 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 08 Oct 2026 13:33:39 +0000</lastBuildDate>
     <item>
       <g:id>sata-jet-x-pro</g:id>
       <title>SATA jet X DIGITAL pro 1.2 / 1.3 RP I</title>
@@ -5746,6 +5746,20 @@
       <g:product_type>Товари з Китаю</g:product_type>
     </item>
     <item>
+      <g:id>gun-sutu-rp5800-kit</g:id>
+      <title>Фарбопульт SUTU Vreio-RP5800 з ППС, дюзи 1.3 + 1.7 (графіті)</title>
+      <description>Набір: фарбопульт SUTU Vreio-RP5800 B з двома комплектами дюз — 1,3 мм і 1,7 мм — та PPS-системою. Дюза 1,3 мм — для бази й лаку, 1,7 мм — для ґрунту, тож один фарбопульт закриває ґрунт, базу, лак та акрил. Можна працювати зі звичайним верхнім пластиковим бачком або з PPS: фарбу змішують і розпилюють прямо з одноразового стакана 600 мл з мірною шкалою — менше миття й швидша зміна матеріалу. Подача гравітаційна, корпус з графіті-малюнком. У комплекті (за фото) — фарбопульт з повітряною головою 1,3, верхній пластиковий бачок, додаткова повітряна голова 1,7, додаткові голка й дюза, PPS-стакан 600 мл і червоний перехідник для PPS.</description>
+      <g:price>4800.00 UAH</g:price>
+      <link>https://besspikk-lgtm.github.io/p/gun-sutu-rp5800-kit/</link>
+      <g:image_link>https://besspikk-lgtm.github.io/img/p/gun-sutu-rp5800-kit.webp</g:image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/gun-sutu-rp5800-kit-2.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>SUTU</g:brand>
+      <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
+    <item>
       <g:id>gun-ntools-tested</g:id>
       <title>Фарбопульт NTools 1.3 RP розрізна дюза(відтестований)</title>
       <description>Відтестовано — відео в коментарях до поста. На корпусі — напис X-4, на повітряній голові — напис NTools.</description>
@@ -5756,6 +5770,20 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
+      <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
+    <item>
+      <g:id>gun-hvlp-graffiti</g:id>
+      <title>Фарбопульт HVLP 1.3 з бачком (графіті)</title>
+      <description>Фарбопульт системи HVLP з дюзою 1,3 мм і верхнім пластиковим бачком (гравітаційна подача). Корпус з графіті-малюнком, хромований курок, регулятори факела та подачі матеріалу зверху. Для ґрунту, бази, лаку та акрилу. У комплекті (за фото) — фарбопульт, пластиковий бачок, універсальний ключ, щіточка для чищення, штуцер для повітря, ущільнювальна шайба, шестигранний ключ та інструкція, у фірмовій коробці.</description>
+      <g:price>4500.00 UAH</g:price>
+      <link>https://besspikk-lgtm.github.io/p/gun-hvlp-graffiti/</link>
+      <g:image_link>https://besspikk-lgtm.github.io/img/p/gun-hvlp-graffiti.webp</g:image_link>
+      <g:additional_image_link>https://besspikk-lgtm.github.io/img/p/gun-hvlp-graffiti-2.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
       <g:product_type>Товари з Китаю</g:product_type>
     </item>
@@ -5773,6 +5801,19 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
+      <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
+    <item>
+      <g:id>gun-m9-pps</g:id>
+      <title>Фарбопульт M9 HVLP 1.3 з ППС (графіті)</title>
+      <description>Фарбопульт M9 системи HVLP з дюзою 1,3 мм і PPS-системою: фарбу змішують і розпилюють прямо з одноразового стакана з мірною шкалою, тож менше миття бачка й швидша зміна матеріалу. Стакан ставиться на червоний перехідник зверху, подача гравітаційна. Корпус з графіті-малюнком, чорні курок і регулятори. Для ґрунту, бази, лаку та акрилу. У комплекті (за фото) — фарбопульт з PPS-стаканом і перехідником, ущільнювальна шайба, штуцер для повітря, фільтр, щіточка для чищення та ключ.</description>
+      <g:price>4300.00 UAH</g:price>
+      <link>https://besspikk-lgtm.github.io/p/gun-m9-pps/</link>
+      <g:image_link>https://besspikk-lgtm.github.io/img/p/gun-m9-pps.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
       <g:product_type>Товари з Китаю</g:product_type>
     </item>
