@@ -26,6 +26,84 @@ const same = (a, b) => JSON.stringify(a || []) === JSON.stringify(b || []);
 
 let fb = null, user = null, profile = {}, view = 'login', unsubUser = null, saveT = null, msg = { t: '', ok: false };
 
+// ---- фото профілю (08.10.2026): users/{uid}.photo — data URL 256×256 (webp або jpeg), стискається на пристрої.
+// Firestore, бо Storage на плані Spark недоступний (так само зберігаються фото товарів у photos/{id}).
+// Якщо сервер не прийняв фото (напр., правила Firestore ще не оновлено) — фото лишається на цьому пристрої
+// (localStorage, alexbes_ava_<uid>, synced:0) і тихо дозавантажується при наступному вході.
+let avatar = null, avaLocal = false, avaTok = 0, serverPhoto = null, pendingPhoto = null;
+const AVA_PX = 256, AVA_MAX_LEN = 180000;
+const avaKey = (uid) => 'alexbes_ava_' + uid;
+function localAva(uid) { try { const o = JSON.parse(LS.get(avaKey(uid)) || 'null'); return o && typeof o.d === 'string' ? o : null; } catch (e) { return null; } }
+const svgI = (d, n) => '<svg viewBox="0 0 24 24" width="' + (n || 18) + '" height="' + (n || 18) + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + d + '</svg>';
+const I_USER = '<circle cx="12" cy="8.2" r="3.9"/><path d="M4.6 20.2c.9-3.7 3.9-5.9 7.4-5.9s6.5 2.2 7.4 5.9"/>';
+const I_CAM = '<path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13.3" r="3.3"/>';
+const I_TRASH = '<path d="M4.5 7h15"/><path d="M6.5 7l.9 12.2a1.3 1.3 0 0 0 1.3 1.3h6.6a1.3 1.3 0 0 0 1.3-1.3L17.5 7"/><path d="M9.5 7V4.8a.8.8 0 0 1 .8-.8h3.4a.8.8 0 0 1 .8.8V7"/><path d="M10.3 11v5.5M13.7 11v5.5"/>';
+const I_CART = '<path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="16.5" cy="19.5" r="1.3"/>';
+const I_KEY = '<circle cx="8" cy="15" r="4"/><path d="m11 12 8.5-8.5M16 7l2.5 2.5M14 9l2 2"/>';
+const I_GEAR = '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>';
+const I_OUT = '<path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M10 16l-4-4 4-4M6 12h10"/>';
+const I_ADD = '<path d="M15 19.5c-.6-2.6-2.8-4.4-6-4.4s-5.4 1.8-6 4.4"/><circle cx="9" cy="8.5" r="3.6"/><path d="M18.5 8v6M15.5 11h6"/>';
+
+// shown photo: own upload > Google account photo > none
+function shownPhoto() {
+  if (!user) return null;
+  if (avatar) return avatar;
+  return user.photoURL && /^https:\/\//.test(user.photoURL) ? user.photoURL : null;
+}
+
+// File -> square data URL (centre crop, ≤256×256), webp (fallback jpeg), ≤ AVA_MAX_LEN chars
+async function makeAvatar(file) {
+  if (!file) throw new Error('none');
+  if (file.type && !/^image\//.test(file.type)) throw new Error('type');
+  if (file.size > 30 * 1024 * 1024) throw new Error('size');
+  const url = URL.createObjectURL(file);
+  try {
+    const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = () => rej(new Error('decode')); i.src = url; });
+    const w = img.naturalWidth, h = img.naturalHeight;
+    if (!w || !h) throw new Error('decode');
+    const side = Math.min(w, h), out = Math.min(AVA_PX, side);
+    // step-down halving keeps a big phone photo sharp at 256 px
+    let src = img, sx = (w - side) / 2, sy = (h - side) / 2, ss = side;
+    while (ss / 2 >= out * 1.5) {
+      const c2 = document.createElement('canvas'); c2.width = c2.height = Math.round(ss / 2);
+      const g2 = c2.getContext('2d'); g2.imageSmoothingQuality = 'high';
+      g2.drawImage(src, sx, sy, ss, ss, 0, 0, c2.width, c2.height);
+      src = c2; sx = 0; sy = 0; ss = c2.width;
+    }
+    const c = document.createElement('canvas'); c.width = c.height = out;
+    const g = c.getContext('2d'); g.imageSmoothingQuality = 'high';
+    g.fillStyle = '#ffffff'; g.fillRect(0, 0, out, out);
+    g.drawImage(src, sx, sy, ss, ss, 0, 0, out, out);
+    for (const [t, q] of [['image/webp', 0.82], ['image/webp', 0.68], ['image/jpeg', 0.85], ['image/jpeg', 0.7], ['image/jpeg', 0.55]]) {
+      const d = c.toDataURL(t, q);
+      if (d.indexOf('data:' + t + ';base64,') === 0 && d.length <= AVA_MAX_LEN) return d;
+    }
+    throw new Error('size');
+  } finally { URL.revokeObjectURL(url); }
+}
+function avaErr(e) {
+  const m = e && e.message;
+  if (m === 'type') return 'Це не схоже на зображення. Оберіть фото у форматі JPG, PNG або WebP.';
+  if (m === 'size') return 'Фото завелике. Оберіть інше фото (до 30 МБ).';
+  return 'Не вдалося прочитати фото. Спробуйте інше фото у форматі JPG або PNG.';
+}
+
+// save (data URL) or remove (null): Firestore first; if refused or no answer in 12 s — this device only
+async function savePhoto(u, data) {
+  const { db, F } = fb;
+  if (data) LS.set(avaKey(u.uid), JSON.stringify({ d: data, synced: 0 })); else LS.del(avaKey(u.uid));
+  try {
+    const w = F.setDoc(F.doc(db, 'users', u.uid), { photo: data ? data : F.deleteField(), updatedAt: Date.now() }, { merge: true });
+    await Promise.race([w, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 12000))]);
+    if (data) LS.set(avaKey(u.uid), JSON.stringify({ d: data, synced: 1 }));
+    serverPhoto = data || null;
+    return 'server';
+  } catch (e) {
+    return data ? 'local' : 'server';   // removal: the local copy is gone either way
+  }
+}
+function setAvatar(data, local) { avatar = data || null; avaLocal = !!(data && local); avaTok++; setBtn(); }
+
 async function main() {
   if (!AB) return;
   try { fb = await loadFirebase(); } catch (e) { return; } // SDK blocked/offline: stay static
@@ -47,10 +125,13 @@ async function main() {
     LS.set('alexbes_remote', JSON.stringify({ t: Date.now(), docs }));
   }).catch(() => {});
 
-  // ---- login entry point ----
+  // ---- login entry point («Реєстрація»; хто вже входив на цьому пристрої — одразу вкладка «Вхід») ----
+  view = LS.get('alexbes_had_acct') ? 'login' : 'signup';
+  setBtn();
   $$('[data-open-acct]').forEach((b) => { b.hidden = false; });
   document.addEventListener('click', onClick);
   document.addEventListener('submit', onSubmit);
+  document.addEventListener('change', onChange);
   AB.onCartChange(onLocalCart);
 
   A.getRedirectResult(auth).catch((e) => { msg = { t: authErr(e), ok: false }; });
@@ -58,24 +139,42 @@ async function main() {
 }
 
 function setBtn() {
+  const ph = shownPhoto();
   $$('[data-acct-label]').forEach((s) => {
-    s.textContent = user ? ((profile.name || user.displayName || '').split(' ')[0] || 'Акаунт') : 'Увійти';
+    s.textContent = user ? ((profile.name || user.displayName || '').trim().split(/\s+/)[0] || 'Профіль') : 'Реєстрація';
   });
-  $$('[data-open-acct]').forEach((b) => { b.classList.toggle('on', !!user); b.setAttribute('aria-label', user ? 'Мій акаунт' : 'Увійти в акаунт'); });
+  $$('[data-acct-ava]').forEach((s) => {
+    const cur = s.getAttribute('data-src') || '';
+    if (cur === (ph || '')) return;
+    s.setAttribute('data-src', ph || '');
+    s.innerHTML = ph ? '<img src="' + esc(ph) + '" alt="" width="40" height="40" decoding="async" referrerpolicy="no-referrer">' : svgI(I_USER, 20);
+  });
+  $$('[data-open-acct]').forEach((b) => {
+    b.classList.toggle('on', !!user); b.classList.toggle('has-photo', !!ph);
+    b.setAttribute('aria-label', user ? 'Мій профіль' : 'Реєстрація або вхід');
+  });
 }
 
 async function onUser(u) {
   const { db, F } = fb;
   if (unsubUser) { unsubUser(); unsubUser = null; }
   clearTimeout(saveT); saveT = null;
+  const prev = user;
   user = u; profile = {};
   if (!u) {
     // signed out: the cart stays in the account; clear the device copy that mirrored it
     if (LS.get('alexbes_cart_uid')) { LS.del('alexbes_cart_uid'); AB.setCart([]); }
+    // the photo stays in the account; drop the device copy unless it never reached the server
+    if (prev) { const la = localAva(prev.uid); if (la && la.synced) LS.del(avaKey(prev.uid)); }
+    avatar = null; avaLocal = false; serverPhoto = null; avaTok++;
     view = view === 'account' ? 'login' : view;
     setBtn(); render();
     return;
   }
+  LS.set('alexbes_had_acct', '1');
+  const la0 = localAva(u.uid);
+  avatar = la0 ? la0.d : null; avaLocal = !!(la0 && !la0.synced); serverPhoto = null;
+  const tok = ++avaTok;
   view = 'account'; setBtn(); render();
   const ref = F.doc(db, 'users', u.uid);
   try {
@@ -83,6 +182,15 @@ async function onUser(u) {
     if (user !== u) return;
     const data = snap.exists() ? snap.data() : {};
     profile = { name: data.name || '', phone: data.phone || '', city: data.city || '', np: data.np || '' };
+    serverPhoto = typeof data.photo === 'string' ? data.photo : null;
+    if (tok === avaTok) {   // nobody changed the photo while we were loading
+      const la = localAva(u.uid);
+      if (serverPhoto) { avatar = serverPhoto; avaLocal = false; LS.set(avaKey(u.uid), JSON.stringify({ d: serverPhoto, synced: 1 })); }
+      else if (la && !la.synced) {   // saved on this device earlier but not on the server yet — try again quietly
+        avatar = la.d; avaLocal = true;
+        savePhoto(u, la.d).then((r) => { if (user === u && r === 'server') { avaLocal = false; if (isOpen() && view === 'account') render(); } });
+      } else { if (la) LS.del(avaKey(u.uid)); avatar = null; avaLocal = false; }
+    }
     const local = AB.getCart();
     const firstOnDevice = LS.get('alexbes_cart_uid') !== u.uid;
     // first sign-in on this device: merge the guest cart into the saved one; later loads: the account copy wins
@@ -99,6 +207,13 @@ async function onUser(u) {
       if (s.metadata.hasPendingWrites || saveT || user !== u || !s.exists()) return;
       const d = s.data();
       if (Array.isArray(d.cart) && !same(mergeCarts(d.cart, []), AB.getCart())) AB.setCart(d.cart);
+      const sp = typeof d.photo === 'string' ? d.photo : null;   // photo changed on another device
+      if (sp !== serverPhoto) {
+        serverPhoto = sp;
+        if (sp) { LS.set(avaKey(u.uid), JSON.stringify({ d: sp, synced: 1 })); setAvatar(sp, false); }
+        else if (!avaLocal) { LS.del(avaKey(u.uid)); setAvatar(null, false); }
+        if (view === 'account' && isOpen()) render();
+      }
       if (view === 'account' && isOpen()) { const c = $('[data-cartn]'); if (c) c.textContent = cartN(); }
     }, () => {});
   } catch (e) {
@@ -132,30 +247,29 @@ function render() {
     const pw = user.providerData.some((p) => p.providerId === 'password');
     const emu = fb && fb.emu ? '?emu=1' : '';
     box.innerHTML =
-      '<h2 id="acct-ttl">👤 Мій акаунт</h2>' +
-      '<div class="acct__who"><span class="acct__ava">' + esc(((profile.name || user.displayName || user.email || '?').trim()[0] || '?').toUpperCase()) + '</span>' +
-        '<div><b>' + esc(profile.name || user.displayName || 'Покупець') + '</b><span>' + esc(user.email || '') + '</span></div></div>' +
+      '<h2 id="acct-ttl" class="acct__ttl">' + svgI(I_USER, 22) + '<span>Мій профіль</span></h2>' +
+      photoField('account') +
       (!user.emailVerified && pw ? '<p class="acct__warn">Email ще не підтверджено. Перевірте пошту (і «Спам»). <button type="button" class="acct__link" data-a="verify">Надіслати лист ще раз</button></p>' : '') +
-      '<p class="acct__ok">🛒 Кошик збережено в акаунті: <b data-cartn>' + cartN() + '</b> шт. Він доступний на всіх ваших пристроях.</p>' +
+      '<p class="acct__ok acct__ok--ic">' + svgI(I_CART, 18) + '<span>Кошик збережено в акаунті: <b data-cartn>' + cartN() + '</b> шт. Він доступний на всіх ваших пристроях.</span></p>' +
       '<form class="acct__form cform" data-form="profile" novalidate>' +
         '<p class="acct__sub full">Дані для замовлень <span class="muted small">(необов’язково)</span></p>' +
         '<label>Ім’я<input name="name" maxlength="100" autocomplete="name" value="' + esc(profile.name) + '"></label>' +
         '<label>Телефон<input name="phone" maxlength="40" type="tel" autocomplete="tel" value="' + esc(profile.phone) + '" placeholder="099 123 45 67"></label>' +
         '<label>Місто<input name="city" maxlength="120" autocomplete="address-level2" value="' + esc(profile.city) + '"></label>' +
         '<label>Відділення Нової пошти<input name="np" maxlength="120" value="' + esc(profile.np) + '" placeholder="№ відділення або поштомату"></label>' +
-        '<button class="btn btn--y btn--full full" type="submit">💾 Зберегти профіль</button>' +
+        '<button class="btn btn--y btn--full full" type="submit">Зберегти профіль</button>' +
       '</form>' + msgHTML() +
       '<div class="acct__acts">' +
-        (adm ? '<a class="btn btn--b btn--full" href="admin.html' + emu + '" data-admin-link>⚙️ Адмінка</a>' :
+        (adm ? '<a class="btn btn--b btn--full" href="admin.html' + emu + '" data-admin-link>' + svgI(I_GEAR, 18) + ' Адмінка</a>' :
           (user.email && user.email.toLowerCase() === ADMIN_EMAIL ? '<p class="acct__warn">Підтвердьте email, щоб відкрити адмінку.</p>' : '')) +
-        '<button class="btn btn--o btn--full" type="button" data-a="logout">🚪 Вийти</button>' +
+        '<button class="btn btn--o btn--full" type="button" data-a="logout">' + svgI(I_OUT, 18) + ' Вийти</button>' +
       '</div>';
     return;
   }
   const tabs = '<div class="acct__tabs" role="tablist"><button type="button" role="tab" data-a="v-login" class="' + (view === 'login' ? 'on' : '') + '">Вхід</button><button type="button" role="tab" data-a="v-signup" class="' + (view === 'signup' ? 'on' : '') + '">Реєстрація</button></div>';
   let body = '';
   if (view === 'reset') {
-    body = '<h2 id="acct-ttl">🔑 Відновлення пароля</h2>' +
+    body = '<h2 id="acct-ttl" class="acct__ttl">' + svgI(I_KEY, 22) + '<span>Відновлення пароля</span></h2>' +
       '<p class="acct__lead">Вкажіть email — надішлемо лист із посиланням для створення нового пароля.</p>' +
       '<form class="acct__form" data-form="reset" novalidate>' +
         '<label>Email<input name="email" type="email" autocomplete="email" required></label>' +
@@ -164,12 +278,12 @@ function render() {
       '<p class="acct__center"><button type="button" class="acct__link" data-a="v-login">← Назад до входу</button></p>';
   } else {
     const su = view === 'signup';
-    body = '<h2 id="acct-ttl">👤 ' + (su ? 'Реєстрація' : 'Вхід в акаунт') + '</h2>' +
+    body = '<h2 id="acct-ttl" class="acct__ttl">' + svgI(su ? I_ADD : I_USER, 22) + '<span>' + (su ? 'Реєстрація' : 'Вхід в акаунт') + '</span></h2>' +
       '<p class="acct__lead">Кошик зберігатиметься в акаунті й буде доступний на всіх ваших пристроях.</p>' +
       '<button class="btn btn--g btn--full" type="button" data-a="google">' + G_ICON + ' Увійти через Google</button>' +
       '<div class="acct__or"><span>або email і пароль</span></div>' + tabs +
       '<form class="acct__form" data-form="' + (su ? 'signup' : 'login') + '" novalidate>' +
-        (su ? '<label>Ім’я <span class="muted small">(необов’язково)</span><input name="name" maxlength="100" autocomplete="name"></label>' : '') +
+        (su ? photoField('signup') + '<label>Ім’я <span class="muted small">(необов’язково)</span><input name="name" maxlength="100" autocomplete="name"></label>' : '') +
         '<label>Email<input name="email" type="email" autocomplete="email" required></label>' +
         '<label>Пароль' + (su ? ' <span class="muted small">(щонайменше 6 символів)</span>' : '') + '<input name="password" type="password" minlength="6" autocomplete="' + (su ? 'new-password' : 'current-password') + '" required></label>' +
         '<button class="btn btn--y btn--full" type="submit">' + (su ? 'Зареєструватися' : 'Увійти') + '</button>' +
@@ -177,6 +291,44 @@ function render() {
       (su ? '' : '<p class="acct__center"><button type="button" class="acct__link" data-a="v-reset">Забули пароль?</button></p>');
   }
   box.innerHTML = body;
+}
+
+// photo block: signup form (before the account exists) and «Мій профіль»
+function photoField(ctx) {
+  const acc = ctx === 'account', src = acc ? shownPhoto() : pendingPhoto, own = acc ? !!avatar : !!pendingPhoto;
+  const nm = acc ? (profile.name || user.displayName || 'Покупець') : '';
+  const pic = '<span class="avaf__pic' + (src ? ' has' : '') + '">' + (src ? '<img src="' + esc(src) + '" alt="Фото профілю" referrerpolicy="no-referrer">' : svgI(I_USER, acc ? 30 : 28)) + '</span>';
+  const btns = '<div class="avaf__btns">' +
+    '<label class="avaf__btn">' + svgI(I_CAM, 16) + '<span>' + (own ? 'Змінити фото' : 'Додати фото') + '</span><input class="avaf__file" type="file" accept="image/*" data-ava-input></label>' +
+    (own ? '<button type="button" class="avaf__btn avaf__btn--o" data-a="ava-del">' + svgI(I_TRASH, 16) + '<span>Видалити</span></button>' : '') +
+    '</div>';
+  const note = acc ? (avaLocal ? '<p class="avaf__note">Фото збережено лише на цьому пристрої — на інших пристроях воно поки не відображатиметься.</p>' : '')
+    : '<p class="avaf__note">Необов’язково. Фото зменшимо до 256×256 прямо на вашому пристрої.</p>';
+  return '<div class="avaf avaf--' + ctx + '" data-avaf>' + pic + '<div class="avaf__txt">' +
+    (acc ? '<b>' + esc(nm) + '</b><span class="avaf__mail">' + esc(user.email || '') + '</span>' : '<b>Фото профілю</b>') +
+    btns + note + '</div></div>';
+}
+function refreshPhotoField() {
+  const el = $('#acctbody [data-avaf]'); if (!el) return;
+  const ctx = el.classList.contains('avaf--account') ? 'account' : 'signup';
+  el.outerHTML = photoField(ctx);
+}
+
+async function onChange(e) {
+  const inp = e.target.closest && e.target.closest('#acctbody [data-ava-input]'); if (!inp) return;
+  const file = inp.files && inp.files[0]; inp.value = '';
+  if (!file) return;
+  const wrap = inp.closest('[data-avaf]'); if (wrap) wrap.classList.add('busy');
+  let data;
+  try { data = await makeAvatar(file); } catch (err) { if (wrap) wrap.classList.remove('busy'); say(avaErr(err)); return; }
+  if (!user) { pendingPhoto = data; say(''); refreshPhotoField(); return; }
+  const u = user;
+  setAvatar(data, true); refreshPhotoField();
+  const r = await savePhoto(u, data);
+  if (user !== u) return;
+  avaLocal = r !== 'server'; refreshPhotoField(); setBtn();
+  say(r === 'server' ? 'Фото профілю збережено.' : 'Фото збережено на цьому пристрої — на інших пристроях воно поки не відображатиметься.', r === 'server');
+  AB.track('акаунт/фото', 'Фото профілю');
 }
 
 function say(t, ok) { msg = { t, ok: !!ok }; const p = $('.acct__msg'); if (p) { p.textContent = t; p.hidden = !t; p.classList.toggle('ok', !!ok); } }
@@ -190,7 +342,14 @@ async function onClick(e) {
   if (a === 'v-login' || a === 'v-signup' || a === 'v-reset') { const em = $('#acctbody input[name=email]'); view = a.slice(2); msg = { t: '', ok: false }; render(); if (em && em.value) { const n = $('#acctbody input[name=email]'); if (n) n.value = em.value; } return; }
   if (a === 'google') {
     say('', false);
-    try { const r = await googleSignIn(fb); if (r) { AB.track('акаунт/вхід-google', 'Вхід через Google'); AB.toast('Ви увійшли ✅'); } } catch (err) { say(authErr(err)); }
+    try { const r = await googleSignIn(fb); if (r) { AB.track('акаунт/вхід-google', 'Вхід через Google'); AB.toast('Ви увійшли'); } } catch (err) { say(authErr(err)); }
+    return;
+  }
+  if (a === 'ava-del') {
+    if (!user) { pendingPhoto = null; refreshPhotoField(); return; }
+    const u = user; setAvatar(null, false); refreshPhotoField();
+    await savePhoto(u, null);
+    if (user === u) say('Фото профілю видалено.', true);
     return;
   }
   if (a === 'logout') { await A.signOut(auth); AB.toast('Ви вийшли з акаунта'); return; }
@@ -206,14 +365,20 @@ async function onSubmit(e) {
   try {
     if (kind === 'login') {
       await A.signInWithEmailAndPassword(auth, v('email'), f.elements.password.value);
-      AB.track('акаунт/вхід', 'Вхід email'); AB.toast('Ви увійшли ✅');
+      AB.track('акаунт/вхід', 'Вхід email'); AB.toast('Ви увійшли');
     } else if (kind === 'signup') {
       if (f.elements.password.value.length < 6) throw { code: 'auth/weak-password' };
       const cred = await A.createUserWithEmailAndPassword(auth, v('email'), f.elements.password.value);
       const name = v('name');
       if (name) { await A.updateProfile(cred.user, { displayName: name }); profile.name = name; await F.setDoc(F.doc(db, 'users', cred.user.uid), { name, updatedAt: Date.now() }, { merge: true }); }
+      if (pendingPhoto) {   // separate write: a refused photo must not cost the name
+        const ph = pendingPhoto; pendingPhoto = null;
+        setAvatar(ph, true);
+        const r = await savePhoto(cred.user, ph);
+        if (user === cred.user || !user) { avaLocal = r !== 'server'; }
+      }
       A.sendEmailVerification(cred.user).catch(() => {});
-      AB.track('акаунт/реєстрація', 'Реєстрація'); AB.toast('Акаунт створено ✅ Перевірте пошту для підтвердження');
+      AB.track('акаунт/реєстрація', 'Реєстрація'); AB.toast('Акаунт створено. Перевірте пошту для підтвердження');
       setBtn(); render();
     } else if (kind === 'reset') {
       if (!v('email')) throw { code: 'auth/missing-email' };
@@ -224,7 +389,7 @@ async function onSubmit(e) {
       await F.setDoc(F.doc(db, 'users', user.uid), Object.assign({}, p, { updatedAt: Date.now() }), { merge: true });
       profile = p; setBtn();
       AB.fillForm({ name: p.name, phone: p.phone, city: [p.city, p.np].filter(Boolean).join(', ') });
-      msg = { t: 'Профіль збережено ✅', ok: true }; render(); return;
+      msg = { t: 'Профіль збережено.', ok: true }; render(); return;
     }
   } catch (err) { say(authErr(err)); }
   if (f.isConnected) busy(f, false);
