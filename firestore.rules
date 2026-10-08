@@ -20,12 +20,13 @@ service cloud.firestore {
       allow delete: if isAdmin();
       allow create, update: if isAdmin()
         && id.matches('^[A-Za-z0-9_-]{1,80}$')
-        && request.resource.data.keys().hasOnly(['name', 'category', 'price_eur', 'price_label', 'in_stock',
+        && request.resource.data.keys().hasOnly(['name', 'category', 'price_eur', 'price_old_eur', 'price_label', 'in_stock',
              'description', 'promo', 'variants', 'code', 'brand', 'hidden', 'hasPhoto', 'custom', 'createdAt', 'updatedAt',
              'gallery', 'videos'])
         && optStr(request.resource.data, 'name', 300)
         && optStr(request.resource.data, 'category', 60)
         && optNum(request.resource.data, 'price_eur')
+        && optNum(request.resource.data, 'price_old_eur')   // 08.10: стара (перекреслена) ціна, € (null = без знижки)
         && optStr(request.resource.data, 'price_label', 120)
         && optStr(request.resource.data, 'in_stock', 120)
         && optStr(request.resource.data, 'description', 6000)
@@ -80,9 +81,11 @@ service cloud.firestore {
     // status: 'new' | 'confirmed' | 'shipped' | 'paid' | 'cancelled' (при створенні — відсутній або 'new').
     function ORDER_STATUSES() { return ['new', 'confirmed', 'shipped', 'paid', 'cancelled']; }
     function optInt(d, k, max) { return !(k in d) || (d[k] is int && d[k] >= 0 && d[k] <= max); }
+    function isOrderNotifier() { return request.auth != null && request.auth.uid == 'eTCoRutzpJVpPKv9yGViPYwOpI03'; }
     match /orders/{id} {
       allow get: if id.matches('^[A-Za-z0-9]{20}$');
-      allow list, delete: if isAdmin();
+      allow list: if isAdmin() || isOrderNotifier();
+      allow delete: if isAdmin();
       // адмінка: змінювати можна лише статус (з дозволеного набору) і час зміни (серверний)
       allow update: if isAdmin()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
@@ -131,6 +134,35 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['k', request.resource.data.k])
         && request.resource.data.diff(resource.data).affectedKeys().hasAll([request.resource.data.k])
         && request.resource.data[request.resource.data.k] == resource.data.get(request.resource.data.k, 0) + 1;
+    }
+
+    // 08.10.2026: що додають у кошик (адмінка → «Статистика» → «Що додають у кошик»): cart_events/{авто-id}.
+    // Створити може будь-хто (і гість) — лише за суворою схемою й з обмеженням розмірів; змінити чи видалити — ніхто;
+    // читати — лише адмін. uid/email — тільки власні (з токена входу); гість: uid = '', email = '', who = 'Гість'.
+    // dev — анонімний id пристрою (16 символів [a-z0-9]); ts — лише серверний час (serverTimestamp()).
+    function cartEventOk(d) {
+      return d.keys().hasOnly(['pid', 'name', 'vi', 'variant', 'qty', 'price', 'old', 'sec', 'page', 'uid', 'who', 'email', 'dev', 'ts'])
+        && d.keys().hasAll(['pid', 'name', 'vi', 'qty', 'sec', 'uid', 'who', 'dev', 'ts'])
+        && d.pid is string && d.pid.matches('^[A-Za-z0-9_-]{1,80}$')
+        && d.name is string && d.name.size() >= 1 && d.name.size() <= 200
+        && d.vi is int && d.vi >= 0 && d.vi <= 199
+        && optStr(d, 'variant', 100)
+        && d.qty is int && d.qty >= 1 && d.qty <= 999
+        && (!('price' in d) || d.price == null || (d.price is int && d.price >= 0 && d.price <= 10000000))
+        && (!('old' in d) || d.old == null || (d.old is int && d.old >= 0 && d.old <= 10000000))
+        && d.sec is string && d.sec.size() >= 1 && d.sec.size() <= 80
+        && optStr(d, 'page', 120)
+        && d.dev is string && d.dev.matches('^[a-z0-9]{16}$')
+        && d.who is string && d.who.size() <= 100
+        && optStr(d, 'email', 200)
+        && ((request.auth == null && d.uid == '' && d.who == 'Гість' && d.get('email', '') == '')
+            || (request.auth != null && d.uid == request.auth.uid
+                && (d.get('email', '') == '' || d.get('email', '') == request.auth.token.get('email', ''))))
+        && d.ts == request.time;
+    }
+    match /cart_events/{id} {
+      allow get, list: if isAdmin();
+      allow create: if cartEventOk(request.resource.data);
     }
 
     // Усе інше заборонено

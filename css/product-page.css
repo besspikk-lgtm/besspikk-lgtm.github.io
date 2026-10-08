@@ -177,3 +177,14 @@ body.has-ppbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
   .inf__sec h2{font-size:19px}
   .inf__contacts{grid-template-columns:1fr}
 }
+
+/* ===== v5 (08.10.2026): знижка — стара ціна перекреслена + бейдж «−N%» (gen_product_pages.disc_html) ===== */
+.pp__old,.pp-v__old{display:inline-flex;align-items:center;gap:8px;vertical-align:middle}
+.pp__old{display:flex;margin-top:6px}
+.pp__old s,.pp-v__old s{color:var(--muted);font-weight:600;text-decoration-thickness:1.5px;text-decoration-color:rgba(180,199,230,.75)}
+.pp__old s{font-size:16px}
+.pp-v__old{margin-left:10px}
+.pp-v__old s{font-size:13px}
+.pp__disc,.pp-v__disc{display:inline-block;padding:2px 7px;border-radius:7px;font-size:12px;font-weight:800;letter-spacing:.02em;line-height:1.35;
+  color:#ffb3a7;background:rgba(255,107,91,.14);box-shadow:inset 0 0 0 1px rgba(255,138,122,.42)}
+.pp-v__disc{font-size:11px;padding:1px 6px}

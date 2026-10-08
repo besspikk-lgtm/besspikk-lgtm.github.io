@@ -9,7 +9,7 @@
 <title>Адмінка — Alex_bes😈</title>
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="stylesheet" href="css/style.css?v=18">
-<link rel="stylesheet" href="css/admin.css?v=6">
+<link rel="stylesheet" href="css/admin.css?v=7">
 </head>
 <body class="admbody">
 <div class="uastripe" aria-hidden="true"></div>
@@ -49,6 +49,13 @@
       </select>
       <button class="btn btn--y" type="button" id="adm-add">➕ Додати товар</button>
     </div>
+    <div class="adm-bulk" id="adm-bulk" role="group" aria-label="Знижка на категорію">
+      <span class="adm-bulk__t"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Знижка на категорію</span>
+      <label class="adm-bulk__n"><span class="sr-only">Відсоток знижки</span>&minus;<input id="bulk-pct" type="number" inputmode="numeric" min="1" max="90" step="1" value="10">%</label>
+      <button class="btn btn--y adm-sm" type="button" data-bulk-apply>Застосувати</button>
+      <button class="btn btn--o adm-sm" type="button" data-bulk-clear>Прибрати знижку</button>
+      <p class="adm-bulk__i muted small" id="bulk-info">Оберіть категорію у фільтрі вище — знижка застосується до всіх її товарів з ціною (і прихованих).</p>
+    </div>
     <p class="adm-stats" id="adm-stats"></p>
     <ul class="adm-list" id="adm-list"></ul>
     </div>
@@ -72,7 +79,7 @@
         <button class="btn btn--o adm-sm" type="button" data-st-reload>🔄 Оновити</button>
       </div>
       <div id="st-body"><p class="muted">Завантаження статистики…</p></div>
-      <p class="st-note muted small">Власна статистика сайту (Firestore, без cookies і без персональних даних). Візит — одна вкладка браузера за добу; кожен товар, додавання в кошик і канал замовлення рахуються раз за візит. Боти й автотести не враховуються. Дні — за київським часом.</p>
+      <p class="st-note muted small">Власна статистика сайту (Firestore, без cookies і без персональних даних). Візит — одна вкладка браузера за добу; кожен товар, додавання в кошик і канал замовлення рахуються раз за візит. Боти й автотести не враховуються. Дні — за київським часом. Блок «Що додають у кошик» — окремий журнал подій (Firestore cart_events, читає лише адмін): товар, варіант, кількість, ціна, розділ сайту й час; для покупців з акаунтом — ім’я та email, для гостей — «Гість» і анонімний id пристрою.</p>
       <label class="st-self"><input type="checkbox" id="st-nostats"> Не рахувати мої відвідування сайту з цього пристрою</label>
     </div>
   </section>
@@ -88,8 +95,8 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script src="data/products.js?v=58"></script>
+<script src="data/products.js?v=59"></script>
 <script src="js/media.js?v=2"></script>
-<script type="module" src="js/admin.js?v=13"></script>
+<script type="module" src="js/admin.js?v=14"></script>
 </body>
 </html>

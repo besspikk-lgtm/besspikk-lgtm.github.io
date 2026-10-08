@@ -159,10 +159,45 @@
   function variantOf(p, vi) { return p.variants && p.variants[vi] ? p.variants[vi] : null; }
   function unitPrice(p, vi) { var v = variantOf(p, vi); return v ? v.price_eur : p.price_eur; }
   function unitLabel(p, vi) { var v = variantOf(p, vi); return v ? v.label : (p.price_label || ''); }
-  function pillHTML(p) {
+  /* ---------- знижки (08.10.2026): стара ціна перекреслена + «−N%» ----------
+     price_eur = поточна (нова) ціна, price_old_eur = стара (у товару й у кожного варіанта); показуємо стару, лише якщо вона
+     більша за нову. Нова = стара (грн) × (100 − N) / 100, округлено вниз до гривні (так само _work/discount.py, js/admin.js). */
+  function oldOf(o) {
+    if (!o || o.price_old_eur == null || o.price_eur == null) return null;
+    var a = Number(o.price_old_eur);
+    return isFinite(a) && a > 0 && toUah(a) > toUah(o.price_eur) ? a : null;
+  }
+  function unitOld(p, vi) { var v = variantOf(p, vi); return oldOf(v || p); }
+  function hasDisc(p) { return !!(oldOf(p) || (p.variants || []).some(oldOf)); }
+  function discPct(old, now) { var a = toUah(old), b = toUah(now); return a > 0 ? Math.round((1 - b / a) * 100) : 0; }
+  function discEur(old, pct) { var n = Math.floor(toUah(old) * (100 - pct) / 100); return Math.round(n / CONFIG.uahRate * 1e4) / 1e4; }
+  // стара ціна + бейдж; cls: модифікатор розміру (pold--pm у картці товару, pold--sm у списках)
+  function oldHTML(old, now, cls) {
+    if (old == null || now == null) return '';
+    return '<span class="pold' + (cls ? ' ' + cls : '') + '"><s aria-label="Стара ціна">' + uah(old) + '</s><span class="pdisc">\u2212' + discPct(old, now) + '%</span></span>';
+  }
+  // правки адмінки, збережені ДО появи знижок (є price_eur/variants, немає ключа price_old_eur): якщо товар має знижку
+  // в каталозі (disc_pct), ціна з адмінки = стара, знижку застосовуємо до неї. Є ключ price_old_eur — адмінка керує сама.
+  function discNorm(bp, d) {
+    var pct = bp && bp.disc_pct;
+    if (!pct || !d || d.price_old_eur !== undefined || (d.price_eur === undefined && d.variants === undefined)) return d;
+    d = Object.assign({}, d);
+    if (d.price_eur !== undefined) {
+      var pe = d.price_eur == null ? null : parseFloat(d.price_eur);
+      if (pe == null || !isFinite(pe)) d.price_old_eur = null; else { d.price_old_eur = pe; d.price_eur = discEur(pe, pct); }
+    }
+    if (Array.isArray(d.variants)) d.variants = d.variants.map(function (v) {
+      if (!v || v.price_eur == null || v.price_old_eur != null) return v;
+      return Object.assign({}, v, { price_old_eur: v.price_eur, price_eur: discEur(v.price_eur, pct) });
+    });
+    return d;
+  }
+  function pillHTML(p, cls) {
     if (!hasPrice(p)) return '<span class="pill pill--ask">Ціну уточнюйте</span>';
     var from = p.variants && p.variants.length > 1 ? '<small>від</small>' : '';
-    return '<span class="pill">' + from + uah(p.price_eur) + '</span>';
+    var old = oldOf(p);
+    var pill = '<span class="pill' + (old != null ? ' pill--sale' : '') + '">' + from + uah(p.price_eur) + '</span>';
+    return old != null ? '<span class="pbox' + (cls ? ' ' + cls : '') + '">' + pill + oldHTML(old, p.price_eur) + '</span>' : pill;
   }
   var PLACEHOLDER = 'img/logo.webp?v=3';
   var photoData = {}; // id -> data URL loaded from Firestore photos/{id}
@@ -340,7 +375,7 @@
   }
   function promoText(p) { return promoTags(p).join(' · '); }
   function hasTag(p, re) { return promoTags(p).some(function (x) { return re.test(x); }); }
-  function isSale(p) { return hasTag(p, /акці/i); } // products marked «Акція» (static or set in admin) go to the «Акції» tab
+  function isSale(p) { return hasTag(p, /акці/i) || hasDisc(p); } // «Акції»: позначка «Акція» (каталог/адмінка) або знижка зі старою ціною (08.10)
   function isNew(p) { return hasTag(p, /новинк/i); }
   function isExcl(p) { return hasTag(p, /ексклюзив/i); } // окремий розділ «Ексклюзив» (незалежно від «Новинки»)
   // діамант для позначки «Ексклюзив»: SVG-грані холодного кольору; обертання/світіння — у CSS (.promo__gem)
@@ -582,6 +617,62 @@
     else if (/^tel:/i.test(h)) ch = 'call';
     if (ch) stat('o_' + ch);
   }
+
+  /* ---------- 08.10.2026: що додають у кошик — Firestore cart_events (пише js/fb.js; читає лише адмін) ----------
+     Подія: товар (id, назва), варіант, кількість, ціна (і стара ціна, якщо знижка), розділ сайту, сторінка; js/fb.js додає
+     користувача (uid + ім'я/email, якщо увійшов; інакше «Гість» + анонімний id пристрою) і серверний час.
+     Захист від спаму: кліки по тому самому товару/варіанту протягом 2,5 с зливаються в одну подію (кількість сумується),
+     не більше CE_MAX подій за вкладку на добу; боти/автотести й пристрій адміна («не рахувати мої відвідування») — не рахуються. */
+  var cartEvWriter = null, cartEvQ = [], cartEvPend = {}, CE_MAX = 60, CE_WAIT = 2500;
+  var CE_EMU = (function () { try { return /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && (/[?&]emu=1\b/.test(location.search) || sessionStorage.getItem('alexbes_emu') === '1'); } catch (e) { return false; } })();
+  function cartSecName() {
+    if (state.q) return 'Пошук';
+    var c = state.cat;
+    if (c === 'all') return 'Каталог (усі товари)';
+    if (c === 'sale') return 'Акції';
+    if (c === 'new') return 'Новинки';
+    if (c === 'fav') return 'Вибране';
+    return catById[c] ? catById[c].name : String(c || 'Каталог');
+  }
+  function cartSrc(t) {
+    if (!t || !t.closest) return 'Інше';
+    if (t.closest('#cmpmodal')) return 'Порівняння';
+    if (t.closest('#pickmodal')) return 'Підбір фарбопульта';
+    if (t.closest('.cs__card')) return 'Пошук фарби за кодом';
+    if (t.closest('.rel')) return 'Ще купують разом';
+    if (t.closest('#pmbar')) return 'Картка товару (нижня панель)';
+    if (t.closest('#pmodal')) return 'Картка товару · ' + cartSecName();
+    if (t.closest('.card')) return cartSecName();
+    return 'Інше';
+  }
+  function cartEvSend(ev) { try { var r = cartEvWriter(ev); if (r && r.catch) r.catch(function () {}); } catch (e) {} }
+  function cartEvFlush(k) {
+    var e = cartEvPend[k]; if (!e) return;
+    clearTimeout(e.t); delete cartEvPend[k];
+    try {
+      var day = statDay(), s = null;
+      try { s = JSON.parse(sessionStorage.getItem('alexbes_ce') || 'null'); } catch (x) {}
+      if (!s || s.d !== day) s = { d: day, n: 0 };
+      if (s.n >= CE_MAX) return;
+      s.n++; try { sessionStorage.setItem('alexbes_ce', JSON.stringify(s)); } catch (x) {}
+    } catch (x) {}
+    var p = e.p, v = variantOf(p, e.vi), up = unitPrice(p, e.vi), uo = up != null ? unitOld(p, e.vi) : null;
+    var ev = { pid: String(p.id).slice(0, 80), name: String(p.name || p.id).slice(0, 200), vi: Math.max(0, Math.min(199, e.vi | 0)),
+      variant: v ? String(uahText(v.label) || '').replace(/\u00a0/g, ' ').slice(0, 100) : '', qty: Math.max(1, Math.min(999, e.qty | 0)),
+      price: up != null ? toUah(up) : null, old: uo != null ? toUah(uo) : null,
+      sec: String(e.src || 'Інше').slice(0, 80), page: String(e.page || '#/').slice(0, 120) };
+    if (cartEvWriter) cartEvSend(ev); else if (cartEvQ.length < 20) cartEvQ.push(ev);
+  }
+  function cartEvent(p, vi, qty, src) {
+    try {
+      if (!p || (statSkip && !CE_EMU) || localStorage.getItem('alexbes_nostats') === '1') return;
+      var k = p.id + ':' + (vi | 0), e = cartEvPend[k];
+      if (e) { e.qty += qty; clearTimeout(e.t); } else e = cartEvPend[k] = { p: p, vi: vi | 0, qty: qty, src: src, page: location.hash || '#/' };
+      e.t = setTimeout(function () { cartEvFlush(k); }, CE_WAIT);
+    } catch (x) {}
+  }
+  // вкладку закривають / ховають — відправляємо те, що чекає
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') Object.keys(cartEvPend).forEach(cartEvFlush); });
 
   /* ---------- product modal ---------- */
   var pmState = { id: null, vi: 0, qty: 1 };
@@ -1103,11 +1194,11 @@
     var list = relatedOf(p); if (list.length < 2) return '';
     return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><span class="emo">🧰</span> Ще купують разом</p>' +
       '<ul class="rel__list">' + list.map(function (x) {
-        var pr = unitPrice(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoText(x);
+        var pr = unitPrice(x, 0), po = unitOld(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoText(x);
         return '<li class="rel__it"><button class="rel__open" type="button" data-open="' + esc(x.id) + '" aria-label="Відкрити: ' + esc(x.name) + '">' +
           '<span class="rel__img"><img ' + mainImg(x, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="200" height="200">' + (pm ? '<span class="rel__tag">' + esc(pm) + '</span>' : '') + '</span>' +
           '<span class="rel__nm">' + esc(x.name) + '</span>' +
-          '<span class="rel__pr">' + (pr != null ? uah(pr) + (lb ? ' <small>· ' + esc(uahText(lb)) + '</small>' : '') : '<small>Ціну уточнюйте</small>') + '</span></button>' +
+          '<span class="rel__pr">' + (pr != null ? uah(pr) + (po != null ? ' <s class="rel__old">' + uah(po) + '</s>' : '') + (lb ? ' <small>· ' + esc(uahText(lb)) + '</small>' : '') : '<small>Ціну уточнюйте</small>') + '</span></button>' +
           '<button class="rel__add" type="button" data-radd="' + esc(x.id) + '" aria-label="Додати «' + esc(x.name) + '» в кошик">+</button></li>';
       }).join('') + '</ul></section>';
   }
@@ -1115,9 +1206,10 @@
     spinStop();
     var p = byId[pmState.id];
     var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
-      return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + '</b></button>';
+      return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + (oldOf(v) != null ? ' <s class="var__old">' + uah(oldOf(v)) + '</s>' : '') + '</b></button>';
     }).join('') + '</div>' : '';
-    var price = hasPrice(p) ? '<span class="pill" style="font-size:22px;padding:7px 16px">' + uah(unitPrice(p, pmState.vi)) + (unitLabel(p, pmState.vi) ? ' <small>· ' + esc(uahText(unitLabel(p, pmState.vi))) + '</small>' : '') + '</span>'
+    var pmOld = hasPrice(p) ? unitOld(p, pmState.vi) : null;
+    var price = hasPrice(p) ? '<span class="pill' + (pmOld != null ? ' pill--sale' : '') + '" style="font-size:22px;padding:7px 16px">' + uah(unitPrice(p, pmState.vi)) + (unitLabel(p, pmState.vi) ? ' <small>· ' + esc(uahText(unitLabel(p, pmState.vi))) + '</small>' : '') + '</span>' + oldHTML(pmOld, unitPrice(p, pmState.vi), 'pold--pm')
       : '<span class="pill pill--ask" style="font-size:16px;padding:7px 16px">Ціну уточнюйте</span>' + (p.price_uah_original ? ' <span class="muted small">у пості: ' + esc(p.price_uah_original) + '</span>' : '');
     var src = (p.source || []).filter(function (u) { return /^https:\/\/t\.me\//.test(u); })[0];
     var tgAsk = 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?'));
@@ -1151,13 +1243,14 @@
 
   /* ---------- cart ---------- */
   function cartCount() { return cart.reduce(function (s, l) { return s + l.qty; }, 0); }
-  function addToCart(id, vi, qty) {
+  function addToCart(id, vi, qty, src) {
     vi = vi || 0; qty = Math.max(1, qty || 1);
     var l = cart.filter(function (x) { return x.id === id && x.vi === vi; })[0];
     if (l) l.qty += qty; else cart.push({ id: id, vi: vi, qty: qty });
     lastOrder = null; saveCart(); updateBadges();
     stat('cart', 'cart:' + id + ':' + vi);
     var p = byId[id];
+    cartEvent(p, vi, qty, src);
     toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + uahText(variantOf(p, vi).label) + ')' : ''));
   }
   function updateBadges() {
@@ -1319,19 +1412,21 @@
       body.innerHTML = '<div class="cempty"><span class="emo">😈</span>Кошик порожній.<br>Додайте товари з каталогу — і надішліть замовлення в Telegram.<br><br><button class="btn btn--y" type="button" data-close>До каталогу</button></div>';
       return;
     }
-    var sum = 0, ask = 0;
+    var sum = 0, ask = 0, saved = 0;
     var items = cart.map(function (l, i) {
-      var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi);
+      var p = byId[l.id], v = variantOf(p, l.vi), up = unitPrice(p, l.vi), uo = up != null ? unitOld(p, l.vi) : null;
       if (up != null) sum += toUah(up) * l.qty; else ask++;
+      if (uo != null) saved += (toUah(uo) - toUah(up)) * l.qty;
       return '<li class="citem"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="72" height="72">' +
         '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(uahText(v ? v.label : (p.price_label || ''))) + '</div>' +
-        '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + '</div>' +
+        '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + (uo != null ? oldHTML(uo, up, 'pold--sm') : '') + '</div>' +
         (up != null && l.qty > 1 ? '<div class="citem__t">' + fmtUah(toUah(up) * l.qty).replace(/ /g, '\u00a0') + '</div>' : '') + '</div>' +
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
         '<button class="rm" type="button" data-rm="' + i + '">видалити</button></div></li>';
     }).join('');
     body.innerHTML = cstepsHTML() + '<div class="csec" data-csec="1"><ul class="citems">' + items + '</ul>' +
       '<div class="ctotal"><span>Разом' + (ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '') + '</span><b>' + fmtUah(sum).replace(/ /g, '\u00a0') + '</b></div>' +
+      (saved > 0 ? '<div class="csave"><span>Ваша економія зі знижками</span><b>\u2212' + fmtUah(saved).replace(/ /g, '\u00a0') + '</b></div>' : '') +
       '<p class="cnote">Ціни в гривнях. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p></div>' +
       '<div class="csec" data-csec="2"><h3 class="csec__ttl"><span>2</span>Ваші дані</h3>' +
       '<div class="cform">' +
@@ -1769,16 +1864,16 @@
     if (t.hasAttribute('data-add')) {
       var p = byId[t.getAttribute('data-add')];
       if (p.variants && p.variants.length > 1) { location.hash = '#/p/' + p.id; toast('Оберіть варіант'); return; }
-      addToCart(p.id, 0, 1); return;
+      addToCart(p.id, 0, 1, cartSrc(t)); return;
     }
-    if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1); return; } // «Ще купують разом»: в кошик без закриття картки (варіант 1)
+    if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1, cartSrc(t)); return; } // «Ще купують разом»: в кошик без закриття картки (варіант 1)
     if (t.hasAttribute('data-var')) { pmState.vi = +t.getAttribute('data-var'); renderProduct(); return; }
     if (t.hasAttribute('data-gal-step')) { galGo(+t.getAttribute('data-gal-step'), true); return; }
     if (t.hasAttribute('data-gal-to')) { galGo(+t.getAttribute('data-gal-to'), false); return; }
     if (t.hasAttribute('data-vid')) { playVideo(+t.getAttribute('data-vid')); return; }
     if (t.hasAttribute('data-vid-link')) { var vp = byId[pmState.id]; if (vp) track('відео/' + vp.id, 'Відео (посилання): ' + vp.name); return; }
     if (t.hasAttribute('data-q')) { pmState.qty = Math.max(1, (parseInt($('#pmq').value, 10) || 1) + +t.getAttribute('data-q')); $('#pmq').value = pmState.qty; return; }
-    if (t.hasAttribute('data-addpm')) { pmState.qty = Math.max(1, parseInt($('#pmq').value, 10) || 1); addToCart(pmState.id, pmState.vi, pmState.qty); return; }
+    if (t.hasAttribute('data-addpm')) { pmState.qty = Math.max(1, parseInt($('#pmq').value, 10) || 1); addToCart(pmState.id, pmState.vi, pmState.qty, cartSrc(t)); return; }
     if (t.hasAttribute('data-cmp')) { toggleCmp(t.getAttribute('data-cmp')); return; }
     if (t.hasAttribute('data-cmp-rm')) { var ri = cmpIds.indexOf(t.getAttribute('data-cmp-rm')); if (ri >= 0) cmpIds.splice(ri, 1); cmpSave(); cmpSync(); renderCompare(); return; }
     if (t.hasAttribute('data-cmp-clear')) { cmpIds = []; cmpSave(); cmpSync(); if (openModalEl && openModalEl === $('#cmpmodal')) renderCompare(); toast('Порівняння очищено'); return; }
@@ -1865,7 +1960,7 @@
   var BASE = {}; PRODUCTS.forEach(function (p) { BASE[p.id] = p; });
   var STATIC_ORDER = PRODUCTS.slice();
   var STATIC_IDX = {}; STATIC_ORDER.forEach(function (p, i) { STATIC_IDX[p.id] = i; });
-  var EDITABLE = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand', 'gallery', 'videos'];
+  var EDITABLE = ['name', 'category', 'price_eur', 'price_old_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand', 'gallery', 'videos'];
   function catName(id) { return catById[id] ? catById[id].name : id; }
   // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;
   // new ids are appended (sorted into their category); hidden:true removes the product from the public catalog.
@@ -1881,8 +1976,10 @@
       if (BASE[bp.id]) p = Object.assign({}, BASE[bp.id]);
       else p = { id: bp.id, category: '', name: '', description: '', price_eur: null, price_label: null, variants: null, price_note: '', price_uah_original: null, source: [], photo: PLACEHOLDER, in_stock: 'Наявність уточнюйте', flag: null, code: '' };
       if (d) {
-        EDITABLE.forEach(function (k) { if (d[k] !== undefined) p[k] = d[k]; });
+        var dn = discNorm(BASE[bp.id], d); // знижка з каталогу не губиться через старі правки ціни в адмінці
+        EDITABLE.forEach(function (k) { if (dn[k] !== undefined) p[k] = dn[k]; });
         if (p.price_eur !== null && typeof p.price_eur !== 'number') p.price_eur = parseFloat(p.price_eur) || null;
+        if (p.price_old_eur != null && typeof p.price_old_eur !== 'number') p.price_old_eur = parseFloat(p.price_old_eur) || null;
         if (p.variants && !(Array.isArray(p.variants) && p.variants.length)) p.variants = null;
         if (p.price_label === '') p.price_label = null;
         p.hasPhoto = !!d.hasPhoto;
@@ -1981,7 +2078,7 @@
     ul.innerHTML = list.map(function (id) {
       var p = byId[id];
       return '<li class="rv__it"><button class="rv__card" type="button" data-open="' + esc(p.id) + '"><span class="rv__img"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="160" height="160"></span>' +
-        '<span class="rv__n">' + esc(p.name) + '</span><span class="rv__p">' + (hasPrice(p) ? uah(p.price_eur) : 'Ціну уточнюйте') + '</span></button></li>';
+        '<span class="rv__n">' + esc(p.name) + '</span><span class="rv__p">' + (hasPrice(p) ? uah(p.price_eur) + (oldOf(p) != null ? ' <s class="rv__old">' + uah(oldOf(p)) + '</s>' : '') : 'Ціну уточнюйте') + '</span></button></li>';
     }).join('');
     fillPhotos();
   }
@@ -2153,6 +2250,7 @@
     onCartChange: function (fn) { cartListeners.push(fn); },
     getForm: function () { return Object.assign({}, form); },
     setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
+    setCartEventWriter: function (fn) { cartEvWriter = typeof fn === 'function' ? fn : null; if (cartEvWriter) { var q = cartEvQ; cartEvQ = []; q.forEach(cartEvSend); } },
     setStatWriter: function (fn) { statWriter = typeof fn === 'function' ? fn : null; if (statWriter) { var q = statQ; statQ = []; q.forEach(function (x) { statSend(x[0], x[1]); }); } },
     fillForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (f[k] && !form[k]) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },
     showModal: function (sel) { showModal(sel); },
@@ -2476,7 +2574,7 @@
     var v = variantOf(p, pmState.vi), pr = hasPrice(p) ? uahTxt(unitPrice(p, pmState.vi)) : '';
     var txt = 'Вітаю! Хочу замовити: ' + p.name + (v ? ' (' + uahText(v.label) + ')' : '') + (pr ? ' — ' + pr : '') + '.\n' + productUrl(p);
     return '<div class="pmbar" id="pmbar">' +
-      '<div class="pmbar__pr"><b>' + (hasPrice(p) ? uah(unitPrice(p, pmState.vi)) : 'Ціну уточнюйте') + '</b><span>' + esc(p.name) + '</span></div>' +
+      '<div class="pmbar__pr"><b>' + (hasPrice(p) ? uah(unitPrice(p, pmState.vi)) + (unitOld(p, pmState.vi) != null ? ' <s class="pmbar__old">' + uah(unitOld(p, pmState.vi)) + '</s>' : '') : 'Ціну уточнюйте') + '</b><span>' + esc(p.name) + '</span></div>' +
       '<a class="pmbar__ic" href="' + esc(CONFIG.orderTelegram + '?text=' + encodeURIComponent(txt)) + '" target="_blank" rel="noopener" aria-label="Замовити в Telegram" data-order="' + esc(p.id) + '">' + pkIc('tg', 20) + '</a>' +
       '<a class="pmbar__ic" href="tel:' + CONFIG.phone + '" aria-label="Подзвонити: ' + CONFIG.phoneLabel + '">' + svgI(IC.phone, 20) + '</a>' +
       '<button class="btn btn--y pmbar__add" type="button" data-addpm>' + svgI('<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>', 19) + '<span>В кошик</span></button>' +

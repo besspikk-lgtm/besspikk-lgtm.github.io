@@ -23,6 +23,16 @@ export function mergeCarts(a, b) {
   return out;
 }
 const same = (a, b) => JSON.stringify(a || []) === JSON.stringify(b || []);
+// анонімний id пристрою для статистики кошика (cart_events.dev): 16 випадкових символів [a-z0-9], без персональних даних
+function deviceId() {
+  let d = LS.get('alexbes_dev');
+  if (!d || !/^[a-z0-9]{16}$/.test(d)) {
+    const a = new Uint8Array(16); try { crypto.getRandomValues(a); } catch (e) { for (let i = 0; i < 16; i++) a[i] = Math.random() * 256; }
+    d = Array.from(a, (x) => 'abcdefghijklmnopqrstuvwxyz0123456789'[x % 36]).join('');
+    LS.set('alexbes_dev', d);
+  }
+  return d;
+}
 
 let fb = null, user = null, profile = {}, view = 'login', unsubUser = null, saveT = null, msg = { t: '', ok: false };
 
@@ -113,6 +123,18 @@ async function main() {
   if (AB.setOrderWriter) AB.setOrderWriter((id, data) => F.setDoc(F.doc(db, 'orders', id), Object.assign({}, data, { createdAt: F.serverTimestamp() })));
   // ---- власна статистика: stats/{YYYY-MM-DD} — рівно +1 до одного поля; назва поля дублюється в k (так вимагають правила) ----
   if (AB.setStatWriter) AB.setStatWriter((day, field) => F.setDoc(F.doc(db, 'stats', day), { k: field, [field]: F.increment(1) }, { merge: true }));
+  // ---- 08.10: що додають у кошик — cart_events/<авто-id> (створити може будь-хто за суворою схемою; читає лише адмін) ----
+  // хто: uid + ім'я з профілю / email, якщо увійшов; інакше «Гість» + анонімний id пристрою (випадковий, у localStorage)
+  if (AB.setCartEventWriter) AB.setCartEventWriter((ev) => {
+    const u = auth.currentUser;
+    return F.addDoc(F.collection(db, 'cart_events'), Object.assign({}, ev, {
+      uid: u ? u.uid : '',
+      who: u ? String(profile.name || u.displayName || '').slice(0, 100) : 'Гість',
+      email: u && u.email ? String(u.email).slice(0, 200) : '',
+      dev: deviceId(),
+      ts: F.serverTimestamp()
+    }));
+  });
 
   // ---- products from Firestore (public read) ----
   AB.setPhotoLoader(async (id) => {

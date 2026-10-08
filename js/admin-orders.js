@@ -1,4 +1,4 @@
-/* Alex_bes😈 — адмінка: «📦 Замовлення» (orders/{id}) і «📊 Статистика» (stats/{YYYY-MM-DD}). Підключає js/admin.js. */
+/* Alex_bes😈 — адмінка: «📦 Замовлення» (orders/{id}) і «📊 Статистика» (stats/{YYYY-MM-DD} + cart_events/{id} — що додають у кошик). Підключає js/admin.js. */
 import { authErr, esc } from './fb-common.js?v=1';
 
 const $ = (s, r) => (r || document).querySelector(s);
@@ -131,6 +131,9 @@ const CH = [
   ['o_call', '📞 Дзвінок'], ['o_consult', '💬 «Отримати консультацію»']
 ];
 let stDocs = null, stRange = 7, stErr = '', stBusy = false;
+// 08.10: журнал «що додають у кошик» — cart_events (останні 31 день, до CE_LIMIT подій; читає лише адмін)
+let ceDocs = null, ceErr = '';
+const CE_LIMIT = 3000;
 function kyivDay(d) {
   const o = {}; new Intl.DateTimeFormat('en-GB', { timeZone: TZ, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(d).forEach((x) => { o[x.type] = x.value; });
   return o.year + '-' + o.month + '-' + o.day;
@@ -149,6 +152,11 @@ export async function loadStats() {
     const qs = await F.getDocs(F.query(F.collection(db, 'stats'), F.where(F.documentId(), '>=', from)));
     stDocs = {}; qs.forEach((d) => { stDocs[d.id] = d.data(); });
   } catch (e) { stErr = authErr(e); }
+  try {
+    const { F, db } = ctx.fb, since = F.Timestamp.fromMillis(Date.now() - 31 * 864e5);
+    const qe = await F.getDocs(F.query(F.collection(db, 'cart_events'), F.where('ts', '>=', since), F.orderBy('ts', 'desc'), F.limit(CE_LIMIT)));
+    ceDocs = qe.docs.map((d) => Object.assign({ id: d.id }, d.data())); ceErr = '';
+  } catch (e) { ceDocs = null; ceErr = (e && e.code === 'permission-denied') ? 'perm' : authErr(e); }
   stBusy = false;
   renderStats();
 }
@@ -196,7 +204,69 @@ export function renderStats() {
     '<h3 class="st-h">🔝 Топ-10 відкритих товарів</h3>' +
     (top.length ? '<ol class="st-top">' + top.map((k) => '<li><span class="st-top__n">' + esc(names[k] || k) + '</span><span class="st-bar"><i style="width:' + Math.max(4, Math.round(prod[k] / maxP * 100)) + '%"></i></span><b>' + nf(prod[k]) + '</b></li>').join('') + '</ol>' : '<p class="muted small">Ще немає відкриттів товарів.</p>') +
     '<h3 class="st-h">📨 Кліки по каналах замовлення</h3>' +
-    '<ul class="st-top st-top--ch">' + CH.map((c) => '<li><span class="st-top__n">' + c[1] + '</span><span class="st-bar"><i style="width:' + Math.round((ch[c[0]] || 0) / maxC * 100) + '%"></i></span><b>' + nf(ch[c[0]] || 0) + '</b></li>').join('') + '</ul>';
+    '<ul class="st-top st-top--ch">' + CH.map((c) => '<li><span class="st-top__n">' + c[1] + '</span><span class="st-bar"><i style="width:' + Math.round((ch[c[0]] || 0) / maxC * 100) + '%"></i></span><b>' + nf(ch[c[0]] || 0) + '</b></li>').join('') + '</ul>' +
+    cartEventsHTML(days, names);
+}
+
+/* ---------- 08.10.2026: «Що додають у кошик» (cart_events) ---------- */
+const IC_CART = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>';
+const IC_USER = '<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>';
+const ceTf = new Intl.DateTimeFormat('uk-UA', { timeZone: TZ, day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+const ceDate = (e) => { try { return e.ts && e.ts.toDate ? e.ts.toDate() : null; } catch (x) { return null; } };
+function ceWho(e) {
+  if (e.uid) {
+    const nm = e.who ? esc(e.who) : '', em = e.email ? esc(e.email) : '';
+    return '<span class="ce-who ce-who--u">' + IC_USER + '<span>' + (nm || em || 'Покупець') + (nm && em ? ' <small>' + em + '</small>' : '') + '</span></span>';
+  }
+  return '<span class="ce-who" title="Анонімний id пристрою: ' + esc(e.dev || '') + '">' + IC_USER + '<span>Гість <small>пристрій ' + esc(String(e.dev || '').slice(0, 6)) + '</small></span></span>';
+}
+function cartEventsHTML(days, names) {
+  const head = '<h2 class="st-h2">' + IC_CART + 'Що додають у кошик</h2>';
+  if (ceErr === 'perm') return head + '<p class="ed__msg">Немає доступу до журналу кошика. Опублікуйте нові правила Firestore (Firebase Console → Firestore Database → Rules) — з блоком cart_events.</p>';
+  if (ceErr) return head + '<p class="ed__msg">Помилка читання журналу кошика: ' + esc(ceErr) + '</p>';
+  if (!ceDocs) return head + '<p class="muted">Завантаження…</p>';
+  const set = new Set(days);
+  const list = ceDocs.filter((e) => { const d = ceDate(e); return d && set.has(kyivDay(d)); });
+  const units = list.reduce((s, e) => s + num(e.qty), 0);
+  const sum = list.reduce((s, e) => s + (typeof e.price === 'number' ? e.price * num(e.qty) : 0), 0);
+  const people = new Set(list.map((e) => (e.uid ? 'u:' + e.uid : 'd:' + (e.dev || e.id)))).size;
+  const signed = new Set(list.filter((e) => e.uid).map((e) => e.uid)).size;
+  // по днях
+  const perDay = {}; list.forEach((e) => { const k = kyivDay(ceDate(e)); perDay[k] = (perDay[k] || 0) + 1; });
+  const maxD = Math.max(1, ...days.map((d) => perDay[d] || 0));
+  const wd = new Intl.DateTimeFormat('uk-UA', { weekday: 'short', timeZone: 'UTC' });
+  const bars = '<div class="stc stc--ce stc--' + stRange + '" role="img" aria-label="Додавання в кошик по днях">' + days.map((d, i) => {
+    const v = perDay[d] || 0, dt = new Date(d + 'T00:00:00Z');
+    const lbl = stRange <= 7 ? wd.format(dt) + '<br>' + d.slice(8) + '.' + d.slice(5, 7) : (i % 5 === 4 || i === days.length - 1 ? d.slice(8) + '.' + d.slice(5, 7) : '');
+    return '<div class="stc__c" title="' + d.slice(8) + '.' + d.slice(5, 7) + ': ' + v + ' дод."><span class="stc__v">' + (stRange <= 7 || v === maxD ? (v || '') : '') + '</span>' +
+      '<span class="stc__b" style="height:' + (v ? Math.max(3, Math.round(v / maxD * 100)) : 0) + '%"></span><span class="stc__l">' + lbl + '</span></div>';
+  }).join('') + '</div>';
+  // топ товарів
+  const top = {}; list.forEach((e) => { const t = top[e.pid] || (top[e.pid] = { n: 0, q: 0, name: e.name }); t.n++; t.q += num(e.qty); });
+  const topIds = Object.keys(top).sort((a, b) => top[b].n - top[a].n || top[b].q - top[a].q || a.localeCompare(b)).slice(0, 10);
+  const maxT = Math.max(1, ...topIds.map((k) => top[k].n));
+  // стрічка
+  const feed = list.slice(0, 40);
+  return head +
+    '<div class="st-cards">' +
+      '<div class="st-card"><b>' + nf(list.length) + '</b><span>Додавань у кошик</span></div>' +
+      '<div class="st-card"><b>' + nf(units) + '</b><span>Одиниць товару</span></div>' +
+      '<div class="st-card"><b>' + grn(sum) + '</b><span>На суму (за цінами сайту)</span></div>' +
+      '<div class="st-card"><b>' + nf(people) + '</b><span>Покупців · з акаунтом: ' + nf(signed) + '</span></div>' +
+    '</div>' +
+    (list.length ? '' : '<p class="muted">За цей період додавань у кошик ще немає.</p>') +
+    '<h3 class="st-h">Додавання по днях <span class="muted small">(' + stRange + ' ' + (stRange === 1 ? 'день' : 'днів') + ')</span></h3>' + bars +
+    '<h3 class="st-h">Топ товарів за додаваннями</h3>' +
+    (topIds.length ? '<ol class="st-top st-top--ce">' + topIds.map((k) => '<li><span class="st-top__n">' + esc(names[k] || top[k].name || k) + ' <small class="muted">· ' + nf(top[k].q) + ' шт</small></span><span class="st-bar"><i style="width:' + Math.max(4, Math.round(top[k].n / maxT * 100)) + '%"></i></span><b>' + nf(top[k].n) + '</b></li>').join('') + '</ol>' : '<p class="muted small">Ще немає даних.</p>') +
+    '<h3 class="st-h">Останні додавання <span class="muted small">(до ' + feed.length + ')</span></h3>' +
+    (feed.length ? '<ul class="ce-feed">' + feed.map((e) => {
+      const d = ceDate(e);
+      return '<li class="ce-it"><span class="ce-t">' + (d ? ceTf.format(d).replace(',', '') : '—') + '</span>' +
+        '<span class="ce-p"><b>' + esc(e.name || e.pid) + '</b>' + (e.variant ? '<small>' + esc(e.variant) + '</small>' : '') + '<em>' + esc(e.sec || '') + '</em></span>' +
+        '<span class="ce-q">' + nf(num(e.qty)) + '\u00a0шт' + (typeof e.price === 'number' ? ' × ' + grn(e.price) + (typeof e.old === 'number' && e.old > e.price ? ' <s>' + grn(e.old) + '</s>' : '') : ' · ціну уточнюйте') + '</span>' +
+        ceWho(e) + '</li>';
+    }).join('') + '</ul>' : '<p class="muted small">Ще немає додавань.</p>') +
+    (ceDocs.length >= CE_LIMIT ? '<p class="muted small">Показано останні ' + nf(CE_LIMIT) + ' подій за 31 день.</p>' : '');
 }
 
 /* ---------- події (викликає admin.js) ---------- */

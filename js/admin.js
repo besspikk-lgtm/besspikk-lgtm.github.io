@@ -1,6 +1,6 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=3';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=4';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -11,7 +11,7 @@ const PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклю
 const STOCKS = ['В наявності', 'Немає в наявності', 'Наявність уточнюйте', 'Під замовлення', 'У дорозі'];
 DATA.products.forEach((p) => { if (p.in_stock && !STOCKS.includes(p.in_stock)) STOCKS.push(p.in_stock); });
 const PLACEHOLDER = 'img/logo.webp?v=3';
-const FIELDS = ['name', 'category', 'price_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'videos'];
+const FIELDS = ['name', 'category', 'price_eur', 'price_old_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'videos'];
 const MEDIA = window.AlexBesMedia;
 const MAX_PH = 10, MAX_VID = 5;
 // gallery = ordered photo keys: 'static' = catalog img/p photo, 'main' = photos/{id} (first admin photo), other = photos/{id}__{key}
@@ -31,6 +31,25 @@ const eur = (v) => nf.format(v).replace(/\u202f|\u00a0/g, ' ') + ' €';
 const UAH_RATE = 52;
 const uahOf = (v) => String(Math.round(Number(v) * UAH_RATE)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' грн';
 const uahHint = (v) => { const n = parseFloat(String(v == null ? '' : v).replace(',', '.')); return isFinite(n) && n >= 0 && String(v).trim() !== '' ? '≈ ' + uahOf(n) + ' на сайті' : ''; };
+/* ---------- знижки (08.10.2026): стара ціна (перекреслена) + нова; ті самі правила, що в js/app.js і _work/discount.py ----------
+   price_eur — нова (поточна) ціна, price_old_eur — стара (null = без знижки); у варіантів так само.
+   Нова = стара в грн × (100 − N) / 100, округлено вниз до цілої гривні; зберігається як грн / 52 (4 знаки). */
+const toUah = (v) => Math.round(Number(v) * UAH_RATE);
+const discEur = (old, pct) => Math.round(Math.floor(toUah(old) * (100 - pct) / 100) / UAH_RATE * 1e4) / 1e4;
+const oldOf = (o) => (o && o.price_old_eur != null && o.price_eur != null && toUah(o.price_old_eur) > toUah(o.price_eur) ? Number(o.price_old_eur) : null);
+const pctOf = (old, now) => Math.round((1 - toUah(now) / toUah(old)) * 100);
+const hasDisc = (p) => !!(oldOf(p) || (p.variants || []).some(oldOf));
+// старі правки ціни (без ключа price_old_eur) для товару зі знижкою в каталозі: ціна з адмінки = стара, знижка — до неї
+function discNorm(b, d) {
+  const pct = b && b.disc_pct;
+  if (!pct || !d || d.price_old_eur !== undefined || (d.price_eur === undefined && d.variants === undefined)) return d;
+  d = Object.assign({}, d);
+  if (d.price_eur !== undefined) { if (d.price_eur == null) d.price_old_eur = null; else { d.price_old_eur = Number(d.price_eur); d.price_eur = discEur(d.price_eur, pct); } }
+  if (Array.isArray(d.variants)) d.variants = d.variants.map((v) => (!v || v.price_eur == null || v.price_old_eur != null ? v : Object.assign({}, v, { price_old_eur: v.price_eur, price_eur: discEur(v.price_eur, pct) })));
+  return d;
+}
+const IC_TAG = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
+const IC_UNDO = '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>';
 let tt; function toast(m) { const t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => { t.hidden = true; }, 2800); }
 
 let fb, user = null, remote = {}, photoCache = {}, unsub = null, edit = null;
@@ -38,15 +57,15 @@ let fb, user = null, remote = {}, photoCache = {}, unsub = null, edit = null;
 /* ---------- data ---------- */
 function baseVals(id) {
   const b = BASE[id]; if (!b) return null;
-  return { name: b.name, category: b.category, price_eur: b.price_eur ?? null, price_label: b.price_label || '', in_stock: b.in_stock || '',
+  return { name: b.name, category: b.category, price_eur: b.price_eur ?? null, price_old_eur: b.price_old_eur ?? null, price_label: b.price_label || '', in_stock: b.in_stock || '',
     description: b.description || '', promo: PROMO[id] || '', variants: b.variants || null, code: b.code || '', videos: Array.isArray(b.videos) && b.videos.length ? b.videos.slice() : null };
 }
 function merged() {
   const out = [];
   const add = (id) => {
     const r = remote[id], b = baseVals(id);
-    const v = Object.assign({ name: '', category: '', price_eur: null, price_label: '', in_stock: 'Наявність уточнюйте', description: '', promo: '', variants: null, code: '' }, b || {});
-    if (r) FIELDS.forEach((k) => { if (r[k] !== undefined) v[k] = r[k]; });
+    const v = Object.assign({ name: '', category: '', price_eur: null, price_old_eur: null, price_label: '', in_stock: 'Наявність уточнюйте', description: '', promo: '', variants: null, code: '' }, b || {});
+    if (r) { const rn = discNorm(BASE[id], r); FIELDS.forEach((k) => { if (rn[k] !== undefined) v[k] = rn[k]; }); }
     const gallery = effGallery(id, r);
     out.push(Object.assign(v, { id, isStatic: !!b, changed: !!(b && r && FIELDS.some((k) => r[k] !== undefined)), hidden: !!(r && r.hidden), hasPhoto: !!(r && r.hasPhoto),
       gallery, photoChanged: !!(b && JSON.stringify(gallery) !== '["static"]'),
@@ -116,7 +135,7 @@ function onUser(u) {
   const { F, db } = fb;
   unsub = F.onSnapshot(F.collection(db, 'products'), (qs) => {
     remote = {}; qs.forEach((d) => { remote[d.id] = d.data(); });
-    renderList();
+    renderList(); bulkInfo();
   }, (e) => { $('#adm-stats').textContent = 'Помилка читання: ' + authErr(e); });
   renderList();
   startOrders(); // лічильник нових замовлень видно на вкладці з будь-якого розділу
@@ -142,7 +161,11 @@ function buildPromo(main, excl) {
 }
 const promoKey = (t) => { const x = parsePromo(t); return x.main + (x.excl ? '|excl' : ''); };
 function promoTag(t) { if (!t) return ''; const x = parsePromo(t), l = (x.main ? x.main.split(' · ') : []).concat(x.excl ? ['Ексклюзив'] : []); return l.map(function (y) { return '<span class="tag tag--promo">' + (y === 'ХІТ' ? '⭐ ХІТ' : y === 'Новинка' ? '✅ Новинка' : y === 'Ексклюзив' ? '💎 Ексклюзив' : '🔥 ' + esc(y)) + '</span>'; }).join(''); }
-function priceTxt(p) { return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + ' (≈ ' + uahOf(p.price_eur) + ')' + (p.price_label ? ' · ' + p.price_label : '')); }
+function priceTxt(p) { const o = oldOf(p); return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + ' (≈ ' + uahOf(p.price_eur) + (o != null ? ', було ' + uahOf(o) : '') + ')' + (p.price_label ? ' · ' + p.price_label : '')); }
+function discTag(p) {
+  const o = oldOf(p) != null ? p : (p.variants || []).find(oldOf);
+  return o ? '<span class="tag tag--disc">\u2212' + pctOf(o.price_old_eur, o.price_eur) + '%</span>' : '';
+}
 function renderList() {
   const q = $('#adm-q').value.trim().toLowerCase(), cat = $('#adm-cat').value || 'all', flt = $('#adm-flt').value;
   const all = merged();
@@ -161,7 +184,7 @@ function renderList() {
       '<div><div class="arow__n">' + esc(p.name || '(без назви)') + '</div>' +
         '<div class="arow__m">' + esc(catById[p.category] ? catById[p.category].name : p.category) + ' · ' + esc(priceTxt(p)) + ' · ' + esc(p.in_stock) + '</div>' +
         '<div class="arow__b">' + (p.isStatic ? '' : '<span class="tag tag--new">Новий</span>') + (p.changed ? '<span class="tag tag--chg">Змінено</span>' : '') +
-          (p.photoChanged || (!p.isStatic && p.gallery.length) ? '<span class="tag">📷 ' + p.gallery.length + '</span>' : '') + (p.videos && p.videos.length ? '<span class="tag">🎬 ' + p.videos.length + '</span>' : '') + (p.hidden ? '<span class="tag tag--hid">Приховано</span>' : '') + promoTag(p.promo) + '</div></div>' +
+          (p.photoChanged || (!p.isStatic && p.gallery.length) ? '<span class="tag">📷 ' + p.gallery.length + '</span>' : '') + (p.videos && p.videos.length ? '<span class="tag">🎬 ' + p.videos.length + '</span>' : '') + (p.hidden ? '<span class="tag tag--hid">Приховано</span>' : '') + discTag(p) + promoTag(p.promo) + '</div></div>' +
       '<div class="arow__a"><button class="btn btn--y" type="button" data-edit="' + esc(p.id) + '">✏️ Редагувати</button>' +
         '<button class="btn btn--o" type="button" data-toggle="' + esc(p.id) + '">' + (p.hidden ? '👁 Показати' : '🙈 Сховати') + '</button></div>' +
     '</li>').join('') || '<li class="muted">Нічого не знайдено.</li>';
@@ -190,13 +213,22 @@ async function getPhoto(id) {
 async function loadPh(img) { try { const u = await getPhoto(img.getAttribute('data-ph')); if (u) { img.src = u; img.removeAttribute('data-ph'); } } catch (e) {} }
 
 /* ---------- edit form ---------- */
-function varsToText(v) { return (v || []).map((x) => x.label + ' = ' + x.price_eur).join('\n'); }
+// варіант: «назва = ціна» або зі знижкою «назва = нова ціна / стара ціна» (усе в €)
+const VAR_RE = /^(.*?)\s*[=:–-]\s*([\d\s.,]+?)\s*€?(?:\s*\/\s*([\d\s.,]+?)\s*€?)?$/;
+const numOf = (x) => parseFloat(String(x).replace(/\s/g, '').replace(',', '.'));
+function varsToText(v) { return (v || []).map((x) => x.label + ' = ' + x.price_eur + (x.price_old_eur != null ? ' / ' + x.price_old_eur : '')).join('\n'); }
 function textToVars(t) {
   const out = [];
   t.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
-    const m = l.match(/^(.*?)\s*[=:–-]\s*([\d\s.,]+)\s*€?$/);
-    if (!m) throw new Error('Варіант «' + l + '»: потрібен формат «назва = ціна».');
-    out.push({ label: m[1].trim().slice(0, 100), price_eur: parseFloat(m[2].replace(/\s/g, '').replace(',', '.')) });
+    const m = l.match(VAR_RE);
+    if (!m) throw new Error('Варіант «' + l + '»: потрібен формат «назва = ціна» або «назва = нова ціна / стара ціна».');
+    const it = { label: m[1].trim().slice(0, 100), price_eur: numOf(m[2]) };
+    if (m[3]) {
+      const o = numOf(m[3]);
+      if (!isFinite(o) || toUah(o) <= toUah(it.price_eur)) throw new Error('Варіант «' + it.label + '»: стара ціна має бути більшою за нову.');
+      it.price_old_eur = o;
+    }
+    out.push(it);
   });
   return out.length ? out : null;
 }
@@ -204,8 +236,8 @@ function textToVars(t) {
 function varsHint(t) {
   const out = [];
   String(t || '').split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
-    const m = l.match(/^(.*?)\s*[=:–-]\s*([\d\s.,]+)\s*€?$/);
-    if (m) out.push(m[1].trim() + ' ≈ ' + uahOf(parseFloat(m[2].replace(/\s/g, '').replace(',', '.'))));
+    const m = l.match(VAR_RE);
+    if (m) { const n = numOf(m[2]), o = m[3] ? numOf(m[3]) : null; out.push(m[1].trim() + ' ≈ ' + uahOf(n) + (o != null && toUah(o) > toUah(n) ? ' (було ' + uahOf(o) + ', \u2212' + pctOf(o, n) + '%)' : '')); }
   });
   return out.length ? 'На сайті: ' + out.join(' · ') : '';
 }
@@ -227,6 +259,14 @@ function openEdit(id) {
       '<label class="full">Назва *<input name="name" maxlength="300" required value="' + esc(v.name) + '">' + was('name') + '</label>' +
       '<label>Категорія<select name="category">' + CATS.map((c) => '<option value="' + c.id + '"' + (c.id === v.category ? ' selected' : '') + '>' + esc(c.name) + '</option>').join('') + '</select>' + was('category', b && catById[b.category] ? catById[b.category].name : '') + '</label>' +
       '<label>Ціна, € <span class="hint">(порожньо = «Ціну уточнюйте»)</span><input name="price_eur" type="number" inputmode="decimal" step="0.01" min="0" value="' + (v.price_eur == null ? '' : v.price_eur) + '"><span class="hint" data-uah-hint>' + esc(uahHint(v.price_eur)) + '</span>' + was('price_eur', b && b.price_eur == null ? 'уточнюйте' : null) + '</label>' +
+      '<label>Стара ціна, € <span class="hint">(перекреслена на сайті; порожньо = без знижки)</span><input name="price_old_eur" type="number" inputmode="decimal" step="0.0001" min="0" value="' + (v.price_old_eur == null ? '' : v.price_old_eur) + '"><span class="hint" data-old-hint>' + esc(oldHint(v.price_eur, v.price_old_eur)) + '</span>' + was('price_old_eur', b && b.price_old_eur == null ? 'без знижки' : null) + '</label>' +
+      '<div class="full ed__disc" role="group" aria-label="Знижка">' +
+        '<span class="ed__disc-l">' + IC_TAG + 'Знижка</span>' +
+        '<label class="ed__disc-n"><span class="sr-only">Відсоток знижки</span>\u2212<input name="disc_pct" type="number" inputmode="numeric" min="1" max="90" step="1" value="' + (hasDisc(v) ? pctOf((oldOf(v) != null ? v : v.variants.find(oldOf)).price_old_eur, (oldOf(v) != null ? v : v.variants.find(oldOf)).price_eur) : 10) + '">%</label>' +
+        '<button class="btn btn--y adm-sm" type="button" data-disc-apply>Застосувати</button>' +
+        '<button class="btn btn--o adm-sm" type="button" data-disc-clear>' + IC_UNDO + 'Прибрати знижку</button>' +
+        '<span class="hint">Нову ціну рахує від старої (якщо її немає — від поточної), округлює вниз до гривні; так само для кожного варіанта. Збережеться після «Зберегти».</span>' +
+      '</div>' +
       '<label>Текст до ціни <span class="hint">(необов’язково, напр. «1 л», «комплект»)</span><input name="price_label" maxlength="120" value="' + esc(v.price_label || '') + '"></label>' +
       '<label>Наявність<select name="in_stock_sel">' + STOCKS.map((s) => '<option' + (s === v.in_stock ? ' selected' : '') + '>' + esc(s) + '</option>').join('') + '<option value="__custom"' + (stockKnown ? '' : ' selected') + '>Інше (свій текст)…</option></select>' + was('in_stock') + '</label>' +
       '<label class="full" data-custom-stock' + (stockKnown ? ' hidden' : '') + '>Свій текст наявності<input name="in_stock_custom" maxlength="120" value="' + esc(stockKnown ? '' : v.in_stock) + '" placeholder="напр. У дорозі · 2 шт"></label>' +
@@ -235,7 +275,7 @@ function openEdit(id) {
       '<label class="ed__chk ed__excl"><input name="promo_excl" type="checkbox"' + (pm.excl ? ' checked' : '') + '><span>💎 Ексклюзив <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
-      '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна в €», напр. «Дюза 1.3 = 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea><span class="hint" data-uah-vars>' + esc(varsHint(varsToText(v.variants))) + '</span></label>' +
+      '<label class="full">Варіанти <span class="hint">(необов’язково; кожен з нового рядка: «назва = ціна в €», напр. «Дюза 1.3 = 420»; зі знижкою — «назва = нова / стара», напр. «Дюза 1.3 = 378 / 420»)</span><textarea name="variants" rows="3">' + esc(varsToText(v.variants)) + '</textarea><span class="hint" data-uah-vars>' + esc(varsHint(varsToText(v.variants))) + '</span></label>' +
       '<div class="full ed__media" id="ed-media"></div>' +
       '<div class="full ed__vids" id="ed-vids"></div>' +
       '<label class="full ed__chk"><input name="hidden" type="checkbox"' + (v.hidden ? ' checked' : '') + '> Приховати на сайті</label>' +
@@ -360,12 +400,16 @@ function readForm(f) {
   const pr = g('price_eur').replace(',', '.');
   const price = pr === '' ? null : parseFloat(pr);
   if (price != null && (!isFinite(price) || price < 0)) throw new Error('Невірна ціна.');
+  const po = g('price_old_eur').replace(',', '.');
+  let priceOld = po === '' ? null : parseFloat(po);
+  if (priceOld != null && (!isFinite(priceOld) || priceOld < 0)) throw new Error('Невірна стара ціна.');
+  if (priceOld != null && (price == null || toUah(priceOld) <= toUah(price))) throw new Error('Стара ціна має бути більшою за нову (поточну). Щоб прибрати знижку — натисніть «Прибрати знижку» або очистіть поле.');
   const sel = g('in_stock_sel'), stock = sel === '__custom' ? g('in_stock_custom') : sel;
   if (!stock) throw new Error('Вкажіть наявність.');
   const variants = textToVars(f.elements.variants.value);
   const promo = buildPromo(g('promo'), !!(f.elements.promo_excl && f.elements.promo_excl.checked));
   if (promo == null) throw new Error('Свій текст позначки задовгий, щоб поєднати його з «Ексклюзив» (до 15 символів).');
-  return { name, category: g('category'), price_eur: price, price_label: g('price_label'), in_stock: stock, description: f.elements.description.value.trim(),
+  return { name, category: g('category'), price_eur: price, price_old_eur: priceOld, price_label: g('price_label'), in_stock: stock, description: f.elements.description.value.trim(),
     promo, variants, code: g('code'), hidden: f.elements.hidden.checked };
 }
 function slugId(name) {
@@ -396,6 +440,7 @@ async function save(f) {
     const b = baseVals(id); docv = {};
     FIELDS.forEach((k) => { const a = v[k] === '' ? null : v[k], z = b[k] === '' ? null : b[k];
       if (k === 'promo' ? promoKey(a) !== promoKey(z) : JSON.stringify(a ?? null) !== JSON.stringify(z ?? null)) docv[k] = v[k]; }); // 'new+excl' = 'Новинка · Ексклюзив' з каталогу — не перекриваємо
+    explicitOld(docv, v);
     if (v.hidden) docv.hidden = true;
     if (hasPhoto) docv.hasPhoto = true;
     if (JSON.stringify(gallery) !== '["static"]') docv.gallery = gallery;
@@ -409,6 +454,100 @@ async function save(f) {
   await F.setDoc(F.doc(db, 'products', id), docv);
   await cleanup();
   return { id };
+}
+
+// якщо пишемо ціну/варіанти — завжди пишемо й price_old_eur (число або null): так сайт знає, що знижкою керує адмінка,
+// і не застосовує поверх неї знижку з каталогу (discNorm)
+function explicitOld(docv, v) {
+  if (('price_eur' in docv || 'variants' in docv) && !('price_old_eur' in docv)) docv.price_old_eur = v.price_old_eur ?? null;
+}
+
+/* ---------- знижка на всю категорію (08.10.2026) ---------- */
+function bulkTargets() {
+  const cat = $('#adm-cat').value || 'all';
+  return { cat, list: merged().filter((p) => (cat === 'all' ? false : p.category === cat) && (p.price_eur != null || (p.variants || []).length)) };
+}
+function discVals(p, pct) { // pct = null -> прибрати знижку
+  const one = (o) => {
+    const old = oldOf(o) != null ? Number(o.price_old_eur) : (o.price_eur != null ? Number(o.price_eur) : null);
+    if (old == null) return { price_eur: o.price_eur ?? null, price_old_eur: null };
+    return pct ? { price_eur: discEur(old, pct), price_old_eur: old } : { price_eur: old, price_old_eur: null };
+  };
+  const top = one(p);
+  const variants = p.variants ? p.variants.map((x) => { const r = one(x), y = Object.assign({}, x, { price_eur: r.price_eur }); delete y.price_old_eur; if (r.price_old_eur != null) y.price_old_eur = r.price_old_eur; return y; }) : null;
+  return { price_eur: top.price_eur, price_old_eur: top.price_old_eur, variants };
+}
+async function bulkDiscount(remove) {
+  const { F, db } = fb;
+  const pct = remove ? null : Math.round(Number($('#bulk-pct').value));
+  if (!remove && !(pct >= 1 && pct <= 90)) { toast('Вкажіть знижку від 1 до 90 %'); return; }
+  const { cat, list } = bulkTargets();
+  if (cat === 'all') { toast('Спершу оберіть категорію у фільтрі зверху'); return; }
+  const todo = remove ? list.filter(hasDisc) : list;
+  if (!todo.length) { toast(remove ? 'У цій категорії немає товарів зі знижкою' : 'У цій категорії немає товарів з ціною'); return; }
+  const cname = catById[cat] ? catById[cat].name : cat;
+  if (!confirm(remove ? 'Прибрати знижку в категорії «' + cname + '» (' + todo.length + ' тов.)? Ціни повернуться до старих.' : 'Знижка \u2212' + pct + '% на категорію «' + cname + '» (' + todo.length + ' тов.)? Нова ціна рахується від старої (якщо її немає — від поточної), округлення вниз до гривні.')) return;
+  const btns = $$('#adm-bulk button'); btns.forEach((b) => { b.disabled = true; });
+  let ok = 0, bad = 0;
+  for (const p of todo) {
+    try {
+      const nv = discVals(p, pct), r = remote[p.id] || {}, now = Date.now();
+      if (p.isStatic) {
+        const b = baseVals(p.id), docv = {};
+        Object.keys(r).forEach((k) => { if (k !== 'updatedAt') docv[k] = r[k]; });
+        ['price_eur', 'price_old_eur', 'variants'].forEach((k) => {
+          if (JSON.stringify(nv[k] ?? null) !== JSON.stringify(b[k] ?? null)) docv[k] = nv[k]; else delete docv[k];
+        });
+        explicitOld(docv, nv);
+        if (!Object.keys(docv).length) await F.deleteDoc(F.doc(db, 'products', p.id));
+        else { docv.updatedAt = now; await F.setDoc(F.doc(db, 'products', p.id), docv); }
+      } else {
+        await F.setDoc(F.doc(db, 'products', p.id), { price_eur: nv.price_eur, price_old_eur: nv.price_old_eur, variants: nv.variants, updatedAt: now }, { merge: true });
+      }
+      ok++;
+    } catch (e) { bad++; console.warn(p.id, e); }
+  }
+  btns.forEach((b) => { b.disabled = false; });
+  toast((remove ? 'Знижку прибрано: ' : 'Знижку \u2212' + pct + '% застосовано: ') + ok + ' тов.' + (bad ? ' · помилок: ' + bad : ''));
+  bulkInfo();
+}
+function bulkInfo() {
+  const el = $('#bulk-info'); if (!el) return;
+  const { cat, list } = bulkTargets();
+  if (cat === 'all') { el.textContent = 'Оберіть категорію у фільтрі вище — знижка застосується до всіх її товарів з ціною (і прихованих).'; return; }
+  const n = list.filter(hasDisc).length;
+  el.textContent = (catById[cat] ? catById[cat].name : cat) + ': товарів з ціною — ' + list.length + ', зі знижкою — ' + n + '.';
+}
+// форма: «−N%» / «Прибрати знижку» (заповнює поля; зберігається кнопкою «Зберегти»)
+function oldHint(now, old) {
+  const n = parseFloat(String(now == null ? '' : now).replace(',', '.')), o = parseFloat(String(old == null ? '' : old).replace(',', '.'));
+  if (!isFinite(o) || String(old).trim() === '') return '';
+  if (!isFinite(n) || toUah(o) <= toUah(n)) return 'Стара ціна має бути більшою за нову — інакше її не видно.';
+  return 'На сайті: ' + uahOf(n) + ', перекреслено ' + uahOf(o) + ' (\u2212' + pctOf(o, n) + '%)';
+}
+function formDisc(remove) {
+  const f = $('#ed-form'), E = f.elements;
+  const pct = Math.round(Number(E.disc_pct.value));
+  if (!remove && !(pct >= 1 && pct <= 90)) { edMsg('Вкажіть знижку від 1 до 90 %.'); return; }
+  const cur = numOf(E.price_eur.value), old0 = numOf(E.price_old_eur.value);
+  const base = isFinite(old0) && E.price_old_eur.value.trim() !== '' ? old0 : (isFinite(cur) && E.price_eur.value.trim() !== '' ? cur : null);
+  let lines;
+  try { lines = textToVars(E.variants.value) || []; } catch (e) { edMsg(e.message); return; }
+  if (base == null && !lines.length) { edMsg('Спершу вкажіть ціну.'); return; }
+  if (base != null) {
+    if (remove) { E.price_eur.value = base; E.price_old_eur.value = ''; }
+    else { E.price_old_eur.value = base; E.price_eur.value = discEur(base, pct); }
+  }
+  if (lines.length) {
+    E.variants.value = lines.map((x) => {
+      const o = x.price_old_eur != null ? x.price_old_eur : x.price_eur;
+      return remove ? x.label + ' = ' + o : x.label + ' = ' + discEur(o, pct) + ' / ' + o;
+    }).join('\n');
+  }
+  edMsg(remove ? 'Знижку прибрано (ціни повернуто до старих). Натисніть «Зберегти».' : 'Знижку \u2212' + pct + '% застосовано у формі. Натисніть «Зберегти».', true);
+  const h = $('[data-uah-hint]'); if (h) h.textContent = uahHint(E.price_eur.value);
+  const oh = $('[data-old-hint]'); if (oh) oh.textContent = oldHint(E.price_eur.value, E.price_old_eur.value);
+  const vh = $('[data-uah-vars]'); if (vh) vh.textContent = varsHint(E.variants.value);
 }
 
 async function delPhotos(id, keys) {
@@ -426,6 +565,10 @@ async function onClick(e) {
   if (t.id === 'adm-logout' || t.hasAttribute('data-logout')) { await A.signOut(auth); return; }
   if (t.hasAttribute('data-g')) { try { await googleSignIn(fb); } catch (err) { gate(loginHTML(authErr(err))); } return; }
   if (t.id === 'adm-add') { openEdit(null); return; }
+  if (t.hasAttribute('data-bulk-apply')) { bulkDiscount(false); return; }
+  if (t.hasAttribute('data-bulk-clear')) { bulkDiscount(true); return; }
+  if (t.hasAttribute('data-disc-apply')) { formDisc(false); return; }
+  if (t.hasAttribute('data-disc-clear')) { formDisc(true); return; }
   if (t.hasAttribute('data-edit')) { openEdit(t.getAttribute('data-edit')); return; }
   if (t.hasAttribute('data-toggle')) {
     const p = byIdNow(t.getAttribute('data-toggle')); if (!p) return;
@@ -495,13 +638,16 @@ function onInput(e) {
   const t = e.target;
   if (extrasInput(t)) return;
   if (t.id === 'adm-q') { renderList(); return; }
-  if (t.name === 'price_eur') { const h = $('[data-uah-hint]'); if (h) h.textContent = uahHint(t.value); return; }
+  if (t.name === 'price_eur' || t.name === 'price_old_eur') {
+    const f = $('#ed-form'); const h = $('[data-uah-hint]'); if (h && t.name === 'price_eur') h.textContent = uahHint(t.value);
+    const oh = $('[data-old-hint]'); if (oh && f) oh.textContent = oldHint(f.elements.price_eur.value, f.elements.price_old_eur.value); return;
+  }
   if (t.name === 'variants') { const h = $('[data-uah-vars]'); if (h) h.textContent = varsHint(t.value); }
 }
 async function onChange(e) {
   const t = e.target;
   if (extrasChange(t)) return;
-  if (t.id === 'adm-cat' || t.id === 'adm-flt') { renderList(); return; }
+  if (t.id === 'adm-cat' || t.id === 'adm-flt') { renderList(); bulkInfo(); return; }
   if (t.name === 'in_stock_sel') { $('[data-custom-stock]').hidden = t.value !== '__custom'; return; }
   if (t.name === 'photos' && t.files && t.files.length && edit) { const files = Array.from(t.files); t.value = ''; await addPhotos(files); }
 }
