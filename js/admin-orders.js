@@ -1,5 +1,5 @@
 /* Alex_bes — адмінка: «Замовлення» (orders/{id}) і «Статистика» (stats/{YYYY-MM-DD} + cart_events/{id} — що додають у кошик). Підключає js/admin.js. */
-import { authErr, esc } from './fb-common.js?v=1';
+import { authErr, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
 
 const $ = (s, r) => (r || document).querySelector(s);
 const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
@@ -145,9 +145,16 @@ const SI = {
   done: '<path d="M9 3.5h6a1 1 0 0 1 1 1V6H8V4.5a1 1 0 0 1 1-1z"/><path d="M16 5h1.5A2.5 2.5 0 0 1 20 7.5v11a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 18.5v-11A2.5 2.5 0 0 1 6.5 5H8"/><path d="m8.5 13.5 2.4 2.4 4.6-4.9"/>',
   bars: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
   top: '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/>',
-  send: '<path d="M21 3 10.5 13.5"/><path d="m21 3-6.5 18-4-7.5L3 9.5z"/>'
+  send: '<path d="M21 3 10.5 13.5"/><path d="m21 3-6.5 18-4-7.5L3 9.5z"/>',
+  users: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>',
+  chev: '<path d="m6 9 6 6 6-6"/>',
+  next: '<path d="m9 6 6 6-6 6"/>'
 };
 let stDocs = null, stRange = 7, stErr = '', stBusy = false;
+// 08.10.2026: «Зареєстровано» — профілі покупців users/{uid} (читає лише адмін). Не рахуємо адміна і службовий акаунт бота.
+// createdAt (серверний час) пишеться з 08.10.2026 при першому вході нового акаунта; старі профілі без дати — лише в «усього».
+const NOTIFIER_UID = 'eTCoRutzpJVpPKv9yGViPYwOpI03';
+let usDocs = null, usErr = '', usBusy = null, clQ = '';
 // 08.10: журнал «що додають у кошик» — cart_events (останні 31 день, до CE_LIMIT подій; читає лише адмін); список додавань з фото, фільтр за товаром
 let ceDocs = null, ceErr = '';
 const CE_LIMIT = 3000;
@@ -160,6 +167,30 @@ function lastDays(n) { // ['YYYY-MM-DD', …] від найстарішого д
   for (let i = n - 1; i >= 0; i--) out.push(new Date(base - i * 864e5).toISOString().slice(0, 10));
   return out;
 }
+// 08.10.2026: профілі покупців users/{uid} — для картки «Зареєстровано» і вкладки «Клієнти» (один спільний запит)
+async function fetchUsers() {
+  if (usBusy) return usBusy;
+  usBusy = (async () => {
+    try {
+      const { F, db, auth } = ctx.fb, me = auth && auth.currentUser ? auth.currentUser.uid : '';
+      const qu = await F.getDocs(F.collection(db, 'users'));
+      const out = [];
+      qu.forEach((d) => {
+        const x = d.data() || {};
+        if (d.id === NOTIFIER_UID || d.id === me || String(x.email || '').toLowerCase() === ADMIN_EMAIL) return;
+        let c = null; try { c = x.createdAt && x.createdAt.toDate ? x.createdAt.toDate() : null; } catch (e) { c = null; }
+        const up = typeof x.updatedAt === 'number' && isFinite(x.updatedAt) && x.updatedAt > 0 ? new Date(x.updatedAt) : null;
+        out.push({ id: d.id, name: String(x.name || '').trim(), phone: String(x.phone || '').trim(), email: String(x.email || '').trim(),
+          city: String(x.city || '').trim(), np: String(x.np || '').trim(), c, up,
+          photo: typeof x.photo === 'string' && /^data:image\/(webp|jpeg);base64,/.test(x.photo) ? x.photo : '' });
+      });
+      out.sort((a, b) => ((b.c || b.up || 0) - (a.c || a.up || 0)) || a.name.localeCompare(b.name, 'uk'));
+      usDocs = out; usErr = '';
+    } catch (e) { usDocs = null; usErr = (e && e.code === 'permission-denied') ? 'perm' : authErr(e); }
+  })();
+  const p = usBusy;
+  try { await p; } finally { if (usBusy === p) usBusy = null; }
+}
 export async function loadStats() {
   if (stBusy) return;
   stBusy = true; stErr = '';
@@ -169,6 +200,7 @@ export async function loadStats() {
     const qs = await F.getDocs(F.query(F.collection(db, 'stats'), F.where(F.documentId(), '>=', from)));
     stDocs = {}; qs.forEach((d) => { stDocs[d.id] = d.data(); });
   } catch (e) { stErr = authErr(e); }
+  await fetchUsers();
   try {
     const { F, db } = ctx.fb, since = F.Timestamp.fromMillis(Date.now() - 31 * 864e5);
     const qe = await F.getDocs(F.query(F.collection(db, 'cart_events'), F.where('ts', '>=', since), F.orderBy('ts', 'desc'), F.limit(CE_LIMIT)));
@@ -179,6 +211,101 @@ export async function loadStats() {
 }
 const num = (v) => (typeof v === 'number' && isFinite(v) ? v : 0);
 const nf = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0');
+const usDtf = new Intl.DateTimeFormat('uk-UA', { timeZone: TZ, day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+function usersNew(days) { // нові за період (дні — за Києвом); без createdAt — не нові
+  if (!usDocs) return [];
+  const set = new Set(days);
+  return usDocs.filter((u) => u.c && set.has(kyivDay(u.c)));
+}
+const rangeTxt = () => (stRange === 1 ? 'сьогодні' : stRange + ' днів');
+function usersCardHTML(days) {
+  if (usErr || !usDocs) {
+    return '<div class="st-card st-card--users"><b>—</b><span>' + stIc(SI.users) + 'Зареєстровано</span><small>' +
+      (usErr === 'perm' ? 'немає доступу до профілів' : usErr ? 'помилка читання' : 'завантаження…') + '</small></div>';
+  }
+  const n = usersNew(days).length;
+  return '<a class="st-card st-card--users st-card--btn" href="#clients" data-st-users aria-label="Зареєстровано: ' + usDocs.length + '. Відкрити список клієнтів">' +
+    '<b>' + nf(usDocs.length) + '</b><span>' + stIc(SI.users) + 'Зареєстровано</span>' +
+    '<small>' + (n ? '+' + nf(n) + ' ' + plural(n, 'новий', 'нові', 'нових') : 'нових немає') + ' · ' + rangeTxt() + '</small>' +
+    '<i class="st-card__chev" aria-hidden="true">' + stIc(SI.next, 16) + '</i></a>';
+}
+
+/* ---------- 08.10.2026: вкладка «Клієнти» — усі зареєстровані покупці (users/{uid}; читає лише адмін) ---------- */
+const CI = {
+  phone: '<path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12.5 12.5 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/>',
+  mail: '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/>',
+  pin: '<path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.3"/>',
+  box: '<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/>',
+  cal: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/>',
+  edit: '<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+  user: '<circle cx="12" cy="8.5" r="4"/><path d="M4 20.5a8 8 0 0 1 16 0"/>'
+};
+const isNew = (u, set) => !!(u.c && set.has(kyivDay(u.c)));
+const digits = (s) => String(s || '').replace(/\D/g, '');
+function clMatch(u, q) {
+  if (!q) return true;
+  const ql = q.toLowerCase(), qd = digits(q);
+  return u.name.toLowerCase().includes(ql) || u.email.toLowerCase().includes(ql) || u.phone.toLowerCase().includes(ql) ||
+    (qd.length >= 3 && digits(u.phone).includes(qd));
+}
+function clRow(u, set) {
+  const nw = isNew(u, set);
+  const tel = u.phone ? '<a href="tel:' + esc(u.phone.replace(/[^\d+]/g, '')) + '">' + stIc(CI.phone, 15) + esc(u.phone) + '</a>' : '';
+  const em = u.email ? '<a href="mailto:' + esc(u.email) + '">' + stIc(CI.mail, 15) + esc(u.email) + '</a>' : '';
+  const ava = u.photo ? '<img src="' + esc(u.photo) + '" alt="" width="48" height="48" loading="lazy" decoding="async">' : stIc(CI.user, 24);
+  return '<li class="cl' + (nw ? ' cl--new' : '') + '">' +
+    '<span class="cl__ava' + (u.photo ? ' has-photo' : '') + '">' + ava + '</span>' +
+    '<div class="cl__b">' +
+      '<div class="cl__n">' + (u.name ? esc(u.name) : '<span class="muted">ім’я не вказано</span>') + (nw ? '<span class="cl__badge">новий</span>' : '') + '</div>' +
+      '<div class="cl__c">' + ([tel, em].filter(Boolean).join('') || '<span class="muted">контактів немає</span>') + '</div>' +
+      (u.city || u.np ? '<div class="cl__a">' + (u.city ? '<span>' + stIc(CI.pin, 15) + esc(u.city) + '</span>' : '') + (u.np ? '<span>' + stIc(CI.box, 15) + esc(u.np) + '</span>' : '') + '</div>' : '') +
+      '<div class="cl__m"><span>' + stIc(CI.cal, 14) + 'Зареєстровано: ' + (u.c ? esc(usDtf.format(u.c)) : '<i>дата невідома</i>') + '</span>' +
+        '<span>' + stIc(CI.edit, 14) + 'Остання зміна: ' + (u.up ? esc(usDtf.format(u.up)) : '—') + '</span></div>' +
+    '</div></li>';
+}
+export async function loadClients(force) {
+  if (usDocs && !force) { renderClients(); return; }
+  const st = $('#cl-stats'); if (st) st.textContent = 'Завантаження клієнтів…';
+  await fetchUsers();
+  renderClients();
+  if (stDocs) renderStats();
+}
+export function renderClients() {
+  const list = $('#cl-list'), st = $('#cl-stats'); if (!list || !st) return;
+  $$('[data-cl-range]').forEach((b) => b.classList.toggle('on', +b.getAttribute('data-cl-range') === stRange));
+  if (usErr) { st.innerHTML = '<span class="ed__msg">' + (usErr === 'perm' ? 'Немає доступу до профілів клієнтів (правила Firestore).' : 'Помилка читання: ' + esc(usErr)) + '</span>'; list.innerHTML = ''; return; }
+  if (!usDocs) return;
+  const set = new Set(lastDays(stRange)), all = usDocs, q = clQ.trim(), rows = all.filter((u) => clMatch(u, q));
+  const nNew = all.filter((u) => isNew(u, set)).length, nOld = all.filter((u) => !u.c).length;
+  st.innerHTML = '<b>' + nf(all.length) + '</b> ' + plural(all.length, 'клієнт', 'клієнти', 'клієнтів') +
+    ' · нових за ' + (stRange === 1 ? 'сьогодні' : stRange + ' днів') + ': <b>' + nf(nNew) + '</b>' +
+    (nOld ? ' · без дати реєстрації: ' + nf(nOld) : '') + (q ? ' · знайдено: <b>' + nf(rows.length) + '</b>' : '');
+  list.innerHTML = rows.length ? rows.map((u) => clRow(u, set)).join('') :
+    '<li class="cl cl--empty muted">' + (all.length ? 'Нікого не знайдено за запитом «' + esc(q) + '».' : 'Ще немає зареєстрованих клієнтів.') + '</li>';
+}
+// «Скопіювати список» (TSV — вставляється в Excel / Google Таблиці) і CSV-файл (Excel: «;», UTF-8 з BOM); з урахуванням пошуку
+const CL_COLS = ['Ім’я', 'Телефон', 'Email', 'Місто', 'Відділення НП', 'Зареєстровано', 'Остання зміна'];
+function clRows() {
+  const f = (d) => (d ? usDtf.format(d).replace(',', '') : '');
+  return (usDocs || []).filter((u) => clMatch(u, clQ.trim())).map((u) => [u.name, u.phone, u.email, u.city, u.np, u.c ? f(u.c) : 'дата невідома', f(u.up)]);
+}
+async function clCopy() {
+  const rows = clRows();
+  const txt = [CL_COLS].concat(rows).map((r) => r.map((v) => String(v).replace(/[\t\r\n]+/g, ' ')).join('\t')).join('\n');
+  let ok = false;
+  try { await navigator.clipboard.writeText(txt); ok = true; } catch (e) {
+    try { const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); ok = document.execCommand('copy'); ta.remove(); } catch (x) { ok = false; }
+  }
+  ctx.toast(ok ? 'Список скопійовано: ' + rows.length + ' ' + plural(rows.length, 'клієнт', 'клієнти', 'клієнтів') + ' — вставте в таблицю' : 'Не вдалося скопіювати');
+}
+function clCsv() {
+  const q = (v) => '"' + String(v).replace(/"/g, '""') + '"';
+  const csv = '\ufeff' + [CL_COLS].concat(clRows()).map((r) => r.map(q).join(';')).join('\r\n');
+  const a = document.createElement('a'), url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.href = url; a.download = 'klienty-alexbes-' + kyivDay(new Date()) + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
 export function renderStats() {
   const body = $('#st-body'); if (!body) return;
   $$('[data-st-range]').forEach((b) => b.classList.toggle('on', +b.getAttribute('data-st-range') === stRange));
@@ -215,7 +342,8 @@ export function renderStats() {
     '<div class="st-cards">' +
       '<div class="st-card"><b>' + nf(tot.views) + '</b><span>' + stIc(SI.eye) + 'Візити</span></div>' +
       '<div class="st-card"><b>' + nf(tot.opens) + '</b><span>' + stIc(SI.search) + 'Відкриття товарів</span></div>' +
-      '<div class="st-card st-card--wide"><b>' + nf(tot.cart) + '</b><span>' + stIc(SI.cart) + 'Додавання в кошик</span></div>' +
+      '<div class="st-card"><b>' + nf(tot.cart) + '</b><span>' + stIc(SI.cart) + 'Додавання в кошик</span></div>' +
+      usersCardHTML(days) +
       '<div class="st-card"><b>' + nf(tot.clicks) + '</b><span>' + stIc(SI.tap) + 'Натиснули «Замовити»</span></div>' +
       '<div class="st-card st-card--done"><b>' + nf(tot.done) + '</b><span>' + stIc(SI.done) + 'Оформлено</span>' +
         (conv != null ? '<small>' + conv + '% від кліків на бота</small>' : '') + '</div>' +
@@ -358,6 +486,10 @@ export function extrasClick(t) {
   if (t.hasAttribute('data-ce-clear')) { cePid = ''; ceShow = CE_PAGE; renderStats(); ceScroll(); return true; }
   if (t.hasAttribute('data-ce-more')) { ceShow += CE_PAGE; renderStats(); return true; }
   if (t.hasAttribute('data-ce-topall')) { ceTopAll = !ceTopAll; renderStats(); return true; }
+  if (t.hasAttribute('data-cl-range')) { { const r = +t.getAttribute('data-cl-range'); stRange = r === 30 ? 30 : r === 1 ? 1 : 7; } renderClients(); if (stDocs) renderStats(); return true; }
+  if (t.hasAttribute('data-cl-reload')) { loadClients(true); return true; }
+  if (t.hasAttribute('data-cl-copy')) { clCopy(); return true; }
+  if (t.hasAttribute('data-cl-csv')) { clCsv(); return true; }
   if (t.hasAttribute('data-st-reload')) { loadStats(); return true; }
   return false;
 }
@@ -366,4 +498,4 @@ export function extrasChange(t) {
   if (t.id === 'st-nostats') { try { if (t.checked) localStorage.setItem('alexbes_nostats', '1'); else localStorage.removeItem('alexbes_nostats'); } catch (e) {} ctx.toast(t.checked ? 'Ваші відвідування з цього пристрою не рахуються' : 'Ваші відвідування знову рахуються'); return true; }
   return false;
 }
-export function extrasInput(t) { if (t.id === 'ord-q') { oq = t.value; renderOrders(); return true; } return false; }
+export function extrasInput(t) { if (t.id === 'ord-q') { oq = t.value; renderOrders(); return true; } if (t.id === 'cl-q') { clQ = t.value; renderClients(); return true; } return false; }

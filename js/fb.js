@@ -224,6 +224,10 @@ async function onUser(u) {
     if (!same(merged, data.cart)) patch.cart = merged;
     if (u.email && data.email !== u.email) patch.email = u.email;
     if (Object.keys(patch).length) { patch.updatedAt = Date.now(); await F.setDoc(ref, patch, { merge: true }); }
+    // 08.10.2026: дата реєстрації для адмінки («Статистика» → «Зареєстровано»). Лише для щойно створеного акаунта (Auth < 15 хв)
+    // і лише якщо поля ще немає; серверний час; окремий запис — якщо правила його не приймуть, профіль/кошик не постраждають.
+    const born = Date.parse((u.metadata && u.metadata.creationTime) || '');
+    if (!data.createdAt && born && Math.abs(Date.now() - born) < 15 * 60000) F.setDoc(ref, { createdAt: F.serverTimestamp() }, { merge: true }).catch(() => {});
     AB.fillForm({ name: profile.name, phone: profile.phone, city: [profile.city, profile.np].filter(Boolean).join(', ') });
     // real-time: changes from other devices
     unsubUser = F.onSnapshot(ref, (s) => {

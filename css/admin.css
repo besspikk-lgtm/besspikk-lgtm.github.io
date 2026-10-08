@@ -128,7 +128,8 @@
 .ocard__m{margin-top:8px;font-size:11.5px;color:var(--muted);word-break:break-all}
 /* stats */
 .st-tools{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:0 0 10px}
-.st-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px}
+.st-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+@media (min-width:1180px){.st-cards{grid-template-columns:repeat(6,1fr)}}
 .st-card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
 .st-card b{font-size:24px;color:var(--text);line-height:1.1}
 .st-card span{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
@@ -162,7 +163,6 @@ ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-we
 @media (max-width:760px){
   .ord-tools{top:66px}
   .st-cards{grid-template-columns:1fr 1fr}
-  .st-card--wide{grid-column:1/-1}
   .st-top li{grid-template-columns:1fr 60px 34px}
 }
 @media (max-width:480px){
@@ -255,3 +255,50 @@ ol.st-top .st-top__n::before{content:counter(st) ". ";color:var(--muted);font-we
   .ce-sel__x{grid-column:1/-1;justify-content:center}
 }
 .stc__b{max-height:calc(100% - 49px)}
+
+/* 08.10.2026: «Зареєстровано» — картка-кнопка + список нових реєстрацій за період */
+.st-card--btn{position:relative;font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background .15s}
+.st-card--btn:hover{border-color:rgba(255,214,0,.45)}
+.st-card--btn.on{border-color:var(--yellow);background:linear-gradient(180deg,rgba(255,214,0,.10),rgba(255,214,0,.03))}
+.st-card--btn:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.st-card__chev{position:absolute;top:10px;right:10px;color:var(--muted);display:flex;transition:transform .2s}
+.st-card--btn.on .st-card__chev{transform:rotate(180deg);color:var(--yellow)}
+.st-users{margin:0 0 14px}
+.st-users .st-h{margin-top:4px}
+.st-ulist{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.st-ulist li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:13.5px;color:var(--text)}
+.st-ulist__n{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.st-ulist__d{grid-column:2;grid-row:1;color:var(--muted);font-size:12.5px;white-space:nowrap}
+.st-ulist__c{grid-column:1/-1;min-width:0;overflow-wrap:anywhere;color:var(--text2)}
+.st-ulist__c a{color:var(--text2);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.3)}
+/* 08.10.2026: вкладки з SVG-іконками + вкладка «Клієнти» */
+.adm-tabs a svg{flex:0 0 auto}
+@media (max-width:480px){.adm-tabs a svg{display:none}}
+.st-card--users .st-card__chev{transform:none}
+a.st-card--btn{text-decoration:none;color:inherit}
+.cl-tools{display:grid;gap:8px;margin:0 0 8px}
+.cl-q{display:flex;align-items:center;gap:8px;min-height:46px;padding:0 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.cl-q:focus-within{border-color:var(--yellow)}
+.cl-q input{flex:1;min-width:0;border:0;background:none;color:var(--text);font:inherit;font-size:15px;outline:none;height:44px}
+.cl-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.cl-acts{display:flex;gap:6px;flex-wrap:wrap}
+.cl-acts .btn{display:inline-flex;align-items:center;gap:6px}
+.adm-ic{width:38px;padding:0;justify-content:center}
+.cl-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.cl{display:flex;gap:12px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--text);font-size:14px}
+.cl--new{border-color:rgba(126,227,159,.5);background:linear-gradient(180deg,rgba(63,191,106,.10),rgba(63,191,106,.02))}
+.cl--empty{display:block;text-align:center;padding:18px}
+.cl__ava{flex:0 0 auto;width:48px;height:48px;border-radius:50%;display:grid;place-items:center;overflow:hidden;color:var(--muted);background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.cl__ava img{width:100%;height:100%;object-fit:cover;display:block}
+.cl__ava.has-photo{border-color:rgba(255,214,0,.45)}
+.cl__b{flex:1;min-width:0;display:grid;gap:5px}
+.cl__n{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700;font-size:15px;overflow-wrap:anywhere}
+.cl__badge{display:inline-flex;align-items:center;height:20px;padding:0 8px;border-radius:99px;font-size:11.5px;font-weight:800;letter-spacing:.02em;color:#08111f;background:#7ee39f}
+.cl__c,.cl__a{display:flex;flex-wrap:wrap;gap:4px 14px}
+.cl__c a{display:inline-flex;align-items:center;gap:6px;color:var(--text2);text-decoration:none;overflow-wrap:anywhere;min-height:24px}
+.cl__c a:hover{color:var(--yellow)}
+.cl__c svg,.cl__a svg{flex:0 0 auto;color:var(--yellow)}
+.cl__a span{display:inline-flex;align-items:center;gap:6px;color:var(--text2);overflow-wrap:anywhere}
+.cl__m{display:flex;flex-wrap:wrap;gap:2px 14px;font-size:12.5px;color:var(--muted)}
+.cl__m span{display:inline-flex;align-items:center;gap:5px}
+.cl__m i{font-style:normal;color:var(--muted)}

@@ -1,6 +1,6 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=6';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=8';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -77,8 +77,8 @@ function merged() {
 }
 const byIdNow = (id) => merged().find((p) => p.id === id);
 
-/* ---------- tabs: #products | #orders | #stats ---------- */
-const TABS = ['products', 'orders', 'stats'];
+/* ---------- tabs: #products | #orders | #stats | #clients ---------- */
+const TABS = ['products', 'orders', 'stats', 'clients'];
 let statsLoaded = false;
 function curTab() { const h = (location.hash || '').slice(1); return TABS.includes(h) ? h : 'products'; }
 function showTab() {
@@ -89,6 +89,7 @@ function showTab() {
   if (!user || !isAdminUser(user)) return;
   if (tab === 'orders') renderOrders();
   if (tab === 'stats' && !statsLoaded) { statsLoaded = true; loadStats(); }
+  if (tab === 'clients') loadClients();
 }
 window.addEventListener('hashchange', showTab);
 
