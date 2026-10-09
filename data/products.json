@@ -8237,7 +8237,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/helios-red-tape.webp?v=20261009b",
+   "photo": "img/p/helios-red-tape.webp?v=20261009e",
    "photo_is_placeholder": false,
    "photo_source": "фото виробника / магазинів: bccoatings.com.au, emag.ro, trustintape.com",
    "in_stock": "В наявності",
@@ -8245,8 +8245,8 @@
    "intake": "2026-10-04",
    "brand": "Helios",
    "photos_extra": [
-    "img/p/helios-red-tape-2.webp?v=20261004i",
-    "img/p/helios-red-tape-3.webp?v=20261004i"
+    "img/p/helios-red-tape-2.webp?v=20261009e",
+    "img/p/helios-red-tape-3.webp?v=20261009e"
    ],
    "specs": {
     "rows": [
@@ -9131,7 +9131,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/mobihel-coverall-model.webp?v=20261009b",
+   "photo": "img/p/mobihel-coverall-model.webp?v=20261009e",
    "photo_is_placeholder": false,
    "photo_source": "фото Alex (власне фото магазину), фон прибрано",
    "in_stock": "В наявності",
@@ -9152,8 +9152,8 @@
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
    "photos_extra": [
-    "img/p/mobihel-coverall-back.webp?v=20261004i",
-    "img/p/mobihel-coverall.webp?v=20261004i"
+    "img/p/mobihel-coverall-back.webp?v=20261009e",
+    "img/p/mobihel-coverall.webp?v=20261009e"
    ],
    "sub": "ppe",
    "type": "ppe"
