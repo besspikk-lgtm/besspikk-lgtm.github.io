@@ -32,6 +32,8 @@ let ctx = null; // { fb, toast, names(), products(), thumb(p), lazy() }
 let orders = [], unsubO = null, flt = 'all', oq = '', loaded = false, oErr = '';
 
 export function initAdminExtras(c) { ctx = c; }
+// 09.10.2026: відгуки з сайту приходять як orders/* з text «Відгук на товар…» (модерація — кнопки в Telegram-боті)
+const isReviewDoc = (o) => typeof o.text === 'string' && o.text.startsWith('Відгук на товар');
 
 /* ---------- замовлення ---------- */
 export function startOrders() {
@@ -40,7 +42,7 @@ export function startOrders() {
   loaded = false; oErr = '';
   const q = F.query(F.collection(db, 'orders'), F.orderBy('createdAt', 'desc'), F.limit(MAX_ORDERS));
   unsubO = F.onSnapshot(q, (qs) => {
-    orders = qs.docs.map((d) => Object.assign({ id: d.id }, d.data()));
+    orders = qs.docs.map((d) => Object.assign({ id: d.id }, d.data())).filter((o) => !isReviewDoc(o)); // 09.10: відгуки — у боті, не в замовленнях
     loaded = true; oErr = '';
     renderOrders();
   }, (e) => { oErr = authErr(e); renderOrders(); });
