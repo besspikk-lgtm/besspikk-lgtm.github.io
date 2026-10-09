@@ -2073,7 +2073,7 @@
      Усе локально (localStorage), без нових залежностей. Швидке замовлення йде тим самим шляхом, що й кошик:
      документ orders/<id> у Firestore (orderWriter із js/fb.js) → адмінка «Замовлення»; посилання o_<id> — у Telegram-бот.
      Маркер «Швидке замовлення» — на початку text і в note (окремого поля правила Firestore не дозволяють). */
-  var SITE_URL = 'https://besspikk-lgtm.github.io/';
+  var SITE_URL = 'https://alexbes.com.ua/';
   var QUICK_MARK = 'Швидке замовлення';
   function svgI(d, sz) { return '<svg viewBox="0 0 24 24" width="' + (sz || 20) + '" height="' + (sz || 20) + '" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + d + '</svg>'; }
   var IC = {
