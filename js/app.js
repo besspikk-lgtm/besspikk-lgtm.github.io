@@ -23,6 +23,9 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var esc = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); };
+  /* 09.10.2026: точки розширення для js/ux.js (пошук-підказки, фільтри, панель замовлення, перегляд фото, шапка) */
+  var uxHooks = {};
+  function uxHook(name, arg) { var r, a = uxHooks[name]; if (!a) return r; for (var i = 0; i < a.length; i++) { try { var x = a[i](arg); if (x !== undefined) { r = x; if (name === 'filter') arg = x; } } catch (e) { try { console.warn('ux hook', name, e); } catch (z) {} } } return r; }
   /* ---------- prices: € (stored) -> гривні (shown) ---------- */
   function toUah(e) { return Math.round(Number(e) * CONFIG.uahRate); } // ціла гривня
   function fmtUah(n) { return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' грн'; } // 21840 -> "21 840 грн"
@@ -349,6 +352,7 @@
       if (state.sub && !state.q) { var si = subItem(state.cat, state.sub); if (si && !si.f(p)) return false; }
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
+    list = uxHook('filter', list) || list; // 09.10.2026: фільтри (js/ux.js)
     var order = {}; CATS.forEach(function (c, i) { order[c.id] = i; });
     var oos = function (p) { return /немає/i.test(p.in_stock || '') ? 1 : 0; };
     var pr = function (p) { return hasPrice(p) ? toUah(p.price_eur) : null; };
@@ -560,6 +564,7 @@
     if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
     var chip = $('.chip.on'); if (chip && chip.scrollIntoView && window.innerWidth < 900) { var c = $('#chips'); c.scrollLeft = chip.offsetLeft - 16; }
+    uxHook('grid', list);
   }
 
   /* ---------- analytics (GoatCounter events; silently no-op if blocked) ---------- */
@@ -947,6 +952,7 @@
     try { history.pushState({ alexbesLb: 1 }, '', location.href); lb.pushed = true; } catch (e) { lb.pushed = false; }
     var x = $('.lb__x', el); if (x) x.focus({ preventScroll: true });
     track('фото/' + p.id, 'Фото на весь екран: ' + p.name);
+    uxHook('lbOpen', p);
   }
   function lbHide() {
     if (!lb.open) return;
@@ -971,6 +977,7 @@
     tr.style.transform = 'translate3d(calc(' + (-lb.i * 100) + '% + ' + (dx || 0) + 'px),0,0)';
     var c = $('.lb__cnt', lb.el); if (c) c.textContent = (lb.i + 1) + ' / ' + lb.n;
     lb.el.classList.toggle('is-zoom', lb.s > 1.01);
+    uxHook('lbPos', lb.i);
   }
   function lbClamp() {
     var im = lbImg(), sl = lbSlide(); if (!im || !sl) return;
@@ -1253,6 +1260,7 @@
     galInit();
     pmBarWatch();
     fillPhotos();
+    uxHook('product', p);
   }
 
   /* ---------- cart ---------- */
@@ -2646,6 +2654,18 @@
     pmIO.observe(buy);
   }
 
+  /* 09.10.2026: API для js/ux.js — лише читання даних і виклик готових функцій (без змін логіки каталогу) */
+  window.AlexBesUX = {
+    on: function (name, fn) { (uxHooks[name] = uxHooks[name] || []).push(fn); },
+    products: function () { return PRODUCTS; }, byId: function (id) { return byId[id]; },
+    state: state, cats: CATS, catById: catById, SUBCATS: SUBCATS, GUN_BRANDS: GUN_BRANDS, gunBrand: gunBrand, subItem: subItem, catHash: catHash,
+    CONFIG: CONFIG, esc: esc, norm: norm, toUah: toUah, fmtUah: fmtUah, uah: uah, uahTxt: uahTxt, uahText: uahText, hasPrice: hasPrice,
+    unitPrice: unitPrice, unitOld: unitOld, variantOf: variantOf, oldOf: oldOf, pillHTML: pillHTML, mainImg: mainImg, galleryOf: galleryOf, imgAttrs: imgAttrs,
+    svgI: svgI, IC: IC, CAT_IC: CAT_IC, pkIc: pkIc, productUrl: productUrl, pmState: pmState, track: track, plural: plural, countWord: countWord,
+    renderGrid: function () { renderGrid(); }, scrollToResults: function () { scrollToResults(); }, fillPhotos: function () { fillPhotos(); },
+    isModalOpen: function () { return !!openModalEl; },
+    lb: lb, lbGo: lbGo, lbClose: lbClose, lbPos: lbPos
+  };
   /* ---------- init ---------- */
   renderCats(); renderBanner(); updateBadges(); cmpSync();
   stat('views'); // візит: раз за сесію вкладки на добу
