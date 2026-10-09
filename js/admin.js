@@ -9,7 +9,7 @@ const BASE = Object.fromEntries(DATA.products.map((p) => [p.id, p]));
 // Same as PROMO in js/app.js (static badges); Firestore field `promo` overrides it.
 const PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ', 'pal-923-as90': 'ХІТ' };
 // lakmerge-20261009: окремі картки лаків 5 л об’єднано з карткою 1 л — їхні старі записи в Firestore не показуємо як окремі товари
-const MERGED_GONE = new Set(['pal-923-smart-5l', 'pal-923-as90-5l', 'pal-223-flash-5l', 'pal-223-shine-5l']);
+const MERGED_GONE = new Set(['pal-923-smart-5l', 'pal-923-as90-5l', 'pal-223-flash-5l', 'pal-223-shine-5l', 'pal-075-0020-5l', 'pal-075-0030-5l', 'pal-077-5l', 'savex-646', 'savex-acrylic', 'savex-metalic', 'savex-gun-cleaner']); // solvmerge-20261009
 const STOCKS = ['В наявності', 'Немає в наявності', 'Наявність уточнюйте', 'Під замовлення', 'У дорозі'];
 DATA.products.forEach((p) => { if (p.in_stock && !STOCKS.includes(p.in_stock)) STOCKS.push(p.in_stock); });
 const PLACEHOLDER = 'img/logo.webp?v=3';

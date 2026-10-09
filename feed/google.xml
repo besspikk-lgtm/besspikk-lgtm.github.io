@@ -816,10 +816,11 @@
       <g:id>pal-075-0020-1-l</g:id>
       <g:item_group_id>pal-075-0020</g:item_group_id>
       <title>Palinal 075.0020 — стандартний розчинник — 1 л</title>
-      <description>Multicryl Standard Thinner — стандартний розчинник для 2K матеріалів.</description>
+      <description>Multicryl Standard Thinner — стандартний розчинник для 2K акрил-поліуретанових емалей, лаків і ґрунтів. Для роботи при 15–25 °C.</description>
       <g:price>598.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/pal-075-0020/</link>
       <g:image_link>https://alexbes.com.ua/img/p/pal-075-0020.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/pal-075-0020-5l.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Palinal</g:brand>
@@ -830,10 +831,11 @@
       <g:id>pal-075-0020-5-l</g:id>
       <g:item_group_id>pal-075-0020</g:item_group_id>
       <title>Palinal 075.0020 — стандартний розчинник — 5 л</title>
-      <description>Multicryl Standard Thinner — стандартний розчинник для 2K матеріалів.</description>
+      <description>Multicryl Standard Thinner — стандартний розчинник для 2K акрил-поліуретанових емалей, лаків і ґрунтів. Для роботи при 15–25 °C.</description>
       <g:price>2600.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/pal-075-0020/</link>
-      <g:image_link>https://alexbes.com.ua/img/p/pal-075-0020.webp</g:image_link>
+      <g:image_link>https://alexbes.com.ua/img/v/pal-075-0020-5l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/pal-075-0020.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Palinal</g:brand>
@@ -844,10 +846,11 @@
       <g:id>pal-075-0030-1-l</g:id>
       <g:item_group_id>pal-075-0030</g:item_group_id>
       <title>Palinal 075.0030 — повільний розчинник — 1 л</title>
-      <description>Multicryl Slow Thinner — повільний розчинник для 2K матеріалів.</description>
+      <description>Multicryl Slow Thinner — повільний розчинник для 2K емалей, лаків і ґрунтів, для роботи в спеку (понад 25 °C).</description>
       <g:price>598.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/pal-075-0030/</link>
       <g:image_link>https://alexbes.com.ua/img/p/pal-075-0030.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/pal-075-0030-5l.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Palinal</g:brand>
@@ -858,10 +861,11 @@
       <g:id>pal-075-0030-5-l</g:id>
       <g:item_group_id>pal-075-0030</g:item_group_id>
       <title>Palinal 075.0030 — повільний розчинник — 5 л</title>
-      <description>Multicryl Slow Thinner — повільний розчинник для 2K матеріалів.</description>
+      <description>Multicryl Slow Thinner — повільний розчинник для 2K емалей, лаків і ґрунтів, для роботи в спеку (понад 25 °C).</description>
       <g:price>2600.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/pal-075-0030/</link>
-      <g:image_link>https://alexbes.com.ua/img/p/pal-075-0030.webp</g:image_link>
+      <g:image_link>https://alexbes.com.ua/img/v/pal-075-0030-5l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/pal-075-0030.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Palinal</g:brand>
@@ -882,12 +886,29 @@
       <g:product_type>PALINAL</g:product_type>
     </item>
     <item>
-      <g:id>pal-077</g:id>
-      <title>Palinal 077 — розчинник для епоксиду</title>
-      <description>Epoxy Thinner — розчинник для епоксидних ґрунтів. Тара 5 л — ціну уточнюйте.</description>
+      <g:id>pal-077-1-l</g:id>
+      <g:item_group_id>pal-077</g:item_group_id>
+      <title>Palinal 077 — розчинник для епоксиду — 1 л</title>
+      <description>Epoxy Thinner — розчинник для епоксидних ґрунтів Palinal (зокрема 881.7777), регулює в’язкість.</description>
       <g:price>598.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/pal-077/</link>
       <g:image_link>https://alexbes.com.ua/img/p/pal-077.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/pal-077-5l.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Palinal</g:brand>
+      <g:google_product_category>503741</g:google_product_category>
+      <g:product_type>PALINAL</g:product_type>
+    </item>
+    <item>
+      <g:id>pal-077-5-l</g:id>
+      <g:item_group_id>pal-077</g:item_group_id>
+      <title>Palinal 077 — розчинник для епоксиду — 5 л</title>
+      <description>Epoxy Thinner — розчинник для епоксидних ґрунтів Palinal (зокрема 881.7777), регулює в’язкість.</description>
+      <g:price>3120.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/pal-077/</link>
+      <g:image_link>https://alexbes.com.ua/img/v/pal-077-5l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/pal-077.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Palinal</g:brand>
@@ -1057,51 +1078,14 @@
       <g:product_type>Обладнання, аксесуари та захист</g:product_type>
     </item>
     <item>
-      <g:id>pal-075-0020-5l</g:id>
-      <title>Palinal 075.0020 — стандартний розчинник, 5 л</title>
-      <description>Стандартний розчинник Multicryl для 2K акрил-поліуретанових емалей, лаків і ґрунтів. Для роботи при 15–25 °C. Каністра 5 л.</description>
-      <g:price>2600.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/pal-075-0020-5l/</link>
-      <g:image_link>https://alexbes.com.ua/img/v/pal-075-0020-5l.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>Palinal</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>PALINAL</g:product_type>
-    </item>
-    <item>
-      <g:id>pal-075-0030-5l</g:id>
-      <title>Palinal 075.0030 — повільний розчинник, 5 л</title>
-      <description>Повільний розчинник Multicryl для 2K емалей, лаків і ґрунтів — для роботи в спеку (понад 25 °C). Каністра 5 л.</description>
-      <g:price>2600.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/pal-075-0030-5l/</link>
-      <g:image_link>https://alexbes.com.ua/img/v/pal-075-0030-5l.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>Palinal</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>PALINAL</g:product_type>
-    </item>
-    <item>
-      <g:id>pal-077-5l</g:id>
-      <title>Palinal 077 — розчинник для епоксиду, 5 л</title>
-      <description>Розчинник для епоксидних ґрунтів Palinal (зокрема 881.7777) — регулює в’язкість. Каністра 5 л.</description>
-      <g:price>3120.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/pal-077-5l/</link>
-      <g:image_link>https://alexbes.com.ua/img/v/pal-077-5l.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>Palinal</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>PALINAL</g:product_type>
-    </item>
-    <item>
-      <g:id>savex-acrylic-1l</g:id>
-      <title>Savex — акриловий розчинник, 1 л</title>
-      <description>Універсальний розчинник для 2K акрил-поліуретанових емалей, лаків і ґрунтів. Робоча температура 15–25 °C. Виробництво Литва, 1 л.</description>
+      <g:id>savex-acrylic-1l-1-l</g:id>
+      <g:item_group_id>savex-acrylic-1l</g:item_group_id>
+      <title>Savex — акриловий розчинник — 1 л</title>
+      <description>Універсальний розчинник для 2K акрил-поліуретанових емалей, лаків і ґрунтів в автомобільному фарбуванні. Робоча температура 15–25 °C. Виробництво Литва.</description>
       <g:price>244.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/savex-acrylic-1l/</link>
       <g:image_link>https://alexbes.com.ua/img/v/savex-acrylic-1l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-acrylic.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Savex</g:brand>
@@ -1109,12 +1093,44 @@
       <g:product_type>Savex розчинники та знежирювачі</g:product_type>
     </item>
     <item>
-      <g:id>savex-metallic-1l</g:id>
-      <title>Savex — розчинник для металіків, 1 л</title>
-      <description>Розчинник для базових фарб (металік, перламутр). Виробництво Литва, 1 л.</description>
+      <g:id>savex-acrylic-1l-5-l</g:id>
+      <g:item_group_id>savex-acrylic-1l</g:item_group_id>
+      <title>Savex — акриловий розчинник — 5 л</title>
+      <description>Універсальний розчинник для 2K акрил-поліуретанових емалей, лаків і ґрунтів в автомобільному фарбуванні. Робоча температура 15–25 °C. Виробництво Литва.</description>
+      <g:price>1123.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/savex-acrylic-1l/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/savex-acrylic.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/savex-acrylic-1l.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Savex</g:brand>
+      <g:google_product_category>503741</g:google_product_category>
+      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
+    </item>
+    <item>
+      <g:id>savex-metallic-1l-1-l</g:id>
+      <g:item_group_id>savex-metallic-1l</g:item_group_id>
+      <title>Savex — розчинник для металіків — 1 л</title>
+      <description>Розчинник для базових фарб (металік, перламутр). Виробництво Литва.</description>
       <g:price>260.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/savex-metallic-1l/</link>
       <g:image_link>https://alexbes.com.ua/img/v/savex-metallic-1l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-metalic.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Savex</g:brand>
+      <g:google_product_category>503741</g:google_product_category>
+      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
+    </item>
+    <item>
+      <g:id>savex-metallic-1l-5-l</g:id>
+      <g:item_group_id>savex-metallic-1l</g:item_group_id>
+      <title>Savex — розчинник для металіків — 5 л</title>
+      <description>Розчинник для базових фарб (металік, перламутр). Виробництво Литва.</description>
+      <g:price>1186.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/savex-metallic-1l/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/savex-metalic.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/savex-metallic-1l.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Savex</g:brand>
@@ -1161,12 +1177,14 @@
       <g:product_type>Savex розчинники та знежирювачі</g:product_type>
     </item>
     <item>
-      <g:id>savex-gun-cleaner-1l</g:id>
-      <title>Savex GUN CLEANER — для миття обладнання, 1 л</title>
-      <description>Промивальна рідина для фарбопультів, бачків і малярного інструменту. Виробництво Литва, 1 л.</description>
+      <g:id>savex-gun-cleaner-1l-1-l</g:id>
+      <g:item_group_id>savex-gun-cleaner-1l</g:item_group_id>
+      <title>Savex GUN CLEANER — для миття обладнання — 1 л</title>
+      <description>Промивальна рідина для фарбопультів, бачків і малярного інструменту від залишків фарби. Виробництво Литва.</description>
       <g:price>182.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/savex-gun-cleaner-1l/</link>
       <g:image_link>https://alexbes.com.ua/img/v/savex-gun-cleaner-1l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-gun-cleaner.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Savex</g:brand>
@@ -1174,12 +1192,48 @@
       <g:product_type>Savex розчинники та знежирювачі</g:product_type>
     </item>
     <item>
-      <g:id>savex-646-1l</g:id>
-      <title>Savex 646 — розчинник, 1 л</title>
-      <description>Розчинник 646 для нітроемалей, ґрунтів і миття інструменту. Виробництво Литва, 1 л.</description>
+      <g:id>savex-gun-cleaner-1l-5-l</g:id>
+      <g:item_group_id>savex-gun-cleaner-1l</g:item_group_id>
+      <title>Savex GUN CLEANER — для миття обладнання — 5 л</title>
+      <description>Промивальна рідина для фарбопультів, бачків і малярного інструменту від залишків фарби. Виробництво Литва.</description>
+      <g:price>874.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/savex-gun-cleaner-1l/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/savex-gun-cleaner.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/savex-gun-cleaner-1l.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Savex</g:brand>
+      <g:google_product_category>503741</g:google_product_category>
+      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
+    </item>
+    <item>
+      <g:id>savex-646-1l-1-l</g:id>
+      <g:item_group_id>savex-646-1l</g:item_group_id>
+      <title>Savex 646 — розчинник — 1 л</title>
+      <description>Розчинник 646 для нітроемалей, нітролаків, ґрунтів і шпаклівок, а також для миття інструменту. Додавати невеликими порціями, перемішуючи до потрібної в’язкості. Виробництво Литва.</description>
       <g:price>192.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/savex-646-1l/</link>
       <g:image_link>https://alexbes.com.ua/img/v/savex-646-1l.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646-3.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Savex</g:brand>
+      <g:google_product_category>503741</g:google_product_category>
+      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
+    </item>
+    <item>
+      <g:id>savex-646-1l-5-l</g:id>
+      <g:item_group_id>savex-646-1l</g:item_group_id>
+      <title>Savex 646 — розчинник — 5 л</title>
+      <description>Розчинник 646 для нітроемалей, нітролаків, ґрунтів і шпаклівок, а також для миття інструменту. Додавати невеликими порціями, перемішуючи до потрібної в’язкості. Виробництво Литва.</description>
+      <g:price>936.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/savex-646-1l/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/savex-646.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/savex-646-1l.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646-3.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Savex</g:brand>
@@ -5239,60 +5293,6 @@
       <g:brand>TEROSON</g:brand>
       <g:google_product_category>503742</g:google_product_category>
       <g:product_type>Автохімія та герметики</g:product_type>
-    </item>
-    <item>
-      <g:id>savex-646</g:id>
-      <title>SAVEX 646 — розчинник, 5 л</title>
-      <description>Розчинник для нітроемалей, нітролаків і шпаклівок. Додавати невеликими порціями, перемішуючи до потрібної в'язкості.</description>
-      <g:price>936.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/savex-646/</link>
-      <g:image_link>https://alexbes.com.ua/img/p/savex-646.webp</g:image_link>
-      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646-2.webp</g:additional_image_link>
-      <g:additional_image_link>https://alexbes.com.ua/img/p/savex-646-3.webp</g:additional_image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>SAVEX</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
-    </item>
-    <item>
-      <g:id>savex-acrylic</g:id>
-      <title>SAVEX — акриловий розчинник, 5 л</title>
-      <description>Розчинник для двокомпонентних акрилових фарб, лаків і ґрунтів в автомобільному фарбуванні.</description>
-      <g:price>1123.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/savex-acrylic/</link>
-      <g:image_link>https://alexbes.com.ua/img/p/savex-acrylic.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>SAVEX</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
-    </item>
-    <item>
-      <g:id>savex-metalic</g:id>
-      <title>SAVEX Metalik — розчинник для металіку, 5 л</title>
-      <description>Розчинник для розведення фарб типу «металік».</description>
-      <g:price>1186.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/savex-metalic/</link>
-      <g:image_link>https://alexbes.com.ua/img/p/savex-metalic.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>SAVEX</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
-    </item>
-    <item>
-      <g:id>savex-gun-cleaner</g:id>
-      <title>SAVEX Paint Gun Cleaner — рідина для промивання фарбопультів, 5 л</title>
-      <description>Рідина для промивання фарбопультів та інструменту від залишків фарби.</description>
-      <g:price>874.00 UAH</g:price>
-      <link>https://alexbes.com.ua/p/savex-gun-cleaner/</link>
-      <g:image_link>https://alexbes.com.ua/img/p/savex-gun-cleaner.webp</g:image_link>
-      <g:availability>in_stock</g:availability>
-      <g:condition>new</g:condition>
-      <g:brand>SAVEX</g:brand>
-      <g:google_product_category>503741</g:google_product_category>
-      <g:product_type>Savex розчинники та знежирювачі</g:product_type>
     </item>
     <item>
       <g:id>nowax-microfiber-sira</g:id>

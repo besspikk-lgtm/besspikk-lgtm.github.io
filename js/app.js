@@ -52,9 +52,10 @@
     cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
   /* об’єднані картки: старе посилання #/p/<id> веде на нову */
   var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341', 'pal-fast-air': 'pal-873-fast',
-    'pal-923-smart-5l': 'pal-923-smart', 'pal-923-as90-5l': 'pal-923-as90', 'pal-223-flash-5l': 'pal-223-flash-new', 'pal-223-shine-5l': 'pal-223-shine' };
+    'pal-923-smart-5l': 'pal-923-smart', 'pal-923-as90-5l': 'pal-923-as90', 'pal-223-flash-5l': 'pal-223-flash-new', 'pal-223-shine-5l': 'pal-223-shine',
+    'pal-075-0020-5l': 'pal-075-0020', 'pal-075-0030-5l': 'pal-075-0030', 'pal-077-5l': 'pal-077', 'savex-646': 'savex-646-1l', 'savex-acrylic': 'savex-acrylic-1l', 'savex-metalic': 'savex-metallic-1l', 'savex-gun-cleaner': 'savex-gun-cleaner-1l' }; // solvmerge-20261009
   /* lakmerge-20261009: лаки 5 л об’єднано з карткою 1 л — старе посилання / рядок кошика відкриває варіант 5 л (індекс) */
-  var PROD_ALIAS_VI = { 'pal-923-smart-5l': 1, 'pal-923-as90-5l': 1, 'pal-223-flash-5l': 1, 'pal-223-shine-5l': 1 };
+  var PROD_ALIAS_VI = { 'pal-923-smart-5l': 1, 'pal-923-as90-5l': 1, 'pal-223-flash-5l': 1, 'pal-223-shine-5l': 1, 'pal-075-0020-5l': 1, 'pal-075-0030-5l': 1, 'pal-077-5l': 1, 'savex-646': 1, 'savex-acrylic': 1, 'savex-metalic': 1, 'savex-gun-cleaner': 1 };
   function aliasId(id) { return PROD_ALIAS[id] && !byId[id] ? PROD_ALIAS[id] : id; }
   var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
