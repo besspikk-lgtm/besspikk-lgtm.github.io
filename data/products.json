@@ -67,7 +67,7 @@
    "id": "cn",
    "name": "Товари з Китаю",
    "icon": "",
-   "count": 43
+   "count": 41
   }
  ],
  "products": [
@@ -10389,31 +10389,6 @@
    "price_old_eur": 88.4615
   },
   {
-   "id": "gun-372",
-   "category": "cn",
-   "category_name": "Товари з Китаю",
-   "name": "Фарбопульт SUTU",
-   "description": "Комплектація — як на фото в пості. На деталях видно напис SUTU.",
-   "price_eur": 78.2885,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 372 (23.09.2026)",
-   "price_uah_original": "4500 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/372"
-   ],
-   "photo": "img/p/gun-372.webp",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/372 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "sub": "china",
-   "home_cat": "guns",
-   "type": "guns",
-   "disc_pct": 10,
-   "price_old_eur": 87
-  },
-  {
    "id": "gun-374",
    "category": "cn",
    "category_name": "Товари з Китаю",
@@ -10711,52 +10686,6 @@
    "type": "guns",
    "disc_pct": 10,
    "price_old_eur": 85
-  },
-  {
-   "id": "gun-373",
-   "category": "cn",
-   "category_name": "Товари з Китаю",
-   "name": "Фарбопульт LISSON (фіолетовий)",
-   "description": "Фарбопульт LISSON у фіолетовому корпусі з чорним курком і регуляторами — напис LISSON на корпусі та повітряних головах. У комплекті (за фото) три повітряні голови з дюзами 1,3, 1,7 і 2,0 мм, дві змінні дюзи з голками, прозорий мірний бачок з чорним кільцем і червоний перехідник — один пістолет під лак, базу та ґрунти.",
-   "price_eur": 73.7885,
-   "price_label": null,
-   "variants": null,
-   "price_note": "Пост 373 (23.09.2026)",
-   "price_uah_original": "4200 грн",
-   "source": [
-    "https://t.me/alex_bes_shoping/373"
-   ],
-   "photo": "img/p/gun-373.webp?v=20261003",
-   "photo_is_placeholder": false,
-   "photo_source": "https://t.me/alex_bes_shoping/373 (фото 0)",
-   "in_stock": "В наявності",
-   "flag": null,
-   "specs": {
-    "rows": [
-     [
-      "Маркування",
-      "LISSON на корпусі та повітряних головах"
-     ],
-     [
-      "Дюзи",
-      "1,3 · 1,7 · 2,0 мм — три повітряні голови в комплекті, дві змінні дюзи з голками"
-     ],
-     [
-      "Бачок",
-      "Прозорий мірний бачок з чорним кільцем, червоний перехідник"
-     ],
-     [
-      "Дизайн",
-      "Фіолетовий корпус, чорні курок і регулятори"
-     ]
-    ],
-    "src": "За фото товару; технічних даних виробника для цієї моделі не знайдено."
-   },
-   "sub": "china",
-   "home_cat": "guns",
-   "type": "guns",
-   "disc_pct": 10,
-   "price_old_eur": 82
   },
   {
    "id": "gun-hvlp-13",
