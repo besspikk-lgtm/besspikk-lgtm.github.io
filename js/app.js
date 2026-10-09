@@ -51,7 +51,11 @@
     acc: ['equip', ''], tools: ['equip', 'tools'], ppe: ['equip', 'ppe'],
     cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
   /* об’єднані картки: старе посилання #/p/<id> веде на нову */
-  var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341', 'pal-fast-air': 'pal-873-fast' };
+  var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341', 'pal-fast-air': 'pal-873-fast',
+    'pal-923-smart-5l': 'pal-923-smart', 'pal-923-as90-5l': 'pal-923-as90', 'pal-223-flash-5l': 'pal-223-flash-new', 'pal-223-shine-5l': 'pal-223-shine' };
+  /* lakmerge-20261009: лаки 5 л об’єднано з карткою 1 л — старе посилання / рядок кошика відкриває варіант 5 л (індекс) */
+  var PROD_ALIAS_VI = { 'pal-923-smart-5l': 1, 'pal-923-as90-5l': 1, 'pal-223-flash-5l': 1, 'pal-223-shine-5l': 1 };
+  function aliasId(id) { return PROD_ALIAS[id] && !byId[id] ? PROD_ALIAS[id] : id; }
   var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
   /* 04.10: підрозділи (чипи) всередині розділу: PALINAL — за типом товару; фарбопульти — за типом (+ фільтр бренду) */
@@ -141,6 +145,7 @@
     var out = [];
     (Array.isArray(arr) ? arr : []).forEach(function (l) {
       if (!l || typeof l.id !== 'string') return;
+      if (PROD_ALIAS_VI[l.id] != null && PROD_ALIAS[l.id] && !byId[l.id] && byId[PROD_ALIAS[l.id]]) l = { id: PROD_ALIAS[l.id], vi: PROD_ALIAS_VI[l.id], qty: l.qty }; // lakmerge-20261009
       var vi = Math.max(0, parseInt(l.vi, 10) || 0), qty = Math.max(1, Math.min(9999, parseInt(l.qty, 10) || 1));
       var ex = out.filter(function (x) { return x.id === l.id && x.vi === vi; })[0];
       if (ex) ex.qty += qty; else out.push({ id: l.id, vi: vi, qty: qty });
@@ -370,7 +375,7 @@
     }
     return list;
   }
-  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ', 'pal-923-as90': 'ХІТ' }; // lakmerge-20261009: ХІТ з картки 5 л
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   // позначка може бути: 'Акція' / 'ХІТ' / 'Новинка' / 'Ексклюзив' / свій текст, комбінації через ' · ' ('Новинка · Ексклюзив')
   // або короткі коди з адмінки через '+' ('new+excl', 'sale+excl', 'hit+excl', 'excl') — ліміт поля promo у Firestore 20 символів
@@ -780,6 +785,14 @@
     }
     tr.addEventListener('scroll', function () { clearTimeout(tr._t); tr._t = setTimeout(sync, 60); }, { passive: true });
     if (cur) { tr.scrollLeft = cur * tr.clientWidth; dots.forEach(function (d, k) { d.classList.toggle('on', k === cur); }); if (cnt) cnt.textContent = (cur + 1) + ' / ' + n; }
+  }
+  /* lakmerge-20261009: варіант із власним фото (variants[i].photo) — галерея перемикається на це фото */
+  function selectVariant(vi) {
+    var p = byId[pmState.id]; pmState.vi = vi;
+    var v = variantOf(p, vi), bv = typeof BASE === 'object' && BASE && BASE[p.id] && BASE[p.id].variants ? BASE[p.id].variants[vi] : null;
+    var ph = (v && v.photo) || (bv && bv.photo);
+    if (ph) { var key = String(ph).split('?')[0], g = galleryOf(p); for (var i = 0; i < g.length; i++) if (g[i].src && String(g[i].src).split('?')[0] === key) { pmState.gi = i; break; } }
+    renderProduct();
   }
   function galGo(to, rel) {
     var g = $('#pm [data-gal]'); if (!g) return;
@@ -1676,9 +1689,10 @@
     sheetClose();
     var m;
     if ((m = h.match(/^#\/p\/([\w-]+)/))) {
+      var avi = PROD_ALIAS[m[1]] && !byId[m[1]] ? PROD_ALIAS_VI[m[1]] : null; // lakmerge-20261009
       if (PROD_ALIAS[m[1]] && !byId[m[1]]) { h = '#/p/' + PROD_ALIAS[m[1]]; try { history.replaceState(null, '', h); } catch (e) {} m = h.match(/^#\/p\/([\w-]+)/); }
       if (!$('#grid').children.length) renderGrid(); // direct product link: have the catalog ready behind the modal
-      if (byId[m[1]]) { openProduct(m[1]); return; }
+      if (byId[m[1]]) { openProduct(m[1]); if (avi != null && variantOf(byId[m[1]], avi)) selectVariant(avi); return; }
       if (openModalEl) { openModalEl.hidden = true; openModalEl = null; document.body.style.overflow = ''; } // unknown/hidden product (maybe loads from Firestore later)
       return;
     }
@@ -1927,7 +1941,7 @@
       addToCart(p.id, 0, 1, cartSrc(t)); return;
     }
     if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1, cartSrc(t)); return; } // «Ще купують разом»: в кошик без закриття картки (варіант 1)
-    if (t.hasAttribute('data-var')) { pmState.vi = +t.getAttribute('data-var'); renderProduct(); return; }
+    if (t.hasAttribute('data-var')) { selectVariant(+t.getAttribute('data-var')); return; }
     if (t.hasAttribute('data-gal-step')) { galGo(+t.getAttribute('data-gal-step'), true); return; }
     if (t.hasAttribute('data-gal-to')) { galGo(+t.getAttribute('data-gal-to'), false); return; }
     if (t.hasAttribute('data-vid')) { playVideo(+t.getAttribute('data-vid')); return; }
@@ -2098,7 +2112,7 @@
   };
 
   /* --- Вибране --- */
-  var favs = (function () { var a = load('alexbes_favs', []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, 300) : []; })();
+  var favs = (function () { var a = load('alexbes_favs', []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).map(aliasId).filter(function (x, i, arr) { return arr.indexOf(x) === i; }).slice(0, 300) : []; })(); // lakmerge-20261009: aliasId
   function isFav(id) { return favs.indexOf(id) >= 0; }
   function favList() { return favs.filter(function (id) { return byId[id]; }); }
   function favBtnHTML(p, cls) {
@@ -2126,7 +2140,7 @@
 
   /* --- Нещодавно переглянуті (до 8) --- */
   var RECENT_MAX = 8;
-  var recent = (function () { var a = load('alexbes_recent', []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).slice(0, 16) : []; })();
+  var recent = (function () { var a = load('alexbes_recent', []); return Array.isArray(a) ? a.filter(function (x) { return typeof x === 'string'; }).map(aliasId).filter(function (x, i, arr) { return arr.indexOf(x) === i; }).slice(0, 16) : []; })(); // lakmerge-20261009
   function pushRecent(id) {
     recent = [id].concat(recent.filter(function (x) { return x !== id; })).slice(0, 16); // запас на приховані товари
     save('alexbes_recent', recent);

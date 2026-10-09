@@ -7,7 +7,9 @@ const CATS = DATA.categories;
 const catById = Object.fromEntries(CATS.map((c) => [c.id, c]));
 const BASE = Object.fromEntries(DATA.products.map((p) => [p.id, p]));
 // Same as PROMO in js/app.js (static badges); Firestore field `promo` overrides it.
-const PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ' };
+const PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ', 'pal-923-as90': 'ХІТ' };
+// lakmerge-20261009: окремі картки лаків 5 л об’єднано з карткою 1 л — їхні старі записи в Firestore не показуємо як окремі товари
+const MERGED_GONE = new Set(['pal-923-smart-5l', 'pal-923-as90-5l', 'pal-223-flash-5l', 'pal-223-shine-5l']);
 const STOCKS = ['В наявності', 'Немає в наявності', 'Наявність уточнюйте', 'Під замовлення', 'У дорозі'];
 DATA.products.forEach((p) => { if (p.in_stock && !STOCKS.includes(p.in_stock)) STOCKS.push(p.in_stock); });
 const PLACEHOLDER = 'img/logo.webp?v=3';
@@ -72,7 +74,7 @@ function merged() {
       photo: b ? BASE[id].photo : PLACEHOLDER, createdAt: (r && r.createdAt) || 0 }));
   };
   DATA.products.forEach((p) => add(p.id));
-  Object.keys(remote).filter((id) => !BASE[id]).sort((a, b) => (remote[a].createdAt || 0) - (remote[b].createdAt || 0)).forEach(add);
+  Object.keys(remote).filter((id) => !BASE[id] && !MERGED_GONE.has(id)).sort((a, b) => (remote[a].createdAt || 0) - (remote[b].createdAt || 0)).forEach(add);
   return out;
 }
 const byIdNow = (id) => merged().find((p) => p.id === id);
