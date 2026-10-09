@@ -395,10 +395,10 @@
     var tg = promoTags(p); if (!tg.length) return '';
     return tg.map(function (x, i) { // кілька позначок: 'Новинка · Ексклюзив' — друга під першою
       var n2 = i ? ' promo--n' + (i + 1) : '';
-      if (x === 'ХІТ') return '<span class="promo promo--hit' + n2 + '">⭐ ' + x + '</span>';
-      if (/новинк/i.test(x)) return '<span class="promo promo--new' + n2 + '">Новинка ✅</span>';
+      if (x === 'ХІТ') return '<span class="promo promo--hit' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11.53 2.3a.53.53 0 0 1 .95 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.01a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.91l5.16-.75a2.12 2.12 0 0 0 1.6-1.16z"/></svg> ' + x + '</span>';
+      if (/новинк/i.test(x)) return '<span class="promo promo--new' + n2 + '">Новинка</span>';
       if (/ексклюзив/i.test(x)) return '<span class="promo promo--excl' + n2 + '" aria-label="Ексклюзив"><span class="promo__xt">Ексклюзив</span>' + GEM + '</span>'; // золотий неон + діамант, що крутиться
-      return '<span class="promo' + n2 + '">🔥 ' + esc(x) + '</span>';
+      return '<span class="promo' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> ' + esc(x) + '</span>';
     }).join('');
   }
   // опис у картці товару: «Лімітована серія — …!» на початку — виділяємо окремим рядком
@@ -412,7 +412,7 @@
       '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + (spinOf(p) ? '<span class="spinb" title="Є обертання 360°">' + SPIN_IC + '360°</span>' : '') + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + '</div>' +
       '<div class="card__body">' +
-        '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео">🎬 Відео</span>' : '') + '</span>' +
+        '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg> Відео</span>' : '') + '</span>' +
         '<button class="card__name" type="button" data-open="' + p.id + '">' + esc(p.name) + '</button>' +
         '<div class="card__foot">' + pillHTML(p) + stockHTML(p) +
         (!hasPrice(p) && p.price_uah_original ? '<span class="uah">у пості: ' + esc(p.price_uah_original) + '</span>' : '') +
@@ -705,14 +705,14 @@
   }
   function tdsHTML(p) {
     var t = p.tds; if (!t || !t.rows) return '';
-    return '<details class="tds" open><summary><span class="emo">📄</span> Технічні дані (ТДС)</summary>' +
+    return '<details class="tds" open><summary><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg> Технічні дані (ТДС)</summary>' +
       '<dl class="tds__dl">' + t.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
       '<p class="tds__src">' + (t.url ? '<a href="' + esc(t.url) + '" target="_blank" rel="noopener" data-tds-link>' + esc(t.label) + ' ↗</a>' +
       (t.edition ? ' <span>· ' + esc(t.edition) + '</span>' : '') + '<br>' : '') + '<span>Коротко нашими словами за даними технічного паспорта виробника' + (t.url ? '; у разі розбіжностей діє оригінал.' : '.') + '</span></p></details>';
   }
   function specsHTML(p) {
     var s = p.specs; if (!s || !s.rows) return '';
-    return '<details class="tds specs" open><summary><span class="emo">⚙️</span> Технічні характеристики</summary>' +
+    return '<details class="tds specs" open><summary><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg> Технічні характеристики</summary>' +
       '<dl class="tds__dl specs__dl">' + s.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
       (s.src ? '<p class="tds__src specs__src"><span>' + esc(s.src) + '</span></p>' : '') + '</details>';
   }
@@ -746,7 +746,7 @@
   function videosHTML(p) {
     var vs = videosOf(p); if (!vs.length) return '';
     var allV = vs.every(function (v) { return v.vertical && v.embed; });
-    return '<div class="vids"><p class="vids__ttl"><span class="emo">🎬</span> Відео</p><div class="vids__list' + (allV && vs.length > 1 ? ' vids__list--v' : '') + '">' + vs.map(function (v, i) {
+    return '<div class="vids"><p class="vids__ttl"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg> Відео</p><div class="vids__list' + (allV && vs.length > 1 ? ' vids__list--v' : '') + '">' + vs.map(function (v, i) {
       if (!v.embed) return '<div class="vitem vitem--link"><a class="btn btn--o btn--full vid__link" href="' + esc(v.url) + '" target="_blank" rel="noopener" data-vid-link="' + i + '">' + PLAY_SVG + ' Дивитись відео · ' + esc(v.label) + ' ↗</a></div>';
       return '<div class="vitem"><div class="vid' + (v.vertical ? ' vid--v' : '') + '" data-vid-box="' + i + '"><button class="vid__ph vid__ph--' + v.type + '" type="button" data-vid="' + i + '" aria-label="Відтворити відео ' + esc(v.label) + '">' +
         (v.thumb ? '<img src="' + esc(v.thumb) + '" alt="' + esc(v.caption ? 'Обкладинка відео: ' + v.caption : '') + '" loading="lazy" decoding="async">' : '') +
@@ -1206,7 +1206,7 @@
   }
   function relatedHTML(p) {
     var list = relatedOf(p); if (list.length < 2) return '';
-    return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><span class="emo">🧰</span> Ще купують разом</p>' +
+    return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="m7.5 4.27 9 5.15"/></svg> Ще купують разом</p>' +
       '<ul class="rel__list">' + list.map(function (x) {
         var pr = unitPrice(x, 0), po = unitOld(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoText(x);
         return '<li class="rel__it"><button class="rel__open" type="button" data-open="' + esc(x.id) + '" aria-label="Відкрити: ' + esc(x.name) + '">' +
@@ -1236,15 +1236,15 @@
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
-        '<button class="btn btn--y" type="button" data-addpm>🛒 Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
+        '<button class="btn btn--y" type="button" data-addpm><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg> Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
         '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Ще купують разом» // 04.10: кількість + кошик одразу після опису, «Ще купують разом» — під ними
         '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
         '<div class="cactions">' +
-          '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">🤖 Замовити через бота</a>' +
-          '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener">✈️ Telegram</a>' +
-          '<a class="btn btn--o" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?')) + '" target="_blank" rel="noopener">🟢 WhatsApp</a>' +
-          '<a class="btn btn--o" href="' + CONFIG.viber + '">🟣 Viber</a>' +
-          '<a class="btn btn--o" href="' + CONFIG.instagram + '" target="_blank" rel="noopener">📸 Instagram</a>' +
+          '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Замовити через бота</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Telegram</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?')) + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.2 9.1c0 2.9 2.8 5.7 5.7 5.7l1.1-1.3-1.8-.9-.8.8c-1-.4-2.4-1.8-2.8-2.8l.8-.8-.9-1.8z"/></svg> WhatsApp</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.viber + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 7.5a3 3 0 0 1 3 3"/><path d="M13 5.5a5 5 0 0 1 5 5"/></svg> Viber</a>' +
+          '<a class="btn btn--o" href="' + CONFIG.instagram + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg> Instagram</a>' +
         '</div>' +
         specsHTML(p) + tdsHTML(p) +
         (p.price_note || src ? '<p class="pm__note">' + esc(uahText(p.price_note || '')) + (src ? (p.price_note ? ' · ' : '') + '<a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' : '') +
@@ -1353,7 +1353,7 @@
     saveCart(); updateBadges(); dropPending(); promptHide();
     lastOrder = { id: id, text: text, t: Date.now() };
     if (openModalEl && openModalEl === $('#cmodal')) renderCart();
-    else toast('Замовлення №' + orderNo(id) + ' прийнято ✅ Кошик очищено');
+    else toast('Замовлення №' + orderNo(id) + ' прийнято. Кошик очищено');
   }
   var PENDING_KEY = 'alexbes_cart_pending';
   function cartHash() { var j = JSON.stringify(allLines()), h = 5381; for (var i = 0; i < j.length; i++) h = ((h << 5) + h + j.charCodeAt(i)) | 0; return (h >>> 0).toString(36) + '.' + j.length; }
@@ -1386,7 +1386,7 @@
     if (t.hasAttribute('data-cp-yes')) {
       cart = []; saveCart(); updateBadges(); dropPending(); promptHide(); lastOrder = null; orderFail = null; // невідомі зараз позиції (orphans) не чіпаємо
       if (openModalEl && openModalEl === $('#cmodal')) renderCart();
-      toast('Кошик очищено ✅'); track('кошик/очищено-після-замовлення', 'Кошик очищено після замовлення');
+      toast('Кошик очищено'); track('кошик/очищено-після-замовлення', 'Кошик очищено після замовлення');
     } else if (t.hasAttribute('data-cp-no')) {
       var m = load(PENDING_KEY, null); if (m) { m.no = true; save(PENDING_KEY, m); } promptHide();
     } else markPending(); // дзвінок з кошика
@@ -1430,9 +1430,9 @@
       '<h3 class="cdone__t">Дякуємо! Замовлення №' + esc(no) + ' прийнято</h3>' +
       '<p class="cdone__s">Ми зв’яжемося з вами, щоб підтвердити ціну, наявність і доставку. Кошик очищено.</p>' +
       '<div class="cactions">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=o_' + esc(o.id) + '" target="_blank" rel="noopener">🤖 Відкрити бота з замовленням</a>' +
-        '<a class="btn btn--y btn--full" href="' + CONFIG.orderTelegram + '?text=' + encodeURIComponent(o.text + '\n\nЗамовлення №' + no) + '" target="_blank" rel="noopener">✈️ Написати в Telegram</a>' +
-        '<a class="btn btn--o" href="tel:' + CONFIG.phone + '">📞 Подзвонити</a>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=o_' + esc(o.id) + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Відкрити бота з замовленням</a>' +
+        '<a class="btn btn--y btn--full" href="' + CONFIG.orderTelegram + '?text=' + encodeURIComponent(o.text + '\n\nЗамовлення №' + no) + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Написати в Telegram</a>' +
+        '<a class="btn btn--o" href="tel:' + CONFIG.phone + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Подзвонити</a>' +
         '<button class="btn btn--o" type="button" data-close>До каталогу</button>' +
       '</div></div>';
   }
@@ -1460,7 +1460,7 @@
     var body = $('#cartbody');
     if (!cart.length && lastOrder && Date.now() - lastOrder.t < 30 * 60000) { body.innerHTML = orderDoneHTML(); return; }
     if (!cart.length) {
-      body.innerHTML = '<div class="cempty"><span class="emo">😈</span>Кошик порожній.<br>Додайте товари з каталогу — і надішліть замовлення в Telegram.<br><br><button class="btn btn--y" type="button" data-close>До каталогу</button></div>';
+      body.innerHTML = '<div class="cempty"><svg class="ico cempty__ico" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>Кошик порожній.<br>Додайте товари з каталогу — і надішліть замовлення в Telegram.<br><br><button class="btn btn--y" type="button" data-close>До каталогу</button></div>';
       return;
     }
     var sum = 0, ask = 0, saved = 0;
@@ -1488,15 +1488,15 @@
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
       '</div></div>' +
       '<div class="csec" data-csec="3"><h3 class="csec__ttl"><span>3</span>Надіслати замовлення</h3>' +
-      '<details class="preview preview--top"><summary>📝 Текст замовлення</summary><pre id="otext"></pre></details>' +
+      '<details class="preview preview--top"><summary><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.85z"/></svg> Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<div class="cactions">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-botcart>🤖 Бот для замовлень</a>' +
-        '<button class="btn btn--y btn--full" type="button" data-send>✈️ Надіслати в Telegram</button>' +
-        '<button class="btn btn--y" type="button" data-wa>🟢 WhatsApp</button>' +
-        '<button class="btn btn--y" type="button" data-viber>🟣 Viber</button>' +
-        '<button class="btn btn--b" type="button" data-ig>📸 Instagram</button>' +
-        '<button class="btn btn--o" type="button" data-copy>📋 Скопіювати текст</button>' +
-        '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">📞 Подзвонити ' + CONFIG.phoneLabel + '</a>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-botcart><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Бот для замовлень</a>' +
+        '<button class="btn btn--y btn--full" type="button" data-send><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Надіслати в Telegram</button>' +
+        '<button class="btn btn--y" type="button" data-wa><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.2 9.1c0 2.9 2.8 5.7 5.7 5.7l1.1-1.3-1.8-.9-.8.8c-1-.4-2.4-1.8-2.8-2.8l.8-.8-.9-1.8z"/></svg> WhatsApp</button>' +
+        '<button class="btn btn--y" type="button" data-viber><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M13 7.5a3 3 0 0 1 3 3"/><path d="M13 5.5a5 5 0 0 1 5 5"/></svg> Viber</button>' +
+        '<button class="btn btn--b" type="button" data-ig><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="2.5" width="19" height="19" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg> Instagram</button>' +
+        '<button class="btn btn--o" type="button" data-copy><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Скопіювати текст</button>' +
+        '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Подзвонити ' + CONFIG.phoneLabel + '</a>' +
       '</div>' +
       '<p class="cnote" style="margin-top:10px">Оберіть зручний месенджер. У Telegram, WhatsApp і Viber текст замовлення підставиться сам — просто натисніть «Надіслати».</p></div>' +
       CTRUST_HTML;
@@ -1841,13 +1841,13 @@
   ];
   function cmpBtnHTML(p, cls) {
     var on = cmpHas(p.id);
-    return '<button class="cmpt' + (cls ? ' ' + cls : '') + (on ? ' on' : '') + '" type="button" data-cmp="' + esc(p.id) + '" aria-pressed="' + on + '" title="Порівняти фарбопульти (до ' + CMP_MAX + ')">' + (on ? '✓ У порівнянні' : '⚖️ Порівняти') + '</button>';
+    return '<button class="cmpt' + (cls ? ' ' + cls : '') + (on ? ' on' : '') + '" type="button" data-cmp="' + esc(p.id) + '" aria-pressed="' + on + '" title="Порівняти фарбопульти (до ' + CMP_MAX + ')">' + (on ? '✓ У порівнянні' : '<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg> Порівняти') + '</button>';
   }
   function cmpSync() {
     var list = cmpList(), n = list.length;
     $$('[data-cmp]').forEach(function (b) {
       var on = list.indexOf(b.getAttribute('data-cmp')) >= 0;
-      b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); b.textContent = on ? '✓ У порівнянні' : '⚖️ Порівняти';
+      b.classList.toggle('on', on); b.setAttribute('aria-pressed', String(on)); b.innerHTML = on ? '✓ У порівнянні' : '<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg> Порівняти';
     });
     var bar = $('#cmpbar');
     if (bar) { $$('[data-cmp-count]', bar).forEach(function (x) { x.textContent = n; }); bar.hidden = n === 0; }
@@ -1867,7 +1867,7 @@
     var body = $('#cmpbody'); if (!body) return;
     var list = cmpList().map(function (id) { return byId[id]; });
     if (!list.length) {
-      body.innerHTML = '<div class="cempty"><span class="emo">⚖️</span>Ще нічого не обрано.<br>Натисніть «⚖️ Порівняти» на картці фарбопульта — можна до ' + CMP_MAX + ' шт.<br><br><a class="btn btn--y" href="#/c/guns">До фарбопультів</a></div>';
+      body.innerHTML = '<div class="cempty"><svg class="ico cempty__ico" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>Ще нічого не обрано.<br>Натисніть «Порівняти» на картці фарбопульта — можна до ' + CMP_MAX + ' шт.<br><br><a class="btn btn--y" href="#/c/guns">До фарбопультів</a></div>';
       return;
     }
     var specs = list.map(gunSpecs), n = list.length;
@@ -1878,7 +1878,7 @@
         '<span class="cmp__cat">' + esc(p.category_name) + '</span>' +
         '<button class="cmp__name" type="button" data-open="' + esc(p.id) + '">' + esc(p.name) + '</button>' +
         '<div class="cmp__price">' + pillHTML(p) + '</div>' +
-        '<button class="btn btn--y cmp__add" type="button" data-add="' + esc(p.id) + '">🛒 В кошик</button>' +
+        '<button class="btn btn--y cmp__add" type="button" data-add="' + esc(p.id) + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg> В кошик</button>' +
       '</div>';
     }).join('');
     var rowsHTML = CMP_ROWS.filter(function (r) { return specs.some(function (s) { return s[r[0]]; }); }).map(function (r) {
@@ -1887,10 +1887,10 @@
       }).join('');
     }).join('');
     var stock = '<div class="cmp__l">Наявність</div>' + list.map(function (p) { return '<div class="cmp__v">' + stockHTML(p) + '</div>'; }).join('');
-    body.innerHTML = (n < 2 ? '<p class="cmp__hint">Додайте ще ' + (n === 1 ? 'один-два фарбопульти' : '') + ' — кнопка «⚖️ Порівняти» на картці товару.</p>' : '') +
+    body.innerHTML = (n < 2 ? '<p class="cmp__hint">Додайте ще ' + (n === 1 ? 'один-два фарбопульти' : '') + ' — кнопка «Порівняти» на картці товару.</p>' : '') +
       '<div class="cmp" style="--n:' + n + '">' + head + rowsHTML + stock + '</div>' +
       '<p class="cnote cmp__note">Характеристики — з опису товару та даних виробника на сайті; «—» означає, що даних немає. Дюзу, систему та комплектацію уточнюйте в Telegram.</p>' +
-      '<div class="cmp__acts"><button class="btn btn--o" type="button" data-cmp-clear>🗑 Очистити</button><a class="btn btn--y" href="#/c/guns">+ Додати ще</a></div>';
+      '<div class="cmp__acts"><button class="btn btn--o" type="button" data-cmp-clear><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg> Очистити</button><a class="btn btn--y" href="#/c/guns">+ Додати ще</a></div>';
     fillPhotos();
   }
 
@@ -1947,7 +1947,7 @@
       return;
     }
     if (t.hasAttribute('data-copy') || t.hasAttribute('data-send') || t.hasAttribute('data-wa') || t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) markPending(); // спитаємо «Очистити кошик?», коли повернуться
-    if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано ✅' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
+    if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
       var tgu = CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText());
       window.open(tgu, '_blank', 'noopener');
@@ -1956,7 +1956,7 @@
     if (t.hasAttribute('data-wa')) { window.open(CONFIG.whatsapp + '?text=' + encodeURIComponent(orderText()), '_blank', 'noopener'); return; }
     if (t.hasAttribute('data-viber')) { location.href = CONFIG.viber + '&draft=' + encodeURIComponent(orderText()); return; }
     if (t.hasAttribute('data-ig')) {
-      copyText(orderText()).then(function (ok) { toast(ok ? 'Instagram не підставляє текст сам — він уже скопійований, просто вставте в чат ✅' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
+      copyText(orderText()).then(function (ok) { toast(ok ? 'Instagram не підставляє текст сам — він уже скопійований, просто вставте в чат' : 'Відкрийте «Текст замовлення» і скопіюйте вручну'); if (!ok) $('.preview').open = true; });
       window.open(CONFIG.instagram, '_blank', 'noopener');
       return;
     }
@@ -2333,14 +2333,14 @@
     rm: window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false } };
   function bnrPromoSlide(kind, list) {
     var sale = kind === 'sale', n = list.length, href = '#/c/' + kind;
-    var ttl = sale ? '🔥 Акції' : '✅ Новинки';
+    var ttl = sale ? 'Акції' : 'Новинки';
     var sub = n + ' ' + plural(n, 'товар', 'товари', 'товарів') + ' з позначкою «' + (sale ? 'Акція' : 'Новинка') + '»';
     var items = list.slice(0, 3).map(function (p) {
       return '<span class="bnr__it"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="200" height="200"><span class="bnr__nm">' + esc(p.name) + '</span></span>';
     }).join('');
     return '<div class="bnr__slide bnr__slide--' + kind + '" data-slide="' + kind + '" role="group" aria-roledescription="слайд" aria-label="' + ttl + '">' +
       '<a class="hero__frame bnr__promo" href="' + href + '" data-go-chips="' + href + '">' +
-        '<span class="bnr__head"><b class="bnr__ttl">' + ttl + '</b><span class="bnr__sub">' + esc(sub) + '</span></span>' +
+        '<span class="bnr__head"><b class="bnr__ttl">' + (sale ? '<svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' : '<svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21.8 10A10 10 0 1 1 17 3.34"/><path d="m9 11 3 3L22 4"/></svg>') + ' ' + ttl + '</b><span class="bnr__sub">' + esc(sub) + '</span></span>' +
         '<span class="bnr__items bnr__items--' + Math.min(n, 3) + '">' + items + '</span>' +
       '</a>' +
       '<a class="btn btn--y hero__btn" href="' + href + '" data-go-chips="' + href + '">' + (sale ? 'Дивитись усі акції' : 'Дивитись усі новинки') + ' (' + n + ') →</a>' +

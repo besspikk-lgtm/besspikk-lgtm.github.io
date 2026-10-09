@@ -188,3 +188,6 @@ body.has-ppbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 .pp__disc,.pp-v__disc{display:inline-block;padding:2px 7px;border-radius:7px;font-size:12px;font-weight:800;letter-spacing:.02em;line-height:1.35;
   color:#ffb3a7;background:rgba(255,107,91,.14);box-shadow:inset 0 0 0 1px rgba(255,138,122,.42)}
 .pp-v__disc{font-size:11px;padding:1px 6px}
+
+/* 09.10.2026 */
+.ico-ua{display:inline-block;flex:none;vertical-align:-.05em;border-radius:2px}

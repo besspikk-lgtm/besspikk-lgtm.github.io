@@ -2002,3 +2002,11 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .ctabar__in{justify-content:flex-end;gap:8px;padding:7px 0}
   .ctabar__a{font-size:13.5px}
 }
+
+/* 09.10.2026: емодзі в UI -> лінійні SVG-іконки (як у ctabar) */
+.ico{display:inline-block;flex:none;vertical-align:-.16em;color:inherit}
+.btn .ico,.ctabar__a .ico{vertical-align:middle}
+.ico-ua{display:inline-block;flex:none;vertical-align:-.05em;border-radius:2px}
+.cempty .cempty__ico{display:block;margin:0 auto 8px;color:var(--muted)}
+.tds summary .ico,.vids__ttl .ico,.rel__ttl .ico{color:var(--yellow);margin-right:2px}
+.promo .ico,.vidb .ico{vertical-align:-.12em}
