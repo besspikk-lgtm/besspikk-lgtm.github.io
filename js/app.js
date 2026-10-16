@@ -1855,7 +1855,7 @@
     renderGrid();
     var wantScroll = !catScrollSkip && (catScrollPending || (routedOnce && (prevCat !== state.cat || prevBrand !== state.brand || prevSub !== state.sub)));
     catScrollPending = catScrollSkip = false; routedOnce = true;
-    if (wantScroll) scrollToResults();
+    if (wantScroll) { var sbx = $('#subbar'); if (prevCat !== state.cat && !state.sub && !state.q && sbx && !sbx.hidden && sbx.getBoundingClientRect().height) scrollToEl(sbx); else scrollToResults(); } // 16.10: клік на розділ із типами -> спершу сітка типів; вибір типу -> товари
   }
 
   /* ---------- вибір розділу → плавно до товарів цього розділу (а не на верх сторінки) ---------- */
@@ -1871,6 +1871,12 @@
       else if (cs.position === 'fixed' && r.top < window.innerHeight / 2) off = Math.max(off, r.bottom);
     });
     return off;
+  }
+  function scrollToEl(el) {
+    var hd = $('.hdr'), y1 = el.getBoundingClientRect().top + window.scrollY, off = (hd && hd.classList.contains('hdr--auto') && y1 > window.scrollY) ? 0 : stickyOffset(); // шапка, що ховається при прокрутці вниз, не заважає
+    var top = Math.max(0, Math.round(y1 - off - 12)), y0 = window.scrollY, rm = reducedMotion();
+    window.scrollTo({ top: top, behavior: rm ? 'instant' : 'smooth' });
+    if (!rm && Math.abs(top - y0) > 4) setTimeout(function () { if (Math.abs(window.scrollY - y0) < 2) window.scrollTo({ top: top, behavior: 'instant' }); }, 180);
   }
   function scrollToResults() {
     var bar = $('.results .toolbar'), card = $('#grid > li'), el = bar || card || $('#grid');
