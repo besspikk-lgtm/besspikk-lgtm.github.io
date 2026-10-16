@@ -129,3 +129,29 @@ html.fs-on,html.fs-on body{overflow:hidden}
 .brand__promo.on .brand__arrow{display:none}
 @keyframes abArrow{0%,100%{opacity:1;transform:translateX(0) rotate(var(--ar,0deg));filter:drop-shadow(0 0 2px #ff2a3d) drop-shadow(0 0 8px #ff2a3d)}50%{opacity:.45;transform:translateX(3px) rotate(var(--ar,0deg));filter:drop-shadow(0 0 1px #ff2a3d)}}
 @media (prefers-reduced-motion:reduce){.brand__arrow{animation:none;opacity:1}}
+/* disc5-20261016: знижка 5% у кошику + «Мої замовлення» */
+.ctotal--sub{opacity:.75;font-size:.95em}
+.ctotal--sub b{font-weight:600}
+.cdisc{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 0;padding:8px 12px;border-radius:10px;border:1px solid rgba(212,175,95,.4);background:linear-gradient(135deg,rgba(212,175,95,.13),rgba(212,175,95,.03));color:#e6c983;font-weight:600}
+.cdisc span{display:inline-flex;align-items:center;gap:7px}
+.cdisc b{white-space:nowrap}
+.cdisc-hint{display:flex;align-items:center;gap:8px;width:100%;margin:8px 0 2px;padding:9px 12px;border-radius:10px;border:1px dashed rgba(212,175,95,.5);background:rgba(212,175,95,.06);color:#e6c983;font:inherit;font-size:13.5px;text-align:left;cursor:pointer}
+.cdisc-hint svg{flex:none}
+.cdisc-hint:hover{background:rgba(212,175,95,.12)}
+.myord__l{list-style:none;margin:10px 0;padding:0;display:grid;gap:10px}
+.myord__c{padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
+.myord__h{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:13px;color:var(--text2,#9aa6b8);margin-bottom:8px}
+.myord__no{font-weight:700;color:var(--text,#fff)}
+.myord__st{margin-left:auto;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,255,255,.08);color:var(--text,#fff)}
+.myord__st--new{background:rgba(63,127,214,.22);color:#9cc3ff}
+.myord__st--confirmed,.myord__st--paid{background:rgba(46,160,90,.2);color:#8be0a8}
+.myord__st--shipped{background:rgba(212,175,95,.18);color:#e6c983}
+.myord__st--cancelled{background:rgba(220,60,60,.18);color:#ff9a9a}
+.myord__it{list-style:none;margin:0;padding:0;display:grid;gap:5px;font-size:13.5px}
+.myord__it li{display:flex;justify-content:space-between;gap:10px}
+.myord__it li span:last-child{white-space:nowrap;color:var(--text2,#9aa6b8)}
+.myord__d,.myord__t{display:flex;justify-content:space-between;margin-top:8px;font-size:13.5px}
+.myord__d{color:#e6c983}
+.myord__t{padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
+.myord__t b{font-size:16px}
+.myord__empty{padding:18px 4px;text-align:center}

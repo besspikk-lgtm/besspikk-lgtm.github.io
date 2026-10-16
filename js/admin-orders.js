@@ -24,9 +24,12 @@ function telHref(p) {
   else if (/^380\d{9}$/.test(d)) d = '+' + d;
   return d.replace(/(?!^)\+/g, '');
 }
-function parseItems(s) {
+function parseAll(s) {
   try { const a = JSON.parse(s || '[]'); return Array.isArray(a) ? a.filter((x) => x && typeof x === 'object') : []; } catch (e) { return null; }
 }
+// 16.10.2026: службовий елемент {id:'_acct', uid, discountPct, discountAmount, totalBeforeDiscount, total} — не товар
+function parseItems(s) { const a = parseAll(s); return a === null ? null : a.filter((x) => x.id !== '_acct'); }
+function acctOf(o) { const a = parseAll(o.items) || []; return a.find((x) => x.id === '_acct') || null; }
 
 let ctx = null; // { fb, toast, names(), products(), thumb(p), lazy() }
 let orders = [], unsubO = null, flt = 'all', oq = '', loaded = false, oErr = '';
@@ -70,7 +73,11 @@ function totalHTML(o) {
   const ask = typeof o.ask === 'number' ? o.ask : it.filter((x) => typeof x.price_uah !== 'number').length;
   const tot = typeof o.total_uah === 'number' ? o.total_uah : null;
   if (tot == null && !ask) return '';
-  return '<div class="ocard__tot">Разом: <b>' + (tot != null ? grn(tot) : '—') + '</b>' +
+  const m = acctOf(o);
+  const disc = m && typeof m.discountAmount === 'number' && m.discountAmount > 0
+    ? '<div class="ocard__disc">Зареєстрований покупець. Сума без знижки: ' + grn(m.totalBeforeDiscount) + ' · <b>Знижка ' + esc(String(m.discountPct || 5)) + '% за реєстрацію: −' + grn(m.discountAmount) + '</b></div>'
+    : (m ? '<div class="ocard__disc ocard__disc--n">Зареєстрований покупець (без знижки)</div>' : '');
+  return disc + '<div class="ocard__tot">Разом: <b>' + (tot != null ? grn(tot) : '—') + '</b>' +
     (ask ? ' <span class="muted small">+ ' + ask + ' ' + (ask === 1 ? 'позиція' : ask < 5 ? 'позиції' : 'позицій') + ' — ціну уточнити</span>' : '') + '</div>';
 }
 function orderHTML(o) {

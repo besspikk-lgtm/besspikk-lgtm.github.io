@@ -1309,6 +1309,25 @@
   /* Повне замовлення для бота: документ orders/<id> у Firestore (пише js/fb.js) + посилання t.me/<бот>?start=o_<id><токени кошика>.
      Токени кошика в тому ж посиланні — запасний варіант, якщо документ не записався. */
   var orderWriter = null; // function (id, data) -> Promise; ставить js/fb.js, коли Firebase завантажився
+  /* ---------- 16.10.2026: 5% знижки на перше замовлення для зареєстрованих ----------
+     Правила Firestore (змінити їх немає змоги) не дозволяють нових полів у orders/* і users/*, тож дані знижки й uid
+     пишемо службовим елементом {id:'_acct', uid, discountPct, discountAmount, totalBeforeDiscount, total} у JSON-рядку items
+     (адмінка й бот його розпізнають і не показують як товар). «Перше замовлення» = на цьому пристрої для цього uid ще
+     немає замовлень (localStorage alexbes_myorders_<uid>); бот додатково звіряє uid з попередніми замовленнями. */
+  var acct = null, DISC_PCT = 5, MYORD = 'alexbes_myorders_';
+  function myOrders(uid) { var a = load(MYORD + uid, []); return Array.isArray(a) ? a : []; }
+  function discOk() { return !!(acct && acct.uid) && !myOrders(acct.uid).length; }
+  function discAmt(sum) { return discOk() && sum > 0 ? Math.floor(sum * DISC_PCT / 100) : 0; }
+  function acctMeta(sum) {
+    if (!acct || !acct.uid) return null;
+    var m = { id: '_acct', uid: String(acct.uid).slice(0, 128) }, d = discAmt(sum);
+    if (d) { m.discountPct = DISC_PCT; m.discountAmount = d; m.totalBeforeDiscount = sum; m.total = sum - d; }
+    return m;
+  }
+  function rememberOrder(id) {
+    if (!acct || !acct.uid) return;
+    var a = myOrders(acct.uid); a.unshift({ id: id, t: Date.now() }); save(MYORD + acct.uid, a.slice(0, 100));
+  }
   function genOrderId() {
     var A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', id = '';
     var c = window.crypto || window.msCrypto;
@@ -1332,6 +1351,9 @@
     });
     var json = JSON.stringify(items);
     while (json.length > 14500 && items.length > 1) { items.pop(); json = JSON.stringify(items); } // ліміт правил — решта є в text
+    var meta = acctMeta(sum);
+    if (meta) { items.push(meta); json = JSON.stringify(items); }
+    if (meta && meta.discountAmount) sum = meta.total;
     return {
       v: 1, items: json, count: cart.length, total_uah: Math.min(1e9, sum), ask: ask,
       text: clipS(orderText(), 6000),
@@ -1350,7 +1372,7 @@
     // з іншими способами (бот з кошиком у посиланні, Telegram, дзвінок). Якщо запис усе ж пройде пізніше — звичайне «Дякуємо!».
     var settled = false, to = setTimeout(function () { if (!settled) orderFailShow('тайм-аут'); }, ORDER_WAIT);
     p.then(function () {
-      settled = true; clearTimeout(to); orderFail = null;
+      settled = true; clearTimeout(to); orderFail = null; rememberOrder(id);
       stat('o_botok', 'o_botok:' + id); // «Оформлено»: +1 ЛИШЕ після того, як orders/<id> збережено (кожне замовлення окремо)
       track('бот/кошик-firestore', 'Замовлення з кошика передано боту'); formChanged('order'); orderPlaced(id, snap, stxt);
     }, function (e) {
@@ -1469,7 +1491,9 @@
       else { ask++; lines.push((i + 1) + '. ' + nm + ' — ' + l.qty + ' шт — ціну уточнити'); }
     });
     lines.push('');
-    lines.push('Разом: ' + fmtUah(sum) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
+    var dsc = discAmt(sum);
+    if (dsc) lines.push('Сума: ' + fmtUah(sum), 'Знижка ' + DISC_PCT + '% за реєстрацію: −' + fmtUah(dsc), 'Разом зі знижкою: ' + fmtUah(sum - dsc) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
+    else lines.push('Разом: ' + fmtUah(sum) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
     var f = form;
     if (f.name) lines.push("Ім'я: " + f.name);
     if (f.phone) lines.push('Телефон: ' + f.phone);
@@ -1477,6 +1501,16 @@
     if (f.note) lines.push('Коментар: ' + f.note);
     lines.push('', 'Прошу підтвердити ціну та наявність 🙏');
     return lines.join('\n');
+  }
+  var I_TAG = '<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
+  function cdiscHTML(sum, ask) {
+    var nb = function (n) { return fmtUah(n).replace(/ /g, '\u00a0'); }, d = discAmt(sum);
+    var askT = ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '';
+    if (d) return '<div class="ctotal ctotal--sub"><span>Сума</span><b>' + nb(sum) + '</b></div>' +
+      '<div class="cdisc"><span>' + I_TAG + 'Знижка ' + DISC_PCT + '% за реєстрацію</span><b>\u2212' + nb(d) + '</b></div>' +
+      '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum - d) + '</b></div>';
+    return '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
+      (!(acct && acct.uid) && sum > 0 ? '<button type="button" class="cdisc-hint" data-open-acct>' + I_TAG + '<span>Зареєструйтеся — і отримаєте <b>5% знижки</b> на перше замовлення</span></button>' : '');
   }
   function renderCart() {
     var body = $('#cartbody');
@@ -1499,7 +1533,7 @@
     }).join('');
     var fail = orderFail && Date.now() - orderFail.t < 30 * 60000 ? orderFailHTML() : '';
     body.innerHTML = fail + cstepsHTML() + '<div class="csec" data-csec="1"><ul class="citems">' + items + '</ul>' +
-      '<div class="ctotal"><span>Разом' + (ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '') + '</span><b>' + fmtUah(sum).replace(/ /g, '\u00a0') + '</b></div>' +
+      cdiscHTML(sum, ask) +
       (saved > 0 ? '<div class="csave"><span>Ваша економія зі знижками</span><b>\u2212' + fmtUah(saved).replace(/ /g, '\u00a0') + '</b></div>' : '') +
       '<p class="cnote">Ціни в гривнях. Остаточну ціну, наявність, доставку та оплату підтверджуємо в Telegram або телефоном.</p></div>' +
       '<div class="csec" data-csec="2"><h3 class="csec__ttl"><span>2</span>Ваші дані</h3>' +
@@ -2266,7 +2300,9 @@
     var text = [QUICK_MARK + ' (в один клік) з сайту ' + CONFIG.siteName, '',
       '1. ' + L.name + ' — ' + quick.qty + ' шт' + (L.up != null ? ' × ' + uahTxt(L.up) + ' = ' + fmtUah(L.sum) : ' — ціну уточнити'),
       '', "Ім'я: " + name, 'Телефон: ' + phone, '', 'Передзвоніть, будь ласка, для підтвердження.'].join('\n');
-    var data = { v: 1, items: JSON.stringify([it]), count: 1, total_uah: L.sum != null ? Math.min(1e9, L.sum) : 0, ask: L.up != null ? 0 : 1,
+    var qsum = L.sum != null ? L.sum : 0, qm = acctMeta(qsum), qit = qm ? [it, qm] : [it];
+    if (qm && qm.discountAmount) { qsum = qm.total; text += '\n\nЗнижка ' + DISC_PCT + '% за реєстрацію: −' + fmtUah(qm.discountAmount) + '. Разом зі знижкою: ' + fmtUah(qsum); }
+    var data = { v: 1, items: JSON.stringify(qit), count: 1, total_uah: Math.min(1e9, qsum), ask: L.up != null ? 0 : 1,
       text: clipS(text, 6000), name: name, phone: phone, note: QUICK_MARK + ' (в один клік)' };
     var id = genOrderId(), btn = $('#qkform .qk__go');
     quick.busy = true; if (btn) { btn.disabled = true; btn.textContent = 'Надсилаємо…'; }
@@ -2285,7 +2321,7 @@
     if (!w || typeof w.then !== 'function') return fail('немає з’єднання з базою');
     var to = setTimeout(function () { fail('тайм-аут'); }, 12000);
     w.then(function () {
-      clearTimeout(to); if (done) return; done = true; q.busy = false;
+      clearTimeout(to); if (done) return; done = true; q.busy = false; rememberOrder(id);
       track('швидке/надіслано/' + p.id, 'Купити в один клік (надіслано): ' + p.name);
       formChanged('order');
       if (sheetKind !== 'quick' || quick !== q) return;
@@ -2326,6 +2362,8 @@
     setCart: function (lines) { splitCart(lines); saveCart(true); updateBadges(); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
     onCartChange: function (fn) { cartListeners.push(fn); },
     getForm: function () { return Object.assign({}, form); },
+    setAcct: function (a) { acct = a && a.uid ? { uid: a.uid } : null; if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
+    myOrders: function () { return acct && acct.uid ? myOrders(acct.uid) : []; },
     setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
     setCartEventWriter: function (fn) { cartEvWriter = typeof fn === 'function' ? fn : null; if (cartEvWriter) { var q = cartEvQ; cartEvQ = []; q.forEach(cartEvSend); } },
     setStatWriter: function (fn) { statWriter = typeof fn === 'function' ? fn : null; if (statWriter) { var q = statQ; statQ = []; q.forEach(function (x) { statSend(x[0], x[1]); }); } },

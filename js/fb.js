@@ -190,11 +190,13 @@ async function onUser(u) {
     // the photo stays in the account; drop the device copy unless it never reached the server
     if (prev) { const la = localAva(prev.uid); if (la && la.synced) LS.del(avaKey(prev.uid)); }
     avatar = null; avaLocal = false; serverPhoto = null; avaTok++;
-    view = view === 'account' ? 'login' : view;
+    view = (view === 'account' || view === 'orders') ? 'login' : view;
+    if (AB.setAcct) AB.setAcct(null);
     setBtn(); render();
     return;
   }
   LS.set('alexbes_had_acct', '1');
+  if (AB.setAcct) AB.setAcct({ uid: u.uid });
   const la0 = localAva(u.uid);
   avatar = la0 ? la0.d : null; avaLocal = !!(la0 && !la0.synced); serverPhoto = null;
   const tok = ++avaTok;
@@ -311,12 +313,13 @@ function msgHTML() { return '<p class="acct__msg' + (msg.ok ? ' ok' : '') + '" r
 
 function render() {
   const box = $('#acctbody'); if (!box) return;
+  if (user && view === 'orders') { box.innerHTML = acctTabs() + '<div class="myord" data-myord>' + myOrdersHTML() + '</div>'; loadMyOrders(); return; }
   if (user) {
     const adm = isAdminUser(user);
     const pw = user.providerData.some((p) => p.providerId === 'password');
     const emu = fb && fb.emu ? '?emu=1' : '';
     box.innerHTML =
-      '<h2 id="acct-ttl" class="acct__ttl">' + svgI(I_USER, 22) + '<span>Мій профіль</span></h2>' +
+      acctTabs() +
       photoField('account') +
       (!user.emailVerified && pw ? '<p class="acct__warn">Email ще не підтверджено. Перевірте пошту (і «Спам»). <button type="button" class="acct__link" data-a="verify">Надіслати лист ще раз</button></p>' : '') +
       '<p class="acct__ok acct__ok--ic">' + svgI(I_CART, 18) + '<span>Кошик збережено в акаунті: <b data-cartn>' + cartN() + '</b> шт. Він доступний на всіх ваших пристроях.</span></p>' +
@@ -404,11 +407,51 @@ async function onChange(e) {
 function say(t, ok) { msg = { t, ok: !!ok }; const p = $('.acct__msg'); if (p) { p.textContent = t; p.hidden = !t; p.classList.toggle('ok', !!ok); } }
 function busy(f, on) { $$('button, input', f).forEach((el) => { el.disabled = on; }); }
 
+// ---- 16.10.2026: «Мої замовлення». Правила дозволяють читати замовлення лише за id (get), тому список id береться
+// з цього пристрою (localStorage, js/app.js → AlexBes.myOrders()); замовлення з інших пристроїв і до 16.10 тут не видно.
+const ORD_ST = { new: 'Нове', confirmed: 'Підтверджено', shipped: 'Відправлено', paid: 'Оплачено', cancelled: 'Скасовано' };
+const myOrd = {}; // id -> { d: дані | null, err }
+function acctTabs() {
+  return '<h2 id="acct-ttl" class="acct__ttl">' + svgI(I_USER, 22) + '<span>Мій профіль</span></h2>' +
+    '<div class="acct__tabs" role="tablist"><button type="button" role="tab" data-a="v-account" class="' + (view !== 'orders' ? 'on' : '') + '">Профіль</button>' +
+    '<button type="button" role="tab" data-a="v-orders" class="' + (view === 'orders' ? 'on' : '') + '">Мої замовлення</button></div>';
+}
+const grn = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0') + '\u00a0грн';
+function fmtDt(ms) { try { return new Date(ms).toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }); } catch (e) { return ''; } }
+function ordCardHTML(o, rec) {
+  if (!o) return '<li class="myord__c"><div class="myord__h"><span>' + esc(fmtDt(rec.t)) + '</span><span class="myord__no">№' + esc(rec.id.slice(-6)) + '</span></div><p class="muted small">' + (myOrd[rec.id] && myOrd[rec.id].err ? 'Не вдалося завантажити замовлення.' : 'Завантаження…') + '</p></li>';
+  let it = []; try { it = JSON.parse(o.items || '[]'); } catch (e) { it = []; }
+  const meta = it.find((x) => x && x.id === '_acct') || {};
+  it = it.filter((x) => x && x.id !== '_acct');
+  const st = ORD_ST[o.status] ? o.status : 'new';
+  const ms = o.createdAt && o.createdAt.toMillis ? o.createdAt.toMillis() : rec.t;
+  return '<li class="myord__c"><div class="myord__h"><span>' + esc(fmtDt(ms)) + '</span><span class="myord__no">№' + esc(rec.id.slice(-6)) + '</span><span class="myord__st myord__st--' + st + '">' + ORD_ST[st] + '</span></div>' +
+    '<ul class="myord__it">' + it.map((x) => '<li><span>' + esc(x.name || x.id || '') + (x.variant ? ' <i>(' + esc(x.variant) + ')</i>' : '') + '</span><span>' + (parseInt(x.qty, 10) || 1) + '\u00a0шт' + (typeof x.price_uah === 'number' ? ' × ' + grn(x.price_uah) : ' · ціну уточнити') + '</span></li>').join('') + '</ul>' +
+    (meta.discountAmount ? '<div class="myord__d"><span>Знижка ' + (meta.discountPct || 5) + '% за реєстрацію</span><b>\u2212' + grn(meta.discountAmount) + '</b></div>' : '') +
+    (typeof o.total_uah === 'number' ? '<div class="myord__t"><span>Разом</span><b>' + grn(o.total_uah) + '</b></div>' : '') + '</li>';
+}
+function myOrdersHTML() {
+  const list = AB.myOrders ? AB.myOrders() : [];
+  if (!list.length) return '<p class="myord__empty muted">Замовлень, оформлених з цього пристрою після входу в акаунт, ще немає.</p>';
+  return '<ul class="myord__l">' + list.map((r) => ordCardHTML(myOrd[r.id] && myOrd[r.id].d, r)).join('') + '</ul>' +
+    '<p class="muted small">Тут показано замовлення, оформлені з цього пристрою, коли ви були в акаунті.</p>';
+}
+async function loadMyOrders() {
+  const list = AB.myOrders ? AB.myOrders() : [];
+  const { db, F } = fb;
+  await Promise.all(list.filter((r) => !myOrd[r.id] || myOrd[r.id].err).map(async (r) => {
+    try { const d = await F.getDoc(F.doc(db, 'orders', r.id)); myOrd[r.id] = { d: d.exists() ? d.data() : null, err: !d.exists() }; }
+    catch (e) { myOrd[r.id] = { d: null, err: true }; }
+  }));
+  const box = $('[data-myord]'); if (box && view === 'orders') box.innerHTML = myOrdersHTML();
+}
+
 async function onClick(e) {
   const t = e.target.closest('[data-open-acct], [data-a]'); if (!t) return;
   if (t.hasAttribute('data-open-acct')) { e.preventDefault(); msg = { t: '', ok: false }; render(); AB.showModal('#amodal'); return; }
   const a = t.getAttribute('data-a');
   const { auth, A } = fb;
+  if (a === 'v-account' || a === 'v-orders') { view = a.slice(2); msg = { t: '', ok: false }; render(); return; }
   if (a === 'v-login' || a === 'v-signup' || a === 'v-reset') { const em = $('#acctbody input[name=email]'); view = a.slice(2); msg = { t: '', ok: false }; render(); if (em && em.value) { const n = $('#acctbody input[name=email]'); if (n) n.value = em.value; } return; }
   if (a === 'google') {
     say('', false);
