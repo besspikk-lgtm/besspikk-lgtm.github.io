@@ -842,7 +842,8 @@
     var p = byId[pmState.id]; pmState.vi = vi;
     var v = variantOf(p, vi), bv = typeof BASE === 'object' && BASE && BASE[p.id] && BASE[p.id].variants ? BASE[p.id].variants[vi] : null;
     var ph = (v && v.photo) || (bv && bv.photo);
-    if (ph) { var key = String(ph).split('?')[0], g = galleryOf(p); for (var i = 0; i < g.length; i++) if (g[i].src && String(g[i].src).split('?')[0] === key) { pmState.gi = i; break; } }
+    if (ph && /^ph:[\w-]{1,40}$/.test(ph)) { var dk = ph.slice(3) === 'main' ? p.id : p.id + '__' + ph.slice(3), g2 = galleryOf(p); for (var j = 0; j < g2.length; j++) if (g2[j].doc === dk) { pmState.gi = j; break; } } // 16.10: фото варіанта з адмінки (photos/{id}__{ключ})
+    else if (ph) { var key = String(ph).split('?')[0], g = galleryOf(p); for (var i = 0; i < g.length; i++) if (g[i].src && String(g[i].src).split('?')[0] === key) { pmState.gi = i; break; } }
     renderProduct();
   }
   function galGo(to, rel) {

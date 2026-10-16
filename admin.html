@@ -9,7 +9,7 @@
 <title>Адмінка — Alex_bes😈</title>
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="stylesheet" href="css/style.css?v=18">
-<link rel="stylesheet" href="css/admin.css?v=11">
+<link rel="stylesheet" href="css/admin.css?v=12">
 </head>
 <body class="admbody">
 <div class="uastripe" aria-hidden="true"></div>
@@ -17,7 +17,7 @@
   <div class="wrap hdr__in adm-hdr">
     <a class="brand" href="./" aria-label="На сайт">
       <img class="brand__logo" src="img/logo.webp?v=3" width="44" height="44" alt="Alex_bes">
-      <span class="brand__txt"><span class="brand__name">⚙️ Адмінка</span><span class="brand__sub" id="adm-who">Alex_bes😈 — керування товарами</span></span>
+      <span class="brand__txt"><span class="brand__name">Адмінка</span><span class="brand__sub" id="adm-who">Alex_bes😈 — керування товарами</span></span>
     </a>
     <nav class="adm-hdr__nav">
       <a class="btn btn--o adm-sm" href="./" id="adm-site">← На сайт</a>
@@ -37,18 +37,28 @@
       <a href="#orders" data-tab="orders"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="m3 8 9 5 9-5M12 13v8"/></svg>Замовлення <span class="adm-badge" id="ord-new" hidden>0</span></a>
       <a href="#stats" data-tab="stats"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Статистика</a>
       <a href="#clients" data-tab="clients"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.6a3.5 3.5 0 0 1 0 6.8"/><path d="M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></svg>Клієнти</a>
+      <a href="#reviews" data-tab="reviews"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12Z"/><path d="m12 8.3 1.1 2.3 2.5.3-1.8 1.7.5 2.5-2.3-1.2-2.3 1.2.5-2.5-1.8-1.7 2.5-.3L12 8.3Z"/></svg>Відгуки<span class="tab-n" id="rv-n" hidden></span></a>
     </nav>
     <div data-pane="products">
     <div class="adm-tools">
-      <input id="adm-q" type="search" placeholder="Пошук: назва, код, id…" autocomplete="off" aria-label="Пошук товарів">
-      <select id="adm-cat" aria-label="Категорія"></select>
+      <label class="adm-q"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="adm-q" type="search" placeholder="Пошук: назва, код, id, бренд, тип…" autocomplete="off" aria-label="Пошук товарів"></label>
+      <select id="adm-cat" aria-label="Розділ"></select>
+      <select id="adm-type" aria-label="Тип" disabled><option value="">Тип: усі</option></select>
       <select id="adm-flt" aria-label="Фільтр">
         <option value="all">Усі товари</option>
+        <option value="visible">Видимі на сайті</option>
+        <option value="hidden">Приховані</option>
+        <option value="way">В дорозі</option>
+        <option value="noprice">Без ціни</option>
+        <option value="nophoto">Без фото</option>
+        <option value="disc">Зі знижкою</option>
         <option value="changed">Змінені в адмінці</option>
         <option value="new">Додані в адмінці</option>
-        <option value="hidden">Приховані</option>
       </select>
-      <button class="btn btn--y" type="button" id="adm-add">➕ Додати товар</button>
+      <div class="adm-addb">
+        <button class="btn btn--y" type="button" id="adm-add-shot"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="m4 20 11-11"/><path d="m14 4 1 2 2 1-2 1-1 2-1-2-2-1 2-1 1-2Z"/></svg>Зі скріна</button>
+        <button class="btn btn--o" type="button" id="adm-add"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>Додати товар</button>
+      </div>
     </div>
     <div class="adm-bulk" id="adm-bulk" role="group" aria-label="Знижка на категорію">
       <span class="adm-bulk__t"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>Знижка на категорію</span>
@@ -56,6 +66,15 @@
       <button class="btn btn--y adm-sm" type="button" data-bulk-apply>Застосувати</button>
       <button class="btn btn--o adm-sm" type="button" data-bulk-clear>Прибрати знижку</button>
       <p class="adm-bulk__i muted small" id="bulk-info">Оберіть категорію у фільтрі вище — знижка застосується до всіх її товарів з ціною (і прихованих).</p>
+    </div>
+    <div class="adm-mass" id="adm-mass" role="group" aria-label="Дії з позначеними товарами">
+      <div class="adm-mass__h"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="m8 12 3 3 5-6"/></svg><b id="mass-n">Нічого не позначено</b>
+        <button class="lnk" type="button" id="mass-all">Позначити всі знайдені</button><button class="lnk" type="button" id="mass-none">Зняти позначки</button></div>
+      <div class="adm-mass__r">
+        <span class="adm-mass__g"><select id="mass-pmode" aria-label="Як змінити ціну"><option value="pct">Ціна ±%</option><option value="abs">Ціна, грн</option></select><input id="mass-pval" type="number" inputmode="decimal" step="any" placeholder="%, напр. 10 або -15" aria-label="Значення"><button class="btn btn--y adm-sm" type="button" data-mass="price" disabled>Змінити ціну</button></span>
+        <span class="adm-mass__g"><select id="mass-stock" aria-label="Наявність"><option value="В дорозі, наявність уточнюйте">В дорозі</option><option value="В наявності">В наявності</option><option value="Під замовлення">Під замовлення</option></select><button class="btn btn--y adm-sm" type="button" data-mass="stock" disabled>Змінити наявність</button></span>
+        <span class="adm-mass__g"><button class="btn btn--o adm-sm" type="button" data-mass="hide" disabled><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6.4 0 10 7 10 7a17 17 0 0 1-3.2 4"/><path d="M6.6 6.6C3.8 8.4 2 12 2 12s3.6 7 10 7a9.6 9.6 0 0 0 5.4-1.6"/></svg>Сховати</button><button class="btn btn--o adm-sm" type="button" data-mass="show" disabled><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg>Показати</button></span>
+      </div>
     </div>
     <p class="adm-stats" id="adm-stats"></p>
     <ul class="adm-list" id="adm-list"></ul>
@@ -91,6 +110,20 @@
       <p class="st-note muted small">Зареєстровані покупці (Firestore users, читає лише адмін). Без адміна й службового акаунта бота. «Новий» — зареєстрований за обраний період. Дата реєстрації зберігається з 08.10.2026; у старіших профілів вона невідома.</p>
     </div>
 
+    <div data-pane="reviews" hidden>
+      <div class="st-tools">
+        <div class="ord-chips" role="group" aria-label="Відгуки">
+          <button class="chip on" type="button" data-rv-f="pending">Нові</button>
+          <button class="chip" type="button" data-rv-f="pub">Опубліковані</button>
+          <button class="chip" type="button" data-rv-f="all">Усі</button>
+        </div>
+        <button class="btn btn--o adm-sm" type="button" data-rv-reload><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4.5V11h-6.5"/></svg>Оновити</button>
+      </div>
+      <p class="adm-stats" id="rv-stats">Завантаження відгуків…</p>
+      <ul class="rv-list" id="rv-list"></ul>
+      <p class="st-note muted small">Відгуки з сайту приходять у Firestore (orders) і в Telegram-бот @AlexBes_order_bot. Тут їх видно всі; «Відхилити» видаляє новий відгук назавжди. Опублікувати чи прибрати опублікований — кнопками в боті: опубліковані зберігаються у файлі сайту data/reviews.json, і з браузера його змінити не можна.</p>
+    </div>
+
     <div data-pane="stats" hidden>
       <div class="st-tools">
         <div class="ord-chips" role="group" aria-label="Період">
@@ -98,7 +131,7 @@
           <button class="chip on" type="button" data-st-range="7">7 днів</button>
           <button class="chip" type="button" data-st-range="30">30 днів</button>
         </div>
-        <button class="btn btn--o adm-sm" type="button" data-st-reload>🔄 Оновити</button>
+        <button class="btn btn--o adm-sm" type="button" data-st-reload>Оновити</button>
       </div>
       <div id="st-body"><p class="muted">Завантаження статистики…</p></div>
       <p class="st-note muted small">Власна статистика сайту (Firestore, без cookies і без персональних даних). Візит — одна вкладка браузера за добу; кожен товар, додавання в кошик і канал замовлення рахуються раз за візит. Боти й автотести не враховуються. Дні — за київським часом. Блок «Що додають у кошик» — окремий журнал подій (Firestore cart_events, читає лише адмін): товар, варіант, кількість, ціна, розділ сайту й час; для покупців з акаунтом — ім’я та email, для гостей — «Гість» і анонімний id пристрою.</p>
@@ -119,6 +152,7 @@
 
 <script src="data/products.js?v=82"></script>
 <script src="js/media.js?v=2"></script>
-<script type="module" src="js/admin.js?v=23"></script>
+<script src="js/subs.js?v=1"></script>
+<script type="module" src="js/admin.js?v=24"></script>
 </body>
 </html>
