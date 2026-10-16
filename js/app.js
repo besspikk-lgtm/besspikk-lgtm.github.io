@@ -91,10 +91,37 @@
       { k: 'antikor', t: 'Антикор і антигравій', f: function (p) { return chType(p) === 'antikor'; } },
       { k: 'additive', t: 'Добавки та змивки', f: function (p) { return chType(p) === 'additive'; } }
     ] },
-    // 08.10.2026: «Товари з Китаю» (cn) — тип з даних (merge_guns.py: p.type 'guns' / 'equip')
+    // 16.10.2026: «Товари з Китаю» (cn) — детальні типи за назвою (cnType)
     cn: { label: 'Тип', items: [
-      { k: 'guns', t: 'Фарбопульти та пістолети', f: function (p) { return p.type === 'guns'; } },
-      { k: 'equip', t: 'Обладнання та аксесуари', f: function (p) { return p.type !== 'guns'; } }
+      { k: 'guns', t: 'Фарбопульти та пістолети', f: function (p) { return cnType(p) === 'guns'; } },
+      { k: 'reg', t: 'Регулятори тиску', f: function (p) { return cnType(p) === 'reg'; } },
+      { k: 'pneu', t: 'Пневмоінструмент', f: function (p) { return cnType(p) === 'pneu'; } },
+      { k: 'blocks', t: 'Шліфувальні бруски', f: function (p) { return cnType(p) === 'blocks'; } },
+      { k: 'abr', t: 'Абразиви та губки', f: function (p) { return cnType(p) === 'abr'; } },
+      { k: 'pdr', t: 'ПДР і рихтування', f: function (p) { return cnType(p) === 'pdr'; } },
+      { k: 'care', t: 'Чистка та аксесуари', f: function (p) { return cnType(p) === 'care'; } },
+      { k: 'measure', t: 'Вимірювальні прилади', f: function (p) { return cnType(p) === 'measure'; } },
+      { k: 'other', t: 'Інше', f: function (p) { return cnType(p) === 'other'; } }
+    ] },
+    abraz: { label: 'Тип', items: [
+      { k: 'discs', t: 'Шліфувальні диски', f: function (p) { return abType(p) === 'discs'; } },
+      { k: 'sheets', t: 'Листи та рулони', f: function (p) { return abType(p) === 'sheets'; } },
+      { k: 'sponges', t: 'Губки та нетканий абразив', f: function (p) { return abType(p) === 'sponges'; } },
+      { k: 'misc', t: 'Серветки та пасти', f: function (p) { return abType(p) === 'misc'; } }
+    ] },
+    mask: { label: 'Тип', items: [
+      { k: 'tape', t: 'Малярні стрічки', f: function (p) { return /стрічк/i.test(p.name); } },
+      { k: 'paper', t: 'Папір і плівка', f: function (p) { return !/стрічк/i.test(p.name); } }
+    ] },
+    shpak: { label: 'Бренд', items: [
+      { k: 'palinal', t: 'PALINAL', f: function (p) { return /palinal/i.test(p.name); } },
+      { k: 'novol', t: 'NOVOL', f: function (p) { return /novol/i.test(p.name); } },
+      { k: 'other', t: 'Інші', f: function (p) { return !/palinal|novol/i.test(p.name); } }
+    ] },
+    savex: { label: 'Тип', items: [
+      { k: 'thinner', t: 'Розчинники', f: function (p) { return /розчинник/i.test(p.name); } },
+      { k: 'degreaser', t: 'Знежирювачі', f: function (p) { return /знежирювач/i.test(p.name); } },
+      { k: 'cleaner', t: 'Для миття обладнання', f: function (p) { return !/розчинник|знежирювач/i.test(p.name); } }
     ] },
     guns: { label: 'Тип', items: [
       { k: 'spray', t: 'Фарбопульти', f: function (p) { return p.sub !== 'air' && !GUN_MINI.test(p.name); } },
@@ -102,6 +129,26 @@
       { k: 'special', t: 'Спеціальні пістолети', f: function (p) { return p.sub === 'air'; } }
     ] }
   };
+  /* 16.10.2026: типи «Товари з Китаю» та «Абразиви» — за назвою (порядок перевірок важливий) */
+  function cnType(p) {
+    if (p.type === 'guns') return 'guns';
+    var n = (p.name || '').toLowerCase();
+    if (/товщиномір/.test(n)) return 'measure';
+    if (/регулятор|манометр/.test(n)) return 'reg';
+    if (/пневмат|шліфмашинк|бормашин/.test(n)) return 'pneu';
+    if (/вм[’']ятин|рихтуван|пдр|розмітник/.test(n)) return 'pdr';
+    if (/чистк|мийк|щітк/.test(n)) return 'care';
+    if (/губк|диск|абразив|шліфувальні стрічки/.test(n)) return 'abr';
+    if (/брус|рубанок/.test(n)) return 'blocks';
+    return 'other';
+  }
+  function abType(p) {
+    var n = (p.name || '').toLowerCase();
+    if (/губк|скотч-брайт|нетканий/.test(n)) return 'sponges';
+    if (/диск/.test(n)) return 'discs';
+    if (/рулон|лист|аркуш|папір/.test(n)) return 'sheets';
+    return 'misc';
+  }
   /* тип у розділі «equip»: p.type з даних (merge_guns.py); для товарів, доданих в адмінці, — за назвою */
   function eqType(p) {
     if (p.type) return p.type;
@@ -304,7 +351,7 @@
         sb.innerHTML = '<span class="bbar__l">' + esc(sc.label) + '</span>' + subs.map(function (s) {
           return '<a class="bbar__b' + (state.sub === s.k ? ' on' : '') + '" href="' + catHash(state.cat, s.k, state.cat === 'guns' ? state.brand : '') + '"' + (state.sub === s.k ? ' aria-current="true"' : '') + '>' + esc(s.t) + '<small>' + s.n + '</small></a>';
         }).join('');
-        sb.hidden = false; barToOn(sb);
+        sb.classList.toggle('bbar--grid', subs.length > 3); sb.hidden = false; if (subs.length <= 3) barToOn(sb);
       }
     }
     if (!el) return;

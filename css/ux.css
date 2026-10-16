@@ -155,3 +155,9 @@ html.fs-on,html.fs-on body{overflow:hidden}
 .myord__t{padding-top:8px;border-top:1px solid rgba(255,255,255,.08)}
 .myord__t b{font-size:16px}
 .myord__empty{padding:18px 4px;text-align:center}
+/* types-20261016: підрозділи «Тип» колонкою (сітка), а не рядком з прокруткою */
+.bbar.bbar--grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;overflow:visible;flex-wrap:initial}
+.bbar.bbar--grid .bbar__l{grid-column:1/-1;margin:0 0 2px}
+.bbar.bbar--grid .bbar__b{justify-content:space-between;border-radius:10px;padding:8px 10px;min-height:38px;font-size:13.5px;line-height:1.2;min-width:0}
+.bbar.bbar--grid .bbar__b small{flex:none}
+@media (max-width:760px){.bbar.bbar--grid{grid-template-columns:1fr 1fr;margin:0 0 14px;padding:0;max-width:100%}.bbar.bbar--grid .bbar__b{font-size:12.5px;padding:7px 9px}}
