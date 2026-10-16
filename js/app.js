@@ -55,7 +55,7 @@
   /* об’єднані картки: старе посилання #/p/<id> веде на нову */
   var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341', 'pal-fast-air': 'pal-873-fast',
     'pal-923-smart-5l': 'pal-923-smart', 'pal-923-as90-5l': 'pal-923-as90', 'pal-223-flash-5l': 'pal-223-flash-new', 'pal-223-shine-5l': 'pal-223-shine',
-    'pal-075-0020-5l': 'pal-075-0020', 'pal-075-0030-5l': 'pal-075-0030', 'pal-077-5l': 'pal-077', 'savex-646': 'savex-646-1l', 'savex-acrylic': 'savex-acrylic-1l', 'savex-metalic': 'savex-metallic-1l', 'savex-gun-cleaner': 'savex-gun-cleaner-1l' }; // solvmerge-20261009
+    'pal-075-0020-5l': 'pal-075-0020', 'pal-075-0030-5l': 'pal-075-0030', 'pal-077-5l': 'pal-077', 'savex-646': 'savex-646-1l', 'savex-acrylic': 'savex-acrylic-1l', 'savex-metalic': 'savex-metallic-1l', 'savex-gun-cleaner': 'savex-gun-cleaner-1l', 'sanding-sponges-p80-p3000': 'sanding-sponges-24-p80-p3000' }; // solvmerge-20261009, spongemerge-20261016
   /* lakmerge-20261009: лаки 5 л об’єднано з карткою 1 л — старе посилання / рядок кошика відкриває варіант 5 л (індекс) */
   var PROD_ALIAS_VI = { 'pal-923-smart-5l': 1, 'pal-923-as90-5l': 1, 'pal-223-flash-5l': 1, 'pal-223-shine-5l': 1, 'pal-075-0020-5l': 1, 'pal-075-0030-5l': 1, 'pal-077-5l': 1, 'savex-646': 1, 'savex-acrylic': 1, 'savex-metalic': 1, 'savex-gun-cleaner': 1 };
   function aliasId(id) { return PROD_ALIAS[id] && !byId[id] ? PROD_ALIAS[id] : id; }
