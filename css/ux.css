@@ -161,3 +161,10 @@ html.fs-on,html.fs-on body{overflow:hidden}
 .bbar.bbar--grid .bbar__b{justify-content:space-between;border-radius:10px;padding:8px 10px;min-height:38px;font-size:13.5px;line-height:1.2;min-width:0}
 .bbar.bbar--grid .bbar__b small{flex:none}
 @media (max-width:760px){.bbar.bbar--grid{grid-template-columns:1fr 1fr;margin:0 0 14px;padding:0;max-width:100%}.bbar.bbar--grid .bbar__b{font-size:12.5px;padding:7px 9px}}
+/* 16.10.2026: акція до дати + промокод у кошику */
+.puntil{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.02em;color:var(--yellow,#ffd500);box-shadow:inset 0 0 0 1px rgba(255,213,0,.45);white-space:nowrap;vertical-align:middle}
+.pcode{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 12px}
+.pcode input{flex:1;min-width:0;height:42px;border-radius:12px;border:1px solid var(--line,rgba(255,255,255,.15));background:transparent;color:inherit;padding:0 12px;font:inherit;text-transform:uppercase;letter-spacing:.06em}
+.pcode input:focus{outline:none;border-color:var(--yellow,#ffd500)}
+.pcode button{height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--yellow,#ffd500);background:transparent;color:var(--yellow,#ffd500);font:inherit;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.pcode__m{flex-basis:100%;margin:0;font-size:13px;opacity:.8}

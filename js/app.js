@@ -263,8 +263,10 @@
     var from = p.variants && p.variants.length > 1 && new Set(p.variants.map(function (v) { return v && v.price_eur != null ? uah(v.price_eur) : '-'; })).size > 1 ? '<small>від</small>' : '';
     var old = oldOf(p);
     var pill = '<span class="pill' + (old != null ? ' pill--sale' : '') + '">' + from + uah(p.price_eur) + '</span>';
-    return old != null ? '<span class="pbox' + (cls ? ' ' + cls : '') + '">' + pill + oldHTML(old, p.price_eur) + '</span>' : pill;
+    var till = p.promoUntil ? '<span class="puntil" title="Знижка діє до ' + untilTxt(p.promoUntil, true) + '">до ' + untilTxt(p.promoUntil) + '</span>' : '';
+    return old != null ? '<span class="pbox' + (cls ? ' ' + cls : '') + '">' + pill + oldHTML(old, p.price_eur) + till + '</span>' : pill;
   }
+  function untilTxt(t, full) { try { return new Date(t).toLocaleString('uk-UA', full ? { timeZone: 'Europe/Kyiv', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' } : { timeZone: 'Europe/Kyiv', day: '2-digit', month: '2-digit' }); } catch (e) { return ''; } }
   var PLACEHOLDER = 'img/logo.webp?v=3';
   var photoData = {}; // id -> data URL loaded from Firestore photos/{id}
   // gallery: ordered photo keys from Firestore — 'static' = catalog photo (img/p), 'main' = photos/{id}, other = photos/{id}__{key}
@@ -419,7 +421,8 @@
       list.sort(function (a, b) { return oos(a) - oos(b) || a.name.localeCompare(b.name, 'uk'); });
     } else if (state.cat !== 'all') { // 04.10: у всіх розділах — від найдорожчого до найдешевшого (раніше лише фарбопульти)
       list.forEach(function (p, i) { p._i = i; });
-      list.sort(function (a, b) { if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return a._i - b._i; if (x == null) return 1; if (y == null) return -1; return (y - x) || a._i - b._i; });
+      var ordA = ORD[state.cat] || [], ordI = {}; ordA.forEach(function (id, i) { if (ordI[id] == null) ordI[id] = i; }); // 16.10: порядок з адмінки — спершу
+      list.sort(function (a, b) { var oa = ordI[a.id], ob = ordI[b.id]; if (oa != null || ob != null) { if (oa == null) return 1; if (ob == null) return -1; return oa - ob; } if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return a._i - b._i; if (x == null) return 1; if (y == null) return -1; return (y - x) || a._i - b._i; });
     } else {
       list.forEach(function (p, i) { p._i = i; });
       list.sort(function (a, b) { return oos(a) - oos(b) || order[a.category] - order[b.category] || a._i - b._i; });
@@ -1368,13 +1371,47 @@
   var acct = null, DISC_PCT = 5, MYORD = 'alexbes_myorders_';
   function myOrders(uid) { var a = load(MYORD + uid, []); return Array.isArray(a) ? a : []; }
   function discOk() { return !!(acct && acct.uid) && !myOrders(acct.uid).length; }
-  function discAmt(sum) { return discOk() && sum > 0 ? Math.floor(sum * DISC_PCT / 100) : 0; }
+  /* 16.10.2026: промокоди (адмінка -> products/_cfg). Код зберігається лише як SHA-256 (h), перевірка — у браузері.
+     Знижки не сумуються: діє більша з «5% за реєстрацію» і промокоду. */
+  var PCODE_KEY = 'alexbes_pcode';
+  function codeNow() {
+    var c = load(PCODE_KEY, null); if (!c || !c.h) return null;
+    var d = (SETTINGS.codes || []).filter(function (x) { return x && x.h === c.h && !x.off && (!x.until || x.until > Date.now()); })[0];
+    return d && d.pct >= 1 && d.pct <= 90 ? { code: c.code, pct: d.pct | 0, until: d.until || 0 } : null;
+  }
+  function discInfo(sum) {
+    if (!(sum > 0)) return null;
+    var reg = discOk() ? DISC_PCT : 0, pc = codeNow(), pct = Math.max(reg, pc ? pc.pct : 0);
+    if (!pct) return null;
+    var byCode = !!(pc && pc.pct > reg);
+    return { pct: pct, amount: Math.floor(sum * pct / 100), code: byCode ? pc.code : '', label: byCode ? 'за промокодом ' + pc.code : 'за реєстрацію' };
+  }
+  function discAmt(sum) { var d = discInfo(sum); return d ? d.amount : 0; }
   function acctMeta(sum) {
-    if (!acct || !acct.uid) return null;
-    var m = { id: '_acct', uid: String(acct.uid).slice(0, 128) }, d = discAmt(sum);
-    if (d) { m.discountPct = DISC_PCT; m.discountAmount = d; m.totalBeforeDiscount = sum; m.total = sum - d; }
+    var d = discInfo(sum);
+    if ((!acct || !acct.uid) && !(d && d.code)) return null;
+    var m = { id: '_acct', uid: acct && acct.uid ? String(acct.uid).slice(0, 128) : '' };
+    if (d) { m.discountPct = d.pct; m.discountAmount = d.amount; m.totalBeforeDiscount = sum; m.total = sum - d.amount; if (d.code) m.promoCode = String(d.code).slice(0, 40); }
     return m;
   }
+  function sha256hex(t) {
+    if (!(window.crypto && crypto.subtle && window.TextEncoder)) return Promise.reject(new Error('no crypto'));
+    return crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ('0' + x.toString(16)).slice(-2); }).join(''); });
+  }
+  function normCode(t) { return String(t || '').trim().toUpperCase().replace(/\s+/g, ''); }
+  function applyCode(raw) {
+    var code = normCode(raw);
+    if (!code) { save(PCODE_KEY, null); renderCart(); return; }
+    sha256hex('alexbes:' + code).then(function (h) {
+      save(PCODE_KEY, { code: code, h: h });
+      var c = codeNow();
+      if (!c) { save(PCODE_KEY, null); pcodeMsg = 'Промокод «' + code + '» недійсний або його термін минув'; }
+      else pcodeMsg = '';
+      renderCart();
+      if (c) toast('Промокод застосовано: \u2212' + c.pct + '%');
+    }).catch(function () { pcodeMsg = 'Не вдалося перевірити промокод у цьому браузері'; renderCart(); });
+  }
+  var pcodeMsg = '';
   function rememberOrder(id) {
     if (!acct || !acct.uid) return;
     var a = myOrders(acct.uid); a.unshift({ id: id, t: Date.now() }); save(MYORD + acct.uid, a.slice(0, 100));
@@ -1542,8 +1579,8 @@
       else { ask++; lines.push((i + 1) + '. ' + nm + ' — ' + l.qty + ' шт — ціну уточнити'); }
     });
     lines.push('');
-    var dsc = discAmt(sum);
-    if (dsc) lines.push('Сума: ' + fmtUah(sum), 'Знижка ' + DISC_PCT + '% за реєстрацію: −' + fmtUah(dsc), 'Разом зі знижкою: ' + fmtUah(sum - dsc) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
+    var di = discInfo(sum), dsc = di ? di.amount : 0;
+    if (dsc) lines.push('Сума: ' + fmtUah(sum), 'Знижка ' + di.pct + '% ' + di.label + ': −' + fmtUah(dsc), 'Разом зі знижкою: ' + fmtUah(sum - dsc) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
     else lines.push('Разом: ' + fmtUah(sum) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
     var f = form;
     if (f.name) lines.push("Ім'я: " + f.name);
@@ -1555,12 +1592,17 @@
   }
   var I_TAG = '<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
   function cdiscHTML(sum, ask) {
-    var nb = function (n) { return fmtUah(n).replace(/ /g, '\u00a0'); }, d = discAmt(sum);
+    var nb = function (n) { return fmtUah(n).replace(/ /g, '\u00a0'); }, di = discInfo(sum), d = di ? di.amount : 0;
+    var pc = load(PCODE_KEY, null), pcOn = codeNow();
+    var pcode = (SETTINGS.codes || []).some(function (x) { return x && !x.off; }) || pc ? '<form class="pcode" data-pcode novalidate><label class="sr-only" for="pcode-in">Промокод</label>' +
+      '<input id="pcode-in" name="pcode" autocomplete="off" autocapitalize="characters" maxlength="40" placeholder="Промокод" value="' + esc(pcOn ? pcOn.code : '') + '">' +
+      (pcOn ? '<button type="button" class="pcode__x" data-pcode-x aria-label="Прибрати промокод">' + I_TAG + 'Прибрати</button>' : '<button type="submit" class="pcode__go">Застосувати</button>') +
+      (pcodeMsg ? '<p class="pcode__m" role="alert">' + esc(pcodeMsg) + '</p>' : pcOn && !(di && di.code) ? '<p class="pcode__m">Знижка за реєстрацію більша — діє вона (знижки не сумуються)</p>' : '') + '</form>' : '';
     var askT = ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '';
-    if (d) return '<div class="ctotal ctotal--sub"><span>Сума</span><b>' + nb(sum) + '</b></div>' +
-      '<div class="cdisc"><span>' + I_TAG + 'Знижка ' + DISC_PCT + '% за реєстрацію</span><b>\u2212' + nb(d) + '</b></div>' +
+    if (d) return pcode + '<div class="ctotal ctotal--sub"><span>Сума</span><b>' + nb(sum) + '</b></div>' +
+      '<div class="cdisc"><span>' + I_TAG + 'Знижка ' + di.pct + '% ' + esc(di.label) + '</span><b>\u2212' + nb(d) + '</b></div>' +
       '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum - d) + '</b></div>';
-    return '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
+    return pcode + '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
       (!(acct && acct.uid) && sum > 0 ? '<button type="button" class="cdisc-hint" data-open-acct>' + I_TAG + '<span>Зареєструйтеся — і отримаєте <b>5% знижки</b> на перше замовлення</span></button>' : '');
   }
   function renderCart() {
@@ -2124,7 +2166,43 @@
   function catName(id) { return catById[id] ? catById[id].name : id; }
   // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;
   // new ids are appended (sorted into their category); hidden:true removes the product from the public catalog.
+  /* 16.10.2026: налаштування з адмінки — службові документи products/_cfg (курс, акції до дати, промокоди) і products/_ord-<розділ>
+     (порядок товарів у розділі). Обидва hidden:true, дані — JSON у description (поля дозволені чинними правилами Firestore). */
+  var SETTINGS = { rate: null, promos: [], codes: [] }, ORD = {}, lastDocs = null, promoTimer = 0;
+  var BASE_RATE = CONFIG.uahRate;
+  function readSettings(docs) {
+    var cfg = null; ORD = {};
+    docs.forEach(function (d) {
+      if (d.id === '_cfg') { try { cfg = JSON.parse(d.description || '{}'); } catch (e) { cfg = null; } }
+      else if (/^_ord-[\w-]{1,60}$/.test(d.id)) { try { var a = JSON.parse(d.description || '[]'); if (Array.isArray(a)) ORD[d.id.slice(5)] = a.filter(function (x) { return typeof x === 'string'; }); } catch (e) {} }
+    });
+    cfg = cfg && typeof cfg === 'object' ? cfg : {};
+    var r = Number(cfg.rate);
+    SETTINGS = { rate: r >= 20 && r <= 200 ? r : null, promos: Array.isArray(cfg.promos) ? cfg.promos : [], codes: Array.isArray(cfg.codes) ? cfg.codes : [] };
+    CONFIG.uahRate = SETTINGS.rate || BASE_RATE;
+  }
+  function timedPromo(p, now) { // найбільша активна знижка: на товар або на його розділ
+    var best = null;
+    SETTINGS.promos.forEach(function (x) {
+      if (!x || !(x.pct >= 1 && x.pct <= 90) || !(x.until > now) || (x.from && x.from > now)) return;
+      if (!((x.t === 'p' && x.id === p.id) || (x.t === 'c' && inCatX(p, x.id)))) return;
+      if (!best || x.pct > best.pct) best = x;
+    });
+    return best;
+  }
+  function applyTimed(p, x) {
+    var one = function (o) { return o && o.price_eur != null && oldOf(o) == null ? Object.assign({}, o, { price_old_eur: o.price_eur, price_eur: discEur(o.price_eur, x.pct) }) : o; };
+    var q = one(p);
+    if (q === p && !(p.variants || []).some(function (v) { return v && v.price_eur != null && oldOf(v) == null; })) return; // уже зі знижкою — не накладаємо
+    if (q === p) q = Object.assign({}, p);
+    if (Array.isArray(q.variants)) q.variants = q.variants.map(one);
+    q.promoUntil = x.until;
+    Object.assign(p, q);
+  }
   function applyRemote(docs) {
+    lastDocs = docs = (docs || []);
+    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-)/.test(d.id || ''); }));
+    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-)/.test(d.id || '')); });
     var list = [], seen = {};
     STATIC_ORDER.forEach(function (bp) { list.push(bp); });
     (docs || []).forEach(function (d) { if (d && typeof d.id === 'string' && /^[\w-]{1,80}$/.test(d.id)) seen[d.id] = d; });
@@ -2152,6 +2230,11 @@
       p.category_name = catName(p.category);
       out.push(p);
     });
+    var now = Date.now(), next = Infinity;
+    if (SETTINGS.promos.length) out.forEach(function (p) { var x = timedPromo(p, now); if (x) applyTimed(p, x); });
+    SETTINGS.promos.forEach(function (x) { if (x && x.until > now) next = Math.min(next, x.until); if (x && x.from > now) next = Math.min(next, x.from); });
+    clearTimeout(promoTimer);
+    if (next < Infinity && next - now < 2e9) promoTimer = setTimeout(function () { if (lastDocs) applyRemote(lastDocs); }, next - now + 500); // акція закінчилась — ціни повертаються самі
     PRODUCTS = out; byId = {}; index = {};
     PRODUCTS.forEach(function (p) { byId[p.id] = p; indexProduct(p); });
     CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return inCatX(p, c.id); }).length; });
@@ -2353,7 +2436,7 @@
       '1. ' + L.name + ' — ' + quick.qty + ' шт' + (L.up != null ? ' × ' + uahTxt(L.up) + ' = ' + fmtUah(L.sum) : ' — ціну уточнити'),
       '', "Ім'я: " + name, 'Телефон: ' + phone, '', 'Передзвоніть, будь ласка, для підтвердження.'].join('\n');
     var qsum = L.sum != null ? L.sum : 0, qm = acctMeta(qsum), qit = qm ? [it, qm] : [it];
-    if (qm && qm.discountAmount) { qsum = qm.total; text += '\n\nЗнижка ' + DISC_PCT + '% за реєстрацію: −' + fmtUah(qm.discountAmount) + '. Разом зі знижкою: ' + fmtUah(qsum); }
+    if (qm && qm.discountAmount) { qsum = qm.total; text += '\n\nЗнижка ' + qm.discountPct + '% ' + (qm.promoCode ? 'за промокодом ' + qm.promoCode : 'за реєстрацію') + ': −' + fmtUah(qm.discountAmount) + '. Разом зі знижкою: ' + fmtUah(qsum); }
     var data = { v: 1, items: JSON.stringify(qit), count: 1, total_uah: Math.min(1e9, qsum), ask: L.up != null ? 0 : 1,
       text: clipS(text, 6000), name: name, phone: phone, note: QUICK_MARK + ' (в один клік)' };
     var id = genOrderId(), btn = $('#qkform .qk__go');
@@ -2405,6 +2488,8 @@
     }
   }, true);
   document.addEventListener('submit', function (e) { if (e.target && e.target.id === 'qkform') { e.preventDefault(); quickSubmit(); } });
+  document.addEventListener('submit', function (e) { if (e.target && e.target.hasAttribute && e.target.hasAttribute('data-pcode')) { e.preventDefault(); pcodeMsg = ''; applyCode(e.target.elements.pcode.value); } });
+  document.addEventListener('click', function (e) { var b = e.target && e.target.closest && e.target.closest('[data-pcode-x]'); if (b) { e.preventDefault(); pcodeMsg = ''; applyCode(''); } });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('#sheet') && !$('#sheet').hidden) { e.preventDefault(); e.stopImmediatePropagation(); sheetClose(); } }, true);
 
   window.AlexBes = {

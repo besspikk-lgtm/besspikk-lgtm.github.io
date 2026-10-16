@@ -35,7 +35,8 @@ const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 const nf = new Intl.NumberFormat('uk-UA', { maximumFractionDigits: 2 });
 const eur = (v) => nf.format(v).replace(/\u202f|\u00a0/g, ' ') + ' €';
 // курс для показу на сайті (має збігатися з CONFIG.uahRate у js/app.js): ціни вводяться і зберігаються в €, сайт показує € × 52 грн
-const UAH_RATE = 52;
+const BASE_RATE = 52; // = CONFIG.uahRate у js/app.js; курс з адмінки (products/_cfg) його замінює
+let UAH_RATE = BASE_RATE;
 const uahOf = (v) => String(Math.round(Number(v) * UAH_RATE)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + ' грн';
 const uahHint = (v) => { const n = parseFloat(String(v == null ? '' : v).replace(',', '.')); return isFinite(n) && n >= 0 && String(v).trim() !== '' ? '≈ ' + uahOf(n) + ' на сайті' : ''; };
 /* ---------- знижки (08.10.2026): стара ціна (перекреслена) + нова; ті самі правила, що в js/app.js і _work/discount.py ----------
@@ -75,6 +76,7 @@ const IC_SAVE = SVG('<path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v
 const IC_TRASH = SVG('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>');
 let tt; function toast(m) { const t = $('#toast'); t.textContent = m; t.hidden = false; clearTimeout(tt); tt = setTimeout(() => { t.hidden = true; }, 2800); }
 
+let svc = {}, cfg = { rate: null, promos: [], codes: [] };
 let fb, user = null, remote = {}, photoCache = {}, unsub = null, edit = null;
 
 /* ---------- data ---------- */
@@ -112,9 +114,9 @@ function typeFor(v) {
 }
 
 /* ---------- tabs: #products | #orders | #stats | #clients ---------- */
-const TABS = ['products', 'orders', 'stats', 'clients', 'reviews'];
+const TABS = ['home', 'products', 'orders', 'stats', 'clients', 'reviews', 'promo'];
 let statsLoaded = false;
-function curTab() { const h = (location.hash || '').slice(1); return TABS.includes(h) ? h : 'products'; }
+function curTab() { const h = (location.hash || '').slice(1); return TABS.includes(h) ? h : 'home'; }
 function showTab() {
   const tab = curTab();
   $$('#adm-tabs [data-tab]').forEach((a) => { const on = a.getAttribute('data-tab') === tab; a.classList.toggle('on', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
@@ -125,6 +127,8 @@ function showTab() {
   if (tab === 'stats' && !statsLoaded) { statsLoaded = true; loadStats(); }
   if (tab === 'clients') loadClients();
   if (tab === 'reviews') loadReviews();
+  if (tab === 'home') loadDash();
+  if (tab === 'promo') renderPromo();
 }
 window.addEventListener('hashchange', showTab);
 
@@ -153,7 +157,7 @@ async function main() {
   document.addEventListener('submit', onSubmit);
   document.addEventListener('input', onInput);
   document.addEventListener('change', onChange);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !$('#adm-edit').hidden) closeEdit(); });
+  document.addEventListener('keydown', (e) => { if (e.key !== 'Escape') return; if (!$('#adm-share').hidden) { $('#adm-share').hidden = true; share = null; document.body.style.overflow = ''; return; } if (!$('#adm-ord').hidden) { $('#adm-ord').hidden = true; ord = null; document.body.style.overflow = ''; return; } if (!$('#adm-edit').hidden) closeEdit(); });
 }
 
 function onUser(u) {
@@ -172,7 +176,8 @@ function onUser(u) {
   $('#adm-cat').innerHTML = '<option value="all">Усі розділи</option>' + ED_CATS().map((c) => '<option value="' + c.id + '">' + esc(c.name) + '</option>').join('');
   const { F, db } = fb;
   unsub = F.onSnapshot(F.collection(db, 'products'), (qs) => {
-    remote = {}; qs.forEach((d) => { remote[d.id] = d.data(); });
+    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
+    readCfg();
     renderList(); bulkInfo();
   }, (e) => { $('#adm-stats').textContent = 'Помилка читання: ' + authErr(e); });
   renderList();
@@ -260,6 +265,7 @@ function renderList() {
         '<div class="arow__b">' + (p.isStatic ? '' : '<span class="tag tag--new">Новий</span>') + (p.changed ? '<span class="tag tag--chg">Змінено</span>' : '') +
           (p.photoChanged || (!p.isStatic && p.gallery.length) ? '<span class="tag">' + IC_CAM + p.gallery.length + '</span>' : '') + (p.videos && p.videos.length ? '<span class="tag">' + IC_VID + p.videos.length + '</span>' : '') + (p.hidden ? '<span class="tag tag--hid">Приховано</span>' : '') +
           (p.noPrice ? '<span class="tag tag--warn">Без ціни</span>' : '') + (p.noPhoto ? '<span class="tag tag--warn">Без фото</span>' : '') + (p.variants && p.variants.length > 1 ? '<span class="tag">Варіантів: ' + p.variants.length + '</span>' : '') + discTag(p) + promoTag(p.promo) + '</div></div>' +
+      '<div class="arow__bd">' + badgeBtns(p) + '<button class="chipb" type="button" data-share="' + esc(p.id) + '" title="Поділитися в Telegram-канал">' + IC_SEND + 'В канал</button></div>' +
       '<div class="arow__a"><button class="btn btn--y" type="button" data-edit="' + esc(p.id) + '">' + IC_EDIT + 'Редагувати</button>' +
         '<button class="btn btn--o" type="button" data-toggle="' + esc(p.id) + '">' + (p.hidden ? IC_EYE + 'Показати' : IC_EYEOFF + 'Сховати') + '</button></div>' +
     '</li>').join('') || '<li class="muted">Нічого не знайдено.</li>';
@@ -324,7 +330,8 @@ function openEdit(id, opts) {
   edit = { id: p ? p.id : null, isNew, isStatic: !!(p && p.isStatic),
     items: (p ? p.gallery : []).map((k) => ({ key: k, src: k === 'static' ? BASE[p.id].photo : photoCache[phDoc(p.id, k)] || null })),
     orig: p ? p.gallery.slice() : [], videos: (p && p.videos ? p.videos.slice() : []), vars: varsFrom(p), shot: null };
-  const v = p || { name: '', category: opts.shot ? 'cn' : (CATS[0] ? CATS[0].id : ''), price_eur: null, price_label: '', in_stock: opts.shot ? 'В дорозі, наявність уточнюйте' : 'В наявності', description: '', promo: '', variants: null, code: '', hidden: false };
+  if (opts.dup) { edit.items = opts.items || []; edit.vars = opts.vars || []; edit.videos = (opts.dup.videos || []).slice(); }
+  const v = opts.dup || p || { name: '', category: opts.shot ? 'cn' : (CATS[0] ? CATS[0].id : ''), price_eur: null, price_label: '', in_stock: opts.shot ? 'В дорозі, наявність уточнюйте' : 'В наявності', description: '', promo: '', variants: null, code: '', hidden: false };
   const stockKnown = STOCKS.includes(v.in_stock);
   const b = p && p.isStatic ? baseVals(p.id) : null;
   const pm = parsePromo(v.promo);
@@ -365,6 +372,7 @@ function openEdit(id, opts) {
       '<button class="btn btn--y" type="submit">' + IC_SAVE + 'Зберегти</button>' +
       '<button class="btn btn--o" type="button" data-x>Скасувати</button>' +
       (p && p.isStatic && (p.changed || p.hidden || p.photoChanged) ? '<button class="btn btn--o" type="button" data-reset>' + IC_UNDO + 'Скинути всі зміни</button>' : '') +
+      (p ? '<button class="btn btn--o" type="button" data-dup>' + IC_COPY + 'Дублювати</button><button class="btn btn--o" type="button" data-share="' + esc(p.id) + '">' + IC_SEND + 'В канал</button>' : '') +
       (p ? '<button class="btn btn--del" type="button" data-del>' + IC_TRASH + (p.isStatic ? 'Видалити з сайту (сховати)' : 'Видалити товар') + '</button>' : '') +
     '</div>';
   renderMedia(); renderVids(); renderVars(); renderShot(!!opts.shot); schedPreview(0);
@@ -727,6 +735,300 @@ async function rejectReview(id, btn) {
   catch (e) { btn.disabled = false; toast(authErr(e)); }
 }
 
+/* ====================== 16.10.2026 (v3): налаштування, огляд, порядок, позначки, акції, промокоди, курс, канал ======================
+   Службові документи (пишуться тим самим дозволеним для адміна шляхом products/{id}; на сайті не показуються — hidden:true):
+   products/_cfg       — description = JSON { rate, promos:[{t:'p'|'c', id, pct, until, from?}], codes:[{h, hint, pct, until, off}] }
+   products/_ord-<розділ> — description = JSON [id, id, …] (порядок товарів у розділі; решта — як раніше, від дорожчого) */
+const IC_SEND = SVG('<path d="M21 3 3 10.5l7 2.5 2.5 7L21 3Z"/><path d="m10 13 4.5-4.5"/>', 14);
+const IC_COPY = SVG('<rect x="8.5" y="8.5" width="12" height="12" rx="2.2"/><path d="M15.5 8.5V5.7a2.2 2.2 0 0 0-2.2-2.2H5.7a2.2 2.2 0 0 0-2.2 2.2v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8"/>');
+const IC_DRAG = SVG('<circle cx="9" cy="6" r="1.2"/><circle cx="15" cy="6" r="1.2"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/><circle cx="9" cy="18" r="1.2"/><circle cx="15" cy="18" r="1.2"/>', 18);
+const IC_DOWN = SVG('<path d="m6 9 6 6 6-6"/>');
+const IC_SPARK = SVG('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>', 13);
+const IC_FLAME = SVG('<path d="M12 21c4 0 7-2.7 7-6.6 0-3.4-2.3-5.6-4-7.4-.3 2-1.3 3.3-2.6 3.8C12.8 7.6 11.5 5 9 3c.3 3.2-4 6-4 11 0 4 3 7 7 7Z"/>', 13);
+const SVC_DOC = (name, description) => ({ name, category: '', description, hidden: true, custom: true, createdAt: Date.now(), updatedAt: Date.now() });
+function readCfg() {
+  let c = {}; try { c = JSON.parse((svc._cfg && svc._cfg.description) || '{}') || {}; } catch (e) { c = {}; }
+  const r = Number(c.rate);
+  cfg = { rate: r >= 20 && r <= 200 ? r : null, promos: Array.isArray(c.promos) ? c.promos : [], codes: Array.isArray(c.codes) ? c.codes : [] };
+  UAH_RATE = cfg.rate || BASE_RATE;
+  if (curTab() === 'promo') renderPromo();
+}
+async function saveCfg(next) {
+  const out = { rate: next.rate || null, promos: next.promos || [], codes: next.codes || [] };
+  const json = JSON.stringify(out);
+  if (json.length > 6000) throw new Error('Забагато акцій / промокодів (ліміт 6000 символів) — видаліть старі.');
+  await fb.F.setDoc(fb.F.doc(fb.db, 'products', '_cfg'), SVC_DOC('Налаштування сайту (службовий запис адмінки)', json));
+}
+const kyivDay = (t) => new Date(t).toLocaleDateString('sv-SE', { timeZone: 'Europe/Kyiv' });
+const fmtDT = (t) => new Date(t).toLocaleString('uk-UA', { timeZone: 'Europe/Kyiv', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+// datetime-local (час Києва) -> мс
+function kyivLocalToMs(v) {
+  const m = String(v || '').match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/); if (!m) return NaN;
+  const guess = Date.UTC(+m[1], m[2] - 1, +m[3], +m[4], +m[5]);
+  const off = (t) => { const d = new Date(t), k = new Date(d.toLocaleString('en-US', { timeZone: 'Europe/Kyiv' })), u = new Date(d.toLocaleString('en-US', { timeZone: 'UTC' })); return k - u; };
+  return guess - off(guess - off(guess));
+}
+
+/* ---------- 1) Огляд ---------- */
+let dash = null, dashAt = 0;
+async function loadDash(force) {
+  const box = $('#dash'); if (!box) return;
+  if (!force && dash && Date.now() - dashAt < 60000) { renderDash(); return; }
+  box.innerHTML = '<p class="muted">Завантаження…</p>';
+  try {
+    const qs = await fb.F.getDocs(fb.F.collection(fb.db, 'orders'));
+    const orders = []; let reviews = 0;
+    qs.forEach((d) => {
+      const o = d.data();
+      if (typeof o.text === 'string' && o.text.startsWith('Відгук на товар')) { reviews++; return; }
+      const ts = o.createdAt && o.createdAt.toMillis ? o.createdAt.toMillis() : (o.createdAt && o.createdAt.seconds ? o.createdAt.seconds * 1000 : +o.createdAt || 0);
+      let items = []; try { items = JSON.parse(o.items || '[]'); } catch (e) {}
+      orders.push({ id: d.id, ts, total: typeof o.total_uah === 'number' ? o.total_uah : 0, status: o.status || 'new', items: Array.isArray(items) ? items.filter((x) => x && x.id !== '_acct' && !x.review) : [] });
+    });
+    let pub = {}; try { const j = await fetch('data/reviews.json?ts=' + Date.now(), { cache: 'no-store' }).then((r) => r.json()); (j.reviews || []).forEach((r) => { pub[r.id] = 1; }); } catch (e) {}
+    let pend = 0; qs.forEach((d) => { const o = d.data(); if (typeof o.text === 'string' && o.text.startsWith('Відгук на товар') && !pub[d.id]) pend++; });
+    dash = { orders, pend }; dashAt = Date.now(); renderDash();
+  } catch (e) { box.innerHTML = '<p class="muted">Не вдалося прочитати замовлення: ' + esc(authErr(e)) + '</p>'; }
+}
+function renderDash() {
+  const box = $('#dash'); if (!box || !dash) return;
+  const now = Date.now(), today = kyivDay(now), live = dash.orders.filter((o) => o.status !== 'cancelled');
+  const days = []; for (let i = 6; i >= 0; i--) days.push(kyivDay(now - i * 864e5));
+  const by = Object.fromEntries(days.map((d) => [d, { n: 0, s: 0 }]));
+  live.forEach((o) => { const d = kyivDay(o.ts); if (by[d]) { by[d].n++; by[d].s += o.total; } });
+  const t = by[today], w = days.reduce((a, d) => ({ n: a.n + by[d].n, s: a.s + by[d].s }), { n: 0, s: 0 });
+  const newN = dash.orders.filter((o) => o.status === 'new').length;
+  const top = {}; live.filter((o) => now - o.ts < 30 * 864e5).forEach((o) => o.items.forEach((x) => { const k = x.id || x.name; if (!k) return; top[k] = top[k] || { id: x.id, name: x.name, q: 0, s: 0 }; top[k].q += x.qty | 0 || 1; top[k].s += (x.price_uah || 0) * (x.qty | 0 || 1); }));
+  const topL = Object.values(top).sort((a, b) => b.q - a.q || b.s - a.s).slice(0, 6);
+  const all = merged(), max = Math.max(1, ...days.map((d) => by[d].s));
+  const activeP = cfg.promos.filter((x) => x.until > now).length, activeC = cfg.codes.filter((x) => !x.off && (!x.until || x.until > now)).length;
+  const kpi = (lbl, val, sub, href) => '<a class="kpi" href="' + href + '"><span>' + lbl + '</span><b>' + val + '</b><small>' + sub + '</small></a>';
+  const names = Object.fromEntries(all.map((p) => [p.id, p]));
+  box.innerHTML = '<div class="kpis">' +
+    kpi('Замовлення сьогодні', t.n, fmtU(t.s), '#orders') + kpi('За 7 днів', w.n, fmtU(w.s), '#orders') +
+    kpi('Нові, не оброблені', newN, 'статус «Нове»', '#orders') + kpi('Нові відгуки', dash.pend, 'чекають модерації', '#reviews') +
+    kpi('Акції та промокоди', activeP + ' / ' + activeC, 'активні зараз', '#promo') + kpi('Товари', all.filter((p) => !p.hidden).length, 'без ціни: ' + all.filter((p) => p.noPrice && !p.hidden).length + ' · в дорозі: ' + all.filter((p) => /дороз/i.test(p.in_stock) && !p.hidden).length, '#products') +
+    '</div><div class="dash2"><section class="adm-card"><h3>Виручка за 7 днів</h3><div class="bars">' + days.map((d) => '<div class="bar" title="' + d + ': ' + by[d].n + ' зам., ' + fmtU(by[d].s) + '"><i style="height:' + Math.round(by[d].s / max * 100) + '%"></i><small>' + d.slice(8) + '.' + d.slice(5, 7) + '</small><em>' + (by[d].n || '') + '</em></div>').join('') + '</div></section>' +
+    '<section class="adm-card"><h3>Топ товарів за 30 днів</h3>' + (topL.length ? '<ol class="toplist">' + topL.map((x) => '<li><span>' + esc((names[x.id] && names[x.id].name) || x.name || x.id) + '</span><b>' + x.q + ' шт</b><small>' + fmtU(x.s) + '</small></li>').join('') + '</ol>' : '<p class="muted small">Замовлень за 30 днів ще немає.</p>') + '</section></div>' +
+    '<p class="muted small">Рахуються замовлення з сайту (кошик і «Купити в один клік») з Firestore, крім скасованих; дні — за Києвом. Замовлення, оформлені напряму в Telegram без сайту, сюди не потрапляють.</p>';
+}
+
+/* ---------- 2) Дублювати ---------- */
+async function srcToData(src) {
+  if (/^data:image\//.test(src)) return src;
+  const b = await fetch(src).then((r) => r.blob());
+  return (await processImage(new File([b], 'p.webp', { type: b.type || 'image/webp' }))).url;
+}
+async function dupProduct(id) {
+  const p = byIdNow(id); if (!p) return;
+  const keyOf = {}, items = [];
+  for (const k of p.gallery) {
+    const nk = items.length ? 'd' + Math.random().toString(36).slice(2, 8) : 'main';
+    const src = k === 'static' ? BASE[id].photo : (photoCache[phDoc(id, k)] || await getPhoto(phDoc(id, k)).catch(() => null));
+    if (!src) continue;
+    try { const d = await srcToData(src); keyOf[k] = nk; items.push({ key: nk, src: d, data: d }); } catch (e) {}
+  }
+  const vars = varsFrom(p).map((r) => Object.assign(r, { photo: keyOf[r.photo] || (r.photo.startsWith('keep:') ? r.photo : ''), photo0: null, photoRaw: null }));
+  closeEdit();
+  openEdit(null, { dup: Object.assign({}, p, { name: (p.name + ' (копія)').slice(0, 300), hidden: true }), items, vars });
+  edMsg('Це копія «' + p.name + '». Вона прихована на сайті, поки ви не знімете галочку «Приховати». Збережеться після «Зберегти».', true);
+}
+
+/* ---------- 3) Порядок у розділі (перетягування) ---------- */
+let ord = null;
+function sectionList(cat) {
+  const rate = (p) => (p.price_eur != null ? toUah(p.price_eur) : null), oos = (p) => (/немає/i.test(p.in_stock || '') ? 1 : 0);
+  const list = merged().filter((p) => !p.hidden && (p.category === cat || (cat === 'cn' && p.category === 'pdr')));
+  const saved = ((svc['_ord-' + cat] && (() => { try { return JSON.parse(svc['_ord-' + cat].description); } catch (e) { return []; } })()) || []);
+  const oi = Object.fromEntries(saved.map((id, i) => [id, i]));
+  list.forEach((p, i) => { p._i = i; });
+  return list.sort((a, b) => { const x = oi[a.id], y = oi[b.id]; if (x != null || y != null) { if (x == null) return 1; if (y == null) return -1; return x - y; } if (oos(a) !== oos(b)) return oos(a) - oos(b); const u = rate(a), v = rate(b); if (u == null && v == null) return a._i - b._i; if (u == null) return 1; if (v == null) return -1; return (v - u) || a._i - b._i; });
+}
+function openOrder() {
+  const cat = $('#adm-cat').value; if (!cat || cat === 'all') { toast('Спершу оберіть розділ'); return; }
+  ord = { cat, ids: sectionList(cat).map((p) => p.id), had: !!svc['_ord-' + cat] };
+  $('#adm-ord').hidden = false; document.body.style.overflow = 'hidden'; renderOrd();
+}
+function renderOrd() {
+  const all = Object.fromEntries(merged().map((p) => [p.id, p]));
+  $('#ord-box').innerHTML = '<h2>Порядок у розділі «' + esc(catById[ord.cat] ? catById[ord.cat].name : ord.cat) + '»</h2>' +
+    '<p class="muted small">Перетягніть товари за ручку (або стрілками). Так вони стоятимуть на сайті в розділі при сортуванні «За розділами». ' + (ord.had ? 'Зараз діє ваш порядок.' : 'Зараз — автоматично, від найдорожчого.') + '</p>' +
+    '<ol class="ordl" id="ordl">' + ord.ids.map((id, i) => { const p = all[id]; return '<li class="ordl__it" draggable="true" data-oid="' + esc(id) + '"><span class="ordl__h" aria-hidden="true">' + IC_DRAG + '</span><span class="ordl__n">' + (i + 1) + '</span>' + thumbHTML(p) +
+      '<span class="ordl__t">' + esc(p.name) + '<small>' + esc(priceTxt(p)) + '</small></span><span class="ordl__a"><button type="button" class="ibtn" data-o-mv="-1" aria-label="Вище"' + (i ? '' : ' disabled') + '>' + IC_UP + '</button><button type="button" class="ibtn" data-o-mv="1" aria-label="Нижче"' + (i < ord.ids.length - 1 ? '' : ' disabled') + '>' + IC_DOWN + '</button></span></li>'; }).join('') + '</ol>' +
+    '<div class="ed__acts"><button class="btn btn--y" type="button" data-o-save>' + IC_SAVE + 'Зберегти порядок</button><button class="btn btn--o" type="button" data-o-x>Скасувати</button>' +
+    (ord.had ? '<button class="btn btn--o" type="button" data-o-reset>' + IC_UNDO + 'Повернути автоматичний (за ціною)</button>' : '') + '</div>';
+  lazyPhotos(); bindOrdDnD();
+}
+function bindOrdDnD() {
+  const ol = $('#ordl'); let drag = null;
+  ol.addEventListener('dragstart', (e) => { drag = e.target.closest('[data-oid]'); if (drag) { drag.classList.add('is-drag'); e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', drag.dataset.oid); } });
+  ol.addEventListener('dragover', (e) => { if (!drag) return; e.preventDefault(); const li = e.target.closest('[data-oid]'); if (!li || li === drag) return; const r = li.getBoundingClientRect(); ol.insertBefore(drag, e.clientY > r.top + r.height / 2 ? li.nextSibling : li); });
+  ol.addEventListener('dragend', () => { if (!drag) return; drag.classList.remove('is-drag'); drag = null; ord.ids = $$('#ordl [data-oid]').map((x) => x.dataset.oid); renderOrd(); });
+  // дотик (телефон): тягнути за ручку
+  ol.addEventListener('touchstart', (e) => { const h = e.target.closest('.ordl__h'); if (!h) return; drag = h.closest('[data-oid]'); drag.classList.add('is-drag'); }, { passive: true });
+  ol.addEventListener('touchmove', (e) => { if (!drag) return; e.preventDefault(); const t = e.touches[0], el = document.elementFromPoint(t.clientX, t.clientY), li = el && el.closest && el.closest('#ordl [data-oid]'); if (!li || li === drag) return; const r = li.getBoundingClientRect(); ol.insertBefore(drag, t.clientY > r.top + r.height / 2 ? li.nextSibling : li); }, { passive: false });
+  ol.addEventListener('touchend', () => { if (!drag) return; drag.classList.remove('is-drag'); drag = null; ord.ids = $$('#ordl [data-oid]').map((x) => x.dataset.oid); renderOrd(); });
+}
+function ordClick(t) {
+  if (t.hasAttribute('data-o-x') || t.hasAttribute('data-ox')) { $('#adm-ord').hidden = true; document.body.style.overflow = ''; ord = null; return true; }
+  if (t.hasAttribute('data-o-mv')) { const id = t.closest('[data-oid]').dataset.oid, i = ord.ids.indexOf(id), j = i + +t.getAttribute('data-o-mv'); if (j >= 0 && j < ord.ids.length) { ord.ids.splice(i, 1); ord.ids.splice(j, 0, id); renderOrd(); } return true; }
+  if (t.hasAttribute('data-o-save')) {
+    const json = JSON.stringify(ord.ids);
+    if (json.length > 6000) { toast('Забагато товарів у розділі для збереження порядку'); return true; }
+    t.disabled = true;
+    fb.F.setDoc(fb.F.doc(fb.db, 'products', '_ord-' + ord.cat), SVC_DOC('Порядок товарів у розділі (службовий запис адмінки)', json))
+      .then(() => { toast('Порядок збережено'); ordClick({ hasAttribute: (a) => a === 'data-o-x' }); }).catch((e) => { t.disabled = false; toast(authErr(e)); });
+    return true;
+  }
+  if (t.hasAttribute('data-o-reset')) {
+    if (!confirm('Повернути автоматичний порядок (від найдорожчого)?')) return true;
+    fb.F.deleteDoc(fb.F.doc(fb.db, 'products', '_ord-' + ord.cat)).then(() => { toast('Порядок — автоматичний'); ordClick({ hasAttribute: (a) => a === 'data-o-x' }); }).catch((e) => toast(authErr(e)));
+    return true;
+  }
+  return false;
+}
+
+/* ---------- 4) Позначки «Новинка» / «Хіт» ---------- */
+function badgeBtns(p) {
+  const m = parsePromo(p.promo).main;
+  return '<button class="chipb' + (m === 'Новинка' ? ' on' : '') + '" type="button" data-badge="Новинка" data-id="' + esc(p.id) + '" aria-pressed="' + (m === 'Новинка') + '">' + IC_SPARK + 'Новинка</button>' +
+    '<button class="chipb' + (m === 'ХІТ' ? ' on' : '') + '" type="button" data-badge="ХІТ" data-id="' + esc(p.id) + '" aria-pressed="' + (m === 'ХІТ') + '">' + IC_FLAME + 'Хіт</button>';
+}
+async function toggleBadge(id, b, btn) {
+  const p = byIdNow(id); if (!p) return;
+  const x = parsePromo(p.promo), next = buildPromo(x.main === b ? '' : b, x.excl);
+  btn.disabled = true;
+  try { await writeFields(p, { promo: next || '' }); toast(x.main === b ? 'Позначку «' + (b === 'ХІТ' ? 'Хіт' : b) + '» знято' : 'Позначка «' + (b === 'ХІТ' ? 'Хіт' : b) + '» на сайті'); }
+  catch (e) { btn.disabled = false; toast(authErr(e)); }
+}
+
+/* ---------- 5, 6, 8) Акції до дати, курс, промокоди ---------- */
+async function sha256hex(t) { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map((x) => x.toString(16).padStart(2, '0')).join(''); }
+const normCode = (t) => String(t || '').trim().toUpperCase().replace(/\s+/g, '');
+function renderPromo(msg) {
+  const box = $('#promo'); if (!box) return;
+  const now = Date.now(), all = merged().filter((p) => !p.hidden);
+  const nm = Object.fromEntries(all.map((p) => [p.id, p.name]));
+  const scopeName = (x) => (x.t === 'c' ? 'Розділ «' + (catById[x.id] ? catById[x.id].name : x.id) + '»' : (nm[x.id] || x.id));
+  const sample = all.filter((p) => p.price_eur != null).slice(0, 3);
+  const defUntil = new Date(now + 7 * 864e5).toLocaleString('sv-SE', { timeZone: 'Europe/Kyiv' }).slice(0, 16).replace(' ', 'T');
+  box.innerHTML =
+    '<section class="adm-card pr-card"><h3>' + IC_TAG + 'Знижка до дати</h3><p class="muted small">На товар або весь розділ. Сайт сам показує стару й нову ціну та «до …», а після вказаного часу ціна повертається автоматично. Товари, які вже мають знижку, не змінюються.</p>' +
+      '<form id="pr-form" class="pr-form" novalidate><label>На що<select name="t"><option value="c">Розділ</option><option value="p">Товар</option></select></label>' +
+      '<label data-pr-c>Розділ<select name="cat">' + ED_CATS().map((c) => '<option value="' + c.id + '">' + esc(c.name) + '</option>').join('') + '</select></label>' +
+      '<label data-pr-p hidden>Товар<input name="pq" list="pr-plist" placeholder="Почніть вводити назву…"><datalist id="pr-plist">' + all.map((p) => '<option value="' + esc(p.name + ' · ' + p.id) + '">').join('') + '</datalist></label>' +
+      '<label>Знижка, %<input name="pct" type="number" min="1" max="90" step="1" value="10"></label>' +
+      '<label>Діє до (Київ)<input name="until" type="datetime-local" value="' + defUntil + '"></label>' +
+      '<button class="btn btn--y" type="submit">' + IC_PLUS + 'Запустити</button></form>' +
+      '<ul class="pr-list">' + (cfg.promos.length ? cfg.promos.map((x, i) => '<li class="' + (x.until > now ? '' : 'is-off') + '"><b>\u2212' + x.pct + '%</b><span>' + esc(scopeName(x)) + '</span><small>' + (x.until > now ? 'до ' + fmtDT(x.until) : 'завершилась ' + fmtDT(x.until)) + '</small><button type="button" class="ibtn ibtn--del" data-pr-del="' + i + '" aria-label="Видалити">' + IC_X + '</button></li>').join('') : '<li class="muted small">Активних акцій немає.</li>') + '</ul></section>' +
+    '<section class="adm-card pr-card"><h3>' + IC_TAG + 'Промокоди</h3><p class="muted small">Покупець вводить код у кошику, знижка рахується в замовленні (діє більша з «5% за реєстрацію» і промокоду, не сумуються). Сам код зберігається лише у вигляді хешу — подивитися його потім не можна, тож запишіть.</p>' +
+      '<form id="pc-form" class="pr-form" novalidate><label>Код<input name="code" maxlength="30" placeholder="напр. ALEX10" autocapitalize="characters"></label>' +
+      '<label>Знижка, %<input name="pct" type="number" min="1" max="90" step="1" value="10"></label>' +
+      '<label>Діє до (Київ, необовʼязково)<input name="until" type="datetime-local"></label>' +
+      '<button class="btn btn--y" type="submit">' + IC_PLUS + 'Створити</button></form>' +
+      '<ul class="pr-list">' + (cfg.codes.length ? cfg.codes.map((x, i) => { const on = !x.off && (!x.until || x.until > now); return '<li class="' + (on ? '' : 'is-off') + '"><b>' + esc(x.hint || '•••') + '</b><span>\u2212' + x.pct + '%</span><small>' + (x.off ? 'вимкнено' : x.until ? (x.until > now ? 'до ' + fmtDT(x.until) : 'термін минув') : 'без терміну') + '</small>' +
+        '<button type="button" class="chipb" data-pc-tog="' + i + '">' + (x.off ? 'Увімкнути' : 'Вимкнути') + '</button><button type="button" class="ibtn ibtn--del" data-pc-del="' + i + '" aria-label="Видалити">' + IC_X + '</button></li>'; }).join('') : '<li class="muted small">Промокодів немає.</li>') + '</ul></section>' +
+    '<section class="adm-card pr-card"><h3>' + IC_TAG + 'Курс євро</h3><p class="muted small">Ціни товарів зберігаються в євро; на сайті — € × курс, округлено до гривні. Зараз діє <b>' + UAH_RATE + ' грн/€</b>' + (cfg.rate ? ' (задано в адмінці)' : ' (стандартний)') + '. Зміна курсу змінить ціни всіх товарів на сайті одразу.</p>' +
+      '<form id="rt-form" class="pr-form" novalidate><label>Курс, грн за 1 €<input name="rate" type="number" min="20" max="200" step="0.01" value="' + UAH_RATE + '"></label><button class="btn btn--y" type="submit">' + IC_SAVE + 'Зберегти курс</button>' +
+      (cfg.rate ? '<button class="btn btn--o" type="button" data-rt-reset>' + IC_UNDO + 'Стандартний (' + BASE_RATE + ')</button>' : '') + '</form>' +
+      '<p class="pr-rt muted small" id="rt-prev">' + sample.map((p) => esc(p.name.slice(0, 40)) + ': ' + uahOf(p.price_eur)).join(' · ') + '</p></section>' +
+    (msg ? '<p class="ed__msg ok">' + esc(msg) + '</p>' : '');
+}
+async function promoCommit(next, ok) {
+  try { await saveCfg(next); cfg = next; renderPromo(ok); toast(ok); } catch (e) { toast(e && e.code ? authErr(e) : e.message); }
+}
+function promoClick(t) {
+  if (t.hasAttribute('data-pr-del')) { if (!confirm('Видалити цю акцію? Ціни одразу повернуться.')) return true; const n = Object.assign({}, cfg, { promos: cfg.promos.filter((_, i) => i !== +t.getAttribute('data-pr-del')) }); promoCommit(n, 'Акцію видалено'); return true; }
+  if (t.hasAttribute('data-pc-del')) { if (!confirm('Видалити промокод назавжди?')) return true; promoCommit(Object.assign({}, cfg, { codes: cfg.codes.filter((_, i) => i !== +t.getAttribute('data-pc-del')) }), 'Промокод видалено'); return true; }
+  if (t.hasAttribute('data-pc-tog')) { const i = +t.getAttribute('data-pc-tog'); promoCommit(Object.assign({}, cfg, { codes: cfg.codes.map((x, j) => (j === i ? Object.assign({}, x, { off: !x.off }) : x)) }), 'Промокод ' + (cfg.codes[i].off ? 'увімкнено' : 'вимкнено')); return true; }
+  if (t.hasAttribute('data-rt-reset')) { if (!confirm('Повернути стандартний курс ' + BASE_RATE + ' грн/€?')) return true; promoCommit(Object.assign({}, cfg, { rate: null }), 'Курс: ' + BASE_RATE + ' грн/€'); return true; }
+  return false;
+}
+async function promoSubmit(f) {
+  const E = f.elements, now = Date.now();
+  if (f.id === 'pr-form') {
+    const pct = Math.round(+E.pct.value), until = kyivLocalToMs(E.until.value);
+    if (!(pct >= 1 && pct <= 90)) return toast('Знижка від 1 до 90 %');
+    if (!(until > now)) return toast('Вкажіть дату й час у майбутньому');
+    let x;
+    if (E.t.value === 'c') x = { t: 'c', id: E.cat.value, pct, until };
+    else { const m = String(E.pq.value).match(/·\s*([\w-]+)\s*$/), id = m ? m[1] : String(E.pq.value).trim(); if (!byIdNow(id)) return toast('Оберіть товар зі списку'); x = { t: 'p', id, pct, until }; }
+    const promos = cfg.promos.filter((y) => y.until > now - 30 * 864e5).concat([x]); // старі (понад 30 днів) прибираємо
+    return promoCommit(Object.assign({}, cfg, { promos }), 'Акцію \u2212' + pct + '% запущено до ' + fmtDT(until));
+  }
+  if (f.id === 'pc-form') {
+    const code = normCode(E.code.value), pct = Math.round(+E.pct.value), until = E.until.value ? kyivLocalToMs(E.until.value) : 0;
+    if (!/^[A-Z0-9А-ЯІЇЄҐ_-]{3,30}$/.test(code)) return toast('Код: 3–30 літер або цифр, без пробілів');
+    if (!(pct >= 1 && pct <= 90)) return toast('Знижка від 1 до 90 %');
+    if (E.until.value && !(until > now)) return toast('Термін має бути в майбутньому');
+    const h = await sha256hex('alexbes:' + code);
+    if (cfg.codes.some((x) => x.h === h)) return toast('Такий промокод уже є');
+    const hint = code.length > 4 ? code.slice(0, 2) + '•••' + code.slice(-2) : code.slice(0, 1) + '•••';
+    return promoCommit(Object.assign({}, cfg, { codes: cfg.codes.concat([{ h, hint, pct, until: until || 0, off: false }]) }), 'Промокод ' + code + ' (\u2212' + pct + '%) створено — запишіть його');
+  }
+  if (f.id === 'rt-form') {
+    const r = Math.round(parseFloat(String(E.rate.value).replace(',', '.')) * 100) / 100;
+    if (!(r >= 20 && r <= 200)) return toast('Курс від 20 до 200');
+    if (!confirm('Змінити курс на ' + r + ' грн/€? Усі ціни на сайті перерахуються (напр. 100 € = ' + Math.round(100 * r) + ' грн).')) return;
+    return promoCommit(Object.assign({}, cfg, { rate: r === BASE_RATE ? null : r }), 'Курс: ' + r + ' грн/€');
+  }
+}
+
+/* ---------- 7) Поділитися в канал ---------- */
+const CHANNELS = [['alex_bes_shoping', 'Alex_bes · магазин'], ['AlexBes26_discount', 'AlexBes · знижки']];
+let share = null;
+function prodLink(p) { return 'https://alexbes.com.ua/' + (p.isStatic ? 'p/' + p.id + '/' : '#/p/' + p.id); }
+function shareText(p) {
+  const old = oldOf(p) != null ? p : (p.variants || []).find(oldOf);
+  const from = p.variants && p.variants.length > 1 && new Set(p.variants.map((v) => toUah(v.price_eur))).size > 1 ? 'від ' : '';
+  const price = p.price_eur == null ? 'Ціну уточнюйте' : (old ? from + uahOf(old.price_eur) + ' (замість ' + uahOf(old.price_old_eur) + ', \u2212' + pctOf(old.price_old_eur, old.price_eur) + '%)' : from + uahOf(p.price_eur));
+  const d = String(p.description || '').replace(/\s+/g, ' ').trim(), desc = d.length > 280 ? d.slice(0, 277).replace(/\s+\S*$/, '') + '…' : d;
+  const vars = p.variants && p.variants.length > 1 ? p.variants.map((v) => '• ' + v.label + ' — ' + uahOf(v.price_eur)).join('\n') : '';
+  return [p.name, '', desc, vars ? '\n' + vars : '', '', 'Ціна: ' + price, p.in_stock ? 'Наявність: ' + p.in_stock : '', '', 'Замовити: ' + prodLink(p)].filter((x, i, a) => !(x === '' && a[i - 1] === '')).join('\n').trim();
+}
+async function openShare(id) {
+  const p = byIdNow(id); if (!p) return;
+  const k = p.gallery[0];
+  const src = !k ? PLACEHOLDER : k === 'static' ? BASE[id].photo : (photoCache[phDoc(id, k)] || await getPhoto(phDoc(id, k)).catch(() => null) || PLACEHOLDER);
+  share = { id, p, src, ch: CHANNELS[0][0], text: shareText(p) };
+  $('#adm-share').hidden = false; document.body.style.overflow = 'hidden'; shareRender();
+}
+function shareRender(keepText) {
+  if (!share) return;
+  const ta = $('#sh-text'); if (keepText && ta) { share.text = ta.value; const pv = $('#sh-pvt'); if (pv) pv.textContent = share.text; return; }
+  const sel = $('#sh-ch'); if (sel) share.ch = sel.value;
+  $('#sh-box').innerHTML = '<h2>' + IC_SEND + 'Пост у Telegram-канал</h2><p class="muted small">Перевірте превʼю й текст. Нічого не публікується автоматично: публікуєте ви самі в Telegram після кнопки нижче.</p>' +
+    '<div class="sh-grid"><div class="sh-pv"><div class="sh-pv__ch">' + esc((CHANNELS.find((c) => c[0] === share.ch) || CHANNELS[0])[1]) + '</div><img src="' + esc(share.src) + '" alt=""><p id="sh-pvt">' + esc(share.text) + '</p></div>' +
+    '<div class="sh-ed"><label>Канал<select id="sh-ch">' + CHANNELS.map((c) => '<option value="' + c[0] + '"' + (c[0] === share.ch ? ' selected' : '') + '>' + esc(c[1]) + ' · t.me/' + c[0] + '</option>').join('') + '</select></label>' +
+    '<label>Текст поста<textarea id="sh-text" rows="12">' + esc(share.text) + '</textarea></label>' +
+    '<ol class="sh-steps"><li>Натисніть «Поділитися з фото» (телефон) — оберіть Telegram і канал, перевірте й надішліть.</li><li>Або: «Скопіювати текст» + «Завантажити фото» → «Відкрити канал» і вставте.</li></ol>' +
+    '<div class="sh-acts"><button class="btn btn--y" type="button" data-sh-native>' + IC_SEND + 'Поділитися з фото</button><button class="btn btn--o" type="button" data-sh-copy>' + IC_COPY + 'Скопіювати текст</button>' +
+    '<a class="btn btn--o" data-sh-dl download="' + esc(share.id) + '.jpg" href="' + esc(share.src) + '">' + IC_UPLOAD + 'Завантажити фото</a>' +
+    '<a class="btn btn--o" target="_blank" rel="noopener" href="https://t.me/' + share.ch + '">Відкрити канал</a>' +
+    '<a class="btn btn--o" target="_blank" rel="noopener" data-sh-tg href="https://t.me/share/url?url=' + encodeURIComponent(prodLink(share.p)) + '&text=' + encodeURIComponent(share.text.replace(prodLink(share.p), '').trim()) + '">Посилання через Telegram</a>' +
+    '<button class="btn btn--o" type="button" data-sh-x>Закрити</button></div></div></div>';
+}
+function shareClick(t) {
+  if (t.hasAttribute('data-sh-x') || t.hasAttribute('data-shx')) { $('#adm-share').hidden = true; document.body.style.overflow = ''; share = null; return true; }
+  if (t.hasAttribute('data-sh-copy')) { navigator.clipboard.writeText($('#sh-text').value).then(() => toast('Текст скопійовано'), () => toast('Не вдалося — виділіть текст вручну')); return true; }
+  if (t.hasAttribute('data-sh-native')) {
+    (async () => {
+      const text = $('#sh-text').value;
+      try {
+        const b = await fetch(share.src).then((r) => r.blob()), file = new File([b], share.id + (/png/.test(b.type) ? '.png' : /jpe?g/.test(b.type) ? '.jpg' : '.webp'), { type: b.type });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], text }); return; }
+        if (navigator.share) { await navigator.share({ text }); return; }
+      } catch (e) { if (e && e.name === 'AbortError') return; }
+      navigator.clipboard && navigator.clipboard.writeText(text).catch(() => {});
+      toast('Цей браузер не вміє ділитися фото — текст скопійовано, відкрийте канал і вставте');
+    })();
+    return true;
+  }
+  return false;
+}
+document.addEventListener('submit', (e) => { const f = e.target; if (f && /^(pr|pc|rt)-form$/.test(f.id)) { e.preventDefault(); promoSubmit(f); } });
+document.addEventListener('change', (e) => { const t = e.target; if (t && t.name === 't' && t.closest('#pr-form')) { $('[data-pr-c]').hidden = t.value !== 'c'; $('[data-pr-p]').hidden = t.value !== 'p'; } if (t && t.name === 'rate' && t.closest('#rt-form')) { const r = +t.value; const el = $('#rt-prev'); if (el && r > 0) el.textContent = merged().filter((p) => p.price_eur != null && !p.hidden).slice(0, 3).map((p) => p.name.slice(0, 40) + ': ' + uahOf(p.price_eur) + ' → ' + fmtU(p.price_eur * r)).join(' · '); } });
+
 /* ---------- save ---------- */
 function readForm(f) {
   const g = (n) => (f.elements[n] ? f.elements[n].value.trim() : '');
@@ -1088,6 +1390,14 @@ async function onClick(e) {
   if (t.hasAttribute('data-g')) { try { await googleSignIn(fb); } catch (err) { gate(loginHTML(authErr(err))); } return; }
   if (t.id === 'adm-add') { openEdit(null); return; }
   if (t.id === 'adm-add-shot') { openEdit(null, { shot: true }); return; }
+  if (t.hasAttribute('data-badge')) { toggleBadge(t.getAttribute('data-id'), t.getAttribute('data-badge'), t); return; }
+  if (t.hasAttribute('data-share')) { openShare(t.getAttribute('data-share')); return; }
+  if (t.hasAttribute('data-dup') && edit && edit.id) { dupProduct(edit.id); return; }
+  if (t.id === 'adm-order') { openOrder(); return; }
+  if (t.closest('#adm-ord') && ordClick(t)) return;
+  if (t.closest('#adm-share') && shareClick(t)) return;
+  if (t.closest('[data-pane="promo"]') && promoClick(t)) return;
+  if (t.closest('[data-pane="home"]') && t.hasAttribute('data-dash-reload')) { loadDash(true); return; }
   if (t.id === 'mass-all') { lastList.forEach((p) => sel.add(p.id)); renderList(); return; }
   if (t.id === 'mass-none') { sel.clear(); renderList(); return; }
   if (t.hasAttribute('data-mass')) { massApply(t.getAttribute('data-mass')); return; }
@@ -1174,12 +1484,14 @@ function onInput(e) {
   if (edit && t.closest && t.closest('#ed-vars')) { varsInput(t); schedPreview(); return; }
   if (edit && t.closest && t.closest('#ed-shot')) { shotChange(t); return; }
   if (edit && t.closest && t.closest('#ed-form')) schedPreview();
+  if (t.closest && t.closest('#adm-share')) shareRender(true);
 }
 async function onChange(e) {
   const t = e.target;
   if (extrasChange(t)) return;
   if (t.hasAttribute && t.hasAttribute('data-sel')) { const id = t.getAttribute('data-sel'); if (t.checked) sel.add(id); else sel.delete(id); const li = t.closest('.arow'); if (li) li.classList.toggle('is-sel', t.checked); massInfo(); return; }
-  if (t.id === 'adm-cat') { const ts = $('#adm-type'); if (ts) ts.value = ''; renderList(); bulkInfo(); return; }
+  if (t.closest && t.closest('#adm-share')) { shareRender(); return; }
+  if (t.id === 'adm-cat') { const ob = $('#adm-order'); if (ob) ob.disabled = !t.value || t.value === 'all'; const ts = $('#adm-type'); if (ts) ts.value = ''; renderList(); bulkInfo(); return; }
   if (t.id === 'adm-flt' || t.id === 'adm-type') { renderList(); bulkInfo(); return; }
   if (t.id === 'mass-pmode') { $('#mass-pval').placeholder = t.value === 'abs' ? 'грн' : '%, напр. 10 або -15'; return; }
   if (edit && t.closest && t.closest('#ed-vars')) { varsChange(t); schedPreview(); return; }
