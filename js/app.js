@@ -134,6 +134,7 @@
   /* 16.10.2026: типи «Товари з Китаю» та «Абразиви» — за назвою (порядок перевірок важливий) */
   function cnType(p) {
     if (p.type === 'guns') return 'guns';
+    if (/^pdr-/.test(p.id || '') && p.id !== 'pdr-hook') return 'pdr'; // 16.10: увесь колишній розділ «ПДР»
     var n = (p.name || '').toLowerCase();
     if (/товщиномір/.test(n)) return 'measure';
     if (/регулятор|манометр/.test(n)) return 'reg';
@@ -2144,6 +2145,7 @@
       }
       if (d && d.hidden !== undefined ? d.hidden : p.hidden) return; // правка адмінки (true/false) важливіша за hidden із products.json
       delete p.hidden;
+      if (p.category === 'pdr') p.category = 'cn'; // 16.10: розділу «ПДР» немає — товари в «Товари з Китаю · ПДР і рихтування» (навіть якщо адмінка має стару категорію)
       if (CAT_ALIAS[p.category] && !catById[p.category]) { if (!p.sub) p.sub = p.category; p.category = CAT_ALIAS[p.category][0]; }
       if (!catById[p.category]) { if (BASE[p.id]) p.category = BASE[p.id].category; else return; }
       p.category_name = catName(p.category);
