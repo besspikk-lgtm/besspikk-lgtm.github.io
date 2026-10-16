@@ -9379,7 +9379,10 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "also_cats": [
+    "cn"
+   ]
   },
   {
    "id": "pdr-knockdown-handle-set",
@@ -9417,7 +9420,10 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "also_cats": [
+    "cn"
+   ]
   },
   {
    "id": "pdr-glue-puller-kit-red",
@@ -9455,7 +9461,10 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "also_cats": [
+    "cn"
+   ]
   },
   {
    "id": "pdr-suction-cup-t-handle",
@@ -9497,7 +9506,10 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "also_cats": [
+    "cn"
+   ]
   },
   {
    "id": "pdr-kit-lifter",

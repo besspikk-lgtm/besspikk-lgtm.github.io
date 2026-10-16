@@ -15,8 +15,10 @@
   };
   var DATA = window.ALEXBES_DATA || { categories: [], products: [] };
   // 08.10.2026: hidden:true у products.json — товар прихований за замовчуванням (адмінка може показати: products/{id}.hidden = false)
+  // 16.10.2026: товар може бути ще й у додаткових розділах (p.also_cats), напр. ПДР з Китаю -> «Товари з Китаю»
+  function inCatX(p, c) { return p.category === c || (!!p.also_cats && p.also_cats.indexOf(c) >= 0); }
   var ALL_STATIC = DATA.products, PRODUCTS = ALL_STATIC.filter(function (p) { return !p.hidden; }), CATS = DATA.categories;
-  CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; }); // лише видимі
+  CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return inCatX(p, c.id); }).length; }); // лише видимі
   var byId = {}; PRODUCTS.forEach(function (p) { byId[p.id] = p; });
   var catById = {}; CATS.forEach(function (c) { catById[c.id] = c; });
 
@@ -346,7 +348,7 @@
     if (sb) {
       if (!sc || state.q) sb.hidden = true;
       else {
-        var inCat = PRODUCTS.filter(function (p) { return p.category === state.cat && (state.cat !== 'guns' || !state.brand || gunBrand(p) === state.brand); });
+        var inCat = PRODUCTS.filter(function (p) { return inCatX(p, state.cat) && (state.cat !== 'guns' || !state.brand || gunBrand(p) === state.brand); });
         var subs = [{ k: '', t: 'Усі', n: inCat.length }].concat(sc.items.map(function (s) { return { k: s.k, t: s.t, n: inCat.filter(s.f).length }; }).filter(function (s) { return s.n > 0 || s.k === state.sub; }));
         sb.innerHTML = '<span class="bbar__l">' + esc(sc.label) + '</span>' + subs.map(function (s) {
           return '<a class="bbar__b' + (state.sub === s.k ? ' on' : '') + '" href="' + catHash(state.cat, s.k, state.cat === 'guns' ? state.brand : '') + '"' + (state.sub === s.k ? ' aria-current="true"' : '') + '>' + esc(s.t) + '<small>' + s.n + '</small></a>';
@@ -400,7 +402,7 @@
       else if (state.cat === 'new') { if (!isNew(p)) return false; }
       else if (state.cat === 'excl') { if (!isExcl(p)) return false; }
       else if (state.cat === 'fav') { if (!isFav(p.id)) return false; }
-      else if (state.cat !== 'all' && p.category !== state.cat) return false;
+      else if (state.cat !== 'all' && !inCatX(p, state.cat)) return false;
       if (state.cat === 'guns' && state.brand && !state.q && gunBrand(p) !== state.brand) return false;
       if (state.sub && !state.q) { var si = subItem(state.cat, state.sub); if (si && !si.f(p)) return false; }
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
@@ -2149,7 +2151,7 @@
     });
     PRODUCTS = out; byId = {}; index = {};
     PRODUCTS.forEach(function (p) { byId[p.id] = p; indexProduct(p); });
-    CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return p.category === c.id; }).length; });
+    CATS.forEach(function (c) { c.count = PRODUCTS.filter(function (p) { return inCatX(p, c.id); }).length; });
     splitCart(allLines()); saveCart(true); updateBadges();
     renderCats(); renderBanner();
     renderGrid(); cmpSync(); renderRecent();
