@@ -48,7 +48,7 @@
 
   var state = { cat: 'all', q: '', sort: 'def', brand: '', sub: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
-  var CAT_ALIAS = { meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['cn', ''], guns2: ['guns', ''], putty: ['shpak', ''],
+  var CAT_ALIAS = { pdr: ['cn', 'pdr'], meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['cn', ''], guns2: ['guns', ''], putty: ['shpak', ''],
     lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'], // 04.10: усі PALINAL (крім шпаклівок) — один розділ
     acc: ['equip', ''], tools: ['equip', 'tools'], ppe: ['equip', 'ppe'],
     cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
@@ -1792,7 +1792,7 @@
     var prevCat = state.cat;
     var prevBrand = state.brand, prevSub = state.sub; state.brand = ''; state.sub = '';
     var CRE = /^#\/c\/([\w-]+)(?:\/([\w-]+))?(?:\/([\w-]+))?/;
-    if ((m = h.match(CRE)) && CAT_ALIAS[m[1]] && !catById[m[1]]) { // старі посилання: розділи фарбопультів, Palinal-розділи
+    if ((m = h.match(CRE)) && CAT_ALIAS[m[1]] && (!catById[m[1]] || !catById[m[1]].count)) { // 16.10: «ПДР» без видимих товарів -> «Товари з Китаю · ПДР» // старі посилання: розділи фарбопультів, Palinal-розділи
       var al = CAT_ALIAS[m[1]], nh = '#/c/' + al[0] + (al[1] ? '/' + al[1] : '');
       try { history.replaceState(null, '', nh); } catch (e) {}
       h = nh; m = h.match(CRE);
