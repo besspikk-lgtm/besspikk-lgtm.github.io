@@ -5782,7 +5782,7 @@
    "intake": "2026-10-04",
    "brand": "NOVOL",
    "photos_extra": [
-    "img/p/novol-uni-2.webp?v=20261009h",
+    "img/p/novol-uni-2.webp?v=20261017f17",
     "img/p/novol-uni-3.webp?v=20261017y"
    ],
    "specs": {
@@ -5950,7 +5950,7 @@
    "code": "09375",
    "brand": "3M",
    "photos_extra": [
-    "img/p/3m-fine-compound-09375-2.webp?v=20261009h",
+    "img/p/3m-fine-compound-09375-2.webp?v=20261017f17",
     "img/p/3m-fine-compound-09375-3.webp?v=20261017y"
    ],
    "specs": {
@@ -6337,7 +6337,7 @@
    "brand": "Farécla",
    "photos_extra": [
     "img/p/farecla-g3-paste-2.webp?v=20261017y",
-    "img/p/farecla-g3-paste-3.webp?v=20261009h"
+    "img/p/farecla-g3-paste-3.webp?v=20261017f17"
    ],
    "specs": {
     "rows": [
@@ -6389,7 +6389,7 @@
    "brand": "Farécla",
    "photos_extra": [
     "img/p/farecla-g360-2.webp?v=20261017y",
-    "img/p/farecla-g360-3.webp?v=20261009h"
+    "img/p/farecla-g360-3.webp?v=20261017f17"
    ],
    "specs": {
     "rows": [
@@ -6426,7 +6426,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/cartec-fast-glaze.webp?v=20261009b",
+   "photo": "img/p/cartec-fast-glaze.webp?v=20261017f17",
    "photo_is_placeholder": false,
    "photo_source": "фото виробника / магазинів: cartec.nl, martemoen-paabygg.no",
    "in_stock": "В наявності",
@@ -7007,7 +7007,7 @@
    "brand": "3M",
    "photos_extra": [
     "img/p/3m-flex-foam-disc-2.webp?v=20261017y",
-    "img/p/3m-flex-foam-disc-3.webp?v=20261009h"
+    "img/p/3m-flex-foam-disc-3.webp?v=20261017f17"
    ],
    "specs": {
     "rows": [
@@ -7077,8 +7077,8 @@
    "code": "50341",
    "brand": "3M",
    "photos_extra": [
-    "img/p/3m-trizact-50341-2.webp?v=20261009h",
-    "img/p/3m-trizact-50341-3.webp?v=20261009h",
+    "img/p/3m-trizact-50341-2.webp?v=20261017f17",
+    "img/p/3m-trizact-50341-3.webp?v=20261017f17",
     "img/p/3m-trizact-foam-8000.webp?v=20261017y"
    ],
    "specs": {
@@ -7189,7 +7189,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/sia-7940-siaair.webp?v=20261009b",
+   "photo": "img/p/sia-7940-siaair.webp?v=20261017f17",
    "photo_is_placeholder": false,
    "photo_source": "фото виробника / магазинів: jeffersonpaintsupplies.com.au, kentrefinishingsupplies.com, spectrapaints.com.au",
    "in_stock": "В наявності",
@@ -8335,7 +8335,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/helios-red-tape.webp?v=20261009e",
+   "photo": "img/p/helios-red-tape.webp?v=20261017f17",
    "photo_is_placeholder": false,
    "photo_source": "фото виробника / магазинів: bccoatings.com.au, emag.ro, trustintape.com",
    "in_stock": "В наявності",
@@ -8476,7 +8476,7 @@
    "intake": "2026-10-04",
    "brand": "3M",
    "photos_extra": [
-    "img/p/3m-233plus-tape-3.webp?v=20261009h"
+    "img/p/3m-233plus-tape-3.webp?v=20261017f17"
    ],
    "specs": {
     "rows": [
@@ -9309,8 +9309,8 @@
    "photo": "img/p/barpicar-masking-film.webp?v=20261017y",
    "photo_is_placeholder": false,
    "photos_extra": [
-    "img/p/barpicar-masking-film-2.webp?v=20261009h",
-    "img/p/barpicar-masking-film-3.webp?v=20261004k"
+    "img/p/barpicar-masking-film-2.webp?v=20261017f17",
+    "img/p/barpicar-masking-film-3.webp?v=20261017f17"
    ],
    "photo_source": "фото BarpiCAR: barpicar.com.ua",
    "in_stock": "В наявності",
@@ -9695,7 +9695,7 @@
    "price_note": "Ціна від Alex (26.09.2026)",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/ntools-te20-w1.webp?v=20261009f",
+   "photo": "img/p/ntools-te20-w1.webp?v=20261017f17",
    "photo_is_placeholder": false,
    "photo_source": "фото моделі з відкритих джерел (див. _work/china_sources.json)",
    "in_stock": "В наявності",
@@ -10125,7 +10125,7 @@
    "flag": null,
    "photos_extra": [
     "img/p/ntools-5000b-upgrades-w2.webp?v=20261017y",
-    "img/p/ntools-5000b-upgrades.webp?v=20261009h"
+    "img/p/ntools-5000b-upgrades.webp?v=20261017f17"
    ],
    "specs": {
     "rows": [
@@ -10495,7 +10495,7 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/pdr-glue-puller-kit-red.webp?v=20261016n",
+   "photo": "img/p/pdr-glue-puller-kit-red.webp?v=20261017f17",
    "photo_is_placeholder": false,
    "photo_source": "скріншот товару від Alex (16.10.2026), виріз, фон Китаю",
    "in_stock": "В дорозі, наявність уточнюйте",
@@ -10543,7 +10543,7 @@
     "img/p/ntools-mini-5002-2.webp?v=20261017y",
     "img/p/ntools-mini-5002-3.webp?v=20261017y",
     "img/p/ntools-mini-5002-4.webp?v=20261003",
-    "img/p/ntools-mini-5002-5.webp?v=20261009h"
+    "img/p/ntools-mini-5002-5.webp?v=20261017f17"
    ],
    "specs": {
     "rows": [
