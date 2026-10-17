@@ -303,6 +303,7 @@
 
   /* ---------- category line icons (24×24, stroke) ---------- */
   var CAT_IC = {
+    odyag: '<path d="M9 3.5 12 6l3-2.5"/><path d="M9 3.5 5.5 5 3 11l2.6 1.2L7 9.5V20.5h4l1-6 1 6h4V9.5l1.4 2.7L21 11l-2.5-6L15 3.5"/><path d="M12 6v6.5"/><path d="M7 12.5h10"/>', // 17.10.2026: «Брендований одяг» — робочий комбінезон
     all: '<rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/>',
     sale: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m15 9-6 6"/><path d="M9 9h.01"/><path d="M15 15h.01"/>',
     'new': '<path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15.5l.8 1.7 1.7.8-1.7.8-.8 1.7-.8-1.7-1.7-.8 1.7-.8z"/>',
@@ -376,11 +377,13 @@
     var total = PRODUCTS.length;
     var items = [{ id: 'all', name: 'Усі товари', count: total }, { id: 'sale', name: 'Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: 'Новинки', count: PRODUCTS.filter(isNew).length }];
     // 08.10.2026 (Alex): замість розділу «Ексклюзив» — «Товари з Китаю» на тому ж місці (позначки «Ексклюзив» на картках лишаються)
+    var od = CATS.filter(function (c) { return c.id === 'odyag' && c.count > 0; })[0]; // 17.10.2026 (Alex): «Брендований одяг» — перший серед розділів
+    if (od) items.push(od);
     var cn = CATS.filter(function (c) { return c.id === 'cn' && c.count > 0; })[0];
     if (cn) items.push(cn);
     var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
     if (nf || state.cat === 'fav') items.push({ id: 'fav', name: 'Вибране', count: nf });
-    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && c.count > 0; })); // порожні (усі товари приховані) розділи не показуємо
+    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && c.id !== 'odyag' && c.count > 0; })); // порожні (усі товари приховані) розділи не показуємо
     var nm = function (c, short) { return esc(short && c.id === 'all' ? 'Усі товари' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="side__nm">' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
@@ -554,6 +557,7 @@
   }
   /* short SEO intro line under the section title (one per category; hidden for «Усі товари» and search) */
   var CAT_INTRO = {
+    odyag: 'Брендований робочий одяг для автомаляра: комбінезон PALINAL з вибором розміру.',
     sale: 'Товари з позначкою «Акція». Ціну і наявність підтверджуємо при замовленні.',
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
@@ -784,7 +788,7 @@
   function galleryHTML(p) {
     var g = galleryOf(p), n = g.length;
     var zoom = g.length && !(n === 1 && g[0].src && p.photo_is_placeholder) ? '<button class="pm__zoom" type="button" data-lb-open aria-label="Відкрити фото на весь екран"><span aria-hidden="true">⤢</span></button>' : '';
-    if (spinOf(p)) zoom += '<button class="pm__360" type="button" data-spin-open aria-label="Обертання 360°: подивитися фарбопульт з усіх боків">' + SPIN_IC + '<span>360°</span></button>';
+    if (spinOf(p)) zoom += '<button class="pm__360" type="button" data-spin-open aria-label="Обертання 360°: подивитися товар з усіх боків">' + SPIN_IC + '<span>360°</span></button>';
     if (n <= 1) return '<div class="pm__img' + (zoom ? ' is-zoomable' : '') + '"><img ' + imgAttrs(p, g[0]) + ' alt="' + esc(p.name) + '">' + promoHTML(p) + zoom + '</div>';
     return '<div class="pm__img gal is-zoomable" data-gal>' + zoom +
       '<div class="gal__track" tabindex="0" aria-label="Фото товару, гортайте">' + g.map(function (x, i) {
@@ -872,6 +876,7 @@
   function spinStop() {
     if (!spin) return;
     if (spin.hint) cancelAnimationFrame(spin.hint);
+    clearTimeout(spin.rt); if (spin.auto) { pmState.spinCur = spin.cur; pmState.spinHold = spin.touched ? Date.now() + 3500 : 0; } // перемальовка (дані з Firestore, розмір) не скидає паузу після дотику // 17.10: s.auto — запам'ятати кадр (перемальовка при виборі розміру)
     spin.imgs.forEach(function (im) { im.onload = im.onerror = null; });
     if (spin.el && spin.el.parentNode) spin.el.parentNode.removeChild(spin.el);
     var box = $('#pm .pm__img'); if (box) box.classList.remove('is-spin');
@@ -881,21 +886,30 @@
     if (!spin) return;
     var n = spin.n; i = ((Math.round(i) % n) + n) % n; spin.cur = i;
     var k = i; if (!spin.ok[k]) { for (var d = 1; d < n; d++) { if (spin.ok[(i + d) % n]) { k = (i + d) % n; break; } if (spin.ok[(i - d + n) % n]) { k = (i - d + n) % n; break; } } }
-    if (spin.ok[k] && spin.shown !== k) { spin.img.src = spin.imgs[k].src; spin.shown = k; }
+    if (spin.ok[k] && spin.shown !== k) { // 17.10: малюємо готовий кадр на canvas — без білого блимання між кадрами
+      var im = spin.imgs[k], cv = spin.img;
+      if (cv.getContext) { if (cv.width !== im.naturalWidth) { cv.width = im.naturalWidth; cv.height = im.naturalHeight; } var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(im, 0, 0); }
+      else cv.src = im.src;
+      spin.shown = k; spin.el.setAttribute('data-frame', String(k + 1));
+    }
   }
-  function spinOpen() {
+  /* 17.10.2026: s.auto — обертання відкривається одразу першим у картці (замість фото) і повільно крутиться без кінця;
+     дотик / перетягування зупиняє, через 3,5 с без дотику — крутиться далі; «✕ 360°» — до звичайних фото (pmState.spinOff). */
+  function spinAutoOpen() { var p = byId[pmState.id], s = spinOf(p); if (s && s.auto && !pmState.spinOff) spinOpen(true); }
+  function spinOpen(auto) {
     var p = byId[pmState.id], s = spinOf(p), box = $('#pm .pm__img'); if (!s || !box) return;
     spinStop();
     var el = document.createElement('div');
     el.className = 'spin'; el.tabIndex = 0;
     el.setAttribute('role', 'slider'); el.setAttribute('aria-label', 'Обертання 360°: ' + p.name + '. Тягніть ліворуч або праворуч чи використовуйте стрілки');
     el.setAttribute('aria-valuemin', '0'); el.setAttribute('aria-valuemax', '359');
-    el.innerHTML = '<img class="spin__f" alt="' + esc(p.name) + ' — обертання 360°" draggable="false" decoding="async">' +
+    el.innerHTML = '<canvas class="spin__f" role="img" aria-label="' + esc(p.name) + ' — обертання 360°" width="800" height="800"></canvas>' +
       '<span class="spin__bar" aria-hidden="true"><i></i></span>' +
       '<span class="spin__hint" aria-hidden="true">' + SPIN_IC + 'Потягніть, щоб обернути</span>' +
       '<button class="spin__x" type="button" data-spin-close aria-label="Закрити обертання 360°, повернутися до фото"><span aria-hidden="true">✕</span> 360°</button>';
     box.appendChild(el); box.classList.add('is-spin');
-    spin = { el: el, img: $('.spin__f', el), s: s, n: s.frames, cur: 0, shown: -1, ok: [], imgs: [], loaded: 0, drag: null, hint: 0, touched: false };
+    spin = { el: el, img: $('.spin__f', el), s: s, n: s.frames, cur: auto && pmState.spinCur ? pmState.spinCur : 0, shown: -1, ok: [], imgs: [], loaded: 0, drag: null, hint: 0, touched: false, auto: !!(s.auto), rt: 0 };
+    if (spin.auto) { el.classList.add('spin--auto'); var hold = (pmState.spinHold || 0) - Date.now(); if (hold > 0) { spin.touched = true; el.classList.add('is-used'); var me0 = spin; spin.rt = setTimeout(function () { if (me0 === spin && !me0.drag) spinLoop(); }, hold); } }
     var order = [], seen = {}, step;
     [8, 4, 2, 1].forEach(function (st) { for (var i = 0; i < s.frames; i += st) if (!seen[i]) { seen[i] = 1; order.push(i); } });
     var me = spin, bar = $('.spin__bar i', el), q = 0, active = 0, MAXC = 6;
@@ -910,7 +924,8 @@
             me.loaded++; bar.style.transform = 'scaleX(' + (me.loaded / me.n) + ')';
             if (i === 0 || (me.shown < 0 && me.ok[i])) spinShow(me.cur);
             else if (me.shown !== me.cur && me.ok[i]) spinShow(me.cur);
-            if (me.loaded >= me.n) { el.classList.add('is-ready'); spinHint(); }
+            if (me.auto && !me.hint && !me.touched && !me.rt && me.loaded >= Math.ceil(me.n / 4)) spinLoop();
+            if (me.loaded >= me.n) { el.classList.add('is-ready'); if (!me.auto) spinHint(); }
             next();
           };
           me.imgs[i] = im; im.src = spinSrc(s, i);
@@ -924,13 +939,24 @@
     el.addEventListener('pointercancel', spinUp);
     el.addEventListener('dragstart', function (e) { e.preventDefault(); });
     el.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); spinTouch(); spinShow(spin.cur + (e.key === 'ArrowLeft' ? -1 : 1)); spinAria(); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); spinTouch(); spinShow(spin.cur + (e.key === 'ArrowLeft' ? -1 : 1)); spinAria(); spinResume(); }
     });
-    try { el.focus({ preventScroll: true }); } catch (x) {}
-    track('360/' + p.id, '360°: ' + p.name);
+    if (!auto) { try { el.focus({ preventScroll: true }); } catch (x) {} track('360/' + p.id, '360°: ' + p.name); }
   }
+  function spinLoop() { // безкінечне повільне обертання (s.auto), один оберт — s.period мс (типово 9000)
+    if (!spin || RM.matches) return;
+    var me = spin, last = null, per = Number(me.s.period) || 9000;
+    me.touched = false; me.el.classList.remove('is-drag');
+    function f(t) {
+      if (me !== spin || me.touched) return;
+      if (last != null) { me.pos = (me.pos == null ? me.cur : me.pos) + (t - last) * me.n / per; spinShow(me.pos); }
+      last = t; me.hint = requestAnimationFrame(f);
+    }
+    me.pos = me.cur; me.hint = requestAnimationFrame(f);
+  }
+  function spinResume() { if (!spin || !spin.auto) return; clearTimeout(spin.rt); var me = spin; spin.rt = setTimeout(function () { if (me === spin && !me.drag) spinLoop(); }, 3500); }
   function spinAria() { if (spin) spin.el.setAttribute('aria-valuenow', String(Math.round(spin.cur * 360 / spin.n))); }
-  function spinTouch() { if (!spin) return; spin.touched = true; if (spin.hint) { cancelAnimationFrame(spin.hint); spin.hint = 0; } spin.el.classList.add('is-used'); }
+  function spinTouch() { if (!spin) return; spin.touched = true; clearTimeout(spin.rt); if (spin.hint) { cancelAnimationFrame(spin.hint); spin.hint = 0; } spin.el.classList.add('is-used'); }
   function spinHint() { // один повільний оберт-підказка
     if (!spin || spin.touched || RM.matches) return;
     var me = spin, t0 = null, from = me.cur, dur = 2600;
@@ -963,7 +989,7 @@
   }
   function spinUp(e) {
     var d = spin && spin.drag; if (!d || d.id !== e.pointerId) return;
-    spin.drag = null; spin.el.classList.remove('is-drag'); spinAria();
+    spin.drag = null; spin.el.classList.remove('is-drag'); spinAria(); spinResume();
   }
   /* ---------- повноекранний перегляд фото з зумом (03.10.2026) ----------
      Тап по головному фото в картці товару → темний лайтбокс: свайп між фото галереї, лічильник «1 / 3»,
@@ -1328,6 +1354,7 @@
         pmBarHTML(p) +
       '</div>';
     galInit();
+    spinAutoOpen();
     pmBarWatch();
     fillPhotos();
     uxHook('product', p);
@@ -2063,8 +2090,8 @@
     if (t.hasAttribute('data-lb-close')) { lbClose(); return; }
     if (t.hasAttribute('data-lb-step')) { lbGo(+t.getAttribute('data-lb-step'), true); return; }
     if (t.hasAttribute('data-lb-open')) { lbOpen(pmGalIndex()); return; }
-    if (t.hasAttribute('data-spin-open')) { spinOpen(); return; }
-    if (t.hasAttribute('data-spin-close')) { spinStop(); var sb = $('#pm .pm__360'); if (sb) sb.focus({ preventScroll: true }); return; }
+    if (t.hasAttribute('data-spin-open')) { pmState.spinOff = false; spinOpen(); return; }
+    if (t.hasAttribute('data-spin-close')) { pmState.spinOff = true; spinStop(); var sb = $('#pm .pm__360'); if (sb) sb.focus({ preventScroll: true }); return; }
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-map')) { track('карта', 'Як доїхати (Google Maps, ST Service)'); return; } // repair banner: link opens Google Maps in a new tab

@@ -4,6 +4,12 @@
  "eur_rate_uah": 51.5,
  "categories": [
   {
+   "id": "odyag",
+   "name": "Брендований одяг",
+   "icon": "",
+   "count": 1
+  },
+  {
    "id": "guns",
    "name": "Фарбопульти та пістолети",
    "icon": "",
@@ -71,6 +77,94 @@
   }
  ],
  "products": [
+  {
+   "id": "palinal-coverall-hydropal120",
+   "category": "odyag",
+   "category_name": "Брендований одяг",
+   "name": "Робочий комбінезон маляра PALINAL",
+   "description": "Робочий комбінезон для автомаляра від фірми PALINAL. Світло-сірий, з жовтими вставками на плечах, жовтим коміром і темно-сірою кокеткою. На грудях — нашивка PALINAL, дві нагрудні кишені з клапанами, спереду — дві кишені з жовтим кантом. Пояс на липучці, ззаду на талії — гумка, манжети рукавів на гумці. Уздовж рукавів — світлий кант і напис HYDROPAL 120, на спині — великий логотип PALINAL з італійським триколором. Розміри: L, XL, XXL — оберіть потрібний.",
+   "price_eur": 73.0769,
+   "price_label": null,
+   "variants": [
+    {
+     "label": "L",
+     "price_eur": 73.0769
+    },
+    {
+     "label": "XL",
+     "price_eur": 73.0769
+    },
+    {
+     "label": "XXL",
+     "price_eur": 73.0769
+    }
+   ],
+   "variant_title": "Розмір",
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/palinal-coverall-hydropal120.webp?v=20261017q",
+   "photos_extra": [
+    "img/v/palinal-coverall-hydropal120-2.webp?v=20261017q",
+    "img/v/palinal-coverall-hydropal120-3.webp?v=20261017q",
+    "img/v/palinal-coverall-hydropal120-4.webp?v=20261017q",
+    "img/v/palinal-coverall-hydropal120-5.webp?v=20261017q",
+    "img/v/palinal-coverall-hydropal120-6.webp?v=20261017q"
+   ],
+   "photo_is_placeholder": false,
+   "photo_source": "власні фото Alex (17.10.2026, 11 кадрів комбінезона на людині з усіх боків): вирізано лише комбінезон (без голови, рук, взуття, кімнати), білий фон #fff; обертання 360° — 9 справжніх ракурсів + плавні переходи між ними (36 кадрів, img/360/)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "code": "",
+   "brand": "PALINAL",
+   "intake": "2026-10-17",
+   "price_set_at": "2026-10-17T17:20:00+03:00",
+   "spin": {
+    "dir": "img/360/palinal-coverall-hydropal120/",
+    "frames": 36,
+    "ext": "webp",
+    "v": "20261017q",
+    "auto": true,
+    "period": 9000
+   },
+   "specs": {
+    "rows": [
+     [
+      "Бренд",
+      "PALINAL"
+     ],
+     [
+      "Тип",
+      "Робочий комбінезон для автомаляра"
+     ],
+     [
+      "Розміри",
+      "L, XL, XXL"
+     ],
+     [
+      "Колір",
+      "світло-сірий, жовті вставки на плечах і жовтий комір"
+     ],
+     [
+      "Кишені",
+      "2 нагрудні з клапанами, 2 передні з жовтим кантом"
+     ],
+     [
+      "Пояс",
+      "на липучці, ззаду — гумка"
+     ],
+     [
+      "Манжети",
+      "на гумці"
+     ],
+     [
+      "Маркування",
+      "HYDROPAL 120 на рукавах, PALINAL на грудях і на спині"
+     ]
+    ],
+    "src": "За фото товару."
+   }
+  },
   {
    "id": "sata-jet-x-pro",
    "category": "guns",

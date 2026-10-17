@@ -1716,11 +1716,11 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .pm__360 svg{flex:none}
 .pm__img.is-spin .pm__360,.pm__img.is-spin .pm__zoom,.pm__img.is-spin .gal__nav,.pm__img.is-spin .gal__dots,.pm__img.is-spin .gal__cnt{visibility:hidden}
 .spin{position:absolute;inset:0;z-index:4;display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;
-  background:radial-gradient(120% 90% at 50% 40%,#1b2433 0%,#0e141f 62%,#0a0f18 100%);outline:none}
+  background:#fff;outline:none} /* 17.10.2026: кадри на чисто білому фоні, як фото товарів */
 .spin:focus-visible{box-shadow:inset 0 0 0 2px var(--yellow)}
 .spin.is-drag{cursor:grabbing}
-.spin__f{width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
-.spin__bar{position:absolute;left:18%;right:18%;bottom:14px;height:2px;border-radius:2px;background:rgba(255,255,255,.12);overflow:hidden;transition:opacity .4s .3s}
+.spin__f{display:block;width:100%;height:100%;object-fit:contain;pointer-events:none;-webkit-user-drag:none}
+.spin__bar{position:absolute;left:18%;right:18%;bottom:14px;height:2px;border-radius:2px;background:rgba(8,17,31,.1);overflow:hidden;transition:opacity .4s .3s}
 .spin__bar i{display:block;height:100%;background:var(--yellow);transform:scaleX(0);transform-origin:0 50%;transition:transform .2s linear}
 .spin.is-ready .spin__bar{opacity:0}
 .spin__hint{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);display:inline-flex;align-items:center;gap:7px;padding:7px 13px;border-radius:999px;white-space:nowrap;
@@ -1738,6 +1738,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .prem .spinb{left:16px;bottom:16px}
 @media (max-width:760px){.spinb{font-size:10.5px;padding:3px 7px 3px 5px}.spinb svg{width:13px;height:13px}.prem .spinb{left:12px;bottom:12px}.pm__360{height:34px;font-size:12px}}
 @media (prefers-reduced-motion:reduce){.spin__bar,.spin__bar i,.spin__hint{transition:none}}
+.spin--auto .spin__hint{animation:spinHintOut .4s 4s forwards}@keyframes spinHintOut{to{opacity:0}}
 
 /* ===== 04.10.2026: «Фарба за кодом» (#code), «Поради малярам» на головній, 4-та колонка футера, липка панель замовлення в картці товару ===== */
 .strips{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 4px}
