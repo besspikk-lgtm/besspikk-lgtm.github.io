@@ -872,35 +872,57 @@
     return s && typeof s.dir === 'string' && /^img\/360\/[\w-]+\/$/.test(s.dir) && s.frames > 7 && s.frames <= 120 ? s : null;
   }
   function spinSrc(s, i) { var n = String(i + 1); while (n.length < 2) n = '0' + n; return s.dir + n + '.' + (s.ext || 'webp') + (s.v ? '?v=' + s.v : ''); }
-  var spin = null; // { el, img, s, n, cur, ok[], imgs[], left, drag, hint }
+  /* 17.10.2026 (v2): плавне обертання. Спершу вантажимо всі кадри (смужка прогресу), далі один цикл requestAnimationFrame:
+     позиція — дробовий кадр, на canvas малюємо два сусідні кадри з прозорістю (безперервний перехід, без різких стрибків);
+     швидкість плавно розганяється / гальмує (s.auto: один оберт за s.period мс, типово 18000); перетягування — позиція м'яко
+     йде за пальцем, після відпускання — інерція; через 3,5 с без дотику обертання плавно відновлюється. Без s.auto — один оберт-підказка. */
+  var spin = null;
   function spinStop() {
     if (!spin) return;
-    if (spin.hint) cancelAnimationFrame(spin.hint);
-    clearTimeout(spin.rt); if (spin.auto) { pmState.spinCur = spin.cur; pmState.spinHold = spin.touched ? Date.now() + 3500 : 0; } // перемальовка (дані з Firestore, розмір) не скидає паузу після дотику // 17.10: s.auto — запам'ятати кадр (перемальовка при виборі розміру)
+    if (spin.raf) cancelAnimationFrame(spin.raf);
+    clearTimeout(spin.rt);
+    if (spin.auto) { pmState.spinCur = spin.pos; pmState.spinHold = spin.hold ? Date.now() + 3500 : 0; } // перемальовка (дані з Firestore, розмір) не скидає позицію і паузу
     spin.imgs.forEach(function (im) { im.onload = im.onerror = null; });
     if (spin.el && spin.el.parentNode) spin.el.parentNode.removeChild(spin.el);
     var box = $('#pm .pm__img'); if (box) box.classList.remove('is-spin');
     spin = null;
   }
-  function spinShow(i) {
-    if (!spin) return;
-    var n = spin.n; i = ((Math.round(i) % n) + n) % n; spin.cur = i;
-    var k = i; if (!spin.ok[k]) { for (var d = 1; d < n; d++) { if (spin.ok[(i + d) % n]) { k = (i + d) % n; break; } if (spin.ok[(i - d + n) % n]) { k = (i - d + n) % n; break; } } }
-    if (spin.ok[k] && spin.shown !== k) { // 17.10: малюємо готовий кадр на canvas — без білого блимання між кадрами
-      var im = spin.imgs[k], cv = spin.img;
-      if (cv.getContext) { if (cv.width !== im.naturalWidth) { cv.width = im.naturalWidth; cv.height = im.naturalHeight; } var cx = cv.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height); cx.drawImage(im, 0, 0); }
-      else cv.src = im.src;
-      spin.shown = k; spin.el.setAttribute('data-frame', String(k + 1));
-    }
+  function spinMod(x, n) { return ((x % n) + n) % n; }
+  function spinDraw() {
+    var me = spin; if (!me || !me.ready) return;
+    var n = me.n, p = spinMod(me.pos, n), i = Math.floor(p), j = (i + 1) % n, t = p - i;
+    if (Math.abs(p - me.drawn) < 0.004) return;
+    me.drawn = p;
+    var cv = me.cv, cx = me.cx, a = me.imgs[i], b = me.imgs[j];
+    if (cv.width !== a.naturalWidth) { cv.width = a.naturalWidth; cv.height = a.naturalHeight; }
+    cx.globalAlpha = 1; cx.fillStyle = '#fff'; cx.fillRect(0, 0, cv.width, cv.height);
+    cx.drawImage(a, 0, 0);
+    if (t > 0.002) { cx.globalAlpha = t; cx.drawImage(b, 0, 0); cx.globalAlpha = 1; }
+    me.cur = Math.round(p) % n; me.el.setAttribute('data-frame', String(me.cur + 1));
   }
-  /* 17.10.2026: s.auto — обертання відкривається одразу першим у картці (замість фото) і повільно крутиться без кінця;
-     дотик / перетягування зупиняє, через 3,5 с без дотику — крутиться далі; «✕ 360°» — до звичайних фото (pmState.spinOff). */
+  function spinShow(i) { if (!spin) return; spin.drag = null; spin.goal = i; spin.vel = 0; } // клавіші: м'яко до кадру i
+  function spinTick(t) {
+    var me = spin; if (!me) return;
+    var dt = me.last == null ? 16 : Math.min(64, t - me.last); me.last = t;
+    if (me.ready) {
+      if (me.drag && me.drag.on) { me.pos += (me.drag.goal - me.pos) * (1 - Math.exp(-dt / 55)); }
+      else if (me.goal != null) { me.pos += (me.goal - me.pos) * (1 - Math.exp(-dt / 90)); if (Math.abs(me.goal - me.pos) < 0.01) { me.pos = me.goal; me.goal = null; } }
+      else {
+        var vt = me.hold || RM.matches ? 0 : me.auto ? me.n / me.per : (me.hintLeft > 0 ? me.n / 2600 : 0);
+        me.vel += (vt - me.vel) * (1 - Math.exp(-dt / (Math.abs(vt) > Math.abs(me.vel) ? 700 : 380))); // розгін м'якший за гальмування
+        me.pos += me.vel * dt;
+        if (!me.auto && me.hintLeft > 0) me.hintLeft -= Math.abs(me.vel * dt);
+      }
+      spinDraw();
+    }
+    me.raf = requestAnimationFrame(spinTick);
+  }
   function spinAutoOpen() { var p = byId[pmState.id], s = spinOf(p); if (s && s.auto && !pmState.spinOff) spinOpen(true); }
   function spinOpen(auto) {
     var p = byId[pmState.id], s = spinOf(p), box = $('#pm .pm__img'); if (!s || !box) return;
     spinStop();
     var el = document.createElement('div');
-    el.className = 'spin'; el.tabIndex = 0;
+    el.className = 'spin' + (s.auto ? ' spin--auto' : ''); el.tabIndex = 0;
     el.setAttribute('role', 'slider'); el.setAttribute('aria-label', 'Обертання 360°: ' + p.name + '. Тягніть ліворуч або праворуч чи використовуйте стрілки');
     el.setAttribute('aria-valuemin', '0'); el.setAttribute('aria-valuemax', '359');
     el.innerHTML = '<canvas class="spin__f" role="img" aria-label="' + esc(p.name) + ' — обертання 360°" width="800" height="800"></canvas>' +
@@ -908,87 +930,58 @@
       '<span class="spin__hint" aria-hidden="true">' + SPIN_IC + 'Потягніть, щоб обернути</span>' +
       '<button class="spin__x" type="button" data-spin-close aria-label="Закрити обертання 360°, повернутися до фото"><span aria-hidden="true">✕</span> 360°</button>';
     box.appendChild(el); box.classList.add('is-spin');
-    spin = { el: el, img: $('.spin__f', el), s: s, n: s.frames, cur: auto && pmState.spinCur ? pmState.spinCur : 0, shown: -1, ok: [], imgs: [], loaded: 0, drag: null, hint: 0, touched: false, auto: !!(s.auto), rt: 0 };
-    if (spin.auto) { el.classList.add('spin--auto'); var hold = (pmState.spinHold || 0) - Date.now(); if (hold > 0) { spin.touched = true; el.classList.add('is-used'); var me0 = spin; spin.rt = setTimeout(function () { if (me0 === spin && !me0.drag) spinLoop(); }, hold); } }
-    var order = [], seen = {}, step;
-    [8, 4, 2, 1].forEach(function (st) { for (var i = 0; i < s.frames; i += st) if (!seen[i]) { seen[i] = 1; order.push(i); } });
-    var me = spin, bar = $('.spin__bar i', el), q = 0, active = 0, MAXC = 6;
-    function next() {
-      while (me === spin && active < MAXC && q < order.length) {
-        (function (i) {
-          var im = new Image(); active++;
-          im.decoding = 'async';
-          im.onload = im.onerror = function (ev) {
-            active--; if (me !== spin) return;
-            if (ev.type === 'load') me.ok[i] = true;
-            me.loaded++; bar.style.transform = 'scaleX(' + (me.loaded / me.n) + ')';
-            if (i === 0 || (me.shown < 0 && me.ok[i])) spinShow(me.cur);
-            else if (me.shown !== me.cur && me.ok[i]) spinShow(me.cur);
-            if (me.auto && !me.hint && !me.touched && !me.rt && me.loaded >= Math.ceil(me.n / 4)) spinLoop();
-            if (me.loaded >= me.n) { el.classList.add('is-ready'); if (!me.auto) spinHint(); }
-            next();
-          };
-          me.imgs[i] = im; im.src = spinSrc(s, i);
-        })(order[q++]);
-      }
-    }
-    next();
+    var cv = $('.spin__f', el);
+    spin = { el: el, cv: cv, cx: cv.getContext && cv.getContext('2d'), s: s, n: s.frames, auto: !!s.auto, per: Number(s.period) || 18000,
+      pos: auto && pmState.spinCur ? pmState.spinCur : 0, vel: 0, goal: null, drawn: -1, cur: 0, imgs: [], loaded: 0, ready: false, drag: null, hold: false, rt: 0, raf: 0, last: null, hintLeft: s.auto ? 0 : s.frames };
+    if (!spin.cx) { spinStop(); return; }
+    var me = spin, bar = $('.spin__bar i', el);
+    if (me.auto) { var hold = (pmState.spinHold || 0) - Date.now(); if (hold > 0) { me.hold = true; el.classList.add('is-used'); me.rt = setTimeout(function () { if (me === spin && !me.drag) me.hold = false; }, hold); } }
+    for (var i = 0; i < s.frames; i++) (function (i) { // усі кадри — до старту обертання
+      var im = new Image(); im.decoding = 'async';
+      im.onload = im.onerror = function () {
+        if (me !== spin) return;
+        me.loaded++; bar.style.transform = 'scaleX(' + (me.loaded / me.n) + ')';
+        if (i === 0 && !me.ready) { me.cx.fillStyle = '#fff'; me.cx.fillRect(0, 0, cv.width, cv.height); cv.width = im.naturalWidth || 800; cv.height = im.naturalHeight || 800; me.cx.drawImage(im, 0, 0); }
+        if (me.loaded >= me.n) { me.ready = true; el.classList.add('is-ready'); me.drawn = -1; spinDraw(); }
+      };
+      me.imgs[i] = im; im.src = spinSrc(s, i);
+    })(i);
+    me.raf = requestAnimationFrame(spinTick);
     el.addEventListener('pointerdown', spinDown);
     el.addEventListener('pointermove', spinMove);
     el.addEventListener('pointerup', spinUp);
     el.addEventListener('pointercancel', spinUp);
     el.addEventListener('dragstart', function (e) { e.preventDefault(); });
     el.addEventListener('keydown', function (e) {
-      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); spinTouch(); spinShow(spin.cur + (e.key === 'ArrowLeft' ? -1 : 1)); spinAria(); spinResume(); }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); spinTouch(); spinShow(Math.round(spin.pos) + (e.key === 'ArrowLeft' ? -1 : 1) * Math.max(1, Math.round(spin.n / 36))); spinAria(); spinResume(); }
     });
     if (!auto) { try { el.focus({ preventScroll: true }); } catch (x) {} track('360/' + p.id, '360°: ' + p.name); }
   }
-  function spinLoop() { // безкінечне повільне обертання (s.auto), один оберт — s.period мс (типово 9000)
-    if (!spin || RM.matches) return;
-    var me = spin, last = null, per = Number(me.s.period) || 9000;
-    me.touched = false; me.el.classList.remove('is-drag');
-    function f(t) {
-      if (me !== spin || me.touched) return;
-      if (last != null) { me.pos = (me.pos == null ? me.cur : me.pos) + (t - last) * me.n / per; spinShow(me.pos); }
-      last = t; me.hint = requestAnimationFrame(f);
-    }
-    me.pos = me.cur; me.hint = requestAnimationFrame(f);
-  }
-  function spinResume() { if (!spin || !spin.auto) return; clearTimeout(spin.rt); var me = spin; spin.rt = setTimeout(function () { if (me === spin && !me.drag) spinLoop(); }, 3500); }
-  function spinAria() { if (spin) spin.el.setAttribute('aria-valuenow', String(Math.round(spin.cur * 360 / spin.n))); }
-  function spinTouch() { if (!spin) return; spin.touched = true; clearTimeout(spin.rt); if (spin.hint) { cancelAnimationFrame(spin.hint); spin.hint = 0; } spin.el.classList.add('is-used'); }
-  function spinHint() { // один повільний оберт-підказка
-    if (!spin || spin.touched || RM.matches) return;
-    var me = spin, t0 = null, from = me.cur, dur = 2600;
-    function f(t) {
-      if (me !== spin || me.touched) return;
-      if (t0 == null) t0 = t;
-      var k = Math.min(1, (t - t0) / dur), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-      spinShow(from + e * me.n);
-      if (k < 1) me.hint = requestAnimationFrame(f); else { me.hint = 0; spinAria(); }
-    }
-    me.hint = requestAnimationFrame(f);
-  }
+  function spinAria() { if (spin) spin.el.setAttribute('aria-valuenow', String(Math.round(spinMod(spin.pos, spin.n) * 360 / spin.n))); }
+  function spinTouch() { if (!spin) return; spin.hold = true; spin.hintLeft = 0; clearTimeout(spin.rt); spin.el.classList.add('is-used'); }
+  function spinResume() { if (!spin) return; clearTimeout(spin.rt); var me = spin; if (!me.auto) return; me.rt = setTimeout(function () { if (me === spin && !me.drag) me.hold = false; }, 3500); }
   function spinDown(e) {
     if (!spin || e.target.closest('button')) return;
     if (e.pointerType === 'mouse' && e.button !== 0) return;
-    spinTouch();
-    spin.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, f: spin.cur, on: e.pointerType === 'mouse' };
-    if (e.pointerType === 'mouse') { try { spin.el.setPointerCapture(e.pointerId); } catch (x) {} spin.el.classList.add('is-drag'); }
+    spinTouch(); spin.goal = null;
+    spin.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, f: spin.pos, goal: spin.pos, on: e.pointerType === 'mouse', lx: e.clientX, lt: performance.now(), v: 0 };
+    if (e.pointerType === 'mouse') { try { spin.el.setPointerCapture(e.pointerId); } catch (x) {} spin.el.classList.add('is-drag'); spin.vel = 0; }
   }
   function spinMove(e) {
     var d = spin && spin.drag; if (!d || d.id !== e.pointerId) return;
     var dx = e.clientX - d.x, dy = e.clientY - d.y;
     if (!d.on) { // палець: обертаємо лише після явно горизонтального руху, інакше — прокрутка сторінки
       if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
-      if (Math.abs(dy) > Math.abs(dx)) { spin.drag = null; return; }
-      d.on = true; try { spin.el.setPointerCapture(e.pointerId); } catch (x) {} spin.el.classList.add('is-drag');
+      if (Math.abs(dy) > Math.abs(dx)) { spin.drag = null; spinResume(); return; }
+      d.on = true; spin.vel = 0; try { spin.el.setPointerCapture(e.pointerId); } catch (x) {} spin.el.classList.add('is-drag');
     }
-    var w = spin.el.clientWidth || 300;
-    spinShow(d.f - dx / (w * 0.9) * spin.n); // ~ ширина кадру = один оберт; праворуч — проти годинникової
+    var w = spin.el.clientWidth || 300, k = spin.n / (w * 1.1), now = performance.now(), ddt = Math.max(1, now - d.lt);
+    d.v = d.v * 0.6 + (-(e.clientX - d.lx) * k / ddt) * 0.4; d.lx = e.clientX; d.lt = now;
+    d.goal = d.f - dx * k; // праворуч — проти годинникової
   }
   function spinUp(e) {
     var d = spin && spin.drag; if (!d || d.id !== e.pointerId) return;
+    if (d.on) { var iv = performance.now() - d.lt < 80 ? Math.max(-0.02, Math.min(0.02, d.v)) : 0; if (Math.abs(iv) > 0.002) spin.vel = iv; else { spin.vel = 0; spin.goal = d.goal; } } // інерція після відпускання або м'яка зупинка під пальцем
     spin.drag = null; spin.el.classList.remove('is-drag'); spinAria(); spinResume();
   }
   /* ---------- повноекранний перегляд фото з зумом (03.10.2026) ----------
@@ -2189,7 +2182,7 @@
       return;
     }
     if (e.key === 'Escape') { hideModal(); return; }
-    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && openModalEl && openModalEl === $('#pmodal') && !/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) { if (spin) { spinTouch(); spinShow(spin.cur + (e.key === 'ArrowLeft' ? -1 : 1)); spinAria(); } else galGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
+    if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && openModalEl && openModalEl === $('#pmodal') && !/INPUT|TEXTAREA|SELECT/.test((e.target && e.target.tagName) || '')) { if (spin) { spinTouch(); spinShow(Math.round(spin.pos) + (e.key === 'ArrowLeft' ? -1 : 1) * Math.max(1, Math.round(spin.n / 36))); spinAria(); spinResume(); } else galGo(e.key === 'ArrowLeft' ? -1 : 1, true); }
   });
   window.addEventListener('hashchange', route);
 
