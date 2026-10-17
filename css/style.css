@@ -2013,3 +2013,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 /* білий фон під фото товарів (2026-10-17) */
 .card__img,.pm__img,.prem .card__img,.prem .card__img:hover,.prem .pm__img,.prem .card__img.pm__img{background:#fff}
 .card__img.is-ld::before,.prem .card__img::before{background:linear-gradient(100deg,#fff 30%,#f1f2f4 50%,#fff 70%) 0 0/250% 100%,#f6f7f8}
+/* 2026-10-17: фото на всю площу картки, без внутрішніх відступів */
+.card__img,.card__img:hover,.prem .card__img,.prem .card__img:hover{padding:0}
+.card__img img,.prem .card__img img{border-radius:0}
+.card__img::before,.prem .card__img::before{inset:0;border-radius:0}
