@@ -12370,7 +12370,8 @@
    "type": "equip",
    "photos_extra": [
     "img/p/airbrush-gold-kit-2.webp?v=20261017g"
-   ]
+   ],
+   "price_set_at": "2026-10-17T08:00:00+03:00"
   },
   {
    "id": "baishangsi-sander",

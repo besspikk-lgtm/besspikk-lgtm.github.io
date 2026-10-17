@@ -2205,6 +2205,7 @@
     q.promoUntil = x.until;
     Object.assign(p, q);
   }
+  var PRICE_KEYS = { price_eur: 1, price_old_eur: 1, price_label: 1, variants: 1 };
   function applyRemote(docs) {
     lastDocs = docs = (docs || []);
     readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-)/.test(d.id || ''); }));
@@ -2221,7 +2222,10 @@
       else p = { id: bp.id, category: '', name: '', description: '', price_eur: null, price_label: null, variants: null, price_note: '', price_uah_original: null, source: [], photo: PLACEHOLDER, in_stock: 'Наявність уточнюйте', flag: null, code: '' };
       if (d) {
         var dn = discNorm(BASE[bp.id], d); // знижка з каталогу не губиться через старі правки ціни в адмінці
-        EDITABLE.forEach(function (k) { if (dn[k] !== undefined) p[k] = dn[k]; });
+        // 17.10.2026: price_set_at у products.json (ISO-дата) — ціна з каталогу новіша за стару правку в адмінці, тож ціна з адмінки ігнорується, доки її не змінять знову
+        var psa = BASE[bp.id] && BASE[bp.id].price_set_at ? Date.parse(BASE[bp.id].price_set_at) : 0;
+        var oldPrice = psa > 0 && !((Number(d.updatedAt) || 0) > psa);
+        EDITABLE.forEach(function (k) { if (dn[k] !== undefined && !(oldPrice && PRICE_KEYS[k])) p[k] = dn[k]; });
         if (p.price_eur !== null && typeof p.price_eur !== 'number') p.price_eur = parseFloat(p.price_eur) || null;
         if (p.price_old_eur != null && typeof p.price_old_eur !== 'number') p.price_old_eur = parseFloat(p.price_old_eur) || null;
         if (p.variants && !(Array.isArray(p.variants) && p.variants.length)) p.variants = null;
