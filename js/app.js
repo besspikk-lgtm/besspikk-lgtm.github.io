@@ -866,6 +866,7 @@
      Кадри вантажаться лише після натискання «360°»: спершу кожен 4-й (можна крутити одразу), потім решта; показуємо найближчий готовий.
      Тягніть по горизонталі (миша / палець; вертикальний свайп лишається прокруткою), стрілки ←/→. Один м'який оберт-підказка
      після завантаження (без prefers-reduced-motion), зупиняється від першого дотику. */
+  var PHOTO_IC = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>';
   var SPIN_IC = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="12" rx="9.5" ry="3.6"/><path d="M12 3.2v1.6M12 19.2v1.6" opacity=".55"/><path d="M17.6 6.4l2.3.4-.6 2.2"/><path d="M19.9 6.8C18.2 5.1 15.3 4 12 4"/></svg>';
   function spinOf(p) {
     var b = p && (BASE[p.id] || p), s = b && b.spin;
@@ -917,7 +918,7 @@
     }
     me.raf = requestAnimationFrame(spinTick);
   }
-  function spinAutoOpen() { var p = byId[pmState.id], s = spinOf(p); if (s && s.auto && !pmState.spinOff) spinOpen(true); }
+  function spinAutoOpen() { var p = byId[pmState.id], s = spinOf(p); if (s && pmState.spinOn) spinOpen(true); } // спершу завжди фото; 360° — лише після натискання «360°» (і зберігається при перемальовці)
   function spinOpen(auto) {
     var p = byId[pmState.id], s = spinOf(p), box = $('#pm .pm__img'); if (!s || !box) return;
     spinStop();
@@ -928,7 +929,7 @@
     el.innerHTML = '<canvas class="spin__f" role="img" aria-label="' + esc(p.name) + ' — обертання 360°" width="800" height="800"></canvas>' +
       '<span class="spin__bar" aria-hidden="true"><i></i></span>' +
       '<span class="spin__hint" aria-hidden="true">' + SPIN_IC + 'Потягніть, щоб обернути</span>' +
-      '<button class="spin__x" type="button" data-spin-close aria-label="Закрити обертання 360°, повернутися до фото"><span aria-hidden="true">✕</span> 360°</button>';
+      '<button class="spin__x" type="button" data-spin-close aria-label="Повернутися до фото товару">' + PHOTO_IC + '<span>Фото</span></button>';
     box.appendChild(el); box.classList.add('is-spin');
     var cv = $('.spin__f', el);
     spin = { el: el, cv: cv, cx: cv.getContext && cv.getContext('2d'), s: s, n: s.frames, auto: !!s.auto, per: Number(s.period) || 18000,
@@ -2083,8 +2084,8 @@
     if (t.hasAttribute('data-lb-close')) { lbClose(); return; }
     if (t.hasAttribute('data-lb-step')) { lbGo(+t.getAttribute('data-lb-step'), true); return; }
     if (t.hasAttribute('data-lb-open')) { lbOpen(pmGalIndex()); return; }
-    if (t.hasAttribute('data-spin-open')) { pmState.spinOff = false; spinOpen(); return; }
-    if (t.hasAttribute('data-spin-close')) { pmState.spinOff = true; spinStop(); var sb = $('#pm .pm__360'); if (sb) sb.focus({ preventScroll: true }); return; }
+    if (t.hasAttribute('data-spin-open')) { pmState.spinOn = true; spinOpen(); return; }
+    if (t.hasAttribute('data-spin-close')) { pmState.spinOn = false; pmState.spinCur = 0; pmState.spinHold = 0; spinStop(); var sb = $('#pm .pm__360'); if (sb) sb.focus({ preventScroll: true }); return; }
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-map')) { track('карта', 'Як доїхати (Google Maps, ST Service)'); return; } // repair banner: link opens Google Maps in a new tab
