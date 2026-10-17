@@ -8940,21 +8940,72 @@
    "category": "polish",
    "category_name": "Полірування та догляд",
    "name": "Мікрофібра плюшева безшовна",
-   "description": "М'яка плюшева безшовна серветка з мікрофібри для делікатного протирання та полірування лакофарбового покриття. Доступна в кількох кольорах.",
+   "description": "М'яка плюшева безшовна серветка з мікрофібри для делікатного протирання та полірування лакофарбового покриття. Кольори: помаранчевий, жовтий, сірий, фіолетовий, білий — оберіть потрібний.",
    "price_eur": 4.5577,
    "price_label": null,
-   "variants": null,
+   "variants": [
+    {
+     "label": "Помаранчевий",
+     "price_eur": 4.5577,
+     "photo": "img/v/plush-microfiber-orange.webp?v=20261017n"
+    },
+    {
+     "label": "Жовтий",
+     "price_eur": 4.5577,
+     "photo": "img/v/plush-microfiber-yellow.webp?v=20261017n"
+    },
+    {
+     "label": "Сірий",
+     "price_eur": 4.5577,
+     "photo": "img/v/plush-microfiber-grey.webp?v=20261017n"
+    },
+    {
+     "label": "Фіолетовий",
+     "price_eur": 4.5577,
+     "photo": "img/v/plush-microfiber-purple.webp?v=20261017n"
+    },
+    {
+     "label": "Білий",
+     "price_eur": 4.5577,
+     "photo": "img/v/plush-microfiber-white.webp?v=20261017n"
+    }
+   ],
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/plush-microfiber.webp?v=20261017g",
+   "photo": "img/p/plush-microfiber.webp?v=20261017n",
    "photo_is_placeholder": false,
-   "photo_source": "фото Alex (власне фото магазину), фон прибрано",
+   "photo_source": "17.10.2026: фото в каталозі — ілюстративні, зібрані з одного студійного фото складеної плюшевої безшовної серветки з мікрофібри (помаранчева, оригінальний колір) з clean-garage.com (https://cdn11.bigcommerce.com/s-g8f1u1bkf6/images/stencil/original/products/2105/8686/16x16_Towel_Orange_1ct__75508.1654008330.jpg) — перефарбовано в LAB у кольори з фото Alex (жовтий, сірий, фіолетовий, білий); головне фото — композиція п’яти кольорів; білий фон #fff. Попереднє фото: фото Alex (власне фото магазину)",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-04",
    "sub": "cloth",
-   "type": "cloth"
+   "type": "cloth",
+   "variant_title": "Колір",
+   "photos_extra": [
+    "img/v/plush-microfiber-orange.webp?v=20261017n",
+    "img/v/plush-microfiber-yellow.webp?v=20261017n",
+    "img/v/plush-microfiber-grey.webp?v=20261017n",
+    "img/v/plush-microfiber-purple.webp?v=20261017n",
+    "img/v/plush-microfiber-white.webp?v=20261017n"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Колір",
+      "помаранчевий, жовтий, сірий, фіолетовий, білий"
+     ],
+     [
+      "Матеріал",
+      "плюшева мікрофібра"
+     ],
+     [
+      "Край",
+      "безшовний (без окантовки)"
+     ]
+    ],
+    "src": "За назвою та фото товару."
+   }
   },
   {
    "id": "blue-paper-roll",

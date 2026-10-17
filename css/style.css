@@ -155,6 +155,7 @@ button{font:inherit;cursor:pointer}
 .pm__note{margin:0;font-size:12.5px;color:var(--muted);border-left:3px solid var(--blue2);padding-left:10px}
 .pm__note a{color:var(--muted);text-decoration:underline}
 .vars{display:flex;flex-wrap:wrap;gap:8px}
+.vars__t{font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--text2);margin:2px 0 8px}
 .var{border:1px solid var(--line);background:var(--surface2);color:var(--text2);border-radius:12px;padding:8px 12px;font-weight:600;font-size:14px;text-align:left}
 .var b{display:block;color:var(--yellow);font-size:15px}
 .var.on{border-color:var(--yellow);box-shadow:0 0 0 2px rgba(255,215,0,.25)}

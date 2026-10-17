@@ -1294,7 +1294,8 @@
   function renderProduct() {
     spinStop();
     var p = byId[pmState.id];
-    var vars = p.variants ? '<div class="vars" role="radiogroup" aria-label="Варіант">' + p.variants.map(function (v, i) {
+    var vtl = (BASE[p.id] && BASE[p.id].variant_title) || p.variant_title || ''; // 17.10: назва вибору (напр. «Колір») — підпис над кнопками варіантів
+    var vars = p.variants ? (vtl ? '<div class="vars__t">' + esc(vtl) + '</div>' : '') + '<div class="vars" role="radiogroup" aria-label="' + esc(vtl || 'Варіант') + '">' + p.variants.map(function (v, i) {
       return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + (oldOf(v) != null ? ' <s class="var__old">' + uah(oldOf(v)) + '</s>' : '') + '</b></button>';
     }).join('') + '</div>' : '';
     var pmOld = hasPrice(p) ? unitOld(p, pmState.vi) : null;
