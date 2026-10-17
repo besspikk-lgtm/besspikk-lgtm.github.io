@@ -2010,3 +2010,6 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .cempty .cempty__ico{display:block;margin:0 auto 8px;color:var(--muted)}
 .tds summary .ico,.vids__ttl .ico,.rel__ttl .ico{color:var(--yellow);margin-right:2px}
 .promo .ico,.vidb .ico{vertical-align:-.12em}
+/* білий фон під фото товарів (2026-10-17) */
+.card__img,.pm__img,.prem .card__img,.prem .card__img:hover,.prem .pm__img,.prem .card__img.pm__img{background:#fff}
+.card__img.is-ld::before,.prem .card__img::before{background:linear-gradient(100deg,#fff 30%,#f1f2f4 50%,#fff 70%) 0 0/250% 100%,#f6f7f8}

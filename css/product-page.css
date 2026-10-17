@@ -191,3 +191,5 @@ body.has-ppbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 
 /* 09.10.2026 */
 .ico-ua{display:inline-block;flex:none;vertical-align:-.05em;border-radius:2px}
+/* білий фон під фото товару (2026-10-17) */
+.pp__ph,.ar__pimg{background:#fff}
