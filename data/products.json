@@ -19,7 +19,7 @@
    "id": "palinal",
    "name": "PALINAL",
    "icon": "",
-   "count": 103
+   "count": 104
   },
   {
    "id": "shpak",
@@ -4210,6 +4210,55 @@
    "flag": null,
    "sub": "tools",
    "type": "tools"
+  },
+  {
+   "id": "palinal-catalog-ready-colors",
+   "category": "palinal",
+   "category_name": "PALINAL",
+   "name": "Каталог готових фарб PALINAL (більше 80 кольорів)",
+   "description": "Фірмовий каталог-викраска готових фарб PALINAL: більше 80 кольорів — білі, сірі, чорні, червоні, сині, зелені, жовті та металік. Фарбовані зразки зібрані на кільці, тож колір зручно розглянути й порівняти. Допомагає підібрати колір готової фарби PALINAL. Виробництво — Італія.",
+   "price_eur": 23.0769,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/palinal-catalog-ready-colors.webp?v=20261017p",
+   "photo_is_placeholder": false,
+   "photo_source": "власне фото Alex (17.10.2026), вирізано на білий фон",
+   "in_stock": "В наявності",
+   "flag": null,
+   "code": "",
+   "brand": "PALINAL",
+   "sub": "emal2k",
+   "pin": 1,
+   "is_catalog": true,
+   "price_set_at": "2026-10-17T10:40:00+03:00",
+   "specs": {
+    "rows": [
+     [
+      "Бренд",
+      "PALINAL"
+     ],
+     [
+      "Тип",
+      "Каталог-викраска готових фарб"
+     ],
+     [
+      "Кольори",
+      "Більше 80: білі, сірі, чорні, червоні, сині, зелені, жовті, металік"
+     ],
+     [
+      "Зразки",
+      "Фарбовані, на кільці"
+     ],
+     [
+      "Виробництво",
+      "Італія"
+     ]
+    ],
+    "src": "За фото каталогу."
+   }
   },
   {
    "id": "pal-2k-merc-7103-schwarzgrau-glossy",

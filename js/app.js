@@ -422,7 +422,8 @@
     } else if (state.cat !== 'all') { // 04.10: у всіх розділах — від найдорожчого до найдешевшого (раніше лише фарбопульти)
       list.forEach(function (p, i) { p._i = i; });
       var ordA = ORD[state.cat] || [], ordI = {}; ordA.forEach(function (id, i) { if (ordI[id] == null) ordI[id] = i; }); // 16.10: порядок з адмінки — спершу
-      list.sort(function (a, b) { var oa = ordI[a.id], ob = ordI[b.id]; if (oa != null || ob != null) { if (oa == null) return 1; if (ob == null) return -1; return oa - ob; } if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return a._i - b._i; if (x == null) return 1; if (y == null) return -1; return (y - x) || a._i - b._i; });
+      var pin = function (p) { return Number(p.pin) > 0 ? Number(p.pin) : 0; }; // 17.10.2026: pin у products.json — товар «у самому верху» розділу/типу (pin 1 — перший), решта порядку без змін
+      list.sort(function (a, b) { var qa = pin(a), qb = pin(b); if (qa || qb) { if (!qa) return 1; if (!qb) return -1; if (qa !== qb) return qa - qb; } var oa = ordI[a.id], ob = ordI[b.id]; if (oa != null || ob != null) { if (oa == null) return 1; if (ob == null) return -1; return oa - ob; } if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return a._i - b._i; if (x == null) return 1; if (y == null) return -1; return (y - x) || a._i - b._i; });
     } else {
       list.forEach(function (p, i) { p._i = i; });
       list.sort(function (a, b) { return oos(a) - oos(b) || order[a.category] - order[b.category] || a._i - b._i; });
@@ -2704,7 +2705,7 @@
     });
     return { nm: nm, makes: makes, toks: toks };
   }
-  function csPool() { return PRODUCTS.filter(function (p) { return p.sub === 'emal2k' || p.sub === 'baza' || /\bRAL\b/i.test(p.name || ''); }); }
+  function csPool() { return PRODUCTS.filter(function (p) { return !p.is_catalog && (p.sub === 'emal2k' || p.sub === 'baza' || /\bRAL\b/i.test(p.name || '')); }); } // is_catalog: каталог-викраска — не фарба, у підбір за кодом не йде
   function csSearch(code, makeStr) {
     var q = csUp(code).replace(/\s+/g, ' ').trim(), mk = csMake(makeStr), out = [];
     if (q.length < 2) return { q: q, mk: mk, list: [] };
@@ -2766,7 +2767,7 @@
   function csResHTML() {
     var r = csSearch(cs.code, cs.make), q = r.q;
     if (q.length < 2) {
-      var n2 = PRODUCTS.filter(function (p) { return p.sub === 'emal2k'; }).length, nb = PRODUCTS.filter(function (p) { return p.sub === 'baza'; }).length;
+      var n2 = PRODUCTS.filter(function (p) { return p.sub === 'emal2k' && !p.is_catalog; }).length, nb = PRODUCTS.filter(function (p) { return p.sub === 'baza'; }).length;
       return '<p class="cs__intro">Шукаємо серед готових кольорів у каталозі: ' + n2 + ' ' + plural(n2, 'автоемаль', 'автоемалі', 'автоемалей') + ' 2K PALINAL і ' + nb + ' ' + plural(nb, 'базова фарба', 'базові фарби', 'базових фарб') + ' під лак. Введіть код з таблички авто або RAL.</p>';
     }
     var mkName = cs.make.trim(), main = r.list.filter(function (x) { return x.rel !== 'other'; }), other = r.list.filter(function (x) { return x.rel === 'other'; });
