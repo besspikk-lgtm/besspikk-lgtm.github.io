@@ -366,6 +366,7 @@ export function renderStats() {
     '<h3 class="st-h">' + stIc(SI.done) + 'Оформлено</h3>' +
     '<ul class="st-top st-top--ch st-top--done">' + DONE.map((c) => '<li><span class="st-top__n">' + c[1] + '</span><span class="st-bar"><i style="width:' + Math.round((ch[c[0]] || 0) / maxD * 100) + '%"></i></span><b>' + nf(ch[c[0]] || 0) + '</b></li>').join('') + '</ul>' +
     '<p class="muted small st-hint">«Натиснули» рахується в момент кліку (раз за сеанс). «Оформлено» — лише коли замовлення справді збережено або підтверджено в боті (кожне окремо). Telegram, WhatsApp, Viber і дзвінки сайт підтвердити не може.</p>' +
+    consultHTML(days) +
     cartEventsHTML(days, names);
   if (ctx.lazy) ctx.lazy(); // фото товарів, додані в адмінці (photos/*)
 }
@@ -414,6 +415,28 @@ function ceRow(e, P) {
     '<div class="ce-m"><span class="ce-t">' + IC_CLOCK + (d ? ceDtf.format(d).replace(',', '') : '—') + '</span>' + ceWho(e) + '</div>' +
   '</li>';
 }
+/* ---------- 18.10.2026: хто натискав «Отримати консультацію» (cart_events з sec = CONSULT_SEC; пише js/app.js consultEvent) ---------- */
+const CONSULT_SEC = 'Консультація';
+const IC_CHAT = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.3 7.4L3.5 20.5l1.6-4.9A8.4 8.4 0 1 1 21 11.5Z"/><path d="M8.5 10.5h7M8.5 13.8h4.5"/></svg>';
+function consultHTML(days) {
+  const head = '<h2 class="st-h2" id="cs-h">' + IC_CHAT + 'Хто натискав «Отримати консультацію»</h2>';
+  if (ceErr || !ceDocs) return '';
+  const P = ctx.products ? ctx.products() : {};
+  const set = new Set(days);
+  const list = ceDocs.filter((e) => { const d = ceDate(e); return e.sec === CONSULT_SEC && d && set.has(kyivDay(d)); });
+  if (!list.length) return head + '<p class="muted small">За цей період записів немає. Записи з іменем/поштою покупця ведуться з 18.10.2026; раніші натискання є лише в лічильнику вище.</p>';
+  return head + '<ul class="ce-feed">' + list.slice(0, 100).map((e) => {
+    const p = e.pid !== 'consult' ? P[e.pid] : null, d = ceDate(e);
+    const what = p ? '<a class="ce-n" href="' + esc(ceUrl(e.pid)) + '" target="_blank" rel="noopener" title="Відкрити сторінку товару">' + esc(e.name || p.name) + IC_LINK + '</a>'
+      : '<span class="ce-n">' + esc(e.pid !== 'consult' ? (e.name || e.pid) : 'Сторінка: ' + (e.page || 'Головна')) + '</span>';
+    return '<li class="ce-it">' +
+      '<span class="ce-ph" aria-hidden="true">' + (p ? ceThumb(p) : IC_CHAT) + '</span>' +
+      '<div class="ce-p">' + what + '<span class="ce-s">Звідки: кнопка «Отримати консультацію»</span></div>' +
+      '<div class="ce-q"></div>' +
+      '<div class="ce-m"><span class="ce-t">' + IC_CLOCK + (d ? ceDtf.format(d).replace(',', '') : '—') + '</span>' + ceWho(e) + '</div>' +
+    '</li>';
+  }).join('') + '</ul>';
+}
 function cartEventsHTML(days, names) {
   const head = '<h2 class="st-h2" id="ce-h">' + IC_CART + 'Що додають у кошик</h2>';
   if (ceErr === 'perm') return head + '<p class="ed__msg">Немає доступу до журналу кошика. Опублікуйте нові правила Firestore (Firebase Console → Firestore Database → Rules) — з блоком cart_events.</p>';
@@ -421,7 +444,7 @@ function cartEventsHTML(days, names) {
   if (!ceDocs) return head + '<p class="muted">Завантаження…</p>';
   const P = ctx.products ? ctx.products() : {};
   const set = new Set(days);
-  const list = ceDocs.filter((e) => { const d = ceDate(e); return d && set.has(kyivDay(d)); });
+  const list = ceDocs.filter((e) => { const d = ceDate(e); return e.sec !== CONSULT_SEC && d && set.has(kyivDay(d)); });
   const units = list.reduce((s, e) => s + num(e.qty), 0);
   const sum = list.reduce((s, e) => s + (typeof e.price === 'number' ? e.price * num(e.qty) : 0), 0);
   const people = new Set(list.map((e) => (e.uid ? 'u:' + e.uid : 'd:' + (e.dev || e.id)))).size;

@@ -760,6 +760,24 @@
       e.t = setTimeout(function () { cartEvFlush(k); }, CE_WAIT);
     } catch (x) {}
   }
+  // 18.10.2026: хто натиснув «Отримати консультацію» — окремий запис у cart_events (sec = CONSULT_SEC; ті самі правила Firestore):
+  // товар (якщо відкрита картка) або розділ, ім'я/email покупця з акаунтом (додає js/fb.js), інакше «Гість» + id пристрою
+  var CONSULT_SEC = 'Консультація';
+  function consultEvent() {
+    try {
+      if ((statSkip && !CE_EMU) || localStorage.getItem('alexbes_nostats') === '1') return;
+      var day = statDay(), s = null;
+      try { s = JSON.parse(sessionStorage.getItem('alexbes_ce') || 'null'); } catch (x) {}
+      if (!s || s.d !== day) s = { d: day, n: 0 };
+      if (s.n >= CE_MAX) return;
+      s.n++; try { sessionStorage.setItem('alexbes_ce', JSON.stringify(s)); } catch (x) {}
+      var m = /^#\/p\/([^/?#]+)/.exec(location.hash || ''), p = m && byId[decodeURIComponent(m[1])];
+      var ev = { pid: p ? String(p.id).slice(0, 80) : 'consult', name: String(p ? (p.name || p.id) : 'Отримати консультацію').slice(0, 200),
+        vi: 0, qty: 1, price: null, old: null, sec: CONSULT_SEC,
+        page: String(p ? '#/p/' + p.id : (state.q ? 'Пошук: ' + state.q : (state.cat && state.cat !== 'all' ? (catLabel(state.cat) || state.cat) : 'Головна'))).slice(0, 120) };
+      if (cartEvWriter) cartEvSend(ev); else if (cartEvQ.length < 20) cartEvQ.push(ev);
+    } catch (x) {}
+  }
   // вкладку закривають / ховають — відправляємо те, що чекає
   document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') Object.keys(cartEvPend).forEach(cartEvFlush); });
 
@@ -2100,7 +2118,7 @@
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-map')) { track('карта', 'Як доїхати (Google Maps, ST Service)'); return; } // repair banner: link opens Google Maps in a new tab
-    if (t.hasAttribute('data-consult')) { t.setAttribute('href', consultHref()); track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // 18.10.2026: особистий Telegram Alex з готовим текстом (товар/сторінка)
+    if (t.hasAttribute('data-consult')) { t.setAttribute('href', consultHref()); consultEvent(); track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // 18.10.2026: особистий Telegram Alex з готовим текстом (товар/сторінка)
     if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
     if (t.hasAttribute('data-open')) { location.hash = '#/p/' + t.getAttribute('data-open'); return; }
     if (t.hasAttribute('data-add')) {
