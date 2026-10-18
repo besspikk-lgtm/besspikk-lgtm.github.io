@@ -677,6 +677,17 @@
       if (statWriter) statSend(day, field); else if (statQ.length < STAT_MAX) statQ.push([day, field]);
     } catch (e) {}
   }
+  // 18.10.2026: «Отримати консультацію» → особистий Telegram Alex з готовим текстом: товар / розділ / сайт
+  function consultHref() {
+    var what = 'сайт alexbes.com.ua';
+    try {
+      var m = /^#\/p\/([^/?#]+)/.exec(location.hash || ''), p = m && byId[decodeURIComponent(m[1])];
+      if (p) what = p.name;
+      else if (state.q) what = 'пошук «' + state.q + '» на сайті alexbes.com.ua';
+      else if (state.cat && state.cat !== 'all') what = (catLabel(state.cat) || state.cat) + ' (alexbes.com.ua)';
+    } catch (e) {}
+    return CONFIG.orderTelegram + '?text=' + encodeURIComponent('Добрий день! Потрібна консультація щодо: ' + what);
+  }
   // клік по кнопці/посиланню замовлення → канал
   function statClick(t) {
     var ch = null, h = (t.getAttribute('href') || '');
@@ -2089,7 +2100,7 @@
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-map')) { track('карта', 'Як доїхати (Google Maps, ST Service)'); return; } // repair banner: link opens Google Maps in a new tab
-    if (t.hasAttribute('data-consult')) { track('консультація', 'Отримати консультацію (бот)'); return; } // 18.10.2026: веде в бота ?start=consult — бот одразу сповіщає Alex
+    if (t.hasAttribute('data-consult')) { t.setAttribute('href', consultHref()); track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // 18.10.2026: особистий Telegram Alex з готовим текстом (товар/сторінка)
     if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
     if (t.hasAttribute('data-open')) { location.hash = '#/p/' + t.getAttribute('data-open'); return; }
     if (t.hasAttribute('data-add')) {

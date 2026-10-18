@@ -402,7 +402,7 @@
     ['paint', 'Практикуючий маляр', 'Фарбую і роблю кузовний ремонт у Чернівцях, тож про інструмент і матеріали розповідаю з власної роботи.'],
     ['badge', 'Meiji і PALINAL', 'Офіційний представник Meiji і PALINAL в Україні: фарбопульти Meiji, автоемалі, лаки й ґрунти PALINAL.'],
     ['video', '115 тис. підписників у TikTok', 'Показую фарбування й інструмент у роботі на каналі <a href="https://www.tiktok.com/@alex_bespik" target="_blank" rel="noopener">@alex_bespik</a>.'],
-    ['chat', 'Консультація перед покупкою', 'Допоможу підібрати фарбопульт, дюзу чи матеріал: <a href="tel:' + C.phone + '">' + C.phoneLabel + '</a> або <a href="' + C.orderBot + '?start=consult" target="_blank" rel="noopener" data-consult>Telegram</a>.']
+    ['chat', 'Консультація перед покупкою', 'Допоможу підібрати фарбопульт, дюзу чи матеріал: <a href="tel:' + C.phone + '">' + C.phoneLabel + '</a> або <a href="' + C.orderTelegram + '?text=' + encodeURIComponent('Добрий день! Потрібна консультація щодо: сайт alexbes.com.ua') + '" target="_blank" rel="noopener" data-consult>Telegram</a>.']
   ];
   var sec = document.createElement('section');
   sec.className = 'why'; sec.id = 'why'; sec.setAttribute('aria-labelledby', 'why-ttl');
