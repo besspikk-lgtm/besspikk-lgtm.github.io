@@ -410,6 +410,16 @@ function busy(f, on) { $$('button, input', f).forEach((el) => { el.disabled = on
 // ---- 16.10.2026: «Мої замовлення». Правила дозволяють читати замовлення лише за id (get), тому список id береться
 // з цього пристрою (localStorage, js/app.js → AlexBes.myOrders()); замовлення з інших пристроїв і до 16.10 тут не видно.
 const ORD_ST = { new: 'Нове', confirmed: 'Підтверджено', shipped: 'Відправлено', paid: 'Оплачено', cancelled: 'Скасовано' };
+// 18.10.2026: SVG-іконка й підказка до статусу (статус ставить Alex в адмінці; бот повідомляє клієнта в Telegram)
+const ORD_IC = {
+  new: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+  confirmed: '<circle cx="12" cy="12" r="8.5"/><path d="m8.3 12.3 2.5 2.5 5-5.3"/>',
+  shipped: '<path d="M3 7.5h11v9H3z"/><path d="M14 10.5h3.6l3.4 3.4v2.6h-7"/><circle cx="7" cy="17.5" r="1.7"/><circle cx="17" cy="17.5" r="1.7"/>',
+  paid: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18M7 14.5h3"/>',
+  cancelled: '<circle cx="12" cy="12" r="8.5"/><path d="m9 9 6 6M15 9l-6 6"/>'
+};
+const ORD_HINT = { new: 'Отримали замовлення, скоро зв’яжемося для підтвердження.', confirmed: 'Замовлення підтверджено, готуємо до відправлення.',
+  shipped: 'Замовлення відправлено.', paid: 'Оплату отримано.', cancelled: 'Замовлення скасовано.' };
 const myOrd = {}; // id -> { d: дані | null, err }
 function acctTabs() {
   return '<h2 id="acct-ttl" class="acct__ttl">' + svgI(I_USER, 22) + '<span>Мій профіль</span></h2>' +
@@ -425,7 +435,8 @@ function ordCardHTML(o, rec) {
   it = it.filter((x) => x && x.id !== '_acct');
   const st = ORD_ST[o.status] ? o.status : 'new';
   const ms = o.createdAt && o.createdAt.toMillis ? o.createdAt.toMillis() : rec.t;
-  return '<li class="myord__c"><div class="myord__h"><span>' + esc(fmtDt(ms)) + '</span><span class="myord__no">№' + esc(rec.id.slice(-6)) + '</span><span class="myord__st myord__st--' + st + '">' + ORD_ST[st] + '</span></div>' +
+  return '<li class="myord__c"><div class="myord__h"><span>' + esc(fmtDt(ms)) + '</span><span class="myord__no">№' + esc(rec.id.slice(-6)) + '</span><span class="myord__st myord__st--' + st + '">' + svgI(ORD_IC[st], 14) + '<span>' + ORD_ST[st] + '</span></span></div>' +
+    '<p class="myord__hint">' + ORD_HINT[st] + '</p>' +
     '<ul class="myord__it">' + it.map((x) => '<li><span>' + esc(x.name || x.id || '') + (x.variant ? ' <i>(' + esc(x.variant) + ')</i>' : '') + '</span><span>' + (parseInt(x.qty, 10) || 1) + '\u00a0шт' + (typeof x.price_uah === 'number' ? ' × ' + grn(x.price_uah) : ' · ціну уточнити') + '</span></li>').join('') + '</ul>' +
     (meta.discountAmount ? '<div class="myord__d"><span>Знижка ' + (meta.discountPct || 5) + '% за реєстрацію</span><b>\u2212' + grn(meta.discountAmount) + '</b></div>' : '') +
     (typeof o.total_uah === 'number' ? '<div class="myord__t"><span>Разом</span><b>' + grn(o.total_uah) + '</b></div>' : '') + '</li>';
@@ -439,9 +450,10 @@ function myOrdersHTML() {
 async function loadMyOrders() {
   const list = AB.myOrders ? AB.myOrders() : [];
   const { db, F } = fb;
-  await Promise.all(list.filter((r) => !myOrd[r.id] || myOrd[r.id].err).map(async (r) => {
+  // щоразу свіжий статус (попередні дані видно, доки йде запит)
+  await Promise.all(list.map(async (r) => {
     try { const d = await F.getDoc(F.doc(db, 'orders', r.id)); myOrd[r.id] = { d: d.exists() ? d.data() : null, err: !d.exists() }; }
-    catch (e) { myOrd[r.id] = { d: null, err: true }; }
+    catch (e) { if (!(myOrd[r.id] && myOrd[r.id].d)) myOrd[r.id] = { d: null, err: true }; }
   }));
   const box = $('[data-myord]'); if (box && view === 'orders') box.innerHTML = myOrdersHTML();
 }
