@@ -2021,3 +2021,14 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .card__img,.card__img:hover,.prem .card__img,.prem .card__img:hover{padding:0}
 .card__img img,.prem .card__img img{border-radius:0}
 .card__img::before,.prem .card__img::before{inset:0;border-radius:0}
+
+/* 19.10.2026: «РОЗПРОДАЖ» — червоний неон, що пульсує (статичний при prefers-reduced-motion) */
+.promo.promo--sale,.prem .promo.promo--sale{color:#fff;background:rgba(60,0,8,.88);border:2px solid #ff1f3d;text-transform:uppercase;letter-spacing:.06em;font-weight:900;
+  text-shadow:0 0 4px #ff1f3d,0 0 10px #ff1f3d;box-shadow:0 0 6px #ff1f3d,0 0 16px rgba(255,31,61,.7),inset 0 0 6px rgba(255,31,61,.6);animation:saleNeon 1.4s ease-in-out infinite;backdrop-filter:none}
+@keyframes saleNeon{0%,100%{opacity:1;box-shadow:0 0 6px #ff1f3d,0 0 18px rgba(255,31,61,.8),inset 0 0 6px rgba(255,31,61,.6)}50%{opacity:.72;box-shadow:0 0 2px #ff1f3d,0 0 5px rgba(255,31,61,.35),inset 0 0 2px rgba(255,31,61,.3)}}
+@media (prefers-reduced-motion:reduce){.promo.promo--sale,.prem .promo.promo--sale{animation:none}}
+.pp__sale{display:inline-block;margin:0 0 10px;padding:5px 12px;border-radius:999px;font-weight:900;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:rgba(60,0,8,.88);border:2px solid #ff1f3d;
+  text-shadow:0 0 4px #ff1f3d,0 0 10px #ff1f3d;box-shadow:0 0 6px #ff1f3d,0 0 16px rgba(255,31,61,.7);animation:saleNeon 1.4s ease-in-out infinite}
+.pp__old{margin-left:10px;font-size:.6em;font-weight:600;opacity:.6;text-decoration:line-through}
+.ar__sale{display:inline-block;align-self:flex-start;margin:4px 0;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.06em;color:#fff;background:#3c0008;border:1.5px solid #ff1f3d;box-shadow:0 0 6px #ff1f3d;animation:saleNeon 1.4s ease-in-out infinite}
+@media (prefers-reduced-motion:reduce){.pp__sale,.ar__sale{animation:none}}
