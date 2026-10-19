@@ -439,9 +439,9 @@
   // або короткі коди з адмінки через '+' ('new+excl', 'sale+excl', 'hit+excl', 'excl') — ліміт поля promo у Firestore 20 символів
   var PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив' };
   function promoTags(p) {
-    var t = promoOf(p); if (!t) return [];
+    var t = promoOf(p); if (!t && !p.sale_badge) return [];
     var out = [], ex = false;
-    String(t).split(/\s*(?:·|\+)\s*/).forEach(function (x) {
+    String(t || '').split(/\s*(?:·|\+)\s*/).forEach(function (x) {
       if (!x) return; var k = PROMO_CODE[x.toLowerCase()] || x;
       if (k === 'Ексклюзив') ex = true; else if (out.indexOf(k) < 0) out.push(k);
     });
