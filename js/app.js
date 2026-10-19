@@ -1524,6 +1524,28 @@
     });
     return CONFIG.orderBot + '?start=o_' + id + botCartTokens(36); // 2+20+≤36+_mN ≤ 64
   }
+  /* 19.10.2026: замовлення через месенджер (Telegram особисто, WhatsApp, Viber, Instagram, копіювання) теж зберігаємо
+     в orders/<id> — адмінка «Замовлення» і бот бачать його. Канал — поле ch у службовому елементі _acct (нових полів
+     правила Firestore не дозволяють). Той самий кошик + дані протягом 30 хв — не дублюємо. */
+  var MSG_ORD_KEY = 'alexbes_msgorder';
+  function saveMsgOrder(ch) {
+    try {
+      if (!orderWriter || !cart.length) return;
+      var key = cartHash() + '|' + [form.name, form.phone, form.city, form.note].join('|');
+      var prev = load(MSG_ORD_KEY, null);
+      if (prev && prev.k === key && Date.now() - prev.t < 30 * 6e4) return;
+      var data = siteOrderData(), items = JSON.parse(data.items), m = null;
+      for (var i = 0; i < items.length; i++) if (items[i] && items[i].id === '_acct') m = items[i];
+      if (!m) { m = { id: '_acct', uid: acct && acct.uid ? String(acct.uid).slice(0, 128) : '' }; items.push(m); }
+      m.ch = String(ch).slice(0, 30);
+      data.items = JSON.stringify(items);
+      var id = genOrderId(), p = orderWriter(id, data);
+      save(MSG_ORD_KEY, { k: key, t: Date.now(), id: id });
+      if (p && typeof p.then === 'function') p.then(function () {
+        rememberOrder(id); stat('o_botok', 'o_botok:' + id); track('месенджер/' + ch, 'Замовлення збережено (' + ch + ')');
+      }, function (e) { save(MSG_ORD_KEY, null); try { console.warn('msg order not saved', e && e.code); } catch (x) {} });
+    } catch (e) {}
+  }
   /* ---------- очищення кошика після замовлення (03.10.2026) ----------
      1) замовлення збережено в Firestore (кнопка «Бот для замовлень») → прибираємо з кошика саме замовлені позиції і показуємо «Дякуємо!»;
      2) надсилання через месенджер / копіювання / дзвінок — сайт не знає, чи дійшло: ставимо позначку і при поверненні питаємо «Очистити кошик?» */
@@ -2156,7 +2178,8 @@
       t.setAttribute('href', bu);
       return;
     }
-    if (t.hasAttribute('data-copy') || t.hasAttribute('data-send') || t.hasAttribute('data-wa') || t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) markPending(); // спитаємо «Очистити кошик?», коли повернуться
+    if (t.hasAttribute('data-copy') || t.hasAttribute('data-send') || t.hasAttribute('data-wa') || t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) markPending();
+    if (t.hasAttribute('data-send')) saveMsgOrder('telegram-personal'); else if (t.hasAttribute('data-wa')) saveMsgOrder('whatsapp'); else if (t.hasAttribute('data-viber')) saveMsgOrder('viber'); else if (t.hasAttribute('data-ig')) saveMsgOrder('instagram'); else if (t.hasAttribute('data-copy')) saveMsgOrder('copy'); // спитаємо «Очистити кошик?», коли повернуться
     if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
       var tgu = CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText());

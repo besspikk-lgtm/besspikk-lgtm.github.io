@@ -54,9 +54,12 @@ export function stopOrders() { if (unsubO) { unsubO(); unsubO = null; } orders =
 
 // «Купити в один клік» на сайті: маркер на початку text (окремого поля правила Firestore не дозволяють)
 const isQuick = (o) => typeof o.text === 'string' && o.text.startsWith('Швидке замовлення');
+const CH = { 'telegram-personal': 'Telegram особисто', whatsapp: 'WhatsApp', viber: 'Viber', instagram: 'Instagram', copy: 'Скопійовано текст' };
+function chOf(o) { const a = acctOf(o); return a && a.ch ? (CH[a.ch] || String(a.ch)) : ''; }
+function chHTML(o) { const c = chOf(o); return c ? '<span class="oquick" title="Канал, яким клієнт надіслав замовлення">' + esc(c) + '</span>' : ''; }
 function orderHay(o) {
   const it = parseItems(o.items) || [];
-  return [isQuick(o) ? 'швидке замовлення в один клік' : '', o.name, o.phone, o.city, o.note, o.id].concat(it.map((x) => x.name + ' ' + (x.variant || ''))).join(' ').toLowerCase();
+  return [isQuick(o) ? 'швидке замовлення в один клік' : '', chOf(o), o.name, o.phone, o.city, o.note, o.id].concat(it.map((x) => x.name + ' ' + (x.variant || ''))).join(' ').toLowerCase();
 }
 function itemsHTML(o) {
   const it = parseItems(o.items);
@@ -83,7 +86,7 @@ function totalHTML(o) {
 function orderHTML(o) {
   const s = stOf(o);
   return '<li class="ocard ocard--' + s + (isQuick(o) ? ' ocard--quick' : '') + '" data-oid="' + esc(o.id) + '">' +
-    '<div class="ocard__h"><span class="ocard__dt">🕒 ' + esc(fmtTs(o.createdAt)) + '</span>' + (isQuick(o) ? '<span class="oquick" title="Оформлено кнопкою «Купити в один клік»">⚡ Швидке замовлення</span>' : '') + '<span class="ost ost--' + s + '">' + ST[s].label + '</span></div>' +
+    '<div class="ocard__h"><span class="ocard__dt">🕒 ' + esc(fmtTs(o.createdAt)) + '</span>' + (isQuick(o) ? '<span class="oquick" title="Оформлено кнопкою «Купити в один клік»">⚡ Швидке замовлення</span>' : '') + chHTML(o) + '<span class="ost ost--' + s + '">' + ST[s].label + '</span></div>' +
     '<div class="ocard__who">' +
       '<div>👤 <b>' + esc(o.name || '— ім’я не вказано') + '</b></div>' +
       '<div>📞 ' + (o.phone ? '<a href="tel:' + esc(telHref(o.phone)) + '">' + esc(o.phone) + '</a>' : '<span class="muted">телефон не вказано</span>') + '</div>' +
