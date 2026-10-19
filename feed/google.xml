@@ -6103,5 +6103,17 @@
       <g:google_product_category>1188</g:google_product_category>
       <g:product_type>Товари з Китаю</g:product_type>
     </item>
+    <item>
+      <g:id>air-regulator-gauge-adapter</g:id>
+      <title>Регулятор тиску повітря з манометром для фарбопульта + швидкоз'ємний штуцер</title>
+      <description>Регулятор тиску повітря з манометром, що ставиться на вхід фарбопульта: тиск виставляють синьою ручкою й одразу бачать на шкалі манометра. Шкала у двох одиницях — 0–10 bar і 0–140 psi — з кольоровими зонами. Хромований корпус, знизу різьбовий вхід для підключення. У комплекті: регулятор і швидкоз'ємний штуцер для під'єднання повітряного шланга.</description>
+      <g:price>600.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/air-regulator-gauge-adapter/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/air-regulator-gauge-adapter.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>Товари з Китаю</g:product_type>
+    </item>
   </channel>
 </rss>
