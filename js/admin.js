@@ -152,7 +152,7 @@ async function main() {
   initAdminExtras({ fb, toast, names: () => Object.fromEntries(merged().map((p) => [p.id, p.name || p.id])),
     // 08.10: «Що додають у кошик» — фото й посилання на товар у списку додавань
     products: () => Object.fromEntries(merged().map((p) => [p.id, p])), thumb: (p) => (p ? thumbHTML(p) : '<img src="' + PLACEHOLDER + '" alt="" width="64" height="64">'), lazy: () => lazyPhotos() });
-  if (fb.emu) { $('#adm-site').href = './?emu=1'; }
+  if (fb.emu) { $('#adm-site').href = './?emu=1'; } else { const fr = './?r=' + Date.now(); $('#adm-site').href = fr; const br = document.querySelector('a.brand'); if (br) br.href = fr; } // 19.10: свіжа сторінка сайту, не з кешу Safari
   A.getRedirectResult(auth).catch((e) => gate(loginHTML(authErr(e))));
   A.onAuthStateChanged(auth, onUser);
   document.addEventListener('click', onClick);
