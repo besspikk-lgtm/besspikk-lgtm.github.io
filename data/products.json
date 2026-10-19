@@ -73,7 +73,7 @@
    "id": "cn",
    "name": "Товари з Китаю",
    "icon": "",
-   "count": 74
+   "count": 73
   }
  ],
  "products": [
@@ -11990,7 +11990,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "hidden": true
   },
   {
    "id": "air-regulator-gauge-adapter",
