@@ -48,7 +48,7 @@
 
   var state = { cat: 'all', q: '', sort: 'def', brand: '', sub: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
-  var CAT_ALIAS = { pdr: ['cn', 'pdr'], meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], china: ['cn', ''], guns2: ['guns', ''], putty: ['shpak', ''],
+  var CAT_ALIAS = { pdr: ['cn', 'pdr'], meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], tuba: ['guns', 'tuba'], china: ['cn', ''], guns2: ['guns', ''], putty: ['shpak', ''],
     lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'], // 04.10: усі PALINAL (крім шпаклівок) — один розділ
     acc: ['equip', ''], tools: ['equip', 'tools'], ppe: ['equip', 'ppe'],
     cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
@@ -59,7 +59,7 @@
   /* lakmerge-20261009: лаки 5 л об’єднано з карткою 1 л — старе посилання / рядок кошика відкриває варіант 5 л (індекс) */
   var PROD_ALIAS_VI = { 'pal-923-smart-5l': 1, 'pal-923-as90-5l': 1, 'pal-223-flash-5l': 1, 'pal-223-shine-5l': 1, 'pal-075-0020-5l': 1, 'pal-075-0030-5l': 1, 'pal-077-5l': 1, 'savex-646': 1, 'savex-acrylic': 1, 'savex-metalic': 1, 'savex-gun-cleaner': 1 };
   function aliasId(id) { return PROD_ALIAS[id] && !byId[id] ? PROD_ALIAS[id] : id; }
-  var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'other', t: 'Інші', re: null }];
+  var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'tuba', t: 'TUBA', re: /\btuba\b/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
   /* 04.10: підрозділи (чипи) всередині розділу: PALINAL — за типом товару; фарбопульти — за типом (+ фільтр бренду) */
   var GUN_MINI = /міні|mini|spot|\b0\.8\b/i;
@@ -564,7 +564,7 @@
     sale: 'Товари з позначкою «Акція». Ціну і наявність підтверджуємо при замовленні.',
     new: 'Нові надходження з позначкою «Новинка». Ціну і наявність підтверджуємо при замовленні.',
     excl: 'Ексклюзивні та лімітовані версії з позначкою «Ексклюзив». Кількість обмежена — наявність підтверджуємо при замовленні.',
-    guns: 'Фарбопульти Meiji і SATA — від найдорожчих до найдешевших. Тут також обдувні та антистатичний пістолети. Фарбопульти NTools, ITALCO, Auarita та інші китайського виробництва — у розділі «Товари з Китаю».',
+    guns: 'Фарбопульти Meiji, SATA і TUBA — від найдорожчих до найдешевших. Тут також обдувні та антистатичний пістолети. Фарбопульти NTools, ITALCO, Auarita та інші китайського виробництва — у розділі «Товари з Китаю».',
     pdr: 'Інструмент для ПДР — ремонту вм’ятин без фарбування: набори для витягування на клей, зворотні молотки й грибки, гачки, пневмоподушки та набори для осадження (tap-down). Ціну уточнюйте.',
     cn: 'Товари китайського виробництва: фарбопульти NTools, ITALCO, Auarita, SUTU, LISSON та інші, пістолет для антигравію, набір для чистки фарбопульта, пневматична шліфмашинка й товщиномір покриттів — від найдорожчих до найдешевших.',
     equip: 'Манометри й регулятори Meiji та SATA, PPS-системи та бачки, аксесуари для фарбопульта, обладнання для майстерні (пінники, помпи, мийка, фільтр повітря), інструмент для маляра й ПДР та засоби захисту.',

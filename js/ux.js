@@ -8,7 +8,7 @@
   var form = input.closest('form') || input.parentNode;
   var MAX = 6;
   // розмовні й кириличні назви брендів -> як у каталозі
-  var ALIAS = { 'мейджі': 'meiji', 'мейджи': 'meiji', 'мейжі': 'meiji', 'сата': 'sata', 'палінал': 'palinal', 'палинал': 'palinal', 'савекс': 'savex', 'нтулс': 'ntools', 'теросон': 'teroson', 'новол': 'novol', 'ровер': 'roberlo', 'роберло': 'roberlo', 'ковакс': 'kovax', 'смірдекс': 'smirdex', 'сія': 'sia' };
+  var ALIAS = { 'мейджі': 'meiji', 'мейджи': 'meiji', 'мейжі': 'meiji', 'сата': 'sata', 'туба': 'tuba', 'палінал': 'palinal', 'палинал': 'palinal', 'савекс': 'savex', 'нтулс': 'ntools', 'теросон': 'teroson', 'новол': 'novol', 'ровер': 'roberlo', 'роберло': 'roberlo', 'ковакс': 'kovax', 'смірдекс': 'smirdex', 'сія': 'sia' };
   function nz(s) { return A.norm(s).replace(/(\d),(\d)/g, '$1.$2').replace(/ё/g, 'е'); }
   function nozzles(p) { // дюзи з назви, варіантів і характеристик (лише наявні дані)
     var out = {}, add = function (t) { String(t || '').replace(/(?:^|[^\d.,])([0-2][.,]\d)(?![\d])/g, function (m, x) { var v = x.replace(',', '.'); if (+v >= 0.5 && +v <= 2.5) out[v] = 1; return m; }); };
