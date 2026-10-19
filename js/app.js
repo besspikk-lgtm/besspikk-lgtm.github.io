@@ -480,6 +480,7 @@
     return '<li class="card"><div class="card__in">' +
       '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + (spinOf(p) ? '<span class="spinb" title="Є обертання 360°">' + SPIN_IC + '360°</span>' : '') + '</button>' +
       '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + '</div>' +
+      giftHTML(p, 'gift--card') +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg> Відео</span>' : '') + '</span>' +
         '<button class="card__name" type="button" data-open="' + p.id + '">' + esc(p.name) + '</button>' +
@@ -816,6 +817,9 @@
       '<dl class="tds__dl specs__dl">' + s.rows.map(function (r) { return '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>'; }).join('') + '</dl>' +
       (s.src ? '<p class="tds__src specs__src"><span>' + esc(s.src) + '</span></p>' : '') + '</details>';
   }
+  // 19.10.2026: подарунок до товару (поле gift у products.json) — рядок під фото на картці й у вікні товару
+  var GIFT_IC = '<svg class="ico" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>';
+  function giftHTML(p, cls) { return p && p.gift ? '<p class="gift ' + (cls || '') + '">' + GIFT_IC + '<span>' + esc(p.gift) + '</span></p>' : ''; }
   function galleryHTML(p) {
     var g = galleryOf(p), n = g.length;
     var zoom = g.length && !(n === 1 && g[0].src && p.photo_is_placeholder) ? '<button class="pm__zoom" type="button" data-lb-open aria-label="Відкрити фото на весь екран"><span aria-hidden="true">⤢</span></button>' : '';
@@ -1356,7 +1360,7 @@
     var src = (p.source || []).filter(function (u) { return /^https:\/\/t\.me\//.test(u); })[0];
     var tgAsk = 'https://t.me/share/url?url=' + encodeURIComponent('https://t.me/alex_bes_shoping') + '&text=' + encodeURIComponent('Вітаю! Цікавить: ' + p.name + (hasPrice(p) ? '' : ' — яка ціна?'));
     $('#pm').innerHTML =
-      galleryHTML(p) +
+      galleryHTML(p) + giftHTML(p, 'gift--pm') +
       '<div class="pm__info">' +
         '<span class="pm__cat">' + esc(p.category_name) + '</span>' +
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
@@ -1404,11 +1408,12 @@
     $$('[data-fav-count]').forEach(function (b) { b.textContent = nf > 99 ? '99+' : nf; b.hidden = nf === 0; });
   }
   // кошик → start-параметр бота: c_<індекс36>-<к-сть>[-<варіант>]_..._m<невідомі> (ліміт Telegram 64 символи)
+  // 19.10.2026: стабільний код товару для посилань у бот (замість позиції в списку): FNV-1a(id) % 36^4 у base36, 4 символи
+  function cartCode(id) { var x = 0x811c9dc5 >>> 0, s = String(id); for (var k = 0; k < s.length; k++) x = Math.imul(x ^ (s.charCodeAt(k) & 255), 0x01000193) >>> 0; x = x % 1679616; return ('0000' + x.toString(36)).slice(-4); }
   function botCartTokens(room) { // "_<i36>-<qty>[-<vi>]…[_m<N>]": токени займають ≤ room символів, решта рахується в _m
     var out = '', miss = 0;
     cart.forEach(function (l) {
-      var i = (typeof STATIC_IDX !== 'undefined') ? STATIC_IDX[l.id] : undefined;
-      var tok = i == null ? null : '_' + i.toString(36) + '-' + Math.max(1, l.qty | 0) + (byId[l.id] && byId[l.id].variants ? '-' + (l.vi | 0) : '');
+      var tok = l.id ? '_k' + cartCode(l.id) + '-' + Math.max(1, l.qty | 0) + (byId[l.id] && byId[l.id].variants ? '-' + (l.vi | 0) : '') : null;
       if (tok && (out + tok).length <= room) out += tok; else miss++;
     });
     return out + (miss ? '_m' + miss : '');
