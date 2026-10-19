@@ -2032,3 +2032,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .pp__old{margin-left:10px;font-size:.6em;font-weight:600;opacity:.6;text-decoration:line-through}
 .ar__sale{display:inline-block;align-self:flex-start;margin:4px 0;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:900;letter-spacing:.06em;color:#fff;background:#3c0008;border:1.5px solid #ff1f3d;box-shadow:0 0 6px #ff1f3d;animation:saleNeon 1.4s ease-in-out infinite}
 @media (prefers-reduced-motion:reduce){.pp__sale,.ar__sale{animation:none}}
+/* 19.10: «Замовити через бота» на світлій кнопці — темний текст та іконка явно (iOS Safari показував порожню білу кнопку) */
+.prem a.btn.btn--bot,.prem .pm a.btn--bot,.prem .cactions a.btn.btn--bot{color:#08111f;-webkit-text-fill-color:#08111f;background:#eef1f6}
+.prem a.btn.btn--bot svg{stroke:#08111f;color:#08111f}
+.prem #cartbody .cactions a.btn.btn--bot{background:var(--yellow)}
