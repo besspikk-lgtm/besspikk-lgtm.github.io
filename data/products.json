@@ -13,7 +13,7 @@
    "id": "guns",
    "name": "Фарбопульти та пістолети",
    "icon": "",
-   "count": 15
+   "count": 28
   },
   {
    "id": "equip",
@@ -1233,14 +1233,14 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/tuba-th102ag-mini-hvlp.webp?v=20261019zb",
+   "photo": "img/p/tuba-th102ag-mini-hvlp.webp?v=20261019zc",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника, білий фон",
+   "photo_source": "фото виробника, білий фон, прибрано сторонній логотип з корпусу",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-19",
    "photos_extra": [
-    "img/p/tuba-th102ag-mini-hvlp-2.webp?v=20261019zb"
+    "img/p/tuba-th102ag-mini-hvlp-2.webp?v=20261019zc"
    ],
    "specs": {
     "rows": [
@@ -1305,8 +1305,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-th302ag-mini-hvlp",
@@ -1407,8 +1406,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-th602ag-mini-hvlp",
@@ -1509,8 +1507,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-th301ag-mp",
@@ -1534,14 +1531,14 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/tuba-th301ag-mp.webp?v=20261019zb",
+   "photo": "img/p/tuba-th301ag-mp.webp?v=20261019zc",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника, білий фон",
+   "photo_source": "фото виробника, білий фон, прибрано сторонній логотип з корпусу",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-19",
    "photos_extra": [
-    "img/p/tuba-th301ag-mp-2.webp?v=20261019zb"
+    "img/p/tuba-th301ag-mp-2.webp?v=20261019zc"
    ],
    "specs": {
     "rows": [
@@ -1606,8 +1603,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-th301bg-mp-kit",
@@ -1621,14 +1617,14 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/tuba-th301bg-mp-kit.webp?v=20261019zb",
+   "photo": "img/p/tuba-th301bg-mp-kit.webp?v=20261019zc",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника, білий фон",
+   "photo_source": "фото виробника, білий фон, прибрано сторонній логотип з корпусу",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-19",
    "photos_extra": [
-    "img/p/tuba-th301bg-mp-kit-2.webp?v=20261019zb"
+    "img/p/tuba-th301bg-mp-kit-2.webp?v=20261019zc"
    ],
    "specs": {
     "rows": [
@@ -1693,8 +1689,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-th201ag-mp-refurb",
@@ -1718,14 +1713,14 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/tuba-th201ag-mp-refurb.webp?v=20261019zb",
+   "photo": "img/p/tuba-th201ag-mp-refurb.webp?v=20261019zc",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника, білий фон",
+   "photo_source": "фото виробника, білий фон, прибрано сторонній логотип з корпусу",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-19",
    "photos_extra": [
-    "img/p/tuba-th201ag-mp-refurb-2.webp?v=20261019zb"
+    "img/p/tuba-th201ag-mp-refurb-2.webp?v=20261019zc"
    ],
    "specs": {
     "rows": [
@@ -1766,8 +1761,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-th501-lvlp",
@@ -1864,8 +1858,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-tr200ag-mp",
@@ -1885,15 +1878,15 @@
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/tuba-tr200ag-mp.webp?v=20261019zb",
+   "photo": "img/p/tuba-tr200ag-mp.webp?v=20261019zc",
    "photo_is_placeholder": false,
-   "photo_source": "фото виробника, білий фон",
+   "photo_source": "фото виробника, білий фон, прибрано сторонній логотип з корпусу",
    "in_stock": "В наявності",
    "flag": null,
    "intake": "2026-10-19",
    "photos_extra": [
-    "img/p/tuba-tr200ag-mp-2.webp?v=20261019zb",
-    "img/p/tuba-tr200ag-mp-3.webp?v=20261019zb"
+    "img/p/tuba-tr200ag-mp-2.webp?v=20261019zc",
+    "img/p/tuba-tr200ag-mp-3.webp?v=20261019zc"
    ],
    "specs": {
     "rows": [
@@ -1958,8 +1951,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-tr220-lvlp",
@@ -2052,8 +2044,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-tr300ag-lvlp",
@@ -2150,8 +2141,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-tr300ag-hvlp-plus",
@@ -2244,8 +2234,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-tr300ag-mp",
@@ -2342,8 +2331,7 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "tuba-td100-air-dryer",
@@ -2410,8 +2398,7 @@
    },
    "sub": "air",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-19T19:40:00+03:00"
   },
   {
    "id": "sata-qmr-5500",
