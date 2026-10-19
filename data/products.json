@@ -13,13 +13,13 @@
    "id": "guns",
    "name": "Фарбопульти та пістолети",
    "icon": "",
-   "count": 28
+   "count": 15
   },
   {
    "id": "equip",
    "name": "Обладнання, аксесуари та захист",
    "icon": "",
-   "count": 29
+   "count": 21
   },
   {
    "id": "palinal",
@@ -1305,7 +1305,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-th302ag-mini-hvlp",
@@ -1406,7 +1407,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-th602ag-mini-hvlp",
@@ -1507,7 +1509,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-th301ag-mp",
@@ -1603,7 +1606,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-th301bg-mp-kit",
@@ -1689,7 +1693,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-th201ag-mp-refurb",
@@ -1761,7 +1766,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-th501-lvlp",
@@ -1858,7 +1864,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-tr200ag-mp",
@@ -1951,7 +1958,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-tr220-lvlp",
@@ -2044,7 +2052,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-tr300ag-lvlp",
@@ -2141,7 +2150,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-tr300ag-hvlp-plus",
@@ -2234,7 +2244,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-tr300ag-mp",
@@ -2331,7 +2342,8 @@
    },
    "sub": "tuba",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-td100-air-dryer",
@@ -2398,7 +2410,8 @@
    },
    "sub": "air",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "sata-qmr-5500",
@@ -10719,7 +10732,8 @@
    "sub": "acc",
    "type": "gunacc",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-nozzle-th300-mp",
@@ -10763,7 +10777,8 @@
    "sub": "acc",
    "type": "gunacc",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-alu-cup",
@@ -10822,7 +10837,8 @@
    "sub": "acc",
    "type": "pps",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-plastic-cup",
@@ -10880,7 +10896,8 @@
    "sub": "acc",
    "type": "pps",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-swivel-fitting-1-4",
@@ -10924,7 +10941,8 @@
    "sub": "acc",
    "type": "gunacc",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-regulator-gauge-steel",
@@ -10967,7 +10985,8 @@
    "sub": "acc",
    "type": "gauge",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-mixing-cup-2-3l",
@@ -11007,7 +11026,8 @@
    "sub": "acc",
    "type": "equipment",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "tuba-cleaning-sprayer-1l",
@@ -11047,7 +11067,8 @@
    "sub": "acc",
    "type": "equipment",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00"
+   "price_set_at": "2026-10-19T19:40:00+03:00",
+   "hidden": true
   },
   {
    "id": "barpicar-masking-film",
