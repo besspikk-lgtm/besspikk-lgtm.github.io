@@ -54,8 +54,8 @@ export function stopOrders() { if (unsubO) { unsubO(); unsubO = null; } orders =
 
 // «Купити в один клік» на сайті: маркер на початку text (окремого поля правила Firestore не дозволяють)
 const isQuick = (o) => typeof o.text === 'string' && o.text.startsWith('Швидке замовлення');
-const CH = { 'telegram-personal': 'Telegram особисто', whatsapp: 'WhatsApp', viber: 'Viber', instagram: 'Instagram', copy: 'Скопійовано текст' };
-function chOf(o) { const a = acctOf(o); return a && a.ch ? (CH[a.ch] || String(a.ch)) : ''; }
+const CHN = { 'telegram-personal': 'Telegram особисто', whatsapp: 'WhatsApp', viber: 'Viber', instagram: 'Instagram', copy: 'Скопійовано текст' };
+function chOf(o) { const a = acctOf(o); return a && a.ch ? (CHN[a.ch] || String(a.ch)) : ''; }
 function chHTML(o) { const c = chOf(o); return c ? '<span class="oquick" title="Канал, яким клієнт надіслав замовлення">' + esc(c) + '</span>' : ''; }
 function orderHay(o) {
   const it = parseItems(o.items) || [];
