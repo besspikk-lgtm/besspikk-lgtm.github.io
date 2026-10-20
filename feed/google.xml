@@ -6513,5 +6513,19 @@
       <g:google_product_category>7019</g:google_product_category>
       <g:product_type>Обладнання, аксесуари та захист</g:product_type>
     </item>
+<item>
+      <g:id>tuba-regulator-gauge-steel</g:id>
+      <title>Регулятор тиску TUBA з манометром, сталевий</title>
+      <description>Регулятор тиску з манометром, що ставиться на вхід фарбопульта. Ручкою виставляєте потрібний тиск і одразу бачите його на шкалі. Корпус сталевий.</description>
+      <g:price>1019.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/tuba-regulator-gauge-steel/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/tuba-regulator-gauge-steel.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/tuba-regulator-gauge-steel-2.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>TUBA</g:brand>
+      <g:google_product_category>7019</g:google_product_category>
+      <g:product_type>Обладнання, аксесуари та захист</g:product_type>
+    </item>
 </channel>
 </rss>

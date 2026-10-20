@@ -19,7 +19,7 @@
    "id": "equip",
    "name": "Обладнання, аксесуари та захист",
    "icon": "",
-   "count": 21
+   "count": 22
   },
   {
    "id": "palinal",
@@ -10972,8 +10972,7 @@
    "sub": "acc",
    "type": "gauge",
    "brand": "TUBA",
-   "price_set_at": "2026-10-19T19:40:00+03:00",
-   "hidden": true
+   "price_set_at": "2026-10-20T06:20:00+03:00"
   },
   {
    "id": "tuba-mixing-cup-2-3l",
