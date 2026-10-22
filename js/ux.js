@@ -296,13 +296,13 @@
   var CART = '<circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>';
   function upgrade() {
     var bar = document.getElementById('pmbar'); if (!bar || bar.classList.contains('pmbar--ux')) return;
-    var tg = bar.querySelector('a.pmbar__ic[data-order]'), pr = bar.querySelector('.pmbar__pr'), add = bar.querySelector('.pmbar__add');
+    var tg = bar.querySelector('a.pmbar__ic[data-tgq], a.pmbar__ic[data-order]'), pr = bar.querySelector('.pmbar__pr'), add = bar.querySelector('.pmbar__add');
     if (!tg || !add) return;
-    var href = tg.getAttribute('href'), id = tg.getAttribute('data-order');
+    var href = tg.getAttribute('href'), id = tg.getAttribute('data-tgq') || tg.getAttribute('data-order');
     bar.classList.add('pmbar--ux'); bar.classList.remove('is-off');
     bar.innerHTML = (pr ? '<div class="pmbar__pr">' + pr.innerHTML + '</div>' : '') +
       '<div class="pmbar__row">' +
-        '<a class="btn btn--o pmbar__tg" href="' + A.esc(href) + '" target="_blank" rel="noopener" data-order="' + A.esc(id) + '" data-tgbar>' + A.svgI(TG, 18) + '<span>Замовити в Telegram</span></a>' +
+        '<a class="btn btn--o pmbar__tg" href="' + A.esc(href) + '" target="_blank" rel="noopener" data-tgq="' + A.esc(id) + '" data-tgbar>' + A.svgI(TG, 18) + '<span>Замовити в Telegram</span></a>' +
         '<button class="btn btn--y pmbar__add" type="button" data-addpm>' + A.svgI(CART, 18) + '<span>В кошик</span></button>' +
       '</div>';
   }
