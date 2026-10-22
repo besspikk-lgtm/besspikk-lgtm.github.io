@@ -1,5 +1,5 @@
 /* Alex_bes — адмінка: «Замовлення» (orders/{id}) і «Статистика» (stats/{YYYY-MM-DD} + cart_events/{id} — що додають у кошик). Підключає js/admin.js. */
-import { authErr, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
+import { authErr, esc, ADMIN_EMAIL } from './fb-common.js?v=2';
 
 const $ = (s, r) => (r || document).querySelector(s);
 const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));

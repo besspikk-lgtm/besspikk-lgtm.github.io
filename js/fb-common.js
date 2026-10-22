@@ -32,7 +32,10 @@ export function loadFirebase() {
       import(SDK + 'firebase-firestore.js')
     ]);
     const app = appM.initializeApp(FIREBASE_CONFIG);
-    const auth = authM.getAuth(app);
+    // 22.10.2026: вхід зберігається на пристрої (IndexedDB, запасний — localStorage), а не лише на вкладку
+    let auth;
+    try { auth = authM.initializeAuth(app, { persistence: [authM.indexedDBLocalPersistence, authM.browserLocalPersistence], popupRedirectResolver: authM.browserPopupRedirectResolver }); }
+    catch (e) { auth = authM.getAuth(app); try { await authM.setPersistence(auth, authM.browserLocalPersistence); } catch (z) {} }
     auth.languageCode = 'uk';
     const db = fsM.getFirestore(app);
     const emu = useEmulators();
@@ -92,5 +95,8 @@ export async function googleSignIn(fb) {
     throw e;
   }
 }
+
+// 22.10.2026: тимчасові мережеві помилки — не причина показувати форму входу чи виходити з акаунта
+export const isNetErr = (e) => /network-request-failed|unavailable|deadline-exceeded|timeout|internal-error/.test((e && e.code) || '') || (typeof navigator !== 'undefined' && navigator.onLine === false);
 
 export const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

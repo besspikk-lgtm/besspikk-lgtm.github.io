@@ -1,9 +1,9 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
-import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
+import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL, isNetErr } from './fb-common.js?v=2';
 // rv2: admin-orders.js без відгуків
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=14';
-import { initCrm, loadCrmOrders } from './admin-crm.js?v=1';
-import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=2';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=15';
+import { initCrm, loadCrmOrders } from './admin-crm.js?v=2';
+import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=3';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -139,6 +139,8 @@ window.addEventListener('hashchange', showTab);
 
 /* ---------- gate (login / access) ---------- */
 function gate(html) { $('#adm-gate').innerHTML = html; $('#adm-gate').hidden = false; $('#adm-app').hidden = true; }
+let authReady = false;
+function offlineHTML() { return '<h1>Немає з’єднання з мережею</h1><p class="muted">Форма входу з’явиться, щойно інтернет повернеться; якщо ви вже входили, адмінка відкриється сама.</p><button class="btn btn--o btn--full" type="button" data-net-retry>Спробувати ще раз</button>'; }
 function loginHTML(err) {
   return '<h1>Вхід в адмінку</h1><p class="muted">Доступ лише для власника магазину (' + esc(ADMIN_EMAIL) + ').</p>' +
     '<button class="btn btn--g btn--full" type="button" data-g>Увійти через Google</button>' +
@@ -156,8 +158,11 @@ async function main() {
     // 08.10: «Що додають у кошик» — фото й посилання на товар у списку додавань
     products: () => Object.fromEntries(merged().map((p) => [p.id, p])), thumb: (p) => (p ? thumbHTML(p) : '<img src="' + PLACEHOLDER + '" alt="" width="64" height="64">'), lazy: () => lazyPhotos() });
   if (fb.emu) { $('#adm-site').href = './?emu=1'; } else { const fr = './?r=' + Date.now(); $('#adm-site').href = fr; const br = document.querySelector('a.brand'); if (br) br.href = fr; } // 19.10: свіжа сторінка сайту, не з кешу Safari
-  A.getRedirectResult(auth).catch((e) => gate(loginHTML(authErr(e))));
-  A.onAuthStateChanged(auth, onUser);
+  // 22.10.2026: помилка getRedirectResult (напр. немає мережі) більше не перекриває адмінку формою входу, якщо сесія вже є
+  A.getRedirectResult(auth).catch((e) => { if (authReady && !user && !isNetErr(e)) gate(loginHTML(authErr(e))); else if (!isNetErr(e)) try { console.warn('redirect', e); } catch (z) {} });
+  A.onAuthStateChanged(auth, (u) => { authReady = true; onUser(u); });
+  const net = () => { const b = $('#adm-offline'); if (b) b.hidden = navigator.onLine !== false; if (navigator.onLine !== false && authReady && !user) gate(loginHTML()); else if (navigator.onLine === false && authReady && !user) gate(offlineHTML()); };
+  window.addEventListener('online', net); window.addEventListener('offline', net); net();
   document.addEventListener('click', onClick);
   document.addEventListener('submit', onSubmit);
   document.addEventListener('input', onInput);
@@ -171,7 +176,7 @@ function onUser(u) {
   stopOrders(); statsLoaded = false;
   $('#adm-logout').hidden = !u;
   $('#adm-who').textContent = u ? (u.email || '') : 'Alex_bes😈 — керування товарами';
-  if (!u) { gate(loginHTML()); return; }
+  if (!u) { gate(navigator.onLine === false ? offlineHTML() : loginHTML()); return; }
   if (!isAdminUser(u)) {
     gate('<h1>Немає доступу</h1><p class="muted">Ви увійшли як <b>' + esc(u.email || '—') + '</b>' + (u.email && u.email.toLowerCase() === ADMIN_EMAIL ? ', але email ще не підтверджено. Підтвердьте email за посиланням у листі й увійдіть знову.' : '. Адмінка доступна лише власнику магазину.') + '</p>' +
       '<button class="btn btn--o btn--full" type="button" data-logout>Вийти</button>');
@@ -1396,7 +1401,8 @@ async function onClick(e) {
   if (t.hasAttribute('data-rv-del')) { rejectReview(t.getAttribute('data-rv-del'), t); return; }
   if (t.hasAttribute('data-x')) { e.preventDefault(); closeEdit(); return; }
   if (t.id === 'adm-logout' || t.hasAttribute('data-logout')) { await A.signOut(auth); return; }
-  if (t.hasAttribute('data-g')) { try { await googleSignIn(fb); } catch (err) { gate(loginHTML(authErr(err))); } return; }
+  if (t.hasAttribute('data-net-retry')) { location.reload(); return; }
+  if (t.hasAttribute('data-g')) { try { await googleSignIn(fb); } catch (err) { gate(user ? '' : loginHTML(authErr(err))); if (user) onUser(user); } return; }
   if (t.id === 'adm-add') { openEdit(null); return; }
   if (t.id === 'adm-add-shot') { openEdit(null, { shot: true }); return; }
   if (t.hasAttribute('data-badge')) { toggleBadge(t.getAttribute('data-id'), t.getAttribute('data-badge'), t); return; }

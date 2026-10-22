@@ -1,6 +1,6 @@
 /* Alex_bes😈 — акаунти, кошик в акаунті, товари з Firestore. Необов'язковий шар:
    якщо Firebase не завантажився (блокувальник, офлайн) — сайт працює зі статичних даних як раніше. */
-import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
+import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=2';
 
 const AB = window.AlexBes;
 const $ = (s, r) => (r || document).querySelector(s);

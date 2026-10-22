@@ -1,6 +1,6 @@
 /* 22.10.2026: адмінка → «Налаштування». Пише службовий запис products/_site (hidden:true, JSON у description — у межах чинних правил).
    Сайт читає його в js/site-settings.js; порожнє поле = значення за замовчуванням (як зараз на сайті). */
-import { esc, authErr } from './fb-common.js?v=1';
+import { esc, authErr } from './fb-common.js?v=2';
 
 const B = (k, t, h) => ({ k, t, h, b: true });
 const T = (k, t, h, d, big) => ({ k, t, h, d, big });

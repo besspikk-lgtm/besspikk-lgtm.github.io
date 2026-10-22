@@ -2,7 +2,7 @@
    Клієнти будуються з orders/* (групування за номером телефону, інакше — Telegram-нік або ім'я).
    Нотатки, теги й нагадування — ПРИВАТНО в users/{uid адміна}.np (поле профілю, яке правила дозволяють
    власнику записувати без обмеження типу; читати users/* може лише власник і адмін). Публічні products/* — НЕ використовуються. */
-import { authErr, esc } from './fb-common.js?v=1';
+import { authErr, esc } from './fb-common.js?v=2';
 
 const $ = (s, r) => (r || document).querySelector(s);
 const TZ = 'Europe/Kyiv';
