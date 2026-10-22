@@ -2063,10 +2063,9 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .mix__pane h4{margin:0 0 4px;font-size:13px;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:.04em}
 .mix__ratio{margin:0 0 6px;font-size:13px;color:var(--text2)}
 .mix__ratio b{color:var(--yellow)}
-.mix__scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
-.mix__tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
-.mix__tbl th,.mix__tbl td{padding:6px 8px;text-align:right;border-top:1px solid rgba(42,90,168,.5);white-space:nowrap}
-.mix__tbl th{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;white-space:normal;vertical-align:bottom}
+.mix__tbl{width:100%;table-layout:fixed;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.mix__tbl th,.mix__tbl td{padding:6px 5px;text-align:right;border-top:1px solid rgba(42,90,168,.5);overflow-wrap:anywhere}
+.mix__tbl th{font-size:10.5px;font-weight:700;color:var(--muted);text-transform:none;letter-spacing:0;overflow-wrap:normal;white-space:normal;vertical-align:bottom}
 .mix__tbl tr:first-child th{border-top:0}
 .mix__tbl td:first-child,.mix__tbl th:first-child{text-align:left}
 .mix__tbl td:last-child{color:var(--yellow);font-weight:700}
@@ -2086,3 +2085,4 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .ashr__it--main{background:var(--yellow);color:#0a1631;box-shadow:none}
 .ashr__it--main svg{color:#0a1631}
 .ashr__it[hidden]{display:none}
+@media (max-width:480px){.mix__tbl{font-size:12px}.mix__tbl th{font-size:9.5px}.mix__tbl th,.mix__tbl td{padding:5px 3px}.mix__tabs{margin:8px 10px 10px}}
