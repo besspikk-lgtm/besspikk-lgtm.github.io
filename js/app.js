@@ -842,6 +842,7 @@
   function videosOf(p) {
     var M = window.AlexBesMedia; if (!M || !p || !Array.isArray(p.videos)) return [];
     return p.videos.slice(0, 5).map(function (u) {
+      if (typeof u === 'string' && /^vid\/[\w-]+\.mp4$/.test(u)) return { type: 'file', url: u, poster: u.replace(/^vid\/(.+)\.mp4$/, 'img/p/$1-video.webp'), label: 'Відео', embed: '' }; // 22.10: власне відео в репозиторії
       var v = M.parseVideo(u); if (!v) return null;
       var mt = v.type === 'tiktok' && v.id && TT_META[v.id];
       if (mt && mt.thumb && !v.thumb) v.thumb = mt.thumb;
@@ -853,6 +854,7 @@
     var vs = videosOf(p); if (!vs.length) return '';
     var allV = vs.every(function (v) { return v.vertical && v.embed; });
     return '<div class="vids"><p class="vids__ttl"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg> Відео</p><div class="vids__list' + (allV && vs.length > 1 ? ' vids__list--v' : '') + '">' + vs.map(function (v, i) {
+      if (v.type === 'file') return '<div class="vitem vitem--file"><video class="vfile" controls playsinline preload="none" poster="' + esc(v.poster) + '" src="' + esc(v.url) + '" aria-label="' + esc('Відео: ' + p.name) + '"></video></div>';
       if (!v.embed) return '<div class="vitem vitem--link"><a class="btn btn--o btn--full vid__link" href="' + esc(v.url) + '" target="_blank" rel="noopener" data-vid-link="' + i + '">' + PLAY_SVG + ' Дивитись відео · ' + esc(v.label) + ' ↗</a></div>';
       return '<div class="vitem"><div class="vid' + (v.vertical ? ' vid--v' : '') + '" data-vid-box="' + i + '"><button class="vid__ph vid__ph--' + v.type + '" type="button" data-vid="' + i + '" aria-label="Відтворити відео ' + esc(v.label) + '">' +
         (v.thumb ? '<img src="' + esc(v.thumb) + '" alt="' + esc(v.caption ? 'Обкладинка відео: ' + v.caption : '') + '" loading="lazy" decoding="async">' : '') +
@@ -867,7 +869,7 @@
     box.innerHTML = '<iframe src="' + esc(v.embed) + '" title="' + esc(v.label + ': ' + p.name) + '" allow="autoplay; encrypted-media; picture-in-picture; fullscreen; clipboard-write" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>';
     track('відео/' + p.id, 'Відео (' + v.label + '): ' + p.name);
   }
-  function stopMedia() { $$('#pm iframe').forEach(function (f) { f.remove(); }); }
+  function stopMedia() { $$('#pm iframe').forEach(function (f) { f.remove(); }); $$('#pm video.vfile').forEach(function (v) { try { v.pause(); } catch (e) {} }); }
   function galInit() {
     var g = $('#pm [data-gal]'); if (!g) return;
     var tr = $('.gal__track', g), dots = $$('.gal__dots button', g), cnt = $('[data-gal-cnt]', g), n = dots.length;
