@@ -1391,7 +1391,7 @@
           '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener" data-waq="' + esc(p.id) + '">' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</a>' +
           '<a class="btn btn--bot btn--full" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener" data-tgq="' + esc(p.id) + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Замовити в Telegram</a>' +
         '</div>' +
-        specsHTML(p) + tdsHTML(p) +
+        specsHTML(p) + tdsHTML(p) + (p.mix_html || "") +
         (p.price_note || src ? '<p class="pm__note">' + esc(uahText(p.price_note || '')) + (src ? (p.price_note ? ' · ' : '') + '<a href="' + src + '" target="_blank" rel="noopener">пост у каналі</a>' : '') + '</p>' : '') +
         pmBarHTML(p) +
       '</div>';

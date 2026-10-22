@@ -2043,3 +2043,36 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .gift--pm,.gift--pp{margin:10px 0 0;border:1px solid rgba(255,215,0,.35);border-radius:12px;font-size:14px;padding:9px 12px}
 .gift--ar{margin:6px 2px 2px;border:0;border-radius:8px;font-size:11.5px;padding:4px 7px}
 .pp__gal .gift{grid-column:1/-1}
+/* 22.10.2026: «Як розводити за вагою та об’ємом» — ґрунти й лаки (дані ТДС) */
+.mix{margin-top:10px}
+.mix__in{padding:0 0 2px}
+.pp__mix .mix__in{padding:0}
+.mix__mode{margin:10px 14px 4px;font-size:14px;font-weight:800;color:var(--yellow)}
+.mix__codes{margin:0;padding:0 14px;display:grid;gap:0}
+.mix__codes>div{display:grid;grid-template-columns:1fr;gap:1px;padding:5px 0;border-top:1px solid rgba(42,90,168,.5)}
+.mix__codes dt{color:var(--muted);font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.mix__codes dd{margin:0;color:var(--text2);font-size:13.5px;line-height:1.45}
+.mix__note,.mix__ready{margin:6px 14px;font-size:13px;color:var(--text2);line-height:1.45}
+.mix__tabs{margin:8px 14px 10px}
+.mix__tabs>input{position:absolute;opacity:0;pointer-events:none}
+.mix__tabs>label{display:inline-block;padding:7px 12px;margin:0 6px 8px 0;border:1px solid rgba(42,90,168,.8);border-radius:999px;font-size:13px;font-weight:700;color:var(--text2);cursor:pointer}
+.mix__tabs>input:checked+label{background:var(--yellow);border-color:var(--yellow);color:#0a1631}
+.mix__tabs>input:focus-visible+label{outline:2px solid var(--yellow);outline-offset:2px}
+.mix__pane{display:none;min-width:0}
+.mix__tabs>input:nth-of-type(1):checked~.mix__panes .mix__pane--w,.mix__tabs>input:nth-of-type(2):checked~.mix__panes .mix__pane--v{display:block}
+.mix__pane h4{margin:0 0 4px;font-size:13px;font-weight:800;color:var(--text);text-transform:uppercase;letter-spacing:.04em}
+.mix__ratio{margin:0 0 6px;font-size:13px;color:var(--text2)}
+.mix__ratio b{color:var(--yellow)}
+.mix__scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.mix__tbl{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+.mix__tbl th,.mix__tbl td{padding:6px 8px;text-align:right;border-top:1px solid rgba(42,90,168,.5);white-space:nowrap}
+.mix__tbl th{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;white-space:normal;vertical-align:bottom}
+.mix__tbl tr:first-child th{border-top:0}
+.mix__tbl td:first-child,.mix__tbl th:first-child{text-align:left}
+.mix__tbl td:last-child{color:var(--yellow);font-weight:700}
+.mix__fine{margin:6px 0 0;font-size:12px;color:var(--muted);line-height:1.4}
+@media (min-width:900px){
+  .pp__mix .mix__tabs>label{display:none}
+  .pp__mix .mix__panes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .pp__mix .mix__pane{display:block!important}
+}
