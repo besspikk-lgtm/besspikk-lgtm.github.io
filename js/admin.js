@@ -2,7 +2,7 @@
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
 // rv2: admin-orders.js без відгуків
 import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=14';
-import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=1';
+import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=2';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;

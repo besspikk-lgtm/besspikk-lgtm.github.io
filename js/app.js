@@ -1388,7 +1388,7 @@
         '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Ще купують разом» // 04.10: кількість + кошик одразу після опису, «Ще купують разом» — під ними
         '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
         '<div class="cactions">' +
-          '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Замовити через бота</a>' +
+          '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener" data-waq="' + esc(p.id) + '">' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</a>' +
           '<a class="btn btn--o" href="' + CONFIG.orderTelegram + '" target="_blank" rel="noopener" data-tgq="' + esc(p.id) + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Telegram</a>' +
         '</div>' +
         specsHTML(p) + tdsHTML(p) +
@@ -1643,11 +1643,11 @@
         '<p class="cfail__s">Схоже, зв’язок із сервером перервався, тому бот міг не отримати ваш кошик. Товари залишилися в кошику — завершіть замовлення зручним способом:</p>' +
       '</div></div>' +
       '<div class="cfail__a">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-ofail="bot">' + svgI(OF_BOT, 19) + 'Відкрити бота з кошиком</a>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent(orderText()) + '" target="_blank" rel="noopener" data-ofail="wa">' + svgI(IC.wa, 18) + 'Написати в WhatsApp</a>' +
         '<a class="btn btn--y" href="' + CONFIG.orderTelegram + '?text=' + encodeURIComponent(orderText()) + '" target="_blank" rel="noopener" data-ofail="tg">' + svgI(IC.tg, 18) + 'Написати в Telegram</a>' +
         '<a class="btn btn--o" href="tel:' + CONFIG.phone + '" data-ofail="call">' + svgI(IC.phone, 18) + 'Подзвонити</a>' +
       '</div>' +
-      '<p class="cfail__n">Телефон: <a href="tel:' + CONFIG.phone + '">' + CONFIG.phoneLabel + '</a>. Уже оформили в боті? <button class="cfail__lnk" type="button" data-cp-yes>Очистити кошик</button></p>' +
+      '<p class="cfail__n">Телефон: <a href="tel:' + CONFIG.phone + '">' + CONFIG.phoneLabel + '</a>. Уже надіслали замовлення? <button class="cfail__lnk" type="button" data-cp-yes>Очистити кошик</button></p>' +
     '</div>';
   }
   function orderDoneHTML() {
@@ -1656,7 +1656,7 @@
       '<h3 class="cdone__t">Дякуємо! Замовлення №' + esc(no) + ' прийнято</h3>' +
       '<p class="cdone__s">Ми зв’яжемося з вами, щоб підтвердити ціну, наявність і доставку. Кошик очищено.</p>' +
       '<div class="cactions">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=o_' + esc(o.id) + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Відкрити бота з замовленням</a>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '?text=' + encodeURIComponent(o.text + '\n\nЗамовлення №' + no) + '" target="_blank" rel="noopener">' + svgI(IC.wa, 18) + 'Надіслати також у WhatsApp</a>' +
         '<a class="btn btn--y btn--full" href="' + CONFIG.orderTelegram + '?text=' + encodeURIComponent(o.text + '\n\nЗамовлення №' + no) + '" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Написати в Telegram</a>' +
         '<a class="btn btn--o" href="tel:' + CONFIG.phone + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Подзвонити</a>' +
         '<button class="btn btn--o" type="button" data-close>До каталогу</button>' +
@@ -1733,7 +1733,7 @@
       '<div class="csec" data-csec="3"><h3 class="csec__ttl"><span>3</span>Надіслати замовлення</h3>' +
       '<details class="preview preview--top"><summary><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.85z"/></svg> Текст замовлення</summary><pre id="otext"></pre></details>' +
       '<div class="cactions">' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + botCartPayload() + '" target="_blank" rel="noopener" data-botcart><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Бот для замовлень</a>' +
+        '<button class="btn btn--bot btn--full" type="button" data-wa>' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</button>' +
         '<button class="btn btn--y btn--full" type="button" data-send><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Надіслати в Telegram</button>' +
         '<button class="btn btn--o" type="button" data-copy><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Скопіювати текст</button>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Подзвонити ' + CONFIG.phoneLabel + '</a>' +
@@ -2374,6 +2374,7 @@
   var IC = {
     heart: '<path class="i-fill" d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
     share: '<path d="M12 3.5v11"/><path d="m7.8 7.7 4.2-4.2 4.2 4.2"/><path d="M5.5 12.5v5.8A2.2 2.2 0 0 0 7.7 20.5h8.6a2.2 2.2 0 0 0 2.2-2.2v-5.8"/>',
+    wa: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9 9.5c.3 2.4 2.1 4.2 4.5 4.5l1-1.2 2 .9c-.2 1.2-1.2 1.8-2.3 1.8A6 6 0 0 1 8 9.3c0-1.1.6-2.1 1.8-2.3l.9 2z"/>',
     bolt: '<path d="M13.2 2.8 5 13.4h6.2l-1.3 7.8 8.2-10.6h-6.2z"/>',
     check: '<circle cx="12" cy="12" r="9"/><path d="m8 12.3 2.7 2.7L16 9.6"/>',
     x: '<path d="M6 6l12 12M18 6 6 18"/>',
@@ -2502,22 +2503,22 @@
     return { name: p.name + (v ? ' (' + uahText(v.label).replace(/\u00a0/g, ' ') + ')' : ''), up: up, sum: up != null ? toUah(up) * qty : null };
   }
   function quickOpen(id, mode) {
-    var p = byId[id]; if (!p) return; var tg = mode === 'tg'; // 22.10: «Telegram» на картці / в липкій панелі — та сама форма, канал «Telegram особисто»
+    var p = byId[id]; if (!p) return; var tg = mode === 'tg' || mode === 'wa', wa = mode === 'wa'; // 22.10: «WhatsApp» — та сама форма, канал «WhatsApp» // 22.10: «Telegram» на картці / в липкій панелі — та сама форма, канал «Telegram особисто»
     var vi = pmState.id === id ? pmState.vi : 0, qty = pmState.id === id ? Math.max(1, Math.min(999, parseInt(($('#pmq') || {}).value, 10) || 1)) : 1;
-    quick = { id: id, vi: vi, qty: qty, busy: false, tg: tg };
+    quick = { id: id, vi: vi, qty: qty, busy: false, tg: tg, wa: wa };
     var L = quickLine(p, vi, qty);
     track('швидке/відкрито/' + id, 'Купити в один клік (відкрито): ' + p.name);
     sheetOpen('quick',
-      '<h3 class="sheet__ttl" id="sheet-ttl">' + (tg ? svgI(IC.tg, 20) + 'Замовити в Telegram' : svgI(IC.bolt, 20) + 'Купити в один клік') + '</h3>' +
+      '<h3 class="sheet__ttl" id="sheet-ttl">' + (wa ? svgI(IC.wa, 20) + 'Замовити в WhatsApp' : tg ? svgI(IC.tg, 20) + 'Замовити в Telegram' : svgI(IC.bolt, 20) + 'Купити в один клік') + '</h3>' +
       '<div class="qk__item"><img ' + mainImg(p, SZ_SM) + ' alt="" width="64" height="64"><div><b>' + esc(L.name) + '</b><span>' + qty + ' шт' + (L.sum != null ? ' · ' + fmtUah(L.sum).replace(/ /g, '\u00a0') : ' · ціну уточнимо') + '</span></div></div>' +
       '<form class="qk__form" id="qkform" novalidate>' +
         '<label>Ім’я<input name="name" maxlength="100" autocomplete="name" required value="' + esc(form.name || '') + '" data-autofocus></label>' +
         '<label>Телефон<input name="phone" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" required placeholder="0XX XXX XX XX" value="' + esc(form.phone || '') + '"></label>' +
         '<p class="qk__err" id="qkerr" role="alert" hidden></p>' +
-        '<button class="btn btn--y btn--full qk__go" type="submit">' + (tg ? 'Продовжити в Telegram' : 'Надіслати замовлення') + '</button>' +
-        (tg ? '<p class="qk__note">Замовлення збережеться, і відкриється чат з Alex у Telegram з готовим текстом — просто надішліть його.</p>' : '') +
+        '<button class="btn btn--y btn--full qk__go" type="submit">' + (wa ? 'Продовжити в WhatsApp' : tg ? 'Продовжити в Telegram' : 'Надіслати замовлення') + '</button>' +
+        (tg ? '<p class="qk__note">Замовлення збережеться, і відкриється чат з Alex у ' + (wa ? 'WhatsApp' : 'Telegram') + ' з готовим текстом — просто надішліть його.</p>' : '') +
         '<p class="qk__note">Alex зателефонує або напише вам, щоб підтвердити ціну, наявність і деталі замовлення.</p>' +
-      '</form>', tg ? 'Замовити в Telegram' : 'Купити в один клік');
+      '</form>', wa ? 'Замовити в WhatsApp' : tg ? 'Замовити в Telegram' : 'Купити в один клік');
     fillPhotos();
   }
   function quickErr(msg, field) {
@@ -2536,28 +2537,29 @@
     var L = quickLine(p, quick.vi, quick.qty), v = variantOf(p, quick.vi);
     var it = { id: clipS(p.id, 80), name: clipS(p.name, 300), qty: quick.qty, price_uah: L.up != null ? toUah(L.up) : null };
     if (v) it.variant = clipS(uahText(v.label).replace(/\u00a0/g, ' '), 200);
-    var text = [(quick.tg ? 'Замовлення з сайту ' + CONFIG.siteName + ' (Telegram)' : QUICK_MARK + ' (в один клік) з сайту ' + CONFIG.siteName), '',
+    var text = [(quick.tg ? 'Замовлення з сайту ' + CONFIG.siteName + (quick.wa ? ' (WhatsApp)' : ' (Telegram)') : QUICK_MARK + ' (в один клік) з сайту ' + CONFIG.siteName), '',
       '1. ' + L.name + ' — ' + quick.qty + ' шт' + (L.up != null ? ' × ' + uahTxt(L.up) + ' = ' + fmtUah(L.sum) : ' — ціну уточнити'),
       '', "Ім'я: " + name, 'Телефон: ' + phone, '', 'Передзвоніть, будь ласка, для підтвердження.'].join('\n');
     var qsum = L.sum != null ? L.sum : 0, qm = acctMeta(qsum);
-    if (quick.tg) { qm = qm || { id: '_acct', uid: '' }; qm.ch = 'telegram-personal'; text = text.replace('Передзвоніть, будь ласка, для підтвердження.', 'Підтвердіть, будь ласка, замовлення.'); }
+    if (quick.tg) { qm = qm || { id: '_acct', uid: '' }; qm.ch = quick.wa ? 'whatsapp' : 'telegram-personal'; text = text.replace('Передзвоніть, будь ласка, для підтвердження.', 'Підтвердіть, будь ласка, замовлення.'); }
     var qit = qm ? [it, qm] : [it];
     if (qm && qm.discountAmount) { qsum = qm.total; text += '\n\nЗнижка ' + qm.discountPct + '% ' + (qm.promoCode ? 'за промокодом ' + qm.promoCode : 'за реєстрацію') + ': −' + fmtUah(qm.discountAmount) + '. Разом зі знижкою: ' + fmtUah(qsum); }
     var data = { v: 1, items: JSON.stringify(qit), count: 1, total_uah: Math.min(1e9, qsum), ask: L.up != null ? 0 : 1,
-      text: clipS(text, 6000), name: name, phone: phone, note: quick.tg ? 'Telegram особисто' : QUICK_MARK + ' (в один клік)' };
+      text: clipS(text, 6000), name: name, phone: phone, note: quick.wa ? 'WhatsApp' : quick.tg ? 'Telegram особисто' : QUICK_MARK + ' (в один клік)' };
     var id = genOrderId(), btn = $('#qkform .qk__go');
     if (quick.tg) { // вікно відкриваємо одразу (у межах кліку — без блокування спливаючих вікон), запис у базу — паралельно
       var tq = quick; tq.busy = true;
-      try { window.open(CONFIG.orderTelegram + '?text=' + encodeURIComponent(text + '\n\nЗамовлення №' + id.slice(0, 6).toUpperCase() + '\n' + productUrl(p)), '_blank', 'noopener'); } catch (e) {}
+      var msgBase = quick.wa ? CONFIG.whatsapp : CONFIG.orderTelegram, msgName = quick.wa ? 'WhatsApp' : 'Telegram';
+      try { window.open(msgBase + '?text=' + encodeURIComponent(text + '\n\nЗамовлення №' + id.slice(0, 6).toUpperCase() + '\n' + productUrl(p)), '_blank', 'noopener'); } catch (e) {}
       var tw = null; try { tw = orderWriter ? orderWriter(id, data) : null; } catch (e) { tw = null; }
-      if (tw && typeof tw.then === 'function') tw.then(function () { rememberOrder(id); stat('o_tg', 'o_tg:' + id); track('telegram/надіслано/' + p.id, 'Замовлення в Telegram (збережено): ' + p.name); formChanged('order'); },
+      if (tw && typeof tw.then === 'function') tw.then(function () { rememberOrder(id); stat(tq.wa ? 'o_wa' : 'o_tg', (tq.wa ? 'o_wa:' : 'o_tg:') + id); track('telegram/надіслано/' + p.id, 'Замовлення в Telegram (збережено): ' + p.name); formChanged('order'); },
         function (e) { try { console.warn('tg order not saved', e && e.code); } catch (x) {} track('telegram/помилка/' + p.id, 'Замовлення в Telegram (не збережено): ' + p.name); });
       tq.busy = false;
       $('#sheetbody').innerHTML = '<div class="qk__done"><span class="qk__ok">' + svgI(IC.check, 44) + '</span>' +
-        '<h3 class="sheet__ttl" id="sheet-ttl">Надішліть повідомлення в Telegram</h3>' +
-        '<p>' + esc(L.name) + ' — ' + tq.qty + ' шт.</p><p>Відкрився чат з Alex із готовим текстом замовлення. Якщо чат не відкрився — натисніть кнопку нижче.</p>' +
+        '<h3 class="sheet__ttl" id="sheet-ttl">Надішліть повідомлення в ' + msgName + '</h3>' +
+        '<p>' + esc(L.name) + ' — ' + tq.qty + ' шт.</p><p>Відкрився чат з Alex у ' + msgName + ' із готовим текстом замовлення. Якщо чат не відкрився — натисніть кнопку нижче.</p>' +
         '<p class="qk__no">Номер замовлення: <b>' + esc(id.slice(0, 6).toUpperCase()) + '</b></p>' +
-        '<a class="btn btn--o btn--full" href="' + esc(CONFIG.orderTelegram + '?text=' + encodeURIComponent(text + '\n\nЗамовлення №' + id.slice(0, 6).toUpperCase())) + '" target="_blank" rel="noopener">' + svgI(IC.tg, 18) + 'Відкрити Telegram</a>' +
+        '<a class="btn btn--o btn--full" href="' + esc(msgBase + '?text=' + encodeURIComponent(text + '\n\nЗамовлення №' + id.slice(0, 6).toUpperCase())) + '" target="_blank" rel="noopener">' + svgI(tq.wa ? IC.wa : IC.tg, 18) + 'Відкрити ' + msgName + '</a>' +
         '<button class="btn btn--y btn--full" type="button" data-sheet-close>Готово</button></div>';
       return;
     }
@@ -2568,8 +2570,8 @@
       track('швидке/помилка/' + p.id, 'Купити в один клік (не надіслано: ' + why + '): ' + p.name);
       if (sheetKind !== 'quick' || quick !== q) return;
       $('#sheetbody').innerHTML = '<div class="qk__done qk__done--err"><h3 class="sheet__ttl" id="sheet-ttl">Не вдалося надіслати автоматично</h3>' +
-        '<p>Схоже, з’єднання недоступне. Замовте цей товар через бота або зателефонуйте — це займе хвилину.</p>' +
-        '<a class="btn btn--bot btn--full" href="' + CONFIG.orderBot + '?start=' + encodeURIComponent(p.id) + '" target="_blank" rel="noopener" data-order="' + esc(p.id) + '">' + svgI(IC.tg, 18) + 'Замовити через бота</a>' +
+        '<p>Схоже, з’єднання недоступне. Замовте цей товар у WhatsApp або зателефонуйте — це займе хвилину.</p>' +
+        '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener" data-waq="' + esc(p.id) + '">' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</a>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '">' + svgI(IC.phone, 18) + 'Подзвонити ' + CONFIG.phoneLabel + '</a></div>';
     }
     var w = null;
@@ -2586,14 +2588,13 @@
         '<p>' + esc(L.name) + ' — ' + q.qty + ' шт.</p>' +
         '<p>Alex зв’яжеться з вами за номером <b>' + esc(phone) + '</b>, щоб підтвердити ціну, наявність і деталі.</p>' +
         '<p class="qk__no">Номер замовлення: <b>' + esc(id.slice(0, 6).toUpperCase()) + '</b></p>' +
-        '<a class="btn btn--o btn--full" href="' + CONFIG.orderBot + '?start=o_' + id + '" target="_blank" rel="noopener" data-quickbot>' + svgI(IC.tg, 18) + 'Надіслати також у Telegram-бот</a>' +
         '<button class="btn btn--y btn--full" type="button" data-sheet-close>Готово</button></div>';
       var ok = $('#sheetbody .btn--y'); if (ok) ok.focus({ preventScroll: true });
     }, function (e) { clearTimeout(to); try { console.warn('quick order not saved', e && e.code); } catch (x) {} fail(e && e.code ? e.code : 'помилка запису'); });
   }
 
   document.addEventListener('click', function (e) {
-    var t = e.target.closest ? e.target.closest('[data-sheet-close], [data-fav], [data-share], [data-share-cat], [data-quick], [data-tgq], [data-shr], [data-recent-clear]') : null;
+    var t = e.target.closest ? e.target.closest('[data-sheet-close], [data-fav], [data-share], [data-share-cat], [data-quick], [data-tgq], [data-waq], [data-shr], [data-recent-clear]') : null;
     if (!t) return;
     if (t.hasAttribute('data-sheet-close')) { e.preventDefault(); sheetClose(); return; }
     if (t.hasAttribute('data-fav')) { e.preventDefault(); e.stopPropagation(); toggleFav(t.getAttribute('data-fav')); return; }
@@ -2601,6 +2602,7 @@
     if (t.hasAttribute('data-share-cat')) { e.preventDefault(); e.stopPropagation(); shareCat(); return; }
     if (t.hasAttribute('data-quick')) { e.preventDefault(); quickOpen(t.getAttribute('data-quick')); return; }
     if (t.hasAttribute('data-tgq')) { e.preventDefault(); e.stopPropagation(); quickOpen(t.getAttribute('data-tgq'), 'tg'); return; }
+    if (t.hasAttribute('data-waq')) { e.preventDefault(); e.stopPropagation(); quickOpen(t.getAttribute('data-waq'), 'wa'); return; }
     if (t.hasAttribute('data-recent-clear')) { e.preventDefault(); recent = []; save('alexbes_recent', recent); renderRecent(); return; }
     if (t.hasAttribute('data-shr')) {
       var ch = t.getAttribute('data-shr'), sid = t.getAttribute('data-shr-id'), sp = byId[sid] || { name: sid };
