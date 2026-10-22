@@ -2076,3 +2076,13 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .pp__mix .mix__panes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
   .pp__mix .mix__pane{display:block!important}
 }
+/* 22.10.2026: «Поділитися» у статтях /poradi/ */
+.ashr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0 20px}
+.ashr__ttl{font-size:13px;color:var(--muted);font-weight:650;margin-right:2px}
+.ashr__it{height:36px;padding:0 13px 0 10px;border-radius:999px;font:inherit;font-size:13px;font-weight:650;color:var(--text2);background:transparent;box-shadow:inset 0 0 0 1px var(--line2);display:inline-flex;align-items:center;gap:7px;border:0;cursor:pointer;text-decoration:none}
+.ashr__it:hover{color:var(--text);box-shadow:inset 0 0 0 1px var(--yellow)}
+.ashr__it:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.ashr__it svg{flex:none;color:var(--yellow)}
+.ashr__it--main{background:var(--yellow);color:#0a1631;box-shadow:none}
+.ashr__it--main svg{color:#0a1631}
+.ashr__it[hidden]{display:none}
