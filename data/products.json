@@ -4930,6 +4930,68 @@
    "sub": "rozch"
   },
   {
+   "id": "pal-900-3570-special-red",
+   "category": "palinal",
+   "category_name": "PALINAL",
+   "name": "Palinal 900.3570 SPECIAL RED — тонер для кольорового прозорого шару",
+   "description": "Palinal 900.3570 SPECIAL RED — напівпрозорий червоний тонер (колорант) для фарбування проміжного прозорого шару в тришарових кольорах. Дає дуже чистий, глибокий червоний відтінок з високим блиском — для відтворення яскравих червоних металіків, як-от MAZDA 46V Soul Red Crystal, TOYOTA 3T3 / 3U5, FORD Ruby Red. Тонер не призначений для змішування безпосередньо в базовій фарбі: його додають лише до прозорого лаку серії 223 (крім швидких 223ULTRA і 223.0550). Червоний прозорий шар наносять поверх бази HYDROPAL120 або MULTICRYL900, а зверху — звичайний лак 223. Пропорцію тонера до лаку 223 для конкретного кольору дає формула в PALCOLORFINDER; обов’язково робіть тестові пластини.",
+   "price_eur": null,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/pal-900-3570-special-red.webp?v=20261022k",
+   "photo_is_placeholder": false,
+   "photo_source": "фото виробника (palinal.com), виріз на білому",
+   "in_stock": "Наявність уточнюйте",
+   "flag": null,
+   "code": "900.3570",
+   "brand": "Palinal",
+   "intake": "2026-10-22",
+   "specs": {
+    "rows": [
+     [
+      "Тип",
+      "Напівпрозорий червоний тонер (колорант) Palinal серії 900"
+     ],
+     [
+      "Призначення",
+      "Фарбування проміжного прозорого шару в тришарових червоних кольорах"
+     ],
+     [
+      "З чим змішувати",
+      "Лише з прозорим лаком серії 223 (не з 223ULTRA і 223.0550); не додавати безпосередньо в базу"
+     ],
+     [
+      "Основа під шар",
+      "База HYDROPAL120 або MULTICRYL900 (колір підкладки — за формулою)"
+     ],
+     [
+      "Пропорція",
+      "За формулою PALCOLORFINDER; орієнтир для тестових пластин — 900.3570 : лак 223 = 50 : 50 за вагою (25 : 75 світліше, 75 : 25 темніше)"
+     ],
+     [
+      "Нанесення",
+      "2 шари (легкий + середній), 10–20 мкм, HVLP 1,2–1,3 мм, 1,5–1,8 bar; зверху — шар лаку 223"
+     ],
+     [
+      "Об’єм",
+      "Уточнюйте"
+     ]
+    ],
+    "src": "За технічною інструкцією виробника (Tecnica applicativa 900.3570 Special Red) і новиною palinal.com."
+   },
+   "tds": {
+    "url": "https://www.palinal.com/files/catalogue/download/Files/04%20Documentazione/Tecnica_applicativa_Special_RED_v%2021.pdf",
+    "source": "https://www.palinal.com/files/catalogue/download/Files/04%20Documentazione/Tecnica_applicativa_Special_RED_v%2021.pdf",
+    "lang": "IT",
+    "label": "Інструкція з нанесення від виробника (PDF, IT)"
+   },
+   "sub": "system",
+   "no_feed": true
+  },
+  {
    "id": "pal-900-fix1",
    "category": "palinal",
    "category_name": "PALINAL",
