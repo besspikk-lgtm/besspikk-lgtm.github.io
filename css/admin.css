@@ -447,3 +447,9 @@ label.btn{cursor:pointer}
 .sh-acts{display:flex;flex-wrap:wrap;gap:8px}.sh-acts .btn{display:inline-flex;align-items:center;gap:6px;text-decoration:none}
 @media (max-width:1100px){.kpis{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:760px){.kpis{grid-template-columns:1fr 1fr}.kpi b{font-size:22px}.dash2{grid-template-columns:1fr}.sh-grid{grid-template-columns:1fr}.pr-list li{grid-template-columns:auto 1fr auto;}.pr-list li small{grid-column:1/-1}.ordl__it{grid-template-columns:22px 40px 1fr auto}.ordl__n{display:none}.ordl__it img{width:40px;height:40px}}
+/* 22.10.2026: «Налаштування» */
+.set-sec{margin:14px 0}.set-list{list-style:none;margin:10px 0;padding:0;display:grid;gap:12px}
+.set-it{display:grid;gap:6px}.set-l{display:grid;gap:2px}
+.set-it input:not([type=checkbox]):not([type=color]),.set-it textarea{width:100%;box-sizing:border-box;padding:9px 11px;border-radius:10px;border:1px solid var(--line,#2a5aa8);background:rgba(255,255,255,.06);color:inherit;font:inherit}
+.set-chk{display:inline-flex;gap:8px;align-items:center}.set-col{display:inline-flex;gap:12px;align-items:center}.set-col input{width:56px;height:34px;border:0;background:none}
+.set-act{display:flex;gap:12px;align-items:center;flex-wrap:wrap}

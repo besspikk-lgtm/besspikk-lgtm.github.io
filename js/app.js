@@ -13,6 +13,18 @@
     homeTitle: 'Фарбопульти Meiji, SATA і автофарби PALINAL | Alex_bes, Чернівці',
     uahRate: 52 // фіксований курс: ціни зберігаються в € (price_eur), на сайті показуються в гривнях = € × uahRate
   };
+  /* 22.10.2026: контакти з адмінки («Налаштування» -> products/_site, js/site-settings.js); порожнє = як вище */
+  (function (S) {
+    var t = function (k) { return S && typeof S[k] === 'string' ? S[k].trim().replace(/^@/, '') : ''; };
+    var d = t('phone').replace(/[^\d]/g, '');
+    if (t('tg')) CONFIG.orderTelegram = 'https://t.me/' + t('tg');
+    if (t('bot')) CONFIG.orderBot = 'https://t.me/' + t('bot');
+    if (t('insta')) CONFIG.instagram = 'https://ig.me/m/' + t('insta');
+    if (d.length >= 10) { CONFIG.phone = '+' + d; CONFIG.whatsapp = 'https://wa.me/' + d; CONFIG.viber = 'viber://chat?number=%2B' + d;
+      var l = d.length === 12 && d.indexOf('380') === 0 ? '0' + d.slice(3) : d; CONFIG.phoneLabel = l.length === 10 ? l.replace(/^(\d{3})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4') : '+' + d; }
+    if (t('home_title')) CONFIG.homeTitle = S.home_title.trim();
+    CONFIG.consultText = (S && typeof S.consult === 'string' && S.consult.trim()) ? S.consult.trim() + ' ' : 'Добрий день! Потрібна консультація щодо: ';
+  })(window.ALEXBES_SITE || {});
   var DATA = window.ALEXBES_DATA || { categories: [], products: [] };
   // 08.10.2026: hidden:true у products.json — товар прихований за замовчуванням (адмінка може показати: products/{id}.hidden = false)
   // 16.10.2026: товар може бути ще й у додаткових розділах (p.also_cats), напр. ПДР з Китаю -> «Товари з Китаю»
@@ -691,7 +703,7 @@
       else if (state.q) what = 'пошук «' + state.q + '» на сайті alexbes.com.ua';
       else if (state.cat && state.cat !== 'all') what = (catLabel(state.cat) || state.cat) + ' (alexbes.com.ua)';
     } catch (e) {}
-    return CONFIG.orderTelegram + '?text=' + encodeURIComponent('Добрий день! Потрібна консультація щодо: ' + what);
+    return CONFIG.orderTelegram + '?text=' + encodeURIComponent(CONFIG.consultText + what);
   }
   // клік по кнопці/посиланню замовлення → канал
   function statClick(t) {
@@ -704,7 +716,7 @@
     else if (t.hasAttribute('data-viber')) ch = 'viber';
     else if (t.hasAttribute('data-ig')) ch = 'ig';
     else if (/^https:\/\/t\.me\/AlexBes_order_bot/i.test(h)) ch = 'bot';
-    else if (/^https:\/\/t\.me\/alex_bespik/i.test(h)) ch = 'tg';
+    else if (/^https:\/\/t\.me\/alex_bespik/i.test(h) || h.indexOf(CONFIG.orderTelegram) === 0) ch = 'tg';
     else if (/^https:\/\/wa\.me\//i.test(h)) ch = 'wa';
     else if (/^viber:/i.test(h)) ch = 'viber';
     else if (/^https:\/\/ig\.me\//i.test(h)) ch = 'ig';
@@ -2289,8 +2301,8 @@
   var PRICE_KEYS = { price_eur: 1, price_old_eur: 1, price_label: 1, variants: 1 };
   function applyRemote(docs) {
     lastDocs = docs = (docs || []);
-    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-)/.test(d.id || ''); }));
-    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-)/.test(d.id || '')); });
+    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$)/.test(d.id || ''); }));
+    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$)/.test(d.id || '')); });
     var list = [], seen = {};
     STATIC_ORDER.forEach(function (bp) { list.push(bp); });
     (docs || []).forEach(function (d) { if (d && typeof d.id === 'string' && /^[\w-]{1,80}$/.test(d.id)) seen[d.id] = d; });

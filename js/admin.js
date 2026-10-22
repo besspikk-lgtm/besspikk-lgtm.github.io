@@ -2,6 +2,7 @@
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
 // rv2: admin-orders.js без відгуків
 import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=14';
+import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=1';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -116,7 +117,7 @@ function typeFor(v) {
 }
 
 /* ---------- tabs: #products | #orders | #stats | #clients ---------- */
-const TABS = ['home', 'products', 'orders', 'stats', 'clients', 'reviews', 'promo'];
+const TABS = ['home', 'products', 'orders', 'stats', 'clients', 'reviews', 'promo', 'settings'];
 let statsLoaded = false;
 function curTab() { const h = (location.hash || '').slice(1); return TABS.includes(h) ? h : 'home'; }
 function showTab() {
@@ -131,6 +132,7 @@ function showTab() {
   if (tab === 'reviews') loadReviews();
   if (tab === 'home') loadDash();
   if (tab === 'promo') renderPromo();
+  if (tab === 'settings') renderSettings(svc);
 }
 window.addEventListener('hashchange', showTab);
 
@@ -178,8 +180,9 @@ function onUser(u) {
   $('#adm-cat').innerHTML = '<option value="all">Усі розділи</option>' + ED_CATS().map((c) => '<option value="' + c.id + '">' + esc(c.name) + '</option>').join('');
   const { F, db } = fb;
   unsub = F.onSnapshot(F.collection(db, 'products'), (qs) => {
-    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
+    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-|site$)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
     readCfg();
+    if (curTab() === 'settings') renderSettings(svc);
     renderList(); bulkInfo();
   }, (e) => { $('#adm-stats').textContent = 'Помилка читання: ' + authErr(e); });
   renderList();
@@ -1029,6 +1032,8 @@ function shareClick(t) {
   return false;
 }
 document.addEventListener('submit', (e) => { const f = e.target; if (f && /^(pr|pc|rt)-form$/.test(f.id)) { e.preventDefault(); promoSubmit(f); } });
+document.addEventListener('input', (e) => settingsInput(e.target));
+document.addEventListener('change', (e) => settingsInput(e.target));
 document.addEventListener('change', (e) => { const t = e.target; if (t && t.name === 't' && t.closest('#pr-form')) { $('[data-pr-c]').hidden = t.value !== 'c'; $('[data-pr-p]').hidden = t.value !== 'p'; } if (t && t.name === 'rate' && t.closest('#rt-form')) { const r = +t.value; const el = $('#rt-prev'); if (el && r > 0) el.textContent = merged().filter((p) => p.price_eur != null && !p.hidden).slice(0, 3).map((p) => p.name.slice(0, 40) + ': ' + uahOf(p.price_eur) + ' → ' + fmtU(p.price_eur * r)).join(' · '); } });
 
 /* ---------- save ---------- */
@@ -1399,6 +1404,7 @@ async function onClick(e) {
   if (t.closest('#adm-ord') && ordClick(t)) return;
   if (t.closest('#adm-share') && shareClick(t)) return;
   if (t.closest('[data-pane="promo"]') && promoClick(t)) return;
+  if (t.closest('[data-pane="settings"]') && (t.closest('[data-set-save]') || t.closest('[data-set-reset]'))) { settingsClick(t, fb, toast); return; }
   if (t.closest('[data-pane="home"]') && t.hasAttribute('data-dash-reload')) { loadDash(true); return; }
   if (t.id === 'mass-all') { lastList.forEach((p) => sel.add(p.id)); renderList(); return; }
   if (t.id === 'mass-none') { sel.clear(); renderList(); return; }
