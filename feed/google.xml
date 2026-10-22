@@ -6528,5 +6528,19 @@
       <g:product_type>Обладнання, аксесуари та захист</g:product_type>
     </item>
 
+    <item>
+      <g:id>pal-900-3570-special-red</g:id>
+      <title>Palinal 900.3570 SPECIAL RED — тонер для кольорового прозорого шару, 0,5 л</title>
+      <description>Palinal 900.3570 SPECIAL RED — напівпрозорий червоний тонер (колорант) для фарбування проміжного прозорого шару в тришарових кольорах. Дає дуже чистий, глибокий червоний відтінок з високим блиском — для відтворення яскравих червоних металіків, як-от MAZDA 46V Soul Red Crystal, TOYOTA 3T3 / 3U5, FORD Ruby Red. Тонер не призначений для змішування безпосередньо в базовій фарбі: його додають лише до прозорого лаку серії 223 (крім швидких 223ULTRA і 223.0550). Червоний прозорий шар наносять поверх бази HYDROPAL120 або MULTICRYL900, а зверху — звичайний лак 223. Пропорцію тонера до лаку 223 для конкретного кольору дає формула в PALCOLORFINDER; обов’язково робіть тестові пластини. Об’єм 0,5 л.</description>
+      <g:price>2600.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/pal-900-3570-special-red/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/pal-900-3570-special-red.webp</g:image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Palinal</g:brand>
+      <g:mpn>900.3570</g:mpn>
+      <g:google_product_category>2058</g:google_product_category>
+      <g:product_type>PALINAL</g:product_type>
+    </item>
 </channel>
 </rss>
