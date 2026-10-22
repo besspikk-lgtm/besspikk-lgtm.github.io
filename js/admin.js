@@ -2,6 +2,7 @@
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
 // rv2: admin-orders.js без відгуків
 import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=14';
+import { initCrm, loadCrmOrders } from './admin-crm.js?v=1';
 import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=2';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
@@ -128,7 +129,7 @@ function showTab() {
   if (!user || !isAdminUser(user)) return;
   if (tab === 'orders') renderOrders();
   if (tab === 'stats' && !statsLoaded) { statsLoaded = true; loadStats(); }
-  if (tab === 'clients') loadClients();
+  if (tab === 'clients') { loadCrmOrders(); loadClients(); }
   if (tab === 'reviews') loadReviews();
   if (tab === 'home') loadDash();
   if (tab === 'promo') renderPromo();
@@ -186,6 +187,7 @@ function onUser(u) {
     renderList(); bulkInfo();
   }, (e) => { $('#adm-stats').textContent = 'Помилка читання: ' + authErr(e); });
   renderList();
+  initCrm(fb, toast, u).then(() => { if (curTab() === 'clients') loadCrmOrders(); }); // 22.10: міні-CRM (приватно: users/{uid}.np)
   startOrders(); // лічильник нових замовлень видно на вкладці з будь-якого розділу
   showTab();
 }

@@ -453,3 +453,50 @@ label.btn{cursor:pointer}
 .set-it input:not([type=checkbox]):not([type=color]),.set-it textarea{width:100%;box-sizing:border-box;padding:9px 11px;border-radius:10px;border:1px solid var(--line,#2a5aa8);background:rgba(255,255,255,.06);color:inherit;font:inherit}
 .set-chk{display:inline-flex;gap:8px;align-items:center}.set-col{display:inline-flex;gap:12px;align-items:center}.set-col input{width:56px;height:34px;border:0;background:none}
 .set-act{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+/* 22.10.2026: міні-CRM «Клієнти» */
+.crm{margin-bottom:22px}
+.crm-h{font-size:18px;margin:6px 0 10px}
+.crm-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.crm-tools .cl-q{flex:1 1 240px}
+.crm-tools .cl-q input{width:100%}
+.crm-tools select{min-height:38px;border-radius:10px;padding:0 8px;background:inherit;color:inherit;border:1px solid rgba(127,127,127,.4)}
+.crm-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.crm-row{width:100%;display:flex;justify-content:space-between;gap:12px;text-align:left;padding:10px 12px;border-radius:12px;border:1px solid rgba(127,127,127,.25);background:rgba(127,127,127,.06);color:inherit;cursor:pointer;font:inherit}
+.crm-row:hover{border-color:#f5c400}
+.crm-row__n,.crm-row__s{display:flex;flex-direction:column;gap:3px;min-width:0}
+.crm-row__s{align-items:flex-end;text-align:right;flex:0 0 auto}
+.crm-tags,.crm-chs{display:flex;flex-wrap:wrap;gap:4px}
+.crm-tag,.crm-ch,.crm-st{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;padding:2px 7px;border-radius:999px;background:rgba(127,127,127,.18)}
+.crm-tag{background:rgba(245,196,0,.18)}
+.crm-tag--r{background:rgba(217,48,37,.18)}
+.crm-ch--telegram{background:rgba(42,171,238,.2)}.crm-ch--whatsapp{background:rgba(37,211,102,.2)}.crm-ch--site{background:rgba(245,196,0,.2)}
+.crm-st--cancelled{background:rgba(217,48,37,.2)}.crm-st--paid,.crm-st--shipped{background:rgba(37,211,102,.2)}
+.crm-rems{border:1px solid rgba(127,127,127,.25);border-radius:12px;padding:10px 12px;margin:8px 0 12px}
+.crm-rems h3{display:flex;align-items:center;gap:6px;font-size:15px;margin:0 0 6px}
+.crm-rems ul,.crm-rlist,.crm-orders{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.crm-rem,.crm-rlist li{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.crm-rem__d{font-weight:700;font-size:13px}
+.is-over .crm-rem__d{color:#d93025}.is-today .crm-rem__d{color:#f5a400}
+.crm-rlist .is-done{opacity:.55}
+.crm-rem__x{flex:1 1 160px}
+.crm-link{background:none;border:0;padding:0;color:inherit;font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+.crm-card h4{margin:16px 0 6px;font-size:15px}
+.crm-card__h{font-size:20px;margin:10px 0 2px}
+.crm-acts{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.crm-acts .btn svg,.crm-rems .btn svg,.crm-card .btn svg{margin-right:4px;vertical-align:-3px}
+.crm-tot{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin:10px 0 4px}
+.crm-tot div{border:1px solid rgba(127,127,127,.25);border-radius:10px;padding:8px}
+.crm-tot dt{font-size:12px;opacity:.7}.crm-tot dd{margin:2px 0 0;font-weight:800}
+.crm-tagpick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.crm-tagpick input[type=checkbox]{position:absolute;opacity:0;pointer-events:none}
+.crm-tagpick label{cursor:pointer;position:relative}
+.crm-card textarea{width:100%;box-sizing:border-box;border-radius:10px;padding:8px;font:inherit;background:inherit;color:inherit;border:1px solid rgba(127,127,127,.4);margin-bottom:6px}
+.crm-radd{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.crm-radd input,#crm-newtag{min-height:36px;border-radius:10px;padding:0 8px;background:inherit;color:inherit;border:1px solid rgba(127,127,127,.4)}
+.crm-radd #crm-rx{flex:1 1 200px}
+.crm-ord{width:100%;display:grid;gap:3px;text-align:left;padding:8px 10px;border-radius:10px;border:1px solid rgba(127,127,127,.25);background:none;color:inherit;font:inherit;cursor:pointer}
+.crm-ord:hover{border-color:#f5c400}
+.crm-ord__i{font-size:13px;opacity:.85}
+.crm-ord__s{font-weight:800;display:flex;align-items:center;gap:6px}
+.crm-badge{margin-left:6px}
+@media (max-width:600px){.crm-row{flex-direction:column}.crm-row__s{align-items:flex-start;text-align:left}}

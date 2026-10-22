@@ -5,6 +5,8 @@ import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } fr
 const AB = window.AlexBes;
 const $ = (s, r) => (r || document).querySelector(s);
 const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
+const npS = (v) => (typeof v === 'string' ? v : ''); // 22.10: np може бути службовим об’єктом CRM адміна — тоді не показуємо й не перезаписуємо
+let npLock = false;
 const LS = {
   get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
@@ -206,7 +208,8 @@ async function onUser(u) {
     const snap = await F.getDoc(ref);
     if (user !== u) return;
     const data = snap.exists() ? snap.data() : {};
-    profile = { name: data.name || '', phone: data.phone || '', city: data.city || '', np: data.np || '' };
+    npLock = !!(data.np && typeof data.np === 'object');
+    profile = { name: data.name || '', phone: data.phone || '', city: data.city || '', np: npS(data.np) };
     serverPhoto = typeof data.photo === 'string' ? data.photo : null;
     if (tok === avaTok) {   // nobody changed the photo while we were loading
       const la = localAva(u.uid);
@@ -235,7 +238,8 @@ async function onUser(u) {
     unsubUser = F.onSnapshot(ref, (s) => {
       if (s.metadata.hasPendingWrites || saveT || user !== u || !s.exists()) return;
       const d = s.data();
-      const np = { name: d.name || '', phone: d.phone || '', city: d.city || '', np: d.np || '' };
+      npLock = !!(d.np && typeof d.np === 'object');
+      const np = { name: d.name || '', phone: d.phone || '', city: d.city || '', np: npS(d.np) };
       if (!profT && ['name', 'phone', 'city', 'np'].some((k) => np[k] !== profile[k])) {   // профіль змінили на іншому пристрої
         const was = cartOf(profile), now = cartOf(np), cur = AB.getForm(), set = {};
         ['name', 'phone', 'city'].forEach((k) => { if (now[k] !== was[k] && (!cur[k] || cur[k] === was[k])) set[k] = now[k]; });
@@ -284,7 +288,7 @@ function onCartForm(f, kind) {
     const patch = {}, name = String(f.name || '').trim().slice(0, 100), phone = String(f.phone || '').trim().slice(0, 40), city = String(f.city || '').trim();
     if (name && name !== profile.name) patch.name = name;
     if (phone && phone !== profile.phone) patch.phone = phone;
-    if (city && city !== joinCity(profile)) { const c = splitCity(city, profile); if (c.city !== profile.city) patch.city = c.city; if (c.np !== profile.np) patch.np = c.np; }
+    if (city && city !== joinCity(profile)) { const c = splitCity(city, profile); if (c.city !== profile.city) patch.city = c.city; if (c.np !== profile.np && !npLock) patch.np = c.np; }
     if (!Object.keys(patch).length) return;
     Object.assign(profile, patch); setBtn();
     fb.F.setDoc(fb.F.doc(fb.db, 'users', u.uid), Object.assign({}, patch, { updatedAt: Date.now() }), { merge: true }).catch(() => {});
@@ -511,7 +515,8 @@ async function onSubmit(e) {
       say('Якщо такий акаунт існує, лист для відновлення надіслано на ' + v('email') + '. Перевірте також «Спам».', true);
     } else if (kind === 'profile') {
       const p = { name: v('name').slice(0, 100), phone: v('phone').slice(0, 40), city: v('city').slice(0, 120), np: v('np').slice(0, 120) };
-      await F.setDoc(F.doc(db, 'users', user.uid), Object.assign({}, p, { updatedAt: Date.now() }), { merge: true });
+      const pw = Object.assign({}, p); if (npLock) delete pw.np;
+      await F.setDoc(F.doc(db, 'users', user.uid), Object.assign(pw, { updatedAt: Date.now() }), { merge: true });
       clearTimeout(profT); profT = null;
       profile = p; setBtn();
       // профіль збережено явно → ці дані стають даними кошика (порожні поля профілю кошик не стирають)
