@@ -1,7 +1,7 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL } from './fb-common.js?v=1';
 // rv2: admin-orders.js без відгуків
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=13';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=14';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;
@@ -333,7 +333,7 @@ function openEdit(id, opts) {
     items: (p ? p.gallery : []).map((k) => ({ key: k, src: k === 'static' ? BASE[p.id].photo : photoCache[phDoc(p.id, k)] || null })),
     orig: p ? p.gallery.slice() : [], videos: (p && p.videos ? p.videos.slice() : []), vars: varsFrom(p), shot: null };
   if (opts.dup) { edit.items = opts.items || []; edit.vars = opts.vars || []; edit.videos = (opts.dup.videos || []).slice(); }
-  const v = opts.dup || p || { name: '', category: opts.shot ? 'cn' : (CATS[0] ? CATS[0].id : ''), price_eur: null, price_label: '', in_stock: opts.shot ? 'В дорозі, наявність уточнюйте' : 'В наявності', description: '', promo: '', variants: null, code: '', hidden: false };
+  const v = opts.dup || p || { name: '', category: opts.shot ? 'equip' : (CATS[0] ? CATS[0].id : ''), price_eur: null, price_label: '', in_stock: opts.shot ? 'В дорозі, наявність уточнюйте' : 'В наявності', description: '', promo: '', variants: null, code: '', hidden: false };
   const stockKnown = STOCKS.includes(v.in_stock);
   const b = p && p.isStatic ? baseVals(p.id) : null;
   const pm = parsePromo(v.promo);
