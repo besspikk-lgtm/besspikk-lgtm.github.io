@@ -6542,5 +6542,37 @@
       <g:google_product_category>2058</g:google_product_category>
       <g:product_type>PALINAL</g:product_type>
     </item>
+    <item>
+      <g:id>sanding-block-vacuum-400x70-yellow</g:id>
+      <g:item_group_id>sanding-block-vacuum-400x70</g:item_group_id>
+      <title>Ручний шліфувальний брусок 400 × 70 мм з пиловідводом і регульованим вигином — жовтий</title>
+      <description>Довгий ручний шліфувальний брусок (рубанок) 400 × 70 мм для вирівнювання площин і плавних вигинів кузова. Дві ручки, між ними — регулювальна тяга: нею змінюють радіус вигину гнучкої підошви під кривизну деталі. Отвори в підошві й патрубок під шланг пилососа відводять пил під час шліфування. Підходить для наждачного паперу в рулоні або аркушах; для кузовних і столярних робіт. Два кольори корпусу: жовтий і червоний.</description>
+      <g:price>1600.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/sanding-block-vacuum-400x70/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/sanding-block-vacuum-400x70.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/v/sanding-block-vacuum-400x70-red.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:color>жовтий</g:color>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:google_product_category>4419</g:google_product_category>
+      <g:product_type>Абразиви та підготовка поверхні</g:product_type>
+    </item>
+    <item>
+      <g:id>sanding-block-vacuum-400x70-red</g:id>
+      <g:item_group_id>sanding-block-vacuum-400x70</g:item_group_id>
+      <title>Ручний шліфувальний брусок 400 × 70 мм з пиловідводом і регульованим вигином — червоний</title>
+      <description>Довгий ручний шліфувальний брусок (рубанок) 400 × 70 мм для вирівнювання площин і плавних вигинів кузова. Дві ручки, між ними — регулювальна тяга: нею змінюють радіус вигину гнучкої підошви під кривизну деталі. Отвори в підошві й патрубок під шланг пилососа відводять пил під час шліфування. Підходить для наждачного паперу в рулоні або аркушах; для кузовних і столярних робіт. Два кольори корпусу: жовтий і червоний.</description>
+      <g:price>1600.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/sanding-block-vacuum-400x70/</link>
+      <g:image_link>https://alexbes.com.ua/img/v/sanding-block-vacuum-400x70-red.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/sanding-block-vacuum-400x70.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:color>червоний</g:color>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:google_product_category>4419</g:google_product_category>
+      <g:product_type>Абразиви та підготовка поверхні</g:product_type>
+    </item>
 </channel>
 </rss>
