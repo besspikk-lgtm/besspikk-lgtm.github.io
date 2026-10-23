@@ -83,6 +83,11 @@ function totalHTML(o) {
   return disc + '<div class="ocard__tot">Разом: <b>' + (tot != null ? grn(tot) : '—') + '</b>' +
     (ask ? ' <span class="muted small">+ ' + ask + ' ' + (ask === 1 ? 'позиція' : ask < 5 ? 'позиції' : 'позицій') + ' — ціну уточнити</span>' : '') + '</div>';
 }
+// 23.10.2026: подарунок (поріг з «Налаштування») — сайт дописує в text рядок «+ <подарунок> (замовлення від N грн)»
+function giftHTML(o) {
+  const m = typeof o.text === 'string' && o.text.match(/^\+ (.+) \(замовлення від [^)]+\)$/m);
+  return m ? '<div class="ocard__disc"><b>Подарунок: ' + esc(m[1]) + '</b> — додати до посилки</div>' : '';
+}
 function orderHTML(o) {
   const s = stOf(o);
   return '<li class="ocard ocard--' + s + (isQuick(o) ? ' ocard--quick' : '') + '" data-oid="' + esc(o.id) + '">' +
@@ -92,7 +97,7 @@ function orderHTML(o) {
       '<div>📞 ' + (o.phone ? '<a href="tel:' + esc(telHref(o.phone)) + '">' + esc(o.phone) + '</a>' : '<span class="muted">телефон не вказано</span>') + '</div>' +
       '<div>📍 ' + (o.city ? esc(o.city) : '<span class="muted">місто / НП не вказано</span>') + '</div>' +
     '</div>' +
-    itemsHTML(o) + totalHTML(o) +
+    itemsHTML(o) + totalHTML(o) + giftHTML(o) +
     (o.note ? '<div class="ocard__note">💬 ' + esc(o.note) + '</div>' : '') +
     '<div class="ocard__a"><label class="ocard__sel"><span>Статус</span><select data-ost="' + esc(o.id) + '" aria-label="Статус замовлення">' +
       STATUSES.map((x) => '<option value="' + x.id + '"' + (x.id === s ? ' selected' : '') + '>' + x.label + '</option>').join('') + '</select></label>' +

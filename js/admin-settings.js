@@ -8,6 +8,10 @@ export const SECTIONS = [
   { id: 'notice', t: 'Оголошення вгорі сайту', items: [
     B('show_notice', 'Показувати оголошення', 'Жовта смуга з вашим текстом над усім сайтом (на всіх сторінках).'),
     T('notice', 'Текст оголошення', 'Наприклад: «Вихідні 1–3 листопада, замовлення приймаємо в Telegram». Порожнє — смуги немає.', '', true)] },
+  { id: 'gift', t: 'Подарунок у кошику', items: [
+    B('gift_on', 'Показувати прогрес до подарунка', 'Смуга в кошику: «Ще N грн до подарунка…», після порогу — «Ви отримуєте…». Подарунок дописується в текст замовлення.'),
+    T('gift_min', 'Поріг, грн', 'Сума замовлення (після знижки), з якої діє подарунок.', '10000'),
+    T('gift_txt', 'Текст подарунка', 'Наприклад: «Подарунок від Alex_bes».', 'Подарунок від Alex_bes')] },
   { id: 'contacts', t: 'Контакти і посилання', items: [
     T('phone', 'Телефон', 'Формат +380XXXXXXXXX. Міняє кнопки «Подзвонити», WhatsApp і Viber на всіх сторінках.', '+380995264262'),
     T('tg', 'Особистий Telegram (нік без @)', 'Куди ведуть «Отримати консультацію» і посилання «Telegram @…».', 'alex_bespik'),
@@ -109,6 +113,8 @@ export async function settingsClick(t, fb, toast) {
     else { const v = i.value.trim(); if (v) next[it.k] = v; else delete next[it.k]; }
   }
   if (next.phone && !/^\+?380\d{9}$/.test(next.phone.replace(/[\s()-]/g, ''))) { msg.textContent = 'Телефон: формат +380XXXXXXXXX'; return true; }
+  if (next.gift_min && !/^\d{2,7}$/.test(next.gift_min.replace(/\s/g, ''))) { msg.textContent = 'Поріг: лише ціле число гривень'; return true; }
+  if (next.gift_min) next.gift_min = next.gift_min.replace(/\s/g, '');
   for (const k of ['tg', 'bot', 'channel', 'tiktok', 'insta']) if (next[k] && !/^@?[A-Za-z0-9_.]{3,40}$/.test(next[k])) { msg.textContent = 'Нік: лише латиниця, цифри, _ і крапка'; return true; }
   const json = JSON.stringify(next);
   if (json.length > 6000) { msg.textContent = 'Забагато тексту (ліміт 6000 символів на всі налаштування)'; return true; }

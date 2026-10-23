@@ -1,9 +1,9 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL, isNetErr } from './fb-common.js?v=2';
 // rv2: admin-orders.js без відгуків
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=15';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=16';
 import { initCrm, loadCrmOrders } from './admin-crm.js?v=2';
-import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=3';
+import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=4';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;

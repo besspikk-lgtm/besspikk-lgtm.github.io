@@ -1694,6 +1694,7 @@
     var di = discInfo(sum), dsc = di ? di.amount : 0;
     if (dsc) lines.push('Сума: ' + fmtUah(sum), 'Знижка ' + di.pct + '% ' + di.label + ': −' + fmtUah(dsc), 'Разом зі знижкою: ' + fmtUah(sum - dsc) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
     else lines.push('Разом: ' + fmtUah(sum) + (ask ? ' + ' + ask + ' поз. з ціною на уточненні' : ''));
+    var gf = giftOf(sum - dsc); if (gf && gf.ok) lines.push('+ ' + gf.txt + ' (замовлення від ' + fmtUah(gf.min) + ')');
     var f = form;
     if (f.name) lines.push("Ім'я: " + f.name);
     if (f.phone) lines.push('Телефон: ' + f.phone);
@@ -1703,6 +1704,23 @@
     return lines.join('\n');
   }
   var I_TAG = '<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
+  // 23.10.2026: прогрес до подарунка. Налаштування «Подарунок» в адмінці (products/_site): gift_on / gift_min / gift_txt; за замовчуванням увімкнено, 10000 грн
+  var I_GIFT = '<svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>';
+  function giftCfg() {
+    var S = window.ALEXBES_SITE || {}; if (S.gift_on === false) return null;
+    var m = parseInt(String(S.gift_min || '').replace(/\D/g, ''), 10);
+    return { min: m > 0 ? m : 10000, txt: (typeof S.gift_txt === 'string' && S.gift_txt.trim()) || 'Подарунок від Alex_bes' };
+  }
+  function giftOf(total) { var g = giftCfg(); if (!g) return null; g.ok = total >= g.min; g.left = Math.max(0, g.min - total); g.pct = Math.min(100, total / g.min * 100); return g; }
+  function giftLow(s) { return s.charAt(0).toLowerCase() + s.slice(1); }
+  function cgiftHTML(total) {
+    var g = giftOf(total); if (!g || total <= 0) return '';
+    var dflt = /^подарунок\s/i.test(g.txt), nb = fmtUah(g.left).replace(/ /g, '\u00a0');
+    var msg = g.ok ? (dflt ? 'Ви отримуєте ' + esc(giftLow(g.txt)) : 'Ви отримуєте: ' + esc(g.txt))
+      : 'Ще <b>' + nb + '</b> до ' + (dflt ? esc(giftLow(g.txt).replace(/^подарунок/, 'подарунка')) : 'подарунка: ' + esc(g.txt));
+    return '<div class="cgift' + (g.ok ? ' cgift--ok' : '') + '">' + I_GIFT + '<div class="cgift__b"><p class="cgift__t">' + msg + '</p>' +
+      '<div class="cgift__bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="' + Math.round(g.pct) + '"><span style="width:' + g.pct.toFixed(1) + '%"></span></div></div></div>';
+  }
   function cdiscHTML(sum, ask) {
     var nb = function (n) { return fmtUah(n).replace(/ /g, '\u00a0'); }, di = discInfo(sum), d = di ? di.amount : 0;
     var pc = load(PCODE_KEY, null), pcOn = codeNow();
@@ -1711,10 +1729,11 @@
       (pcOn ? '<button type="button" class="pcode__x" data-pcode-x aria-label="Прибрати промокод">' + I_TAG + 'Прибрати</button>' : '<button type="submit" class="pcode__go">Застосувати</button>') +
       (pcodeMsg ? '<p class="pcode__m" role="alert">' + esc(pcodeMsg) + '</p>' : pcOn && !(di && di.code) ? '<p class="pcode__m">Знижка за реєстрацію більша — діє вона (знижки не сумуються)</p>' : '') + '</form>' : '';
     var askT = ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '';
-    if (d) return pcode + '<div class="ctotal ctotal--sub"><span>Сума</span><b>' + nb(sum) + '</b></div>' +
+    var gift = cgiftHTML(sum - d);
+    if (d) return gift + pcode + '<div class="ctotal ctotal--sub"><span>Сума</span><b>' + nb(sum) + '</b></div>' +
       '<div class="cdisc"><span>' + I_TAG + 'Знижка ' + di.pct + '% ' + esc(di.label) + '</span><b>\u2212' + nb(d) + '</b></div>' +
       '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum - d) + '</b></div>';
-    return pcode + '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
+    return gift + pcode + '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
       (!(acct && acct.uid) && sum > 0 ? '<button type="button" class="cdisc-hint" data-open-acct>' + I_TAG + '<span>Зареєструйтеся — і отримаєте <b>5% знижки</b> на перше замовлення</span></button>' : '');
   }
   // 23.10.2026: маска +380 XX XXX XX XX (порожнє поле лишається порожнім)
