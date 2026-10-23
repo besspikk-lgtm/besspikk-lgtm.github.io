@@ -296,3 +296,30 @@ if (window.AlexBesUX && window.AlexBesUX.on) {
   const p = $('#pmodal'); if (p && !p.hidden && window.AlexBesUX.pmState && window.AlexBesUX.pmState.id) onProduct(window.AlexBesUX.byId(window.AlexBesUX.pmState.id));
 }
 initStatic();
+
+/* ---------- 23.10.2026: відгуки в кошику — лише схвалені з reviews.json + «Залишити відгук» ---------- */
+function cartReviews() {
+  const body = document.getElementById('cartbody'); if (!body || !window.MutationObserver) return;
+  const paint = async () => {
+    const tr = body.querySelector('.ctrust'); if (!tr || body.querySelector('.crv')) return;
+    const a = await loadAll(); if (body.querySelector('.crv') || !body.contains(tr)) return;
+    const UX = window.AlexBesUX, AB = window.AlexBes;
+    const all = [].concat(...Object.values(a.by)).filter((r) => !UX || !UX.byId || UX.byId(r.pid)).sort((x, y) => y.t - x.t);
+    const s = summary(all);
+    let pid = ''; try { const c = AB && AB.getCart ? AB.getCart() : []; pid = c && c[0] ? c[0].id : ''; } catch (e) {}
+    const el = document.createElement('section'); el.className = 'crv'; el.setAttribute('aria-label', 'Відгуки покупців');
+    el.innerHTML = '<p class="crv__h">' + svgI(I_MSG, 18) + '<span>Відгуки покупців</span>' + (s ? ' ' + starsHTML(s.avg, 14) + '<span class="crv__n">' + num1(s.avg) + ' · ' + cntTxt(s.n) + '</span>' : '') + '</p>' +
+      (all.length ? '<ul class="crv__list">' + all.slice(0, 3).map((r) => { const p = UX && UX.byId ? UX.byId(r.pid) : null;
+        return '<li class="crv__it">' + starsHTML(r.rating, 13, 'Оцінка ' + r.rating + ' з 5') + '<p class="crv__t">' + esc(r.text) + '</p><p class="crv__m">' + esc(r.name) + (p ? ' · ' + esc(p.name) : '') + '</p></li>'; }).join('') + '</ul>'
+        : '<p class="crv__e">Відгуків поки мало — ваш буде одним із перших.</p>') +
+      (pid ? '<a class="btn btn--o btn--full crv__cta" href="#/p/' + esc(pid) + '" data-crv-go>' + svgI(I_MSG, 16) + 'Залишити відгук</a>' : '');
+    tr.parentNode.insertBefore(el, tr);
+  };
+  new MutationObserver(() => { paint(); }).observe(body, { childList: true });
+  paint();
+  document.addEventListener('click', (e) => {
+    const t = e.target.closest && e.target.closest('[data-crv-go]'); if (!t) return;
+    setTimeout(() => { const h = document.querySelector('#pmodal [data-rv-host]'); if (h) h.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 700);
+  });
+}
+cartReviews();
