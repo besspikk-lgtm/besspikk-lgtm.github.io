@@ -9,7 +9,7 @@
 <title>Адмінка — Alex_bes😈</title>
 <link rel="icon" type="image/png" href="img/favicon.png?v=3">
 <link rel="stylesheet" href="css/style.css?v=18">
-<link rel="stylesheet" href="css/admin.css?v=15">
+<link rel="stylesheet" href="css/admin.css?v=16">
 <style>.adm-offline{position:sticky;top:0;z-index:50;margin:0 0 10px;padding:10px 14px;border-radius:10px;background:#5a3b00;color:#ffe08a;font-size:13.5px}.adm-spin{display:inline-block;width:14px;height:14px;margin-right:8px;vertical-align:-2px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:admsp .8s linear infinite}@keyframes admsp{to{transform:rotate(360deg)}}@media (prefers-reduced-motion:reduce){.adm-spin{animation:none}}</style>
 </head>
 <body class="admbody">
@@ -103,6 +103,9 @@
 
     <div data-pane="clients" hidden>
       <div id="crm-box" class="crm"></div>
+      <h2 class="crm-h">Кинуті кошики</h2>
+      <p class="muted small" id="ab-stats">Кошики зареєстрованих покупців, які не оформили замовлення. Кнопки відкривають чат із готовим текстом — надсилаєте самі.</p>
+      <ul class="cl-list" id="ab-list"></ul>
       <h2 class="crm-h">Зареєстровані на сайті</h2>
       <div class="cl-tools">
         <label class="cl-q"><svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="cl-q" type="search" placeholder="Пошук: ім’я, телефон, email…" autocomplete="off" aria-label="Пошук клієнтів"></label>
@@ -173,9 +176,9 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script src="data/products.js?v=20261023g"></script>
+<script src="data/products.js?v=20261023h"></script>
 <script src="js/media.js?v=2"></script>
 <script src="js/subs.js?v=1"></script>
-<script type="module" src="js/admin.js?v=38"></script>
+<script type="module" src="js/admin.js?v=39"></script>
 </body>
 </html>

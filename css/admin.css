@@ -500,3 +500,4 @@ label.btn{cursor:pointer}
 .crm-ord__s{font-weight:800;display:flex;align-items:center;gap:6px}
 .crm-badge{margin-left:6px}
 @media (max-width:600px){.crm-row{flex-direction:column}.crm-row__s{align-items:flex-start;text-align:left}}
+.ab__b{flex:1;min-width:0;display:grid;gap:6px}.ab__a{display:flex;gap:6px;flex-wrap:wrap}

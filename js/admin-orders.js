@@ -198,7 +198,7 @@ async function fetchUsers() {
         let c = null; try { c = x.createdAt && x.createdAt.toDate ? x.createdAt.toDate() : null; } catch (e) { c = null; }
         const up = typeof x.updatedAt === 'number' && isFinite(x.updatedAt) && x.updatedAt > 0 ? new Date(x.updatedAt) : null;
         out.push({ id: d.id, name: String(x.name || '').trim(), phone: String(x.phone || '').trim(), email: String(x.email || '').trim(),
-          city: String(x.city || '').trim(), np: String(x.np || '').trim(), c, up,
+          city: String(x.city || '').trim(), np: String(x.np || '').trim(), c, up, cart: Array.isArray(x.cart) ? x.cart.filter((l) => l && typeof l.id === 'string') : [],
           photo: typeof x.photo === 'string' && /^data:image\/(webp|jpeg);base64,/.test(x.photo) ? x.photo : '' });
       });
       out.sort((a, b) => ((b.c || b.up || 0) - (a.c || a.up || 0)) || a.name.localeCompare(b.name, 'uk'));
@@ -285,7 +285,38 @@ export async function loadClients(force) {
   const st = $('#cl-stats'); if (st) st.textContent = 'Завантаження клієнтів…';
   await fetchUsers();
   renderClients();
+  renderAbandoned();
   if (stDocs) renderStats();
+}
+// 23.10.2026: «Кинуті кошики» — кошик зареєстрованого покупця (users/{uid}.cart, його зберігає сайт) не порожній і без змін понад 1 год.
+// Кнопки лише відкривають Telegram / WhatsApp з готовим текстом — надсилає Alex сам; автоматичних повідомлень немає.
+const AB_AGE = 36e5, AB_MAX = 30;
+const PNAME = {}; ((window.ALEXBES_DATA && window.ALEXBES_DATA.products) || []).forEach((p) => { PNAME[p.id] = p; });
+const abPhone = (p) => { let d = String(p || '').replace(/\D/g, ''); if (d.length === 10 && d[0] === '0') d = '38' + d; return d.length === 12 && d.startsWith('380') ? d : ''; };
+function abList() { return (usDocs || []).filter((u) => u.cart.length && u.up && Date.now() - u.up.getTime() > AB_AGE).sort((a, b) => b.up - a.up); }
+function abText(u) {
+  const items = u.cart.slice(0, 6).map((l) => { const p = PNAME[l.id], v = p && p.variants && p.variants[l.vi] ? ' (' + p.variants[l.vi].label + ')' : ''; return '— ' + (p ? p.name : l.id) + v + (l.qty > 1 ? ' × ' + l.qty : ''); });
+  if (u.cart.length > 6) items.push('— і ще ' + (u.cart.length - 6));
+  return 'Добрий день' + (u.name ? ', ' + u.name : '') + '! Це Alex_bes (alexbes.com.ua). У вашому кошику залишилось:\n' + items.join('\n') +
+    '\nПідказати щось або оформити замовлення? Кошик збережено в акаунті: https://alexbes.com.ua/#cart';
+}
+export function renderAbandoned() {
+  const box = $('#ab-list'), st = $('#ab-stats'); if (!box || !usDocs) return;
+  const rows = abList();
+  if (st) st.textContent = rows.length ? rows.length + ' ' + plural(rows.length, 'кошик', 'кошики', 'кошиків') + ' без замовлення (останні зміни понад годину тому)' : '';
+  box.innerHTML = rows.length ? rows.slice(0, AB_MAX).map((u) => {
+    const ph = abPhone(u.phone), n = u.cart.reduce((s, l) => s + (l.qty || 1), 0), txt = abText(u);
+    return '<li class="cl ab"><div class="ab__b"><b>' + esc(u.name || u.email || 'Без імені') + '</b> <span class="muted small">' + esc(u.phone || 'телефон не вказано') + ' · ' + esc(usDtf.format(u.up).replace(',', '')) + '</span>' +
+      '<div class="small">' + n + ' шт: ' + esc(u.cart.slice(0, 4).map((l) => (PNAME[l.id] ? PNAME[l.id].name : l.id)).join('; ')) + (u.cart.length > 4 ? '…' : '') + '</div>' +
+      '<div class="ab__a">' + (ph ? '<a class="btn btn--o adm-sm" target="_blank" rel="noopener" href="https://wa.me/' + ph + '?text=' + encodeURIComponent(txt) + '">WhatsApp</a>' +
+        '<a class="btn btn--o adm-sm" target="_blank" rel="noopener" href="https://t.me/+' + ph + '" data-ab-copy="' + esc(u.id) + '">Telegram</a>' : '') +
+        '<button class="btn btn--o adm-sm" type="button" data-ab-copy="' + esc(u.id) + '">Скопіювати текст</button></div></div></li>';
+  }).join('') : '<li class="cl cl--empty muted">Кинутих кошиків немає.</li>';
+}
+function abCopy(id) {
+  const u = (usDocs || []).find((x) => x.id === id); if (!u) return;
+  const txt = abText(u);
+  (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => ctx.toast('Текст нагадування скопійовано — вставте в чат'), () => ctx.toast('Не вдалося скопіювати'));
 }
 export function renderClients() {
   const list = $('#cl-list'), st = $('#cl-stats'); if (!list || !st) return;
@@ -529,6 +560,7 @@ export function extrasClick(t) {
   if (t.hasAttribute('data-cl-range')) { { const r = +t.getAttribute('data-cl-range'); stRange = r === 30 ? 30 : r === 1 ? 1 : 7; } renderClients(); if (stDocs) renderStats(); return true; }
   if (t.hasAttribute('data-cl-reload')) { loadClients(true); return true; }
   if (t.hasAttribute('data-cl-copy')) { clCopy(); return true; }
+  if (t.hasAttribute('data-ab-copy')) { abCopy(t.getAttribute('data-ab-copy')); return true; } // Telegram: копіюємо текст і відкриваємо чат
   if (t.hasAttribute('data-cl-csv')) { clCsv(); return true; }
   if (t.hasAttribute('data-st-reload')) { loadStats(); return true; }
   return false;
