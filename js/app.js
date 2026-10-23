@@ -1717,6 +1717,14 @@
     return pcode + '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
       (!(acct && acct.uid) && sum > 0 ? '<button type="button" class="cdisc-hint" data-open-acct>' + I_TAG + '<span>Зареєструйтеся — і отримаєте <b>5% знижки</b> на перше замовлення</span></button>' : '');
   }
+  // 23.10.2026: маска +380 XX XXX XX XX (порожнє поле лишається порожнім)
+  function maskPhone(v) {
+    var d = String(v || '').replace(/\D/g, ''); if (!d) return '';
+    if (d.indexOf('380') === 0) d = d.slice(3); else if (d.indexOf('80') === 0) d = d.slice(2); else if (d[0] === '0') d = d.slice(1);
+    d = d.slice(0, 9); var o = '+380';
+    if (d.length) o += ' ' + d.slice(0, 2); if (d.length > 2) o += ' ' + d.slice(2, 5); if (d.length > 5) o += ' ' + d.slice(5, 7); if (d.length > 7) o += ' ' + d.slice(7, 9);
+    return o;
+  }
   function renderCart() {
     var body = $('#cartbody');
     if (!cart.length && lastOrder && Date.now() - lastOrder.t < 30 * 60000) { body.innerHTML = orderDoneHTML(); return; }
@@ -1744,15 +1752,19 @@
       '<div class="csec" data-csec="2"><h3 class="csec__ttl"><span>2</span>Ваші дані</h3>' +
       '<div class="cform">' +
         '<label>Ім’я<input data-f="name" value="' + esc(form.name || '') + '" autocomplete="name"></label>' +
-        '<label>Телефон<input data-f="phone" value="' + esc(form.phone || '') + '" type="tel" autocomplete="tel"></label>' +
+        '<label>Телефон<input data-f="phone" value="' + esc(maskPhone(form.phone || '')) + '" type="tel" inputmode="tel" autocomplete="tel" placeholder="+380 __ ___ __ __" maxlength="17"></label>' +
+        '<details class="cmore full"' + (form.city || form.note ? ' open' : '') + '><summary>Додати коментар</summary><div class="cform cform--more">' +
         '<label class="full">Місто / доставка<input data-f="city" value="' + esc(form.city || '') + '" placeholder="Місто, спосіб доставки"></label>' +
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
-      '</div></div>' +
-      '<div class="csec" data-csec="3"><h3 class="csec__ttl"><span>3</span>Надіслати замовлення</h3>' +
-      '<details class="preview preview--top"><summary><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.85z"/></svg> Текст замовлення</summary><pre id="otext"></pre></details>' +
-      '<div class="cactions">' +
+        '</div></details>' +
+      '</div>' +
+      '<div class="cactions cactions--big">' +
         '<button class="btn btn--bot btn--full" type="button" data-wa>' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</button>' +
         '<button class="btn btn--y btn--full" type="button" data-send><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></svg> Замовити в Telegram</button>' +
+      '</div></div>' +
+      '<div class="csec" data-csec="3"><h3 class="csec__ttl"><span>3</span>Інші способи</h3>' +
+      '<details class="preview preview--top"><summary><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20h9"/><path d="M16.38 3.62a1 1 0 0 1 3 3L7.37 18.64a2 2 0 0 1-.86.5l-2.87.84a.5.5 0 0 1-.62-.62l.84-2.87a2 2 0 0 1 .5-.85z"/></svg> Текст замовлення</summary><pre id="otext"></pre></details>' +
+      '<div class="cactions">' +
         '<button class="btn btn--o" type="button" data-copy><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg> Скопіювати текст</button>' +
         '<a class="btn btn--o btn--full" href="tel:' + CONFIG.phone + '"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Подзвонити ' + CONFIG.phoneLabel + '</a>' +
       '</div>' +
@@ -1762,7 +1774,7 @@
     fillPhotos();
   }
   /* преміум-кошик (03.10.2026): індикатор кроків + рядок довіри — лише відображення, логіка замовлення без змін */
-  var CSTEPS = ['Кошик', 'Дані', 'Надсилання'];
+  var CSTEPS = ['Кошик', 'Дані', 'Інше'];
   function cstepsHTML() {
     return '<ol class="csteps" aria-label="Кроки оформлення">' + CSTEPS.map(function (n, i) {
       return '<li><button type="button" class="cstep' + (i === 0 ? ' on' : '') + '" data-cstep="' + (i + 1) + '"' + (i === 0 ? ' aria-current="step"' : '') + '><span>' + (i + 1) + '</span>' + n + '</button></li>';
@@ -2253,7 +2265,7 @@
   document.addEventListener('input', function (e) {
     var t = e.target;
     if (t.id === 'q') { state.q = t.value.trim(); renderGridSearch(); return; }
-    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk !== 'note') formChanged('input'); return; }
+    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); if (fk === 'phone') { var mv = maskPhone(t.value); if (mv !== t.value) t.value = mv; } form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk !== 'note') formChanged('input'); return; }
     if (t.hasAttribute('data-ci')) { var i = +t.getAttribute('data-ci'); cart[i].qty = Math.max(1, parseInt(t.value, 10) || 1); saveCart(); updateBadges(); var o2 = $('#otext'); if (o2) o2.textContent = orderText(); return; }
   });
   function renderGridSearch() {

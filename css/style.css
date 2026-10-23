@@ -2086,3 +2086,8 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .ashr__it--main svg{color:#0a1631}
 .ashr__it[hidden]{display:none}
 @media (max-width:480px){.mix__tbl{font-size:12px}.mix__tbl th{font-size:9.5px}.mix__tbl th,.mix__tbl td{padding:5px 3px}.mix__tabs{margin:8px 10px 10px}}
+/* 23.10.2026 спрощене оформлення */
+.cmore{margin:0}.cmore summary{cursor:pointer;color:var(--yellow-hi);font-size:14px;font-weight:700;padding:6px 0;list-style:none}.cmore summary::-webkit-details-marker{display:none}.cmore summary::before{content:'+ '}.cmore[open] summary::before{content:'− '}
+.cform--more{margin:8px 0 0}
+.cactions--big{grid-template-columns:1fr;margin-bottom:4px}.cactions--big .btn{min-height:54px;font-size:17px}
+.cform input{font-size:16px}
