@@ -345,7 +345,9 @@
     ppe: '<path d="M12 3 4.5 6v5.5c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/>',
     tools: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'
   };
-  function catIc(id, sz) { return '<span class="cic">' + svgI(CAT_IC[id] || CAT_IC.all, sz || 20) + '</span>'; }
+  // 23.10.2026: PALINAL — прапор Італії (SVG, без емодзі)
+  var IT_FLAG = function (n) { return '<svg viewBox="0 0 24 24" width="' + n + '" height="' + n + '" aria-hidden="true" focusable="false"><defs><clipPath id="itfc"><rect x="2.5" y="5.5" width="19" height="13" rx="2.2"/></clipPath></defs><g clip-path="url(#itfc)"><rect x="2.5" y="5.5" width="6.34" height="13" fill="#009246"/><rect x="8.83" y="5.5" width="6.34" height="13" fill="#fff"/><rect x="15.16" y="5.5" width="6.34" height="13" fill="#CE2B37"/></g><rect x="2.5" y="5.5" width="19" height="13" rx="2.2" fill="none" stroke="rgba(0,0,0,.25)" stroke-width=".6"/></svg>'; };
+  function catIc(id, sz) { return '<span class="cic' + (id === 'palinal' ? ' cic--it' : '') + '">' + (id === 'palinal' ? IT_FLAG(sz || 20) : svgI(CAT_IC[id] || CAT_IC.all, sz || 20)) + '</span>'; }
   var CAT_LABEL = { sale: 'Акції', 'new': 'Новинки', excl: 'Ексклюзив', fav: 'Вибране' };
   function catLabel(id) { return CAT_LABEL[id] || (id === 'all' ? '' : catById[id] ? catById[id].name : id); }
   function countWord(n) { var a = n % 10, b = n % 100; return n + ' ' + (a === 1 && b !== 11 ? 'товар' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'товари' : 'товарів'); }
@@ -390,13 +392,12 @@
     var total = PRODUCTS.length;
     var items = [{ id: 'all', name: 'Усі товари', count: total }, { id: 'sale', name: 'Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: 'Новинки', count: PRODUCTS.filter(isNew).length }];
     // 08.10.2026 (Alex): замість розділу «Ексклюзив» — «Товари з Китаю» на тому ж місці (позначки «Ексклюзив» на картках лишаються)
-    var od = CATS.filter(function (c) { return c.id === 'odyag' && c.count > 0; })[0]; // 17.10.2026 (Alex): «Брендований одяг» — перший серед розділів
-    if (od) items.push(od);
+    // 23.10.2026 (Alex): порядок розділів — як у data/products.js (PALINAL перший, «Брендований одяг» останній)
     var cn = CATS.filter(function (c) { return c.id === 'cn' && c.count > 0; })[0];
     if (cn) items.push(cn);
     var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
     if (nf || state.cat === 'fav') items.push({ id: 'fav', name: 'Вибране', count: nf });
-    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && c.id !== 'odyag' && c.count > 0; })); // порожні (усі товари приховані) розділи не показуємо
+    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && c.count > 0; })); // порожні (усі товари приховані) розділи не показуємо
     var nm = function (c, short) { return esc(short && c.id === 'all' ? 'Усі товари' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="side__nm">' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
