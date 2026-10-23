@@ -392,7 +392,7 @@
   /* ---------- catalog render ---------- */
   function renderCats() {
     var total = PRODUCTS.length;
-    var items = [{ id: 'all', name: 'Усі товари', count: total }, { id: 'sale', name: 'Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: 'Новинки', count: PRODUCTS.filter(isNew).length }];
+    var items = [{ id: 'sale', name: 'Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: 'Новинки', count: PRODUCTS.filter(isNew).length }];
     // 08.10.2026 (Alex): замість розділу «Ексклюзив» — «Товари з Китаю» на тому ж місці (позначки «Ексклюзив» на картках лишаються)
     // 23.10.2026 (Alex): порядок розділів — як у data/products.js (PALINAL перший, «Брендований одяг» останній)
     var cn = CATS.filter(function (c) { return c.id === 'cn' && c.count > 0; })[0];
@@ -629,6 +629,10 @@
     renderMore();
     revealQuiet = false;
     $('#empty').hidden = list.length > 0;
+    // 23.10.2026 (Alex): на головній без розділу й без пошуку картки не показуємо — лише плитки розділів
+    var idle = state.cat === 'all' && !state.q, rs = $('.results'); if (rs) rs.hidden = idle;
+    document.body.classList.toggle('cat-idle', idle);
+    var bk = $('#backcat'); if (bk) bk.hidden = idle || !!state.q;
     if (!EMPTY_TXT) EMPTY_TXT = $('#empty').textContent;
     $('#empty').textContent = state.cat === 'fav' && !state.q ? 'У вибраному поки порожньо. Натисніть сердечко на картці товару, щоб зберегти його тут.' : EMPTY_TXT;
     var cn = catLabel(state.cat);
@@ -2009,6 +2013,7 @@
     renderGrid();
     var wantScroll = !catScrollSkip && (catScrollPending || (routedOnce && (prevCat !== state.cat || prevBrand !== state.brand || prevSub !== state.sub)));
     catScrollPending = catScrollSkip = false; routedOnce = true;
+    var tbx = $('.results .toolbar'); if (wantScroll && prevCat !== state.cat && !state.q && state.cat !== 'all' && tbx && tbx.getBoundingClientRect().height) { scrollToEl(tbx); wantScroll = false; } // 23.10: до кнопки «До розділів»
     if (wantScroll) { var sbx = $('#subbar'); if (prevCat !== state.cat && !state.sub && !state.q && sbx && !sbx.hidden && sbx.getBoundingClientRect().height) scrollToEl(sbx); else scrollToResults(); } // 16.10: клік на розділ із типами -> спершу сітка типів; вибір типу -> товари
   }
 
@@ -2281,6 +2286,9 @@
       if ((location.hash || '#/') !== bh) history.pushState(null, '', bh);
       catScrollPending = true; route();
       return;
+    }
+    if (t.hasAttribute('data-back-cats') || (t.closest('.ctiles, #chips, #catlist') && t.getAttribute('href') === location.hash && /^#\/c\//.test(location.hash))) { // назад до плиток; повторний тап по відкритому розділу — теж
+      e.preventDefault(); catScrollSkip = true; location.hash = '#/'; setTimeout(function () { var ct = $('#cattiles'); if (ct && !ct.hidden && ct.offsetParent) scrollToEl(ct); else window.scrollTo({ top: 0, behavior: 'smooth' }); }, 60); return;
     }
     if (t.hasAttribute('data-go-chips')) { e.preventDefault(); var to = t.getAttribute('data-go-chips') || '#/'; var same = location.hash === to || (to === '#/' && location.hash === '');
       if (to === '#/') { // «Каталог» у нижньому меню → до списку розділів (чіпів)
@@ -3054,6 +3062,8 @@
   }
   var upd = $('#upd'); if (upd) upd.textContent = new Date(DATA.updated || Date.now()).toLocaleDateString('uk-UA');
   if (/^#\/c\/[\w-]+/.test(location.hash)) catScrollPending = true; // 08.10: посилання на розділ (поділилися / c/<cat>/) — одразу до товарів розділу, не на банер
+  // 23.10.2026: глибоке посилання ?cat=<розділ> → #/c/<розділ>
+  (function () { var m = /[?&]cat=([\w-]{1,60})/.exec(location.search); if (m && !/^#\/(c|p)\//.test(location.hash)) { try { history.replaceState(null, '', location.pathname + '#/c/' + m[1]); } catch (e) {} } })();
   // 23.10.2026: «+» зі статичних /p/-сторінок → ?add=<id>#cart — додаємо в кошик і відкриваємо його
   (function () {
     var m = /[?&]add=([a-z0-9-]+)/i.exec(location.search); if (!m) return;
