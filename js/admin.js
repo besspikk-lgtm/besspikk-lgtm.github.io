@@ -186,7 +186,7 @@ function onUser(u) {
   $('#adm-cat').innerHTML = '<option value="all">Усі розділи</option>' + ED_CATS().map((c) => '<option value="' + c.id + '">' + esc(c.name) + '</option>').join('');
   const { F, db } = fb;
   unsub = F.onSnapshot(F.collection(db, 'products'), (qs) => {
-    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-|site$)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
+    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-|site$|qty$)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
     readCfg();
     if (curTab() === 'settings') renderSettings(svc);
     renderList(); bulkInfo();
@@ -367,6 +367,7 @@ function openEdit(id, opts) {
       '<label>Текст до ціни <span class="hint">(необов’язково, напр. «1 л», «комплект»)</span><input name="price_label" maxlength="120" value="' + esc(v.price_label || '') + '"></label>' +
       '<label>Наявність<select name="in_stock_sel">' + STOCKS.map((s) => '<option' + (s === v.in_stock ? ' selected' : '') + '>' + esc(s) + '</option>').join('') + '<option value="__custom"' + (stockKnown ? '' : ' selected') + '>Інше (свій текст)…</option></select>' + was('in_stock') + '</label>' +
       '<label class="full" data-custom-stock' + (stockKnown ? ' hidden' : '') + '>Свій текст наявності<input name="in_stock_custom" maxlength="120" value="' + esc(stockKnown ? '' : v.in_stock) + '" placeholder="напр. У дорозі · 2 шт"></label>' +
+      '<label>Кількість <span class="hint">(необов’язково; 1–3 — на сайті «Залишилось N шт»)</span><input name="qty" type="number" min="0" max="9999" step="1" inputmode="numeric" value="' + esc(String(qtyOf(edit && edit.id) ?? '')) + '"></label>' +
       '<label>Позначка<select name="promo"><option value="">Немає</option>' + [['Акція', 'Акція'], ['ХІТ', 'ХІТ'], ['Новинка', 'Новинка']].map((o) => '<option value="' + o[0] + '"' + (pm.main === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') +
         (pm.main && !PROMO_TO_CODE[pm.main] ? '<option value="' + esc(pm.main) + '" selected>' + esc(pm.main) + '</option>' : '') + '</select></label>' +
       '<label class="ed__chk ed__excl"><input name="promo_excl" type="checkbox"' + (pm.excl ? ' checked' : '') + '><span>Ексклюзив <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
@@ -1068,6 +1069,18 @@ function slugId(name) {
   let id; do { id = s + '-' + Math.random().toString(36).slice(2, 6); } while (BASE[id] || remote[id]);
   return id;
 }
+// 23.10.2026: кількість на складі — службовий запис products/_qty (description = JSON {id: число}); у правилах нового поля немає
+function qtyMap() { try { const m = JSON.parse((svc._qty && svc._qty.description) || '{}'); return m && typeof m === 'object' ? m : {}; } catch (e) { return {}; } }
+function qtyOf(id) { const n = id ? qtyMap()[id] : undefined; return typeof n === 'number' ? n : null; }
+async function saveQty(id, raw) {
+  const s = String(raw == null ? '' : raw).trim(), n = s === '' ? null : Math.floor(Number(s));
+  if (n != null && !(n >= 0 && n <= 9999)) throw new Error('Кількість: ціле число від 0 до 9999 або порожньо.');
+  const m = qtyMap(); if ((m[id] ?? null) === n) return;
+  if (n == null) delete m[id]; else m[id] = n;
+  const json = JSON.stringify(m);
+  await fb.F.setDoc(fb.F.doc(fb.db, 'products', '_qty'), SVC_DOC('Кількість товарів (службовий запис адмінки)', json));
+  svc._qty = Object.assign({}, svc._qty || {}, { description: json });
+}
 async function save(f) {
   const { F, db } = fb;
   const v = readForm(f);
@@ -1094,7 +1107,7 @@ async function save(f) {
     if (!!v.hidden !== !!BASE[id].hidden) docv.hidden = !!v.hidden; // 08.10: відносно hidden із products.json (false = показати прихований за замовчуванням)
     if (hasPhoto) docv.hasPhoto = true;
     if (JSON.stringify(gallery) !== '["static"]') docv.gallery = gallery;
-    if (!Object.keys(docv).length) { await F.deleteDoc(F.doc(db, 'products', id)); await cleanup(); return { id, reset: true }; }
+    if (!Object.keys(docv).length) { await F.deleteDoc(F.doc(db, 'products', id)); await cleanup(); if (f.elements.qty) await saveQty(id, f.elements.qty.value); return { id, reset: true }; }
   } else {
     docv = {}; FIELDS.forEach((k) => { docv[k] = v[k]; });
     docv.hidden = v.hidden; docv.hasPhoto = hasPhoto; docv.gallery = gallery; docv.custom = true;
@@ -1103,6 +1116,7 @@ async function save(f) {
   docv.updatedAt = now;
   await F.setDoc(F.doc(db, 'products', id), docv);
   await cleanup();
+  if (f.elements.qty) await saveQty(id, f.elements.qty.value);
   return { id };
 }
 

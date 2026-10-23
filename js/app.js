@@ -310,8 +310,10 @@
   function stockHTML(p) {
     var s = p.in_stock || '';
     var cls = /немає/i.test(s) ? ' stock--out' : /наявн/i.test(s) && !/уточн/i.test(s) ? '' : /дороз|замовл/i.test(s) ? ' stock--way' : ' stock--ask';
-    return '<span class="stock' + cls + '">' + esc(s) + '</span>';
+    var n = cls ? 0 : QTY[p.id]; // 23.10.2026: «Залишилось N шт» — лише якщо в адмінці вказано 1–3 і товар у наявності
+    return '<span class="stock' + cls + '">' + esc(s) + '</span>' + (n >= 1 && n <= 3 ? '<span class="stock-low">Залишилось ' + n + ' шт</span>' : '');
   }
+  var QTY = {};
 
   /* ---------- category line icons (24×24, stroke) ---------- */
   var CAT_IC = {
@@ -2319,9 +2321,10 @@
   var SETTINGS = { rate: null, promos: [], codes: [] }, ORD = {}, lastDocs = null, promoTimer = 0;
   var BASE_RATE = CONFIG.uahRate;
   function readSettings(docs) {
-    var cfg = null; ORD = {};
+    var cfg = null; ORD = {}; QTY = {};
     docs.forEach(function (d) {
-      if (d.id === '_cfg') { try { cfg = JSON.parse(d.description || '{}'); } catch (e) { cfg = null; } }
+      if (d.id === '_qty') { try { var q = JSON.parse(d.description || '{}'); if (q && typeof q === 'object') Object.keys(q).forEach(function (k) { if (typeof q[k] === 'number') QTY[k] = Math.floor(q[k]); }); } catch (e) {} }
+      else if (d.id === '_cfg') { try { cfg = JSON.parse(d.description || '{}'); } catch (e) { cfg = null; } }
       else if (/^_ord-[\w-]{1,60}$/.test(d.id)) { try { var a = JSON.parse(d.description || '[]'); if (Array.isArray(a)) ORD[d.id.slice(5)] = a.filter(function (x) { return typeof x === 'string'; }); } catch (e) {} }
     });
     cfg = cfg && typeof cfg === 'object' ? cfg : {};
@@ -2350,8 +2353,8 @@
   var PRICE_KEYS = { price_eur: 1, price_old_eur: 1, price_label: 1, variants: 1 };
   function applyRemote(docs) {
     lastDocs = docs = (docs || []);
-    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$)/.test(d.id || ''); }));
-    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$)/.test(d.id || '')); });
+    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$|qty$)/.test(d.id || ''); }));
+    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$|qty$)/.test(d.id || '')); });
     var list = [], seen = {};
     STATIC_ORDER.forEach(function (bp) { list.push(bp); });
     (docs || []).forEach(function (d) { if (d && typeof d.id === 'string' && /^[\w-]{1,80}$/.test(d.id)) seen[d.id] = d; });
