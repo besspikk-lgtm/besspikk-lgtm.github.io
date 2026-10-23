@@ -1387,6 +1387,17 @@
     spinStop();
     var p = byId[pmState.id];
     var vtl = (BASE[p.id] && BASE[p.id].variant_title) || p.variant_title || ''; // 17.10: назва вибору (напр. «Колір») — підпис над кнопками варіантів
+    var axes = BASE[p.id] && BASE[p.id].variant_axes, nAx = axes ? axes.reduce(function (m, a) { return m * a.o.length; }, 1) : 0;
+    if (axes && p.variants && p.variants.length === nAx) { // 23.10.2026: окремі вибори (напр. Дюза / Голова); variants — усі комбінації по порядку осей
+      var cur = [], r = pmState.vi; for (var ai = axes.length - 1; ai >= 0; ai--) { cur[ai] = r % axes[ai].o.length; r = Math.floor(r / axes[ai].o.length); }
+      var idxOf = function (c) { return c.reduce(function (s, x, k) { return s * axes[k].o.length + x; }, 0); };
+      var vars = axes.map(function (a, ai) {
+        return '<div class="vars__t">' + esc(a.t) + '</div><div class="vars vars--ax" role="radiogroup" aria-label="' + esc(a.t) + '">' + a.o.map(function (o, oi) {
+          var c = cur.slice(); c[ai] = oi; var on = cur[ai] === oi;
+          return '<button type="button" class="var' + (on ? ' on' : '') + '" data-var="' + idxOf(c) + '" role="radio" aria-checked="' + on + '">' + esc(o) + '</button>';
+        }).join('') + '</div>';
+      }).join('') + '<p class="vars__sel muted small">Обрано: ' + esc(uahText(p.variants[pmState.vi].label)) + ' — ' + uah(p.variants[pmState.vi].price_eur) + '</p>';
+    } else
     var vars = p.variants ? (vtl ? '<div class="vars__t">' + esc(vtl) + '</div>' : '') + '<div class="vars" role="radiogroup" aria-label="' + esc(vtl || 'Варіант') + '">' + p.variants.map(function (v, i) {
       return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + (oldOf(v) != null ? ' <s class="var__old">' + uah(oldOf(v)) + '</s>' : '') + '</b></button>';
     }).join('') + '</div>' : '';
@@ -2371,6 +2382,7 @@
         var psa = BASE[bp.id] && BASE[bp.id].price_set_at ? Date.parse(BASE[bp.id].price_set_at) : 0;
         var oldPrice = psa > 0 && !((Number(d.updatedAt) || 0) > psa);
         EDITABLE.forEach(function (k) { if (dn[k] !== undefined && !(oldPrice && PRICE_KEYS[k])) p[k] = dn[k]; });
+        if (BASE[p.id] && BASE[p.id].variant_axes && /уточн[^\n]{0,20}дюз/i.test(p.price_label || '')) p.price_label = BASE[p.id].price_label || null; // 23.10: дюза/голова тепер обираються — стара підказка з адмінки зайва
         if (p.price_eur !== null && typeof p.price_eur !== 'number') p.price_eur = parseFloat(p.price_eur) || null;
         if (p.price_old_eur != null && typeof p.price_old_eur !== 'number') p.price_old_eur = parseFloat(p.price_old_eur) || null;
         if (p.variants && !(Array.isArray(p.variants) && p.variants.length)) p.variants = null;

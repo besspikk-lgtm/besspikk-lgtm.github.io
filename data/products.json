@@ -502,7 +502,24 @@
    "description": "Японський фарбопульт Meiji серії FINER-CORE. Дюзи 1.3 або 1.5, система HVLP або SP. ⚠️ HVLP тимчасово відсутні, зараз в наявності SP. Ціна 420 € — без бачка. Додатково: бачок +25 €, перехідник PPS +20 €.",
    "price_eur": 420,
    "price_label": null,
-   "variants": null,
+   "variants": [
+    {
+     "label": "Дюза 1.3 · Голова SP",
+     "price_eur": 420
+    },
+    {
+     "label": "Дюза 1.3 · Голова HVLP",
+     "price_eur": 420
+    },
+    {
+     "label": "Дюза 1.5 · Голова SP",
+     "price_eur": 420
+    },
+    {
+     "label": "Дюза 1.5 · Голова HVLP",
+     "price_eur": 420
+    }
+   ],
    "price_note": "Прайс Meiji/SATA від 18.09.2026 (пост 358, також 278 і 316)",
    "price_uah_original": null,
    "source": [
@@ -583,7 +600,24 @@
     "https://www.tiktok.com/@alex_bespik/video/7602734004449692935"
    ],
    "sub": "meiji",
-   "brand": "Meiji"
+   "brand": "Meiji",
+   "variant_axes": [
+    {
+     "t": "Дюза",
+     "o": [
+      "1.3",
+      "1.5"
+     ]
+    },
+    {
+     "t": "Голова",
+     "o": [
+      "SP",
+      "HVLP"
+     ]
+    }
+   ],
+   "variant_title": "Комплектація"
   },
   {
    "id": "antistatic-easy-paint",

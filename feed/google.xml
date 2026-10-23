@@ -78,8 +78,57 @@
       <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
-      <g:id>meiji-finer-core</g:id>
-      <title>Meiji FINER-CORE HVLP / SP</title>
+      <g:id>meiji-finer-core-13-sp</g:id>
+      <g:item_group_id>meiji-finer-core</g:item_group_id>
+      <title>Meiji FINER-CORE — дюза 1.3, голова SP</title>
+      <description>Японський фарбопульт Meiji серії FINER-CORE. Дюзи 1.3 або 1.5, система HVLP або SP. ⚠️ HVLP тимчасово відсутні, зараз в наявності SP. Ціна 21 840 грн — без бачка. Додатково: бачок +1 300 грн, перехідник PPS +1 040 грн.</description>
+      <g:price>21840.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/meiji-finer-core/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/meiji-finer-core.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/meiji-finer-core-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/meiji-finer-core-3.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Meiji</g:brand>
+      <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
+    </item>
+    <item>
+      <g:id>meiji-finer-core-13-hvlp</g:id>
+      <g:item_group_id>meiji-finer-core</g:item_group_id>
+      <title>Meiji FINER-CORE — дюза 1.3, голова HVLP</title>
+      <description>Японський фарбопульт Meiji серії FINER-CORE. Дюзи 1.3 або 1.5, система HVLP або SP. ⚠️ HVLP тимчасово відсутні, зараз в наявності SP. Ціна 21 840 грн — без бачка. Додатково: бачок +1 300 грн, перехідник PPS +1 040 грн.</description>
+      <g:price>21840.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/meiji-finer-core/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/meiji-finer-core.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/meiji-finer-core-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/meiji-finer-core-3.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Meiji</g:brand>
+      <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
+    </item>
+    <item>
+      <g:id>meiji-finer-core-15-sp</g:id>
+      <g:item_group_id>meiji-finer-core</g:item_group_id>
+      <title>Meiji FINER-CORE — дюза 1.5, голова SP</title>
+      <description>Японський фарбопульт Meiji серії FINER-CORE. Дюзи 1.3 або 1.5, система HVLP або SP. ⚠️ HVLP тимчасово відсутні, зараз в наявності SP. Ціна 21 840 грн — без бачка. Додатково: бачок +1 300 грн, перехідник PPS +1 040 грн.</description>
+      <g:price>21840.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/meiji-finer-core/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/meiji-finer-core.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/meiji-finer-core-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/meiji-finer-core-3.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:brand>Meiji</g:brand>
+      <g:google_product_category>2465</g:google_product_category>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
+    </item>
+    <item>
+      <g:id>meiji-finer-core-15-hvlp</g:id>
+      <g:item_group_id>meiji-finer-core</g:item_group_id>
+      <title>Meiji FINER-CORE — дюза 1.5, голова HVLP</title>
       <description>Японський фарбопульт Meiji серії FINER-CORE. Дюзи 1.3 або 1.5, система HVLP або SP. ⚠️ HVLP тимчасово відсутні, зараз в наявності SP. Ціна 21 840 грн — без бачка. Додатково: бачок +1 300 грн, перехідник PPS +1 040 грн.</description>
       <g:price>21840.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/meiji-finer-core/</link>
