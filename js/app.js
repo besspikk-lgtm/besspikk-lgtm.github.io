@@ -746,7 +746,7 @@
     if (t.closest('#cmpmodal')) return 'Порівняння';
     if (t.closest('#pickmodal')) return 'Підбір фарбопульта';
     if (t.closest('.cs__card')) return 'Пошук фарби за кодом';
-    if (t.closest('.rel')) return 'Ще купують разом';
+    if (t.closest('.rel')) return 'Разом з цим купують';
     if (t.closest('#pmbar')) return 'Картка товару (нижня панель)';
     if (t.closest('#pmodal')) return 'Картка товару · ' + cartSecName();
     if (t.closest('.card')) return cartSecName();
@@ -805,7 +805,7 @@
   function openProduct(id) {
     var p = byId[id]; if (!p) return;
     if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); stat('p_' + p.id); }
-    var swap = openModalEl && openModalEl === $('#pmodal') && pmState.id !== id; // перехід з «Ще купують разом»
+    var swap = openModalEl && openModalEl === $('#pmodal') && pmState.id !== id; // перехід з «Разом з цим купують»
     lbHide();
     pmState = { id: id, vi: 0, qty: 1, gi: 0 };
     renderProduct();
@@ -1220,7 +1220,7 @@
     var tr = $('#pm [data-gal] .gal__track'); if (!tr) return 0;
     return Math.max(0, Math.round(tr.scrollLeft / Math.max(1, tr.clientWidth)));
   }
-  /* ---------- «🧰 Ще купують разом» у картці товару (03.10.2026) ----------
+  /* ---------- «🧰 Разом з цим купують» у картці товару (03.10.2026) ----------
      УСІ ПРАВИЛА — тут, у RELATED_RULES. Спрацьовує ПЕРШЕ правило (за порядком ключів), чий `when` підходить до товару.
        when:  { cats: [категорії], re: RegExp по «назва + код + опис» }            — обидві умови необов'язкові
        picks: [група, …] — група кандидатів:
@@ -1235,10 +1235,10 @@
      без «Немає в наявності» і без самого товару. Позначки ХІТ / Акція / Новинка — першими; далі «В наявності», далі решта.
      Набралось менше REL_MIN — добираємо товари в наявності з тієї ж категорії. */
   var REL_MIN = 4, REL_MAX = 8;
-  var GUN_ANY = { cats: ['meiji', 'sata', 'china'], not: /ґрунтовоч|міні|spot|0\.8/i, max: 1 };
+  var GUN_ANY = { cats: ['meiji', 'sata', 'china', 'tuba', 'guns2'], not: /ґрунтовоч|міні|spot|0\.8/i, max: 1 };
   var HARDENER_NOT = /primer|ґрунт|шпакл|емаль|фарба|лак\b/i; // «Wash Primer … + затверджувач 009» — це ґрунт, а не затверджувач
   var RELATED_RULES = {
-    gun: { when: { cats: ['meiji', 'sata', 'china'] }, picks: [
+    gun: { when: { cats: ['meiji', 'sata', 'china', 'tuba', 'guns2'] }, picks: [
       { label: 'дюзи', cats: ['acc'], re: /дюз|nozzle/i, brandLock: true, max: 1 },
       { label: 'фільтри / сита', re: /фільтр|ситечк|\bсито\b|strainer/i, max: 1 },
       { label: 'бачки / PPS', cats: ['acc'], re: /бач|pps/i, brandLock: true, max: 2 },
@@ -1257,26 +1257,26 @@
     ] },
     'grunt-epoxy': { when: { cats: ['grunt'], re: /епокс|epoxy|881\./i }, picks: [
       { label: 'розчинник для епоксиду', cats: ['rozch'], re: /^Palinal 077\b/i, max: 2 },
-      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'абразиви', cats: ['abraz'], re: /шліф|абразив|наждач|диск|purple|cubitron|smirdex|siawat|siaair/i, max: 2 },
       { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
-      { label: 'ґрунтовий фарбопульт', cats: ['china', 'meiji', 'sata'], re: /ґрунтовоч/i, max: 1 }
+      { label: 'ґрунтовий фарбопульт', cats: ['meiji', 'sata', 'china', 'tuba', 'guns2'], re: /ґрунтовоч/i, max: 1 }
     ] },
     'grunt-hydro': { when: { cats: ['grunt'], re: /hydropal/i }, picks: [
       { label: 'водний знежирювач Hydropal', cats: ['rozch'], re: /hydropal/i, max: 1 },
-      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
-      { label: 'ґрунтовий фарбопульт', cats: ['china', 'meiji', 'sata'], re: /ґрунтовоч/i, max: 1 }
+      { label: 'абразиви', cats: ['abraz'], re: /шліф|абразив|наждач|диск|purple|cubitron|smirdex|siawat|siaair/i, max: 2 },
+      { label: 'ґрунтовий фарбопульт', cats: ['meiji', 'sata', 'china', 'tuba', 'guns2'], re: /ґрунтовоч/i, max: 1 }
     ] },
     'grunt-plastic': { when: { cats: ['grunt'], re: /пластик/i }, picks: [
-      { label: 'антистатик', cats: ['tools'], re: /антистатич/i, max: 1 },
+      { label: 'антистатик', cats: ['tools', 'abraz', 'chem'], re: /антистатич/i, max: 1 },
       { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 2 },
-      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 }
+      { label: 'абразиви', cats: ['abraz'], re: /шліф|абразив|наждач|диск|purple|cubitron|smirdex|siawat|siaair/i, max: 2 }
     ] },
     grunt: { when: { cats: ['grunt'] }, picks: [
       { label: 'затверджувач серії', re: /затверджувач|hardener/i, not: HARDENER_NOT, sameSeries: true, max: 1 },
       { label: 'розчинник Palinal', cats: ['rozch'], re: /^Palinal 075\.00\d0\b/i, not: /5\s*л/i, max: 2, srcNot: /wash primer|868\./i },
-      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'абразиви', cats: ['abraz'], re: /шліф|абразив|наждач|диск|purple|cubitron|smirdex|siawat|siaair/i, max: 2 },
       { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
-      { label: 'ґрунтовий фарбопульт', cats: ['china', 'meiji', 'sata'], re: /ґрунтовоч/i, max: 1 }
+      { label: 'ґрунтовий фарбопульт', cats: ['meiji', 'sata', 'china', 'tuba', 'guns2'], re: /ґрунтовоч/i, max: 1 }
     ] },
     emal2k: { when: { cats: ['emal2k'] }, picks: [ // опис 075: «для 2K акрил-поліуретанових емалей, лаків і ґрунтів»
       { label: 'розчинник Palinal', cats: ['rozch'], re: /^Palinal 075\.00\d0\b/i, not: /5\s*л/i, max: 2 },
@@ -1292,10 +1292,27 @@
     ] },
     acc: { when: { cats: ['acc'] }, picks: [ // манометри, бачки, PPS, дюзи → інші аксесуари + фарбопульти (бачок/дюза Meiji — лише до Meiji)
       { label: 'аксесуари', cats: ['acc'], max: 3 },
-      { label: 'фарбопульти', cats: ['meiji', 'sata', 'china'], not: /ґрунтовоч|міні|spot|0\.8/i, brandLock: true, max: 2 }
+      { label: 'фарбопульти', cats: ['meiji', 'sata', 'china', 'tuba', 'guns2'], not: /ґрунтовоч|міні|spot|0\.8/i, brandLock: true, max: 2 }
+    ] },
+    // 23.10.2026: абразиви → бруски / інтерфейси / підошви; полірування → круги й пасти
+    abraz: { when: { cats: ['abraz'] }, picks: [
+      { label: 'бруски й підошви', cats: ['abraz'], re: /брус|рубан|підошв|інтерфейс|тарілк|frame|block|plate/i, not: /паст|paste|tack/i, max: 3 },
+      { label: 'інші абразиви', cats: ['abraz'], re: /диск|рулон|папір|purple|cubitron|smirdex|siawat|siaair|губк|sponge|scotch|trizact/i, max: 2 },
+      { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 },
+      { label: 'липка серветка', cats: ['abraz', 'mask', 'polish'], re: /tack|липк|пилозбір/i, max: 1 }
+    ] },
+    'polish-pad': { when: { cats: ['polish'], re: /\bpads?\b|круг|подушк/i }, picks: [
+      { label: 'пасти', cats: ['polish'], re: /паст|compound|polish|cut|glaze|finish|farecla/i, not: /\bpads?\b|круг/i, max: 3 },
+      { label: 'полірувальні круги', cats: ['polish'], re: /pads?|круг|подушк/i, not: /паст|tack/i, max: 2 },
+      { label: 'мікрофібра', cats: ['cloth'], max: 1 }
+    ] },
+    polish: { when: { cats: ['polish'], re: /паст|compound|polish|cut|glaze|finish|g10|g6|g3|g360|wax|віск/i }, picks: [
+      { label: 'полірувальні круги', cats: ['polish'], re: /pads?|круг|подушк/i, not: /паст|tack/i, max: 3 },
+      { label: 'пасти', cats: ['polish'], re: /паст|compound|polish|cut|glaze|finish|farecla/i, not: /\bpads?\b|круг/i, max: 2 },
+      { label: 'мікрофібра', cats: ['cloth'], max: 1 }
     ] },
     shpak: { when: { cats: ['shpak'] }, picks: [
-      { label: 'абразиви', cats: ['tools'], re: /шліф|абразив|наждач/i, max: 2 },
+      { label: 'абразиви', cats: ['abraz'], re: /шліф|абразив|наждач|диск|purple|cubitron|smirdex|siawat|siaair/i, max: 2 },
       { label: 'знежирювач', cats: ['rozch', 'savex'], re: /знежирювач|антисилікон/i, not: /добавк|additive|hydropal/i, max: 1 }
     ] }
   };
@@ -1304,7 +1321,7 @@
   function relSeries(p) { var m = String(p.name || '').match(/\b(\d{3})(?=[.\s])/); return m ? m[1] : ''; }
   function relCodes(p) { return (String(p.name || '') + ' ' + String(p.code || '')).match(/\b\d{3}\.[A-Z0-9]{2,}/gi) || []; }
   function relOut(p) { return /немає/i.test(p.in_stock || ''); }
-  function relRank(p) { return (promoOf(p) ? 0 : 2) + (/^в наявності/i.test(p.in_stock || '') ? 0 : 1); } // 0 — позначка + в наявності … 3 — без позначки, наявність уточнюйте / у дорозі
+  function relRank(p) { return (/^в наявності/i.test(p.in_stock || '') && hasPrice(p) ? 0 : 2) + (promoOf(p) ? 0 : 1); } // 23.10: спершу в наявності з ціною // 0 — позначка + в наявності … 3 — без позначки, наявність уточнюйте / у дорозі
   function relRuleOf(p) {
     var txt = p.name + ' ' + (p.code || '') + ' ' + (p.description || '');
     for (var k in RELATED_RULES) {
@@ -1349,12 +1366,12 @@
         .slice(0, REL_MIN - out.length).forEach(function (x) { used[x.id] = 1; out.push(x); });
     }
     out.forEach(function (x, i) { x._ri = i; });
-    out.sort(function (a, b) { return (promoOf(a) ? 0 : 1) - (promoOf(b) ? 0 : 1) || a._ri - b._ri; });
+    out.sort(function (a, b) { return relRank(a) - relRank(b) || a._ri - b._ri; });
     return out;
   }
   function relatedHTML(p) {
     var list = relatedOf(p); if (list.length < 2) return '';
-    return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="m7.5 4.27 9 5.15"/></svg> Ще купують разом</p>' +
+    return '<section class="rel" aria-labelledby="rel-ttl"><p class="rel__ttl" id="rel-ttl"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="m7.5 4.27 9 5.15"/></svg> Разом з цим купують</p>' +
       '<ul class="rel__list">' + list.map(function (x) {
         var pr = unitPrice(x, 0), po = unitOld(x, 0), lb = x.variants && x.variants.length > 1 ? unitLabel(x, 0) : '', pm = promoText(x);
         return '<li class="rel__it"><button class="rel__open" type="button" data-open="' + esc(x.id) + '" aria-label="Відкрити: ' + esc(x.name) + '">' +
@@ -1386,7 +1403,7 @@
         stockHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg> Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
-        '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Ще купують разом» // 04.10: кількість + кошик одразу після опису, «Ще купують разом» — під ними
+        '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Разом з цим купують» // 04.10: кількість + кошик одразу після опису, «Разом з цим купують» — під ними
         '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
         '<div class="cactions">' +
           '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener" data-waq="' + esc(p.id) + '">' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</a>' +
@@ -2167,7 +2184,7 @@
       if (p.variants && p.variants.length > 1) { location.hash = '#/p/' + p.id; toast('Оберіть варіант'); return; }
       addToCart(p.id, 0, 1, cartSrc(t)); return;
     }
-    if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1, cartSrc(t)); return; } // «Ще купують разом»: в кошик без закриття картки (варіант 1)
+    if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1, cartSrc(t)); return; } // «Разом з цим купують»: в кошик без закриття картки (варіант 1)
     if (t.hasAttribute('data-var')) { selectVariant(+t.getAttribute('data-var')); return; }
     if (t.hasAttribute('data-gal-step')) { galGo(+t.getAttribute('data-gal-step'), true); return; }
     if (t.hasAttribute('data-gal-to')) { galGo(+t.getAttribute('data-gal-to'), false); return; }
@@ -2638,6 +2655,7 @@
     toast: function (m) { toast(m); },
     track: track,
     gunSpecs: function (id) { return byId[id] ? gunSpecs(byId[id]) : null; },
+    relHTML: function (id) { return byId[id] ? relatedHTML(byId[id]) : ''; }, // генерація статичного блоку на /p/
     related: function (id) { var p = byId[id]; return p ? { rule: relRuleOf(p), ids: relatedOf(p).map(function (x) { return x.id; }) } : null; } // перевірка RELATED_RULES з консолі
   };
   // last known Firestore overrides (no photos) — applied instantly so hidden/edited items don't flash; refreshed by js/fb.js
@@ -2990,5 +3008,11 @@
   }
   var upd = $('#upd'); if (upd) upd.textContent = new Date(DATA.updated || Date.now()).toLocaleDateString('uk-UA');
   if (/^#\/c\/[\w-]+/.test(location.hash)) catScrollPending = true; // 08.10: посилання на розділ (поділилися / c/<cat>/) — одразу до товарів розділу, не на банер
+  // 23.10.2026: «+» зі статичних /p/-сторінок → ?add=<id>#cart — додаємо в кошик і відкриваємо його
+  (function () {
+    var m = /[?&]add=([a-z0-9-]+)/i.exec(location.search); if (!m) return;
+    try { history.replaceState(null, '', location.pathname + '#cart'); } catch (e) {}
+    if (byId[m[1]] && !relOut(byId[m[1]])) addToCart(m[1], 0, 1, 'p-rel');
+  })();
   route();
 })();
