@@ -201,21 +201,22 @@ function onUser(u) {
 // several badges: 'Новинка · Ексклюзив'
 // позначка: основна (Акція / ХІТ / Новинка / свій текст) + окремий прапорець «Ексклюзив».
 // Читаємо всі старі формати ('Новинка · Ексклюзив', 'Ексклюзив') і нові коди ('new+excl', 'sale+excl', 'hit+excl'); поле promo у Firestore ≤ 20 символів.
-const PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив' };
+const PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив', ssn: 'Хіт сезону', 'хіт сезону': 'Хіт сезону' };
 const PROMO_TO_CODE = { 'Новинка': 'new', 'Акція': 'sale', 'ХІТ': 'hit' };
 function parsePromo(t) {
-  const main = []; let excl = false;
-  String(t || '').split(/\s*(?:·|\+)\s*/).forEach((x) => { if (!x) return; const k = PROMO_CODE[x.toLowerCase()] || x; if (k === 'Ексклюзив') excl = true; else if (!main.includes(k)) main.push(k); });
-  return { main: main.join(' · '), excl };
+  const main = []; let excl = false, ssn = false;
+  String(t || '').split(/\s*(?:·|\+)\s*/).forEach((x) => { if (!x) return; const k = PROMO_CODE[x.toLowerCase()] || x; if (k === 'Ексклюзив') excl = true; else if (k === 'Хіт сезону') ssn = true; else if (!main.includes(k)) main.push(k); });
+  return { main: main.join(' · '), excl, ssn };
 }
-function buildPromo(main, excl) {
-  if (!excl) return main || '';
-  if (!main) return 'Ексклюзив';
-  const c = PROMO_TO_CODE[main] || main;
-  return (c + '+excl').length <= 20 ? c + '+excl' : null; // null — свій текст задовгий для поєднання з «Ексклюзив»
+function buildPromo(main, excl, ssn) {
+  if (!excl && !ssn) return main || '';
+  if (!main && !ssn) return 'Ексклюзив';
+  if (!main && !excl) return 'Хіт сезону';
+  const c = [main ? (PROMO_TO_CODE[main] || main) : '', excl ? 'excl' : '', ssn ? 'ssn' : ''].filter(Boolean).join('+'); // «Хіт сезону» — код ssn
+  return c.length <= 20 ? c : null; // null — свій текст задовгий для поєднання з «Ексклюзив»
 }
-const promoKey = (t) => { const x = parsePromo(t); return x.main + (x.excl ? '|excl' : ''); };
-function promoTag(t) { if (!t) return ''; const x = parsePromo(t), l = (x.main ? x.main.split(' · ') : []).concat(x.excl ? ['Ексклюзив'] : []); return l.map(function (y) { return '<span class="tag tag--promo">' + esc(y) + '</span>'; }).join(''); }
+const promoKey = (t) => { const x = parsePromo(t); return x.main + (x.excl ? '|excl' : '') + (x.ssn ? '|ssn' : ''); };
+function promoTag(t) { if (!t) return ''; const x = parsePromo(t), l = (x.main ? x.main.split(' · ') : []).concat(x.excl ? ['Ексклюзив'] : [], x.ssn ? ['Хіт сезону'] : []); return l.map(function (y) { return '<span class="tag tag--promo">' + esc(y) + '</span>'; }).join(''); }
 function priceTxt(p) { const o = oldOf(p); return p.price_eur == null ? 'Ціну уточнюйте' : ((p.variants && p.variants.length > 1 ? 'від ' : '') + eur(p.price_eur) + ' (≈ ' + uahOf(p.price_eur) + (o != null ? ', було ' + uahOf(o) : '') + ')' + (p.price_label ? ' · ' + p.price_label : '')); }
 function discTag(p) {
   const o = oldOf(p) != null ? p : (p.variants || []).find(oldOf);
@@ -371,6 +372,7 @@ function openEdit(id, opts) {
       '<label>Позначка<select name="promo"><option value="">Немає</option>' + [['Акція', 'Акція'], ['ХІТ', 'ХІТ'], ['Новинка', 'Новинка']].map((o) => '<option value="' + o[0] + '"' + (pm.main === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') +
         (pm.main && !PROMO_TO_CODE[pm.main] ? '<option value="' + esc(pm.main) + '" selected>' + esc(pm.main) + '</option>' : '') + '</select></label>' +
       '<label class="ed__chk ed__excl"><input name="promo_excl" type="checkbox"' + (pm.excl ? ' checked' : '') + '><span>Ексклюзив <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
+      '<label class="ed__chk ed__excl"><input name="promo_ssn" type="checkbox"' + (pm.ssn ? ' checked' : '') + '><span>Хіт сезону <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
       '<div class="full ed__vars" id="ed-vars"></div>' +
@@ -659,7 +661,7 @@ function previewProduct() {
   let vars = null; try { vars = varsOut(); } catch (e) { vars = null; }
   const sel = g('in_stock_sel'), stock = sel === '__custom' ? g('in_stock_custom') : sel;
   const p = { id: edit.id || 'new', name: g('name') || 'Назва товару', category: g('category'), price_eur: pe === undefined ? null : pe, price_old_eur: po === undefined ? null : po,
-    in_stock: stock || '', variants: vars, promo: buildPromo(g('promo'), !!(E.promo_excl && E.promo_excl.checked)) || '', price_label: g('price_label') };
+    in_stock: stock || '', variants: vars, promo: buildPromo(g('promo'), !!(E.promo_excl && E.promo_excl.checked), !!(E.promo_ssn && E.promo_ssn.checked)) || '', price_label: g('price_label') };
   if (p.variants && p.price_eur == null) p.price_eur = Math.min(...p.variants.map((x) => x.price_eur));
   p.typ = typeFor(p);
   return p;
@@ -678,8 +680,8 @@ function renderPreview() {
   const pill = p.price_eur == null ? '<span class="pill pill--ask">Ціну уточнюйте</span>' :
     (old != null ? '<span class="pbox"><span class="pill pill--sale">' + from + PV_UAH(p.price_eur) + '</span><span class="pold"><s>' + PV_UAH(old) + '</s><span class="pdisc">\u2212' + pctOf(old, p.price_eur) + '%</span></span></span>' : '<span class="pill">' + from + PV_UAH(p.price_eur) + '</span>');
   const s0 = p.in_stock || '', scls = /немає/i.test(s0) ? ' stock--out' : /наявн/i.test(s0) && !/уточн/i.test(s0) ? '' : /дороз|замовл/i.test(s0) ? ' stock--way' : ' stock--ask';
-  const pm = parsePromo(p.promo), tags = (pm.main ? pm.main.split(' · ') : []).concat(pm.excl ? ['Ексклюзив'] : []);
-  const promo = tags.map((x, i) => '<span class="promo' + (x === 'ХІТ' ? ' promo--hit' : /новинк/i.test(x) ? ' promo--new' : /ексклюзив/i.test(x) ? ' promo--excl' : '') + (i ? ' promo--n' + (i + 1) : '') + '">' + esc(x) + '</span>').join('');
+  const pm = parsePromo(p.promo), tags = (pm.main ? pm.main.split(' · ') : []).concat(pm.excl ? ['Ексклюзив'] : [], pm.ssn ? ['Хіт сезону'] : []);
+  const promo = tags.map((x, i) => '<span class="promo' + (x === 'ХІТ' ? ' promo--hit' : /новинк/i.test(x) ? ' promo--new' : /ексклюзив/i.test(x) ? ' promo--excl' : x === 'Хіт сезону' ? ' promo--ssn' : '') + (i ? ' promo--n' + (i + 1) : '') + '">' + esc(x) + '</span>').join('');
   const cname = catById[p.category === 'pdr' ? 'cn' : p.category] ? catById[p.category === 'pdr' ? 'cn' : p.category].name : '';
   const card = '<li class="card"><div class="card__in"><div class="card__media"><button class="card__img" type="button"><img src="' + esc(ph) + '" alt="" width="400" height="400">' + promo + '</button>' +
     '<button class="card__add" type="button" aria-hidden="true">+</button></div><div class="card__body"><span class="card__cat">' + esc(cname) + '</span>' +
@@ -909,7 +911,7 @@ function badgeBtns(p) {
 }
 async function toggleBadge(id, b, btn) {
   const p = byIdNow(id); if (!p) return;
-  const x = parsePromo(p.promo), next = buildPromo(x.main === b ? '' : b, x.excl);
+  const x = parsePromo(p.promo), next = buildPromo(x.main === b ? '' : b, x.excl, x.ssn);
   btn.disabled = true;
   try { await writeFields(p, { promo: next || '' }); toast(x.main === b ? 'Позначку «' + (b === 'ХІТ' ? 'Хіт' : b) + '» знято' : 'Позначка «' + (b === 'ХІТ' ? 'Хіт' : b) + '» на сайті'); }
   catch (e) { btn.disabled = false; toast(authErr(e)); }
@@ -1058,8 +1060,8 @@ function readForm(f) {
   if (!stock) throw new Error('Вкажіть наявність.');
   const variants = varsOut();
   if (variants && price == null) price = Math.min(...variants.map((x) => x.price_eur)); // ціна на картці = найменша з варіантів (як у каталозі)
-  const promo = buildPromo(g('promo'), !!(f.elements.promo_excl && f.elements.promo_excl.checked));
-  if (promo == null) throw new Error('Свій текст позначки задовгий, щоб поєднати його з «Ексклюзив» (до 15 символів).');
+  const promo = buildPromo(g('promo'), !!(f.elements.promo_excl && f.elements.promo_excl.checked), !!(f.elements.promo_ssn && f.elements.promo_ssn.checked));
+  if (promo == null) throw new Error('Свій текст позначки задовгий, щоб поєднати його з «Ексклюзив» / «Хіт сезону».');
   return { name, category: g('category'), price_eur: price, price_old_eur: priceOld, price_label: g('price_label'), in_stock: stock, description: f.elements.description.value.trim(),
     promo, variants, code: g('code'), hidden: f.elements.hidden.checked };
 }

@@ -453,14 +453,15 @@
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   // позначка може бути: 'Акція' / 'ХІТ' / 'Новинка' / 'Ексклюзив' / свій текст, комбінації через ' · ' ('Новинка · Ексклюзив')
   // або короткі коди з адмінки через '+' ('new+excl', 'sale+excl', 'hit+excl', 'excl') — ліміт поля promo у Firestore 20 символів
-  var PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив' };
+  var PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив', ssn: 'Хіт сезону', 'хіт сезону': 'Хіт сезону' };
   function promoTags(p) {
     var t = promoOf(p); if (!t && !p.sale_badge) return [];
-    var out = [], ex = false;
+    var out = [], ex = false, ss = false;
     String(t || '').split(/\s*(?:·|\+)\s*/).forEach(function (x) {
       if (!x) return; var k = PROMO_CODE[x.toLowerCase()] || x;
-      if (k === 'Ексклюзив') ex = true; else if (out.indexOf(k) < 0) out.push(k);
+      if (k === 'Ексклюзив') ex = true; else if (k === 'Хіт сезону') ss = true; else if (out.indexOf(k) < 0) out.push(k);
     });
+    if (ss) out.unshift('Хіт сезону'); // «Хіт сезону» (адмінка, код ssn) — першою
     if (ex) out.push('Ексклюзив'); // «Ексклюзив» завжди другою позначкою (під основною)
     if (p.sale_badge) { out = out.filter(function (x) { return x !== 'Акція' && x !== 'Розпродаж'; }); out.unshift('Розпродаж'); } // 19.10: «РОЗПРОДАЖ» — червоний неон, завжди першою
     return out;
@@ -480,6 +481,7 @@
     return tg.map(function (x, i) { // кілька позначок: 'Новинка · Ексклюзив' — друга під першою
       var n2 = i ? ' promo--n' + (i + 1) : '';
       if (x === 'ХІТ') return '<span class="promo promo--hit' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M11.53 2.3a.53.53 0 0 1 .95 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.01a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.91l5.16-.75a2.12 2.12 0 0 0 1.6-1.16z"/></svg> ' + x + '</span>';
+      if (x === 'Хіт сезону') return '<span class="promo promo--ssn' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Хіт сезону</span>';
       if (x === 'Розпродаж') return '<span class="promo promo--sale' + n2 + '">Розпродаж</span>';
       if (/новинк/i.test(x)) return '<span class="promo promo--new' + n2 + '">Новинка</span>';
       if (/ексклюзив/i.test(x)) return '<span class="promo promo--excl' + n2 + '" aria-label="Ексклюзив"><span class="promo__xt">Ексклюзив</span>' + GEM + '</span>'; // золотий неон + діамант, що крутиться

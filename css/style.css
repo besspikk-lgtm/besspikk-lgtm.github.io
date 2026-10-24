@@ -2100,3 +2100,8 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .vars--ax{margin-bottom:10px}.vars--ax .var{min-width:72px;text-align:center}.vars__sel{margin:2px 0 6px}
 .backcat{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--yellow);background:transparent;color:var(--yellow-hi);font:inherit;font-weight:700;font-size:14px;flex-basis:100%;max-width:max-content;margin-bottom:4px}.backcat[hidden]{display:none}
 .results[hidden]{display:none!important}
+
+/* 24.10.2026: позначка «Хіт сезону» (адмінка) — оранжево-червона пігулка з SVG-вогником; третя позначка під другою */
+.promo.promo--ssn,.prem .promo.promo--ssn{display:inline-flex;align-items:center;gap:4px;text-transform:none;letter-spacing:.03em;font-weight:800;color:#fff;background:linear-gradient(135deg,#ff8a00,#e5221b);border:0;text-shadow:none;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 4px 14px rgba(229,34,27,.45);border-radius:999px}
+.promo.promo--n3{top:calc(16px + 60px)}
+@media (max-width:760px){.promo.promo--n3{top:calc(12px + 52px)}}
