@@ -443,6 +443,7 @@
       var ordA = ORD[state.cat] || [], ordI = {}; ordA.forEach(function (id, i) { if (ordI[id] == null) ordI[id] = i; }); // 16.10: порядок з адмінки — спершу
       var pin = function (p) { return Number(p.pin) > 0 ? Number(p.pin) : 0; }; // 17.10.2026: pin у products.json — товар «у самому верху» розділу/типу (pin 1 — перший), решта порядку без змін
       list.sort(function (a, b) { var qa = pin(a), qb = pin(b); if (qa || qb) { if (!qa) return 1; if (!qb) return -1; if (qa !== qb) return qa - qb; } var oa = ordI[a.id], ob = ordI[b.id]; if (oa != null || ob != null) { if (oa == null) return 1; if (ob == null) return -1; return oa - ob; } if (oos(a) !== oos(b)) return oos(a) - oos(b); var x = pr(a), y = pr(b); if (x == null && y == null) return a._i - b._i; if (x == null) return 1; if (y == null) return -1; return (y - x) || a._i - b._i; });
+      if (!state.q) { list.forEach(function (p, i) { p._i = i; }); var bdg = function (p) { var t = promoTags(p); return !t.length ? 2 : t.indexOf('Хіт сезону') >= 0 ? 0 : 1; }; list.sort(function (a, b) { return bdg(a) - bdg(b) || a._i - b._i; }); } // 24.10: товари з позначками — першими (Хіт сезону найперше)
     } else {
       list.forEach(function (p, i) { p._i = i; });
       list.sort(function (a, b) { return oos(a) - oos(b) || order[a.category] - order[b.category] || a._i - b._i; });
