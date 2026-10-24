@@ -489,6 +489,16 @@
       return '<span class="promo' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> ' + esc(x) + '</span>';
     }).join('');
   }
+  // 24.10: PALINAL лаки/ґрунти — замість текстового опису фото технічного опису (TDS) українською; текст лишається для пошуку/скрінрідерів
+  var TDS_IMG = {"pal-223-flash-new": "pal-223-flash-new", "pal-223-shine": "pal-223-shine", "pal-223-speed": "pal-223-speed", "pal-223-ultra": "pal-223-ultra", "pal-223-us90": "pal-223-us90", "pal-844-1k": "pal-844-1k", "pal-844-upp": "pal-844-upp", "pal-868-wash": "pal-868-wash", "pal-873-fast": "pal-873-fast", "pal-873-ff90": "pal-873-ff90", "pal-873-filler-51": "pal-873-filler-51", "pal-873-gt-wet": "pal-873-gt-wet", "pal-881-epoxy": "pal-881-epoxy", "pal-923-as90": "pal-923-as90", "pal-923-hs90": "pal-923-hs90", "pal-923-mat5": "pal-923-mat5", "pal-923-smart": "pal-923-smart", "pal-hydropal-filler": "pal-hydropal-filler", "pal-223-flash-5l": "pal-223-flash-new", "pal-223-shine-5l": "pal-223-shine", "pal-923-as90-5l": "pal-923-as90", "pal-923-smart-5l": "pal-923-smart"};
+  function pmDescBlock(p) {
+    var t = TDS_IMG[p.id];
+    if (!t) return '<p class="pm__desc">' + pmDesc(p.description) + '</p>';
+    var src = 'img/tds/' + t + '.webp?v=20261024e', alt = esc(p.name) + ' — технічний опис';
+    return '<p class="pm__desc sr-only">' + pmDesc(p.description) + '</p>' +
+      '<a class="pm__tds" href="' + src + '" target="_blank" rel="noopener" aria-label="Відкрити технічний опис на весь екран" style="display:block;margin:10px 0">' +
+      '<img src="' + src + '" alt="' + alt + '" loading="lazy" decoding="async" width="1080" height="960" style="display:block;width:100%;height:auto;border-radius:12px;border:1px solid #e7e4dd;background:#fff"></a>';
+  }
   // опис у картці товару: «Лімітована серія — …!» на початку — виділяємо окремим рядком
   function pmDesc(d) {
     var t = uahText(d || ''), m = t.match(/^(Лімітована серія[^!]*!)\s*/);
@@ -1423,7 +1433,7 @@
         stockHTML(p) +
         '<div class="pm__buy"><div class="qty"><button type="button" data-q="-1" aria-label="Менше">−</button><input id="pmq" type="number" min="1" value="' + pmState.qty + '" aria-label="Кількість"><button type="button" data-q="1" aria-label="Більше">+</button></div>' +
         '<button class="btn btn--y" type="button" data-addpm><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg> Додати в кошик</button>' + (isGun(p) ? cmpBtnHTML(p, 'btn cmpt--pm') : '') + '</div>' +
-        '<p class="pm__desc">' + pmDesc(p.description) + '</p>' + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Разом з цим купують» // 04.10: кількість + кошик одразу після опису, «Разом з цим купують» — під ними
+        pmDescBlock(p) + videosHTML(p) + relatedHTML(p) + // 04.10: ціна → варіанти → наявність → кількість + кошик → опис → «Разом з цим купують» // 04.10: кількість + кошик одразу після опису, «Разом з цим купують» — під ними
         '<button class="btn btn--1c btn--full" type="button" data-quick="' + esc(p.id) + '">' + svgI(IC.bolt, 18) + 'Купити в один клік</button>' +
         '<div class="cactions">' +
           '<a class="btn btn--bot btn--full" href="' + CONFIG.whatsapp + '" target="_blank" rel="noopener" data-waq="' + esc(p.id) + '">' + svgI(IC.wa, 18) + 'Замовити в WhatsApp</a>' +
