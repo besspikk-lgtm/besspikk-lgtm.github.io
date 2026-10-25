@@ -43,7 +43,7 @@
     });
   }
   var HIDE = { show_tg: '.tgpromo', show_cta: '.ctabar', show_bnr: '#bnr', show_cats: '#cattiles', show_tips: '.tips', show_recent: '#recent',
-    show_how: '#how', show_moti: '.moti', show_seo: 'section.seo', show_radio: '#radio,.tab--radio', show_ua: '.ftr__ua', show_pop: '.ftr__col:has(a[href="palinal/"])' };
+    show_how: '#how', show_moti: '.moti', show_seo: 'section.seo', show_radio: '#radio,.tab--radio', show_ua: '.ftr__ua', show_pop: '.ftr__col:has(a[href="palinal/"]),.ftr__col:has(a[href="/palinal/"])' };
   function apply() {
     var css = '';
     Object.keys(HIDE).forEach(function (k) { if (S[k] === false) css += HIDE[k] + '{display:none!important}'; });
