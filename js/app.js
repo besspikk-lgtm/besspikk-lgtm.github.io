@@ -5,7 +5,7 @@
     orderTelegram: 'https://t.me/alex_bespik', // особистий Telegram для замовлень
     orderBot: 'https://t.me/AlexBes_order_bot',
     whatsapp: 'https://wa.me/380995264262',
-    viber: 'viber://chat?number=%2B380995264262',
+    viber: 'https://viber.me/380995264262',
     instagram: 'https://ig.me/m/alex_bespik',
     phone: '+380995264262', phoneLabel: '099 526 42 62',
     siteName: 'Alex_bes😈',
@@ -20,7 +20,7 @@
     if (t('tg')) CONFIG.orderTelegram = 'https://t.me/' + t('tg');
     if (t('bot')) CONFIG.orderBot = 'https://t.me/' + t('bot');
     if (t('insta')) CONFIG.instagram = 'https://ig.me/m/' + t('insta');
-    if (d.length >= 10) { CONFIG.phone = '+' + d; CONFIG.whatsapp = 'https://wa.me/' + d; CONFIG.viber = 'viber://chat?number=%2B' + d;
+    if (d.length >= 10) { CONFIG.phone = '+' + d; CONFIG.whatsapp = 'https://wa.me/' + d; CONFIG.viber = 'https://viber.me/' + d;
       var l = d.length === 12 && d.indexOf('380') === 0 ? '0' + d.slice(3) : d; CONFIG.phoneLabel = l.length === 10 ? l.replace(/^(\d{3})(\d{3})(\d{2})(\d{2})$/, '$1 $2 $3 $4') : '+' + d; }
     if (t('home_title')) CONFIG.homeTitle = S.home_title.trim();
     CONFIG.consultText = (S && typeof S.consult === 'string' && S.consult.trim()) ? S.consult.trim() + ' ' : 'Добрий день! Потрібна консультація щодо: ';
