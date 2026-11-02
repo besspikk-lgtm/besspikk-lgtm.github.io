@@ -714,16 +714,14 @@
       if (statWriter) statSend(day, field); else if (statQ.length < STAT_MAX) statQ.push([day, field]);
     } catch (e) {}
   }
-  // 18.10.2026: «Отримати консультацію» → особистий Telegram Alex з готовим текстом: товар / розділ / сайт
+  // 18.10.2026 / 02.11.2026: «Отримати консультацію» → бот ?start=consult[_<id>] — бот одразу пише Alex у Telegram
   function consultHref() {
-    var what = 'сайт alexbes.com.ua';
+    var start = 'consult';
     try {
-      var m = /^#\/p\/([^/?#]+)/.exec(location.hash || ''), p = m && byId[decodeURIComponent(m[1])];
-      if (p) what = p.name;
-      else if (state.q) what = 'пошук «' + state.q + '» на сайті alexbes.com.ua';
-      else if (state.cat && state.cat !== 'all') what = (catLabel(state.cat) || state.cat) + ' (alexbes.com.ua)';
+      var m = /^#\/p\/([^/?#]+)/.exec(location.hash || ''), id = m && decodeURIComponent(m[1]);
+      if (id && byId[id] && /^[A-Za-z0-9_-]{1,56}$/.test(id)) start = 'consult_' + id;
     } catch (e) {}
-    return CONFIG.orderTelegram + '?text=' + encodeURIComponent(CONFIG.consultText + what);
+    return CONFIG.orderBot + '?start=' + start;
   }
   // клік по кнопці/посиланню замовлення → канал
   function statClick(t) {
@@ -2260,7 +2258,7 @@
     statClick(t);
     if (t.hasAttribute('data-close')) { e.preventDefault(); hideModal(); return; }
     if (t.hasAttribute('data-map')) { track('карта', 'Як доїхати (Google Maps, ST Service)'); return; } // repair banner: link opens Google Maps in a new tab
-    if (t.hasAttribute('data-consult')) { t.setAttribute('href', consultHref()); consultEvent(); track('консультація', 'Отримати консультацію (Telegram Alex)'); return; } // 18.10.2026: особистий Telegram Alex з готовим текстом (товар/сторінка)
+    if (t.hasAttribute('data-consult')) { t.setAttribute('href', consultHref()); consultEvent(); track('консультація', 'Отримати консультацію (бот)'); return; } // 02.11.2026: бот ?start=consult — одразу сповіщає Alex
     if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
     if (t.hasAttribute('data-open')) { location.hash = '#/p/' + t.getAttribute('data-open'); return; }
     if (t.hasAttribute('data-add')) {
