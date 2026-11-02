@@ -210,6 +210,7 @@ async function onUser(u) {
     const data = snap.exists() ? snap.data() : {};
     npLock = !!(data.np && typeof data.np === 'object');
     profile = { name: data.name || '', phone: data.phone || '', city: data.city || '', np: npS(data.np) };
+    if (AB.setAcct) AB.setAcct({ uid: u.uid, phone: profile.phone });
     serverPhoto = typeof data.photo === 'string' ? data.photo : null;
     if (tok === avaTok) {   // nobody changed the photo while we were loading
       const la = localAva(u.uid);
@@ -244,6 +245,7 @@ async function onUser(u) {
         const was = cartOf(profile), now = cartOf(np), cur = AB.getForm(), set = {};
         ['name', 'phone', 'city'].forEach((k) => { if (now[k] !== was[k] && (!cur[k] || cur[k] === was[k])) set[k] = now[k]; });
         profile = np; setBtn();
+        if (AB.setAcct && user) AB.setAcct({ uid: user.uid, phone: profile.phone });
         if (Object.keys(set).length && AB.setForm) AB.setForm(set);
       }
       if (Array.isArray(d.cart) && !same(mergeCarts(d.cart, []), AB.getCart())) AB.setCart(d.cart);
@@ -442,7 +444,7 @@ function ordCardHTML(o, rec) {
   return '<li class="myord__c"><div class="myord__h"><span>' + esc(fmtDt(ms)) + '</span><span class="myord__no">№' + esc(rec.id.slice(-6)) + '</span><span class="myord__st myord__st--' + st + '">' + svgI(ORD_IC[st], 14) + '<span>' + ORD_ST[st] + '</span></span></div>' +
     '<p class="myord__hint">' + ORD_HINT[st] + '</p>' +
     '<ul class="myord__it">' + it.map((x) => '<li><span>' + esc(x.name || x.id || '') + (x.variant ? ' <i>(' + esc(x.variant) + ')</i>' : '') + '</span><span>' + (parseInt(x.qty, 10) || 1) + '\u00a0шт' + (typeof x.price_uah === 'number' ? ' × ' + grn(x.price_uah) : ' · ціну уточнити') + '</span></li>').join('') + '</ul>' +
-    (meta.discountAmount ? '<div class="myord__d"><span>Знижка ' + (meta.discountPct || 5) + '% за реєстрацію</span><b>\u2212' + grn(meta.discountAmount) + '</b></div>' : '') +
+    (meta.discountAmount ? '<div class="myord__d"><span>Знижка ' + (meta.discountPct || '') + '% ' + esc(meta.discountLabel || (meta.promoCode ? ('за промокодом ' + meta.promoCode) : 'персональна')) + '</span><b>\u2212' + grn(meta.discountAmount) + '</b></div>' : '') +
     (typeof o.total_uah === 'number' ? '<div class="myord__t"><span>Разом</span><b>' + grn(o.total_uah) + '</b></div>' : '') + '</li>';
 }
 function myOrdersHTML() {

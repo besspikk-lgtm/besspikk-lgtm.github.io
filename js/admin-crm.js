@@ -1,7 +1,8 @@
-/* Alex_bes — адмінка: міні-CRM «Клієнти» (22.10.2026).
+/* Alex_bes — адмінка: міні-CRM «Клієнти» (22.10.2026; 02.11.2026 — персональна знижка %).
    Клієнти будуються з orders/* (групування за номером телефону, інакше — Telegram-нік або ім'я).
-   Нотатки, теги й нагадування — ПРИВАТНО в users/{uid адміна}.np (поле профілю, яке правила дозволяють
-   власнику записувати без обмеження типу; читати users/* може лише власник і адмін). Публічні products/* — НЕ використовуються. */
+   Нотатки, теги й нагадування — ПРИВАТНО в users/{uid адміна}.np.
+   Персональна знижка (%) — у products/_discs (hidden, JSON у description; читає сайт у кошику; писати може лише адмін).
+   Дубль % також у crm meta.d — для відображення в картці, якщо _discs ще не підвантажився. */
 import { authErr, esc } from './fb-common.js?v=2';
 
 const $ = (s, r) => (r || document).querySelector(s);
@@ -25,6 +26,7 @@ const svg = (k, s) => '<svg viewBox="0 0 24 24" width="' + (s || 17) + '" height
 
 let fb = null, toast = (m) => console.log(m), uid = '';
 let orders = null, oErr = '', crm = { v: 1, c: {} }, crmOk = false, crmErr = '', saving = null;
+let discs = {}, discsOk = false, discsErr = '', discSaving = null;
 let q = '', sort = 'last', fch = 'all', ftag = 'all', fx = 'all', open = null, busy = false;
 
 /* ---------- нормалізація ---------- */
@@ -73,10 +75,55 @@ export function buildClients(list) {
   return out;
 }
 
-/* ---------- приватне сховище CRM: users/{uid}.np = { crm: 1, v: 1, c: { key: {n, t:[], r:[{id,d,x,done}]} } } ---------- */
-const meta = (k) => crm.c[k] || { n: '', t: [], r: [] };
-function setMeta(k, m) { if (!m.n && !m.t.length && !m.r.length) delete crm.c[k]; else crm.c[k] = m; }
+/* ---------- приватне сховище CRM: users/{uid}.np = { crm: 1, v: 1, c: { key: {n, t:[], r:[{id,d,x,done}], d?:pct} } } ----------
+   Персональна знижка: products/_discs.description = JSON { "p380…": 10, … } (ключ = keyOf клієнта). */
+const meta = (k) => {
+  const m = crm.c[k] || { n: '', t: [], r: [] };
+  const d = discs[k];
+  return { n: m.n || '', t: m.t || [], r: m.r || [], d: (typeof d === 'number' && d >= 1 && d <= 90) ? (d | 0) : ((typeof m.d === 'number' && m.d >= 1 && m.d <= 90) ? (m.d | 0) : 0) };
+};
+function setMeta(k, m) {
+  const o = { n: m.n || '', t: m.t || [], r: m.r || [] };
+  if (m.d >= 1 && m.d <= 90) o.d = m.d | 0;
+  if (!o.n && !o.t.length && !o.r.length && !o.d) delete crm.c[k]; else crm.c[k] = o;
+}
 const docSize = () => new Blob([JSON.stringify(crm)]).size;
+const SVC_DISCS = (json) => ({ name: 'Персональні знижки клієнтів (службовий запис адмінки)', category: '', description: json, hidden: true, custom: true, createdAt: Date.now(), updatedAt: Date.now() });
+function discsSizeOk(map) {
+  const json = JSON.stringify(map || {});
+  return json.length <= 5900 ? json : null;
+}
+async function loadDiscs() {
+  const { F, db } = fb;
+  try {
+    const s = await F.getDoc(F.doc(db, 'products', '_discs'));
+    const raw = s.exists() ? (s.data().description || '{}') : '{}';
+    let m = {}; try { m = JSON.parse(raw) || {}; } catch (e) { m = {}; }
+    discs = {};
+    if (m && typeof m === 'object') Object.keys(m).forEach((k) => {
+      const v = m[k] | 0; if (k && v >= 1 && v <= 90) discs[k] = v;
+    });
+    discsOk = true; discsErr = '';
+  } catch (e) { discsErr = authErr(e); discsOk = false; discs = {}; }
+}
+function saveDiscsMap(next) {
+  const json = discsSizeOk(next);
+  if (!json) { toast('Занадто багато знижок клієнтів (ліміт запису ~6 КБ). Приберіть зайві.'); return Promise.resolve(false); }
+  const { F, db } = fb;
+  discSaving = F.setDoc(F.doc(db, 'products', '_discs'), SVC_DISCS(json))
+    .then(() => { discs = next; discsOk = true; toast('Знижку клієнта збережено'); return true; })
+    .catch((e) => { toast('Знижку не збережено: ' + authErr(e)); return false; });
+  return discSaving;
+}
+function setClientDisc(k, pct) {
+  const next = Object.assign({}, discs);
+  if (pct >= 1 && pct <= 90) next[k] = pct | 0; else delete next[k];
+  return saveDiscsMap(next).then((ok) => {
+    if (!ok) return false;
+    // дубль у CRM (краще мати й там); якщо правила np не пустять об'єкт — знижка все одно вже в _discs
+    return upd(k, (m) => { if (pct >= 1 && pct <= 90) m.d = pct | 0; else delete m.d; }, true).then(() => true);
+  });
+}
 async function loadCrm() {
   const { F, db } = fb;
   try {
@@ -87,14 +134,14 @@ async function loadCrm() {
     crmOk = true;
   } catch (e) { crmErr = authErr(e); crmOk = false; }
 }
-function saveCrm() {
-  if (!crmOk) { toast('CRM не завантажено — зберегти не можна'); return Promise.resolve(false); }
+function saveCrm(quiet) {
+  if (!crmOk) { if (!quiet) toast('CRM не завантажено — зберегти не можна'); return Promise.resolve(false); }
   const size = docSize();
   if (size > DOC_LIMIT) { toast('Забагато нотаток: ' + Math.round(size / 1024) + ' КБ з ~880 КБ. Скоротіть нотатки або видаліть старі нагадування.'); return Promise.resolve(false); }
   const { F, db } = fb;
   saving = F.setDoc(F.doc(db, 'users', uid), { np: { crm: 1, v: 1, c: crm.c }, updatedAt: Date.now() }, { merge: true })
-    .then(() => { toast('Збережено'); badge(); return true; })
-    .catch((e) => { toast('Не збережено: ' + authErr(e)); return false; });
+    .then(() => { if (!quiet) toast('Збережено'); badge(); return true; })
+    .catch((e) => { if (!quiet) toast('Не збережено: ' + authErr(e)); return false; });
   return saving;
 }
 
@@ -116,8 +163,9 @@ export function badge() {
 /* ---------- init / load ---------- */
 export async function initCrm(f, t, u) {
   fb = f; if (t) toast = t; uid = u.uid; orders = null; crm = { v: 1, c: {} }; crmOk = false; crmErr = ''; open = null;
+  discs = {}; discsOk = false; discsErr = '';
   const box = $('#crm-box'); if (box && !box._crm) { box._crm = 1; box.addEventListener('click', onClick); box.addEventListener('input', onInput); box.addEventListener('change', onChange); }
-  await loadCrm(); badge();
+  await Promise.all([loadCrm(), loadDiscs()]); badge();
 }
 export async function loadCrmOrders(force) {
   if (busy || (orders && !force)) { renderCrm(); return; }
@@ -161,6 +209,7 @@ function filtered() {
     if (ftag !== 'all' && !(m.t || []).includes(ftag)) return false;
     if (fx === 'rem' && !(m.r || []).some((r) => !r.done)) return false;
     if (fx === 'note' && !m.n) return false;
+    if (fx === 'disc' && !(m.d >= 1)) return false;
     if (fx === 'repeat' && c.orders.length < 2) return false;
     if (!ql) return true;
     const hay = [c.name, c.phone, c.tg, c.city, m.n, (m.t || []).join(' ')].concat(c.orders.map((o) => o.id + ' ' + o.items.map((i) => i.name).join(' '))).join(' ').toLowerCase();
@@ -176,7 +225,7 @@ function toolsHTML() {
     '<select id="crm-sort" aria-label="Сортування">' + opt('last', 'Останнє замовлення', sort) + opt('sum', 'Сума покупок', sort) + opt('count', 'Кількість замовлень', sort) + opt('name', 'Ім’я А–Я', sort) + '</select>' +
     '<select id="crm-ch" aria-label="Канал">' + opt('all', 'Усі канали', fch) + Object.keys(CH).map((k) => opt(k, CH[k], fch)).join('') + '</select>' +
     '<select id="crm-tagf" aria-label="Тег">' + opt('all', 'Усі теги', ftag) + Array.from(tags).map((t) => opt(t, t, ftag)).join('') + '</select>' +
-    '<select id="crm-x" aria-label="Фільтр">' + opt('all', 'Усі клієнти', fx) + opt('repeat', '2+ замовлення', fx) + opt('rem', 'З нагадуваннями', fx) + opt('note', 'З нотатками', fx) + '</select>' +
+    '<select id="crm-x" aria-label="Фільтр">' + opt('all', 'Усі клієнти', fx) + opt('repeat', '2+ замовлення', fx) + opt('disc', 'Зі знижкою', fx) + opt('rem', 'З нагадуваннями', fx) + opt('note', 'З нотатками', fx) + '</select>' +
     '<button class="btn btn--o adm-sm" type="button" data-crm-reload>Оновити</button></div>';
 }
 function listHTML() {
@@ -185,7 +234,7 @@ function listHTML() {
   return '<p class="muted small">Клієнтів: ' + a.length + ' · замовлень: ' + a.reduce((s, c) => s + c.orders.length, 0) + ' · сума: ' + grn(a.reduce((s, c) => s + c.sum, 0)) + '</p><ul class="crm-list">' + a.slice(0, 300).map((c) => {
     const m = meta(c.key), rem = (m.r || []).filter((r) => !r.done).length;
     return '<li><button type="button" class="crm-row" data-crm-open="' + esc(c.key) + '"><span class="crm-row__n"><b>' + esc(c.name || 'Без імені') + '</b><span class="muted small">' + esc(c.phone || (c.tg ? '@' + c.tg : '')) + (c.city ? ' · ' + esc(c.city) : '') + '</span>' +
-      ((m.t || []).length || rem ? '<span class="crm-tags">' + (m.t || []).map(tagHTML).join('') + (rem ? '<span class="crm-tag crm-tag--r">' + svg('bell', 13) + rem + '</span>' : '') + '</span>' : '') + '</span>' +
+      ((m.t || []).length || rem || m.d ? '<span class="crm-tags">' + (m.d ? '<span class="crm-tag crm-tag--d">−' + m.d + '%</span>' : '') + (m.t || []).map(tagHTML).join('') + (rem ? '<span class="crm-tag crm-tag--r">' + svg('bell', 13) + rem + '</span>' : '') + '</span>' : '') + '</span>' +
       '<span class="crm-row__s"><b>' + grn(c.sum) + '</b><span class="muted small">' + c.orders.length + ' замовл. · ' + (c.last ? dtf.format(new Date(c.last)) : '—') + '</span><span class="crm-chs">' + chHTML(c.ch) + '</span></span></button></li>';
   }).join('') + '</ul>' + (a.length > 300 ? '<p class="muted small">Показано 300 — уточніть пошук.</p>' : '');
 }
@@ -197,6 +246,10 @@ function cardHTML(c) {
     '<div class="crm-acts">' + contactLinks(c) + '</div>' +
     '<dl class="crm-tot"><div><dt>Замовлень</dt><dd>' + c.orders.length + '</dd></div><div><dt>Сума покупок</dt><dd>' + grn(c.sum) + '</dd></div><div><dt>Середній чек</dt><dd>' + (c.paidN ? grn(c.avg) : '—') + '</dd></div><div><dt>Перше</dt><dd>' + (c.first ? dtf.format(new Date(c.first)) : '—') + '</dd></div><div><dt>Останнє</dt><dd>' + (c.last ? dtf.format(new Date(c.last)) : '—') + '</dd></div><div><dt>Канали</dt><dd>' + chHTML(c.ch) + '</dd></div></dl>' +
     '<p class="muted small">Сума — без скасованих замовлень і позицій «ціну уточнити».</p>' +
+    '<h4>Персональна знижка</h4><div class="crm-disc"><label>Знижка, % <span class="muted small">(1–90; порожньо = без знижки)</span><input id="crm-disc" type="number" inputmode="numeric" min="1" max="90" step="1" value="' + (m.d ? m.d : '') + '" placeholder="немає"></label>' +
+    '<button class="btn btn--y adm-sm" type="button" data-crm-savedisc>Зберегти знижку</button>' +
+    (m.d ? '<button class="btn btn--o adm-sm" type="button" data-crm-cleardisc>Прибрати</button>' : '') + '</div>' +
+    '<p class="muted small">' + (c.key.indexOf('p') === 0 ? 'Діє в кошику сайту, коли покупець вкаже цей номер телефону. ' : 'Увага: у цього клієнта немає телефону в ключі — знижка на сайті не застосується, доки не буде замовлення з номером. ') + 'Клієнт сам собі знижку виставити не може (запис products/_discs пише лише адмін).</p>' +
     '<h4>Теги</h4><div class="crm-tagpick">' + Array.from(tags).map((x) => '<label class="chip' + ((m.t || []).includes(x) ? ' on' : '') + '"><input type="checkbox" data-crm-tag="' + esc(x) + '"' + ((m.t || []).includes(x) ? ' checked' : '') + '>' + esc(x) + '</label>').join('') +
     '<input id="crm-newtag" maxlength="30" placeholder="Свій тег + Enter"></div>' +
     '<h4>Нотатки</h4><textarea id="crm-note" rows="4" maxlength="3000" placeholder="Що купує, яке авто/СТО, домовленості…">' + esc(m.n || '') + '</textarea><button class="btn btn--y adm-sm" type="button" data-crm-savenote>Зберегти нотатку</button>' +
@@ -213,6 +266,7 @@ export function renderCrm() {
   const ae = document.activeElement, keep = ae && ae.id === 'crm-q' ? [ae.selectionStart] : null;
   let h = '<h2 class="crm-h">Клієнти з замовлень</h2>';
   if (crmErr) h += '<p class="muted small">' + esc(crmErr) + '</p>';
+  if (discsErr) h += '<p class="adm-err">Не вдалося завантажити знижки клієнтів: ' + esc(discsErr) + '</p>';
   if (oErr) h += '<p class="adm-err">Не вдалося завантажити замовлення: ' + esc(oErr) + '</p>';
   else if (!orders) h += '<p class="muted">Завантаження замовлень…</p>';
   else {
@@ -226,13 +280,27 @@ export function renderCrm() {
 }
 
 /* ---------- події ---------- */
-function upd(k, fn) { const m = JSON.parse(JSON.stringify(meta(k))); m.t = m.t || []; m.r = m.r || []; m.n = m.n || ''; fn(m); setMeta(k, m); return saveCrm().then(() => renderCrm()); }
+function upd(k, fn, quiet) {
+  const m = JSON.parse(JSON.stringify(meta(k))); m.t = m.t || []; m.r = m.r || []; m.n = m.n || ''; m.d = m.d || 0; fn(m); setMeta(k, m);
+  return saveCrm(!!quiet).then((ok) => { renderCrm(); return ok; });
+}
 function onClick(e) {
   const t = e.target.closest('button,[data-crm-open]'); if (!t) return;
   if (t.hasAttribute('data-crm-open')) { open = t.getAttribute('data-crm-open'); renderCrm(); $('#crm-box').scrollIntoView({ block: 'start' }); return; }
   if (t.hasAttribute('data-crm-back')) { open = null; renderCrm(); return; }
-  if (t.hasAttribute('data-crm-reload')) { loadCrmOrders(true); return; }
+  if (t.hasAttribute('data-crm-reload')) { loadDiscs().then(() => loadCrmOrders(true)); return; }
   if (t.hasAttribute('data-crm-savenote')) { const v = $('#crm-note').value.slice(0, 3000); upd(open, (m) => { m.n = v; }); return; }
+  if (t.hasAttribute('data-crm-savedisc')) {
+    const raw = ($('#crm-disc') && $('#crm-disc').value || '').trim();
+    const pct = raw === '' ? 0 : parseInt(raw, 10);
+    if (raw !== '' && (!(pct >= 1 && pct <= 90))) { toast('Знижка від 1 до 90 % (або порожньо)'); return; }
+    if (!open) return;
+    setClientDisc(open, pct).then(() => renderCrm()); return;
+  }
+  if (t.hasAttribute('data-crm-cleardisc')) {
+    if (!open || !confirm('Прибрати персональну знижку цьому клієнту?')) return;
+    setClientDisc(open, 0).then(() => renderCrm()); return;
+  }
   if (t.hasAttribute('data-crm-radd')) {
     const d = $('#crm-rd').value, x = $('#crm-rx').value.trim().slice(0, 300);
     if (!/^\d{4}-\d\d-\d\d$/.test(d) || !x) { toast('Вкажіть дату й текст нагадування'); return; }

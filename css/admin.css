@@ -481,6 +481,10 @@ label.btn{cursor:pointer}
 .crm-rem__x{flex:1 1 160px}
 .crm-link{background:none;border:0;padding:0;color:inherit;font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
 .crm-card h4{margin:16px 0 6px;font-size:15px}
+.crm-disc{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin:4px 0 8px}
+.crm-disc label{display:flex;flex-direction:column;gap:4px;font-size:13px}
+.crm-disc input{width:96px;min-height:36px;border-radius:10px;padding:0 8px;background:inherit;color:inherit;border:1px solid rgba(127,127,127,.4)}
+.crm-tag--d{background:rgba(37,211,102,.22)}
 .crm-card__h{font-size:20px;margin:10px 0 2px}
 .crm-acts{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
 .crm-acts .btn svg,.crm-rems .btn svg,.crm-card .btn svg{margin-right:4px;vertical-align:-3px}

@@ -1483,16 +1483,29 @@
   /* Повне замовлення для бота: документ orders/<id> у Firestore (пише js/fb.js) + посилання t.me/<бот>?start=o_<id><токени кошика>.
      Токени кошика в тому ж посиланні — запасний варіант, якщо документ не записався. */
   var orderWriter = null; // function (id, data) -> Promise; ставить js/fb.js, коли Firebase завантажився
-  /* ---------- 16.10.2026: 5% знижки на перше замовлення для зареєстрованих ----------
-     Правила Firestore (змінити їх немає змоги) не дозволяють нових полів у orders/* і users/*, тож дані знижки й uid
-     пишемо службовим елементом {id:'_acct', uid, discountPct, discountAmount, totalBeforeDiscount, total} у JSON-рядку items
-     (адмінка й бот його розпізнають і не показують як товар). «Перше замовлення» = на цьому пристрої для цього uid ще
-     немає замовлень (localStorage alexbes_myorders_<uid>); бот додатково звіряє uid з попередніми замовленнями. */
-  var acct = null, DISC_PCT = 5, MYORD = 'alexbes_myorders_';
+  /* ---------- 16.10.2026 / 02.11.2026: знижка в кошику ----------
+     Правила Firestore не дозволяють нових полів у orders/* і users/*, тож дані знижки й uid
+     пишемо службовим елементом {id:'_acct', uid, discountPct, discountAmount, totalBeforeDiscount, total, …} у JSON-рядку items
+     (адмінка й бот його розпізнають і не показують як товар).
+     02.11.2026: автоматичну «5% за реєстрацію» прибрано. Діє лише:
+       1) персональна знижка клієнта (адмінка → «Клієнти» → картка → products/_discs, ключ p+телефон);
+       2) промокод (products/_cfg.codes). Не сумуються — береться більша. */
+  var acct = null, MYORD = 'alexbes_myorders_', CLIENT_DISCS = {}, phoneDiscT = 0;
   function myOrders(uid) { var a = load(MYORD + uid, []); return Array.isArray(a) ? a : []; }
-  function discOk() { return !!(acct && acct.uid) && !myOrders(acct.uid).length; }
-  /* 16.10.2026: промокоди (адмінка -> products/_cfg). Код зберігається лише як SHA-256 (h), перевірка — у браузері.
-     Знижки не сумуються: діє більша з «5% за реєстрацію» і промокоду. */
+  function normPhoneUA_d(p) {
+    var d = String(p || '').replace(/\D/g, '');
+    if (d.length === 10 && d[0] === '0') d = '38' + d;
+    if (d.length === 9) d = '380' + d;
+    if (d.length === 11 && d.indexOf('80') === 0) d = '3' + d;
+    return d.length >= 9 ? d : '';
+  }
+  function clientDiscNow() {
+    var phone = normPhoneUA_d(form.phone || (acct && acct.phone) || '');
+    if (!phone) return null;
+    var pct = CLIENT_DISCS['p' + phone];
+    return (pct >= 1 && pct <= 90) ? (pct | 0) : null;
+  }
+  /* 16.10.2026: промокоди (адмінка -> products/_cfg). Код — SHA-256 (h), перевірка в браузері. */
   var PCODE_KEY = 'alexbes_pcode';
   function codeNow() {
     var c = load(PCODE_KEY, null); if (!c || !c.h) return null;
@@ -1501,17 +1514,27 @@
   }
   function discInfo(sum) {
     if (!(sum > 0)) return null;
-    var reg = discOk() ? DISC_PCT : 0, pc = codeNow(), pct = Math.max(reg, pc ? pc.pct : 0);
+    var cl = clientDiscNow() || 0, pc = codeNow(), pct = Math.max(cl, pc ? pc.pct : 0);
     if (!pct) return null;
-    var byCode = !!(pc && pc.pct > reg);
-    return { pct: pct, amount: Math.floor(sum * pct / 100), code: byCode ? pc.code : '', label: byCode ? 'за промокодом ' + pc.code : 'за реєстрацію' };
+    var byCode = !!(pc && pc.pct > cl);
+    return {
+      pct: pct,
+      amount: Math.floor(sum * pct / 100),
+      code: byCode ? pc.code : '',
+      label: byCode ? ('за промокодом ' + pc.code) : 'персональна',
+      kind: byCode ? 'promo' : 'client'
+    };
   }
   function discAmt(sum) { var d = discInfo(sum); return d ? d.amount : 0; }
   function acctMeta(sum) {
     var d = discInfo(sum);
-    if ((!acct || !acct.uid) && !(d && d.code)) return null;
+    if ((!acct || !acct.uid) && !d) return null;
     var m = { id: '_acct', uid: acct && acct.uid ? String(acct.uid).slice(0, 128) : '' };
-    if (d) { m.discountPct = d.pct; m.discountAmount = d.amount; m.totalBeforeDiscount = sum; m.total = sum - d.amount; if (d.code) m.promoCode = String(d.code).slice(0, 40); }
+    if (d) {
+      m.discountPct = d.pct; m.discountAmount = d.amount; m.totalBeforeDiscount = sum; m.total = sum - d.amount;
+      m.discountLabel = String(d.label || '').slice(0, 80); m.discountKind = d.kind || '';
+      if (d.code) m.promoCode = String(d.code).slice(0, 40);
+    }
     return m;
   }
   function sha256hex(t) {
@@ -1757,14 +1780,13 @@
     var pcode = (SETTINGS.codes || []).some(function (x) { return x && !x.off; }) || pc ? '<form class="pcode" data-pcode novalidate><label class="sr-only" for="pcode-in">Промокод</label>' +
       '<input id="pcode-in" name="pcode" autocomplete="off" autocapitalize="characters" maxlength="40" placeholder="Промокод" value="' + esc(pcOn ? pcOn.code : '') + '">' +
       (pcOn ? '<button type="button" class="pcode__x" data-pcode-x aria-label="Прибрати промокод">' + I_TAG + 'Прибрати</button>' : '<button type="submit" class="pcode__go">Застосувати</button>') +
-      (pcodeMsg ? '<p class="pcode__m" role="alert">' + esc(pcodeMsg) + '</p>' : pcOn && !(di && di.code) ? '<p class="pcode__m">Знижка за реєстрацію більша — діє вона (знижки не сумуються)</p>' : '') + '</form>' : '';
+      (pcodeMsg ? '<p class="pcode__m" role="alert">' + esc(pcodeMsg) + '</p>' : pcOn && di && di.kind === 'client' ? '<p class="pcode__m">Персональна знижка більша — діє вона (знижки не сумуються)</p>' : '') + '</form>' : '';
     var askT = ask ? ' <span class="muted small">(+ ' + ask + ' поз. на уточненні)</span>' : '';
     var gift = cgiftHTML(sum - d);
     if (d) return gift + pcode + '<div class="ctotal ctotal--sub"><span>Сума</span><b>' + nb(sum) + '</b></div>' +
       '<div class="cdisc"><span>' + I_TAG + 'Знижка ' + di.pct + '% ' + esc(di.label) + '</span><b>\u2212' + nb(d) + '</b></div>' +
       '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum - d) + '</b></div>';
-    return gift + pcode + '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>' +
-      (!(acct && acct.uid) && sum > 0 ? '<button type="button" class="cdisc-hint" data-open-acct>' + I_TAG + '<span>Зареєструйтеся — і отримаєте <b>5% знижки</b> на перше замовлення</span></button>' : '');
+    return gift + pcode + '<div class="ctotal"><span>Разом' + askT + '</span><b>' + nb(sum) + '</b></div>';
   }
   // 23.10.2026: маска +380 XX XXX XX XX (порожнє поле лишається порожнім)
   function maskPhone(v) {
@@ -2318,7 +2340,7 @@
   document.addEventListener('input', function (e) {
     var t = e.target;
     if (t.id === 'q') { state.q = t.value.trim(); renderGridSearch(); return; }
-    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); if (fk === 'phone') { var mv = maskPhone(t.value); if (mv !== t.value) t.value = mv; } form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk !== 'note') formChanged('input'); return; }
+    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); if (fk === 'phone') { var mv = maskPhone(t.value); if (mv !== t.value) t.value = mv; } form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk !== 'note') formChanged('input'); if (fk === 'phone' && CLIENT_DISCS && Object.keys(CLIENT_DISCS).length) { clearTimeout(phoneDiscT); phoneDiscT = setTimeout(function () { if (openModalEl && openModalEl === $('#cmodal')) renderCart(); }, 450); } return; }
     if (t.hasAttribute('data-ci')) { var i = +t.getAttribute('data-ci'); cart[i].qty = Math.max(1, parseInt(t.value, 10) || 1); saveCart(); updateBadges(); var o2 = $('#otext'); if (o2) o2.textContent = orderText(); return; }
   });
   function renderGridSearch() {
@@ -2353,10 +2375,18 @@
   var SETTINGS = { rate: null, promos: [], codes: [] }, ORD = {}, lastDocs = null, promoTimer = 0;
   var BASE_RATE = CONFIG.uahRate;
   function readSettings(docs) {
-    var cfg = null; ORD = {}; QTY = {};
+    var cfg = null; ORD = {}; QTY = {}; CLIENT_DISCS = {};
     docs.forEach(function (d) {
       if (d.id === '_qty') { try { var q = JSON.parse(d.description || '{}'); if (q && typeof q === 'object') Object.keys(q).forEach(function (k) { if (typeof q[k] === 'number') QTY[k] = Math.floor(q[k]); }); } catch (e) {} }
       else if (d.id === '_cfg') { try { cfg = JSON.parse(d.description || '{}'); } catch (e) { cfg = null; } }
+      else if (d.id === '_discs') {
+        try {
+          var dm = JSON.parse(d.description || '{}');
+          if (dm && typeof dm === 'object') Object.keys(dm).forEach(function (k) {
+            var v = dm[k] | 0; if (k && v >= 1 && v <= 90) CLIENT_DISCS[k] = v;
+          });
+        } catch (e) {}
+      }
       else if (/^_ord-[\w-]{1,60}$/.test(d.id)) { try { var a = JSON.parse(d.description || '[]'); if (Array.isArray(a)) ORD[d.id.slice(5)] = a.filter(function (x) { return typeof x === 'string'; }); } catch (e) {} }
     });
     cfg = cfg && typeof cfg === 'object' ? cfg : {};
@@ -2385,8 +2415,8 @@
   var PRICE_KEYS = { price_eur: 1, price_old_eur: 1, price_label: 1, variants: 1 };
   function applyRemote(docs) {
     lastDocs = docs = (docs || []);
-    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$|qty$)/.test(d.id || ''); }));
-    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$|qty$)/.test(d.id || '')); });
+    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$|qty$|discs$)/.test(d.id || ''); }));
+    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$|qty$|discs$)/.test(d.id || '')); });
     var list = [], seen = {};
     STATIC_ORDER.forEach(function (bp) { list.push(bp); });
     (docs || []).forEach(function (d) { if (d && typeof d.id === 'string' && /^[\w-]{1,80}$/.test(d.id)) seen[d.id] = d; });
@@ -2628,7 +2658,7 @@
     var qsum = L.sum != null ? L.sum : 0, qm = acctMeta(qsum);
     if (quick.tg) { qm = qm || { id: '_acct', uid: '' }; qm.ch = quick.wa ? 'whatsapp' : 'telegram-personal'; text = text.replace('Передзвоніть, будь ласка, для підтвердження.', 'Підтвердіть, будь ласка, замовлення.'); }
     var qit = qm ? [it, qm] : [it];
-    if (qm && qm.discountAmount) { qsum = qm.total; text += '\n\nЗнижка ' + qm.discountPct + '% ' + (qm.promoCode ? 'за промокодом ' + qm.promoCode : 'за реєстрацію') + ': −' + fmtUah(qm.discountAmount) + '. Разом зі знижкою: ' + fmtUah(qsum); }
+    if (qm && qm.discountAmount) { qsum = qm.total; text += '\n\nЗнижка ' + qm.discountPct + '% ' + (qm.discountLabel || (qm.promoCode ? 'за промокодом ' + qm.promoCode : 'персональна')) + ': −' + fmtUah(qm.discountAmount) + '. Разом зі знижкою: ' + fmtUah(qsum); }
     var data = { v: 1, items: JSON.stringify(qit), count: 1, total_uah: Math.min(1e9, qsum), ask: L.up != null ? 0 : 1,
       text: clipS(text, 6000), name: name, phone: phone, note: quick.wa ? 'WhatsApp' : quick.tg ? 'Telegram особисто' : QUICK_MARK + ' (в один клік)' };
     var id = genOrderId(), btn = $('#qkform .qk__go');
@@ -2708,7 +2738,7 @@
     setCart: function (lines) { splitCart(lines); saveCart(true); updateBadges(); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
     onCartChange: function (fn) { cartListeners.push(fn); },
     getForm: function () { return Object.assign({}, form); },
-    setAcct: function (a) { acct = a && a.uid ? { uid: a.uid } : null; if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
+    setAcct: function (a) { acct = a && a.uid ? { uid: a.uid, phone: a.phone || '' } : null; if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
     myOrders: function () { return acct && acct.uid ? myOrders(acct.uid) : []; },
     setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
     setCartEventWriter: function (fn) { cartEvWriter = typeof fn === 'function' ? fn : null; if (cartEvWriter) { var q = cartEvQ; cartEvQ = []; q.forEach(cartEvSend); } },

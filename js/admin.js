@@ -1,8 +1,8 @@
 /* Alex_bes😈 — адмінка товарів. Доступ: лише besspikk@gmail.com (перевірка в UI + правила Firestore). */
 import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL, isNetErr } from './fb-common.js?v=2';
 // rv2: admin-orders.js без відгуків
-import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=17';
-import { initCrm, loadCrmOrders } from './admin-crm.js?v=2';
+import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=18';
+import { initCrm, loadCrmOrders } from './admin-crm.js?v=3';
 import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=4';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
@@ -936,7 +936,7 @@ function renderPromo(msg) {
       '<label>Діє до (Київ)<input name="until" type="datetime-local" value="' + defUntil + '"></label>' +
       '<button class="btn btn--y" type="submit">' + IC_PLUS + 'Запустити</button></form>' +
       '<ul class="pr-list">' + (cfg.promos.length ? cfg.promos.map((x, i) => '<li class="' + (x.until > now ? '' : 'is-off') + '"><b>\u2212' + x.pct + '%</b><span>' + esc(scopeName(x)) + '</span><small>' + (x.until > now ? 'до ' + fmtDT(x.until) : 'завершилась ' + fmtDT(x.until)) + '</small><button type="button" class="ibtn ibtn--del" data-pr-del="' + i + '" aria-label="Видалити">' + IC_X + '</button></li>').join('') : '<li class="muted small">Активних акцій немає.</li>') + '</ul></section>' +
-    '<section class="adm-card pr-card"><h3>' + IC_TAG + 'Промокоди</h3><p class="muted small">Покупець вводить код у кошику, знижка рахується в замовленні (діє більша з «5% за реєстрацію» і промокоду, не сумуються). Сам код зберігається лише у вигляді хешу — подивитися його потім не можна, тож запишіть.</p>' +
+    '<section class="adm-card pr-card"><h3>' + IC_TAG + 'Промокоди</h3><p class="muted small">Покупець вводить код у кошику, знижка рахується в замовленні (діє більша з персональної знижки клієнта і промокоду, не сумуються). Сам код зберігається лише у вигляді хешу — подивитися його потім не можна, тож запишіть.</p>' +
       '<form id="pc-form" class="pr-form" novalidate><label>Код<input name="code" maxlength="30" placeholder="напр. ALEX10" autocapitalize="characters"></label>' +
       '<label>Знижка, %<input name="pct" type="number" min="1" max="90" step="1" value="10"></label>' +
       '<label>Діє до (Київ, необовʼязково)<input name="until" type="datetime-local"></label>' +

@@ -77,9 +77,10 @@ function totalHTML(o) {
   const tot = typeof o.total_uah === 'number' ? o.total_uah : null;
   if (tot == null && !ask) return '';
   const m = acctOf(o);
+  const dlab = m && (m.discountLabel || (m.promoCode ? ('за промокодом ' + m.promoCode) : (m.discountKind === 'client' ? 'персональна' : '')));
   const disc = m && typeof m.discountAmount === 'number' && m.discountAmount > 0
-    ? '<div class="ocard__disc">Зареєстрований покупець. Сума без знижки: ' + grn(m.totalBeforeDiscount) + ' · <b>Знижка ' + esc(String(m.discountPct || 5)) + '% за реєстрацію: −' + grn(m.discountAmount) + '</b></div>'
-    : (m ? '<div class="ocard__disc ocard__disc--n">Зареєстрований покупець (без знижки)</div>' : '');
+    ? '<div class="ocard__disc">' + (m.uid ? 'Зареєстрований покупець. ' : '') + 'Сума без знижки: ' + grn(m.totalBeforeDiscount) + ' · <b>Знижка ' + esc(String(m.discountPct || '')) + '% ' + esc(dlab || 'персональна') + ': −' + grn(m.discountAmount) + '</b></div>'
+    : (m && m.uid ? '<div class="ocard__disc ocard__disc--n">Зареєстрований покупець (без знижки)</div>' : '');
   return disc + '<div class="ocard__tot">Разом: <b>' + (tot != null ? grn(tot) : '—') + '</b>' +
     (ask ? ' <span class="muted small">+ ' + ask + ' ' + (ask === 1 ? 'позиція' : ask < 5 ? 'позиції' : 'позицій') + ' — ціну уточнити</span>' : '') + '</div>';
 }
