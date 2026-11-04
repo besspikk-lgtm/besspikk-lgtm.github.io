@@ -1411,10 +1411,11 @@
           var c = cur.slice(); c[ai] = oi; var on = cur[ai] === oi;
           return '<button type="button" class="var' + (on ? ' on' : '') + '" data-var="' + idxOf(c) + '" role="radio" aria-checked="' + on + '">' + esc(o) + '</button>';
         }).join('') + '</div>';
-      }).join('') + '<p class="vars__sel muted small">Обрано: ' + esc(uahText(p.variants[pmState.vi].label)) + ' — ' + uah(p.variants[pmState.vi].price_eur) + '</p>';
+      }).join('') + '<p class="vars__sel muted small">Обрано: ' + esc(uahText(p.variants[pmState.vi].label)) + (p.variants[pmState.vi].price_eur != null ? ' — ' + uah(p.variants[pmState.vi].price_eur) : '') + '</p>';
     } else
     var vars = p.variants ? (vtl ? '<div class="vars__t">' + esc(vtl) + '</div>' : '') + '<div class="vars" role="radiogroup" aria-label="' + esc(vtl || 'Варіант') + '">' + p.variants.map(function (v, i) {
-      return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + '<b>' + uah(v.price_eur) + (oldOf(v) != null ? ' <s class="var__old">' + uah(oldOf(v)) + '</s>' : '') + '</b></button>';
+      var vpr = v.price_eur != null ? '<b>' + uah(v.price_eur) + (oldOf(v) != null ? ' <s class="var__old">' + uah(oldOf(v)) + '</s>' : '') + '</b>' : '';
+      return '<button type="button" class="var' + (i === pmState.vi ? ' on' : '') + '" data-var="' + i + '" role="radio" aria-checked="' + (i === pmState.vi) + '">' + esc(uahText(v.label)) + vpr + '</button>';
     }).join('') + '</div>' : '';
     var pmOld = hasPrice(p) ? unitOld(p, pmState.vi) : null;
     var price = hasPrice(p) ? '<span class="pill' + (pmOld != null ? ' pill--sale' : '') + '" style="font-size:22px;padding:7px 16px">' + uah(unitPrice(p, pmState.vi)) + (unitLabel(p, pmState.vi) ? ' <small>· ' + esc(uahText(unitLabel(p, pmState.vi))) + '</small>' : '') + '</span>' + oldHTML(pmOld, unitPrice(p, pmState.vi), 'pold--pm')
