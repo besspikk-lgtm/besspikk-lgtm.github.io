@@ -67,7 +67,7 @@
    "id": "odyag",
    "name": "Брендований одяг",
    "icon": "",
-   "count": 1
+   "count": 2
   }
  ],
  "products": [
@@ -161,6 +161,83 @@
      ]
     ],
     "src": "За фото товару."
+   }
+  },
+  {
+   "id": "palinal-coverall-hooded",
+   "category": "odyag",
+   "category_name": "Брендований одяг",
+   "name": "Фарбувальний комбінезон PALINAL з капюшоном",
+   "description": "Фарбувальний комбінезон PALINAL з капюшоном. Антистатичний, можна прати. Сірий, з логотипом PALINAL High Technology Paint на спині та нашивкою PALINAL на грудях. Надійний захист від фарби та розчинників; легкий матеріал, відмінна вентиляція. Розміри: L, XL, XXL.",
+   "price_eur": 69.2308,
+   "price_label": null,
+   "variants": [
+    {
+     "label": "L",
+     "price_eur": 69.2308
+    },
+    {
+     "label": "XL",
+     "price_eur": 69.2308
+    },
+    {
+     "label": "XXL",
+     "price_eur": 69.2308
+    }
+   ],
+   "variant_title": "Розмір",
+   "price_note": "",
+   "price_uah_original": null,
+   "source": [],
+   "photo": "img/p/palinal-coverall-hooded.webp?v=20261116d",
+   "photos_extra": [
+    "img/p/palinal-coverall-hooded-2.webp?v=20261116d"
+   ],
+   "photo_is_placeholder": false,
+   "photo_source": "макет продавця: зі спини вирізано лише комбінезон (без обличчя моделі), білий фон #fff; додаткове фото — повний макет",
+   "in_stock": "В наявності",
+   "flag": null,
+   "code": "",
+   "brand": "PALINAL",
+   "intake": "2026-11-16",
+   "promo": "Гаряча пропозиція",
+   "price_set_at": "2026-11-16T16:30:00+02:00",
+   "specs": {
+    "rows": [
+     [
+      "Бренд",
+      "PALINAL"
+     ],
+     [
+      "Тип",
+      "Фарбувальний комбінезон з капюшоном"
+     ],
+     [
+      "Розміри",
+      "L, XL, XXL"
+     ],
+     [
+      "Колір",
+      "сірий"
+     ],
+     [
+      "Властивості",
+      "антистатичний, можна прати"
+     ],
+     [
+      "Захист",
+      "від фарби та розчинників"
+     ],
+     [
+      "Матеріал",
+      "легкий, з вентиляцією"
+     ],
+     [
+      "Маркування",
+      "PALINAL High Technology Paint на спині, нашивка PALINAL на грудях"
+     ]
+    ],
+    "src": "За повідомленням продавця та написом на макеті."
    }
   },
   {
