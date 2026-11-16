@@ -362,6 +362,19 @@
         '<span class="ctile__go" aria-hidden="true">' + svgI('<path d="M9 6l6 6-6 6"/>', 16) + '</span></a></li>';
     }).join('');
   }
+  /* 16.11.2026: головна — блок «Гарячі пропозиції» одразу після розділів (#cattiles / #chips).
+     Джерело: позначка «Гаряча пропозиція» у каталозі або поле promo з Firestore (applyRemote підміняє promo;
+     порожнє remote promo знімає позначку навіть зі статичного каталогу). Ховаємо, якщо не головна або немає товарів. */
+  function renderHotOffers() {
+    var sec = $('#hotoffers'), ul = $('#hotoffers-list'); if (!sec || !ul) return;
+    var idle = state.cat === 'all' && !state.q;
+    var list = PRODUCTS.filter(isHot);
+    if (!idle || !list.length) { sec.hidden = true; ul.innerHTML = ''; return; }
+    sec.hidden = false;
+    ul.innerHTML = list.map(function (p, i) { return cardHTML(p, i); }).join('');
+    imgWatch(sec);
+    fillPhotos();
+  }
   /* підрозділи (#subbar) і фільтр бренду фарбопультів (#brandbar) */
   function renderBrandBar() {
     var sb = $('#subbar'), el = $('#brandbar');
@@ -470,6 +483,7 @@
   function promoText(p) { return promoTags(p).join(' · '); }
   function hasTag(p, re) { return promoTags(p).some(function (x) { return re.test(x); }); }
   function isSale(p) { return !!p.sale_badge || hasTag(p, /акці|гаряч/i) || hasDisc(p); } // «Акції»: «Акція», «Гаряча пропозиція» або знижка зі старою ціною
+  function isHot(p) { return hasTag(p, /гаряч/i); } // статичне promo або правка з адмінки (поле promo у Firestore)
   function isNew(p) { return hasTag(p, /новинк/i); }
   function isExcl(p) { return hasTag(p, /ексклюзив/i); } // окремий розділ «Ексклюзив» (незалежно від «Новинки»)
   // діамант для позначки «Ексклюзив»: SVG-грані холодного кольору; обертання/світіння — у CSS (.promo__gem)
@@ -663,6 +677,7 @@
     renderBrandBar();
     var so = $('#sort option[value="def"]'); if (so) so.textContent = state.cat === 'all' ? 'За розділами' : 'Спочатку дорожчі';
     var ct = $('#cattiles'); if (ct) ct.hidden = state.cat !== 'all' || !!state.q;
+    renderHotOffers();
     if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
     var chip = $('.chip.on'); if (chip && chip.scrollIntoView && window.innerWidth < 900) { var c = $('#chips'); c.scrollLeft = chip.offsetLeft - 16; }
@@ -2366,6 +2381,7 @@
   var BASE = {}; ALL_STATIC.forEach(function (p) { BASE[p.id] = p; });
   var STATIC_ORDER = ALL_STATIC.slice(); // разом із прихованими за замовчуванням (адмінка може їх показати)
   var STATIC_IDX = {}; STATIC_ORDER.forEach(function (p, i) { STATIC_IDX[p.id] = i; });
+  // promo з Firestore повністю замінює позначки каталогу (в т.ч. «Гаряча пропозиція»: код hot, порожньо = зняти). Полів, яких у документі немає, не затираємо. hidden — окремо, нижче.
   var EDITABLE = ['name', 'category', 'price_eur', 'price_old_eur', 'price_label', 'in_stock', 'description', 'promo', 'variants', 'code', 'brand', 'gallery', 'videos'];
   function catName(id) { return catById[id] ? catById[id].name : id; }
   // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;

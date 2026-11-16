@@ -1898,6 +1898,21 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 @media (max-width:899px){.cattiles{display:none}} /* на мобільному ту саму роль виконує сітка #chips з іконками й кількістю */
 @media (prefers-reduced-motion:reduce){.ctile,.ctile__go{transition:none}.ctile:hover{transform:none}}
 
+/* 16.11.2026: «Гарячі пропозиції» на головній — після розділів, перед «Усі товари». Мобільний: горизонтальний слайдер; від 900px — сітка. Без емодзі. */
+.hotoffers{margin:4px 0 28px}
+.hotoffers[hidden]{display:none}
+.hotoffers__hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 2px 14px}
+.hotoffers__hd h2{margin:0;font-size:22px;color:var(--text)}
+.hotoffers__list{list-style:none;margin:0 -16px;padding:2px 16px 12px;display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.hotoffers__list::-webkit-scrollbar{display:none}
+.hotoffers__list > .card{flex:0 0 min(260px,78vw);scroll-snap-align:start;min-width:0}
+@media (min-width:900px){
+  .hotoffers{margin:8px 0 32px}
+  .hotoffers__list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;overflow:visible;margin:0;padding:0;scroll-snap-type:none}
+  .hotoffers__list > .card{flex:none}
+}
+@media (prefers-reduced-motion:reduce){.hotoffers__list{scroll-snap-type:none}}
+
 .bbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px}
 .bbar[hidden]{display:none}
 .bbar__l{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-right:4px}
