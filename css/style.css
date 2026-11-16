@@ -2105,3 +2105,5 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .promo.promo--ssn,.prem .promo.promo--ssn{display:inline-flex;align-items:center;gap:4px;text-transform:none;letter-spacing:.03em;font-weight:800;color:#fff;background:linear-gradient(135deg,#ff8a00,#e5221b);border:0;text-shadow:none;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 4px 14px rgba(229,34,27,.45);border-radius:999px}
 .promo.promo--n3{top:calc(16px + 60px)}
 @media (max-width:760px){.promo.promo--n3{top:calc(12px + 52px)}}
+/* 16.11.2026: позначка «Гаряча пропозиція» — тепла червоно-жовтогаряча пігулка з вогником */
+.promo.promo--hot,.prem .promo.promo--hot{display:inline-flex;align-items:center;gap:4px;text-transform:none;letter-spacing:.02em;font-weight:800;color:#fff;background:linear-gradient(135deg,#ff4d00,#c40e0e);border:0;text-shadow:none;box-shadow:0 0 0 2px rgba(255,255,255,.85),0 4px 14px rgba(196,14,14,.45);border-radius:999px}

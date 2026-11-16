@@ -454,7 +454,7 @@
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   // позначка може бути: 'Акція' / 'ХІТ' / 'Новинка' / 'Ексклюзив' / свій текст, комбінації через ' · ' ('Новинка · Ексклюзив')
   // або короткі коди з адмінки через '+' ('new+excl', 'sale+excl', 'hit+excl', 'excl') — ліміт поля promo у Firestore 20 символів
-  var PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив', ssn: 'Хіт сезону', 'хіт сезону': 'Хіт сезону' };
+  var PROMO_CODE = { new: 'Новинка', 'новинка': 'Новинка', sale: 'Акція', 'акція': 'Акція', hit: 'ХІТ', 'хіт': 'ХІТ', excl: 'Ексклюзив', 'ексклюзив': 'Ексклюзив', ssn: 'Хіт сезону', 'хіт сезону': 'Хіт сезону', hot: 'Гаряча пропозиція', 'гаряча': 'Гаряча пропозиція', 'гаряча пропозиція': 'Гаряча пропозиція' };
   function promoTags(p) {
     var t = promoOf(p); if (!t && !p.sale_badge) return [];
     var out = [], ex = false, ss = false;
@@ -469,7 +469,7 @@
   }
   function promoText(p) { return promoTags(p).join(' · '); }
   function hasTag(p, re) { return promoTags(p).some(function (x) { return re.test(x); }); }
-  function isSale(p) { return !!p.sale_badge || hasTag(p, /акці/i) || hasDisc(p); } // «Акції»: позначка «Акція» (каталог/адмінка) або знижка зі старою ціною (08.10)
+  function isSale(p) { return !!p.sale_badge || hasTag(p, /акці|гаряч/i) || hasDisc(p); } // «Акції»: «Акція», «Гаряча пропозиція» або знижка зі старою ціною
   function isNew(p) { return hasTag(p, /новинк/i); }
   function isExcl(p) { return hasTag(p, /ексклюзив/i); } // окремий розділ «Ексклюзив» (незалежно від «Новинки»)
   // діамант для позначки «Ексклюзив»: SVG-грані холодного кольору; обертання/світіння — у CSS (.promo__gem)
@@ -486,6 +486,7 @@
       if (x === 'Розпродаж') return '<span class="promo promo--sale' + n2 + '">Розпродаж</span>';
       if (/новинк/i.test(x)) return '<span class="promo promo--new' + n2 + '">Новинка</span>';
       if (/ексклюзив/i.test(x)) return '<span class="promo promo--excl' + n2 + '" aria-label="Ексклюзив"><span class="promo__xt">Ексклюзив</span>' + GEM + '</span>'; // золотий неон + діамант, що крутиться
+      if (/гаряч/i.test(x)) return '<span class="promo promo--hot' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Гаряча пропозиція</span>';
       return '<span class="promo' + n2 + '"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> ' + esc(x) + '</span>';
     }).join('');
   }
