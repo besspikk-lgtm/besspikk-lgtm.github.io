@@ -87,7 +87,7 @@ async function pingRest(id) {
         writes: [{
           update: { name: name, fields: { k: { stringValue: field } } },
           updateMask: { fieldPaths: ['k'] },
-          updateTransforms: [{ fieldPath: field, increment: { integerValue: '1' } }]
+          updateTransforms: [{ fieldPath: '`' + field + '`', increment: { integerValue: '1' } }]
         }]
       })
     });
