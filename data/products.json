@@ -11522,29 +11522,49 @@
    "id": "barpicar-masking-film",
    "category": "mask",
    "category_name": "Маскувальні матеріали (папір, скотч)",
-   "name": "Плівка маскувальна в рулоні BarpiCAR 10 мкм",
-   "description": "Плівка маскувальна BarpiCAR у рулоні, товщина 10 мкм. Нею укривають кузов, скло й деталі, які не фарбують, щоб захистити їх від напилу та забруднення. Плівка антистатична й оброблена коронним розрядом (Corona treated). В упаковці — 1 рулон. Розміри на вибір: 4 × 150 м, 5 × 120 м.",
-   "price_eur": 28.3269,
+   "name": "Плівка маскувальна в рулоні BarpiCAR 8 / 10 мкм",
+   "description": "Плівка маскувальна BarpiCAR у рулоні, товщина 8 або 10 мкм. Нею укривають кузов, скло й деталі, які не фарбують, щоб захистити їх від напилу та забруднення. Плівка 10 мкм — антистатична й оброблена коронним розрядом (Corona treated). В упаковці — 1 рулон. На вибір: 8 мкм — 4 × 150 м, 4 × 300 м, 5 × 120 м, 5 × 240 м, 6 × 100 м; 10 мкм — 4 × 150 м, 5 × 120 м.",
+   "price_eur": 23.2308,
    "price_label": null,
    "variants": [
     {
-     "label": "4 × 150 м",
+     "label": "8 мкм · 4 × 150 м",
+     "price_eur": 23.2308
+    },
+    {
+     "label": "8 мкм · 4 × 300 м",
+     "price_eur": 47.5192
+    },
+    {
+     "label": "8 мкм · 5 × 120 м",
+     "price_eur": 23.7885
+    },
+    {
+     "label": "8 мкм · 5 × 240 м",
+     "price_eur": 46.5385
+    },
+    {
+     "label": "8 мкм · 6 × 100 м",
+     "price_eur": 27.8077
+    },
+    {
+     "label": "10 мкм · 4 × 150 м",
      "price_eur": 28.3269
     },
     {
-     "label": "5 × 120 м",
+     "label": "10 мкм · 5 × 120 м",
      "price_eur": 28.8846
     }
    ],
    "price_note": "",
    "price_uah_original": null,
    "source": [],
-   "photo": "img/p/barpicar-masking-film.webp?v=20261117a",
+   "photo": "img/p/barpicar-masking-film.webp?v=20261117b",
    "photo_is_placeholder": false,
    "photos_extra": [
-    "img/p/barpicar-masking-film-4.webp?v=20261117a",
-    "img/p/barpicar-masking-film-2.webp?v=20261117a",
-    "img/p/barpicar-masking-film-3.webp?v=20261117a"
+    "img/p/barpicar-masking-film-4.webp?v=20261117b",
+    "img/p/barpicar-masking-film-2.webp?v=20261117b",
+    "img/p/barpicar-masking-film-3.webp?v=20261117b"
    ],
    "photo_source": "головне фото — згенероване: авто в фарбувальній камері, укрите маскувальною плівкою; додаткові — фото BarpiCAR (barpicar.com.ua): коробка 4×150 м 10 мкм, рулон і маркування",
    "in_stock": "В наявності",
@@ -11555,95 +11575,32 @@
     "rows": [
      [
       "Товщина",
-      "10 мкм"
+      "8 мкм або 10 мкм"
      ],
      [
       "Розмір рулону",
-      "4 × 150 м; 5 × 120 м"
+      "8 мкм — 4 × 150 м, 4 × 300 м, 5 × 120 м, 5 × 240 м, 6 × 100 м; 10 мкм — 4 × 150 м, 5 × 120 м"
      ],
      [
-      "Властивості",
+      "Властивості (10 мкм)",
       "антистатична, оброблена коронним розрядом (Corona treated), захист від забруднення"
      ],
      [
       "Упаковка",
-      "1 рулон у коробці"
+      "1 рулон; 10 мкм — у коробці"
      ],
      [
       "Бренд",
       "BarpiCAR"
      ]
     ],
-    "src": "За даними BarpiCAR (barpicar.com.ua) та маркуванням на коробці."
+    "src": "За даними BarpiCAR (barpicar.com.ua) та маркуванням на коробці 10 мкм."
    },
-   "variant_title": "Розмір",
-   "price_set_at": "2026-11-17T06:55:00+02:00"
-  },
-  {
-   "id": "barpicar-masking-film-8",
-   "category": "mask",
-   "category_name": "Маскувальні матеріали (папір, скотч)",
-   "name": "Плівка маскувальна в рулоні BarpiCAR 8 мкм",
-   "description": "Плівка маскувальна BarpiCAR у рулоні, товщина 8 мкм. Нею укривають кузов, скло й деталі, які не фарбують, щоб захистити їх від напилу та забруднення. В упаковці — 1 рулон. Розміри на вибір: 4 × 150 м, 4 × 300 м, 5 × 120 м, 5 × 240 м, 6 × 100 м.",
-   "price_eur": 23.2308,
-   "price_label": null,
-   "variants": [
-    {
-     "label": "4 × 150 м",
-     "price_eur": 23.2308
-    },
-    {
-     "label": "4 × 300 м",
-     "price_eur": 47.5192
-    },
-    {
-     "label": "5 × 120 м",
-     "price_eur": 23.7885
-    },
-    {
-     "label": "5 × 240 м",
-     "price_eur": 46.5385
-    },
-    {
-     "label": "6 × 100 м",
-     "price_eur": 27.8077
-    }
-   ],
-   "price_note": "",
-   "price_uah_original": null,
-   "source": [],
-   "photo": "img/p/barpicar-masking-film-8.webp?v=20261117a",
-   "photo_is_placeholder": false,
-   "photos_extra": [
-    "img/p/barpicar-masking-film-2.webp?v=20261117a"
-   ],
-   "photo_source": "головне фото — згенероване: авто в фарбувальній камері, укрите маскувальною плівкою; додаткове — фото прозорого рулону BarpiCAR з наявної картки плівки",
-   "in_stock": "В наявності",
-   "flag": null,
-   "brand": "BarpiCAR",
-   "specs": {
-    "rows": [
-     [
-      "Товщина",
-      "8 мкм"
-     ],
-     [
-      "Розмір рулону",
-      "4 × 150 м; 4 × 300 м; 5 × 120 м; 5 × 240 м; 6 × 100 м"
-     ],
-     [
-      "Упаковка",
-      "1 рулон"
-     ],
-     [
-      "Бренд",
-      "BarpiCAR"
-     ]
-    ],
-    "src": "За даними BarpiCAR (barpicar.com.ua)."
-   },
-   "variant_title": "Розмір",
-   "price_set_at": "2026-11-17T06:55:00+02:00"
+   "variant_title": "Товщина і розмір",
+   "price_set_at": "2026-11-17T07:05:00+02:00",
+   "merged_from": [
+    "barpicar-masking-film-8"
+   ]
   },
   {
    "id": "pdr-double-hammer-set",
