@@ -282,7 +282,7 @@
       <g:condition>new</g:condition>
       <g:brand>SATA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>meiji-mard</g:id>
@@ -321,7 +321,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>pps-adapter</g:id>
@@ -347,7 +347,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>3m-d7915-prefilters</g:id>
@@ -4932,7 +4932,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>DeVilbiss</g:brand>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>ncp-paper-masking-30-sm-x-60-m</g:id>
@@ -5609,7 +5609,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mobihel</g:brand>
       <g:google_product_category>5484</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Брендований одяг</g:product_type>
     </item>
     <item>
       <g:id>mobihel-coverall-xl</g:id>
@@ -5625,7 +5625,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mobihel</g:brand>
       <g:google_product_category>5484</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Брендований одяг</g:product_type>
     </item>
     <item>
       <g:id>mobihel-coverall-xxl</g:id>
@@ -5641,7 +5641,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mobihel</g:brand>
       <g:google_product_category>5484</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Брендований одяг</g:product_type>
     </item>
     <item>
       <g:id>cartec-pads-pomaranchevyi</g:id>
@@ -5735,7 +5735,7 @@
       <g:condition>new</g:condition>
       <g:brand>BarpiCAR</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>barpicar-pps-system-600-ml</g:id>
@@ -5751,7 +5751,7 @@
       <g:condition>new</g:condition>
       <g:brand>BarpiCAR</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>barpicar-masking-film-8-4-x-150-m</g:id>
