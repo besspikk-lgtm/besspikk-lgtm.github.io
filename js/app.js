@@ -2450,7 +2450,10 @@
         // 17.10.2026: price_set_at у products.json (ISO-дата) — ціна з каталогу новіша за стару правку в адмінці, тож ціна з адмінки ігнорується, доки її не змінять знову
         var psa = BASE[bp.id] && BASE[bp.id].price_set_at ? Date.parse(BASE[bp.id].price_set_at) : 0;
         var oldPrice = psa > 0 && !((Number(d.updatedAt) || 0) > psa);
-        EDITABLE.forEach(function (k) { if (dn[k] !== undefined && !(oldPrice && PRICE_KEYS[k])) p[k] = dn[k]; });
+        // 17.11.2026: category_set_at у products.json — розділ з каталогу новіший за стару правку в адмінці, тож категорія з адмінки ігнорується, доки її не змінять знову
+        var csa = BASE[bp.id] && BASE[bp.id].category_set_at ? Date.parse(BASE[bp.id].category_set_at) : 0;
+        var oldCat = csa > 0 && !((Number(d.updatedAt) || 0) > csa);
+        EDITABLE.forEach(function (k) { if (dn[k] !== undefined && !(oldPrice && PRICE_KEYS[k]) && !(oldCat && k === 'category')) p[k] = dn[k]; });
         if (BASE[p.id] && BASE[p.id].variant_axes && /уточн[^\n]{0,20}дюз/i.test(p.price_label || '')) p.price_label = BASE[p.id].price_label || null; // 23.10: дюза/голова тепер обираються — стара підказка з адмінки зайва
         if (p.price_eur !== null && typeof p.price_eur !== 'number') p.price_eur = parseFloat(p.price_eur) || null;
         if (p.price_old_eur != null && typeof p.price_old_eur !== 'number') p.price_old_eur = parseFloat(p.price_old_eur) || null;

@@ -4539,7 +4539,8 @@
      ]
     ]
    },
-   "sub": "shpak"
+   "sub": "shpak",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pal-861-p028",
@@ -4606,7 +4607,8 @@
      ]
     ]
    },
-   "sub": "shpak"
+   "sub": "shpak",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pal-861-p001",
@@ -4673,7 +4675,8 @@
      ]
     ]
    },
-   "sub": "shpak"
+   "sub": "shpak",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pal-861-p044",
@@ -4740,7 +4743,8 @@
      ]
     ]
    },
-   "sub": "shpak"
+   "sub": "shpak",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pal-861-p088",
@@ -4807,7 +4811,8 @@
      ]
     ]
    },
-   "sub": "shpak"
+   "sub": "shpak",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pal-075-0020",
@@ -7367,7 +7372,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "novol-fiber",
@@ -7409,7 +7415,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "novol-uni",
@@ -7460,7 +7467,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "novol-alu",
@@ -7502,7 +7510,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "novol-finish",
@@ -7543,7 +7552,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "novol-carbon",
@@ -7585,7 +7595,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "3m-fine-compound-09375",
@@ -10421,7 +10432,8 @@
     ],
     "src": "За даними виробника та офіційних дистриб’юторів."
    },
-   "sub": "putty"
+   "sub": "putty",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "teroson-pu8590-600",
@@ -11643,7 +11655,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "italco-gloss-x1",
@@ -11745,7 +11758,8 @@
    "home_cat": "guns",
    "type": "guns",
    "disc_pct": 10,
-   "price_old_eur": 108.0
+   "price_old_eur": 108.0,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-sutu-rp5800-kit",
@@ -11811,7 +11825,8 @@
    "type": "guns",
    "price_old_eur": 92.3077,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-ntools-tested",
@@ -11885,7 +11900,8 @@
     "src": "За фото товару та маркуванням."
    },
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-hvlp-graffiti",
@@ -11952,7 +11968,8 @@
    "type": "guns",
    "price_old_eur": 86.5385,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "ntools-te20",
@@ -12031,7 +12048,8 @@
    "type": "guns",
    "price_old_eur": 85.5,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-m9-pps",
@@ -12100,7 +12118,8 @@
    "type": "guns",
    "price_old_eur": 82.6923,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "spi-pro-te20-sticker-bomb",
@@ -12171,7 +12190,8 @@
    "type": "guns",
    "price_old_eur": 79.6154,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-374",
@@ -12229,7 +12249,8 @@
     "src": "За фото та описом товару."
    },
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-375",
@@ -12301,7 +12322,8 @@
    "type": "guns",
    "price_old_eur": 78.2885,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-376",
@@ -12374,7 +12396,8 @@
    "type": "guns",
    "price_old_eur": 78.2885,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-primer-17-pps",
@@ -12417,7 +12440,8 @@
    "type": "guns",
    "price_old_eur": null,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "ntools-5000b-upgrades",
@@ -12507,7 +12531,8 @@
    "type": "guns",
    "price_old_eur": null,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pdr-knockdown-handle-set",
@@ -12545,7 +12570,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "baishangsi-straight-line-sander",
@@ -12601,7 +12627,8 @@
     "img/p/baishangsi-straight-line-sander-2.webp?v=20261030a",
     "img/p/baishangsi-straight-line-sander-3.webp?v=20261030a",
     "img/p/baishangsi-straight-line-sander-4.webp?v=20261030a"
-   ]
+   ],
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-hvlp-13",
@@ -12640,7 +12667,8 @@
    "type": "guns",
    "price_old_eur": null,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "baishangsi-palm-sander-817",
@@ -12687,7 +12715,8 @@
    },
    "home_cat": "equip",
    "type": "equip",
-   "brand": "BAISHANGSI"
+   "brand": "BAISHANGSI",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "baishangsi-orbital-sander-10000",
@@ -12752,7 +12781,8 @@
    "type": "equip",
    "brand": "BAISHANGSI",
    "price_set_at": "2026-10-19T18:05:00+03:00",
-   "gift": "У подарунок 7 абразивів різної градації"
+   "gift": "У подарунок 7 абразивів різної градації",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-377",
@@ -12823,7 +12853,8 @@
     "src": "За фото та описом товару."
    },
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "italco-mini-3003",
@@ -12874,7 +12905,8 @@
    "home_cat": "guns",
    "type": "guns",
    "disc_pct": 10,
-   "price_old_eur": 72.0
+   "price_old_eur": 72.0,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "air-belt-sander-10x330",
@@ -12954,7 +12986,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "ntools-mini-5002",
@@ -13029,7 +13062,8 @@
    "home_cat": "guns",
    "type": "guns",
    "disc_pct": 10,
-   "price_old_eur": 69.2308
+   "price_old_eur": 69.2308,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-pps-set",
@@ -13070,7 +13104,8 @@
    "type": "guns",
    "price_old_eur": null,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "air-body-saw",
@@ -13150,7 +13185,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "baishangsi-mini-angle-polisher",
@@ -13193,7 +13229,8 @@
    },
    "home_cat": "equip",
    "type": "equip",
-   "brand": "BAISHANGSI"
+   "brand": "BAISHANGSI",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "air-angle-die-grinder-90",
@@ -13235,7 +13272,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "sanding-block-vacuum-400x70",
@@ -13301,7 +13339,8 @@
    "variant_title": "Колір",
    "photos_extra": [
     "img/v/sanding-block-vacuum-400x70-red.webp?v=20261022s"
-   ]
+   ],
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "gun-mini-08",
@@ -13343,7 +13382,8 @@
    "home_cat": "guns",
    "type": "guns",
    "disc_pct": 10,
-   "price_old_eur": 40
+   "price_old_eur": 40,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "pdr-suction-cup-t-handle",
@@ -13385,7 +13425,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "strip-discs-quick-change-25",
@@ -13427,7 +13468,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "abraz",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "strip-discs-quick-change-black-30",
@@ -13539,7 +13581,8 @@
    "type": "guns",
    "price_old_eur": null,
    "price_set_at": "2026-10-19T13:30:00+03:00",
-   "sale_badge": true
+   "sale_badge": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "hw-300mini",
@@ -13663,7 +13706,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "sanding-block-vacuum-interchangeable",
@@ -13754,7 +13798,8 @@
     "src": "За фото та описом товару (комплектація й розміри з фото)."
    },
    "home_cat": "abraz",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "sanding-block-dust-70x125-13h",
@@ -13796,7 +13841,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "zirconia-sanding-belts-10x330-40",
@@ -13838,7 +13884,8 @@
     "src": "За фото та описом товару (комплектація й розміри з фото)."
    },
    "home_cat": "abraz",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "sanding-plate-spring-70x198",
@@ -13880,7 +13927,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "body-line-scriber-kit",
@@ -13978,7 +14026,8 @@
    "type": "equip",
    "photos_extra": [
     "img/v/sanding-sponges-66-p240-p3000.webp?v=20261017g"
-   ]
+   ],
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "air-regulator-filter-blue",
@@ -14020,7 +14069,8 @@
     "src": "За фото товару (комплектація, розміри та маркування з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "sanding-discs-1in-polishing-set-131",
@@ -14066,7 +14116,8 @@
     "src": "За фото та описом товару (комплектація й розміри з фото)."
    },
    "home_cat": "abraz",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "auarita-mini",
@@ -14094,7 +14145,8 @@
    "home_cat": "guns",
    "type": "guns",
    "disc_pct": 10,
-   "price_old_eur": 18.0
+   "price_old_eur": 18.0,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "air-regulator-gauge-set-2",
@@ -14137,7 +14189,8 @@
    },
    "home_cat": "equip",
    "type": "equip",
-   "hidden": true
+   "hidden": true,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "air-regulator-gauge-adapter",
@@ -14438,7 +14491,8 @@
     "src": "За фото та описом товару (комплектація й розміри з фото)."
    },
    "home_cat": "abraz",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "auarita-ps5",
@@ -14466,7 +14520,8 @@
    "home_cat": "guns",
    "type": "guns",
    "disc_pct": 10,
-   "price_old_eur": 10.8077
+   "price_old_eur": 10.8077,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "microfiber-cleaning-cloths-grey-10",
@@ -14512,7 +14567,8 @@
     "src": "За фото та описом товару (комплектація й розміри з фото)."
    },
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "auarita-spj06",
@@ -14540,7 +14596,8 @@
    "home_cat": "equip",
    "type": "equip",
    "disc_pct": 10,
-   "price_old_eur": 3.5962
+   "price_old_eur": 3.5962,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "microfiber-towel-grey-yellow-double",
@@ -14930,7 +14987,8 @@
    },
    "brand": "AEROPRO",
    "home_cat": "equip",
-   "type": "equip"
+   "type": "equip",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "airbrush-gold-kit",
@@ -15154,7 +15212,8 @@
    "sub": "tools",
    "home_cat": "equip",
    "type": "equip",
-   "disc_pct": 10
+   "disc_pct": 10,
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "aeropro-a313-sander",
@@ -15238,7 +15297,8 @@
    },
    "home_cat": "equip",
    "type": "equip",
-   "price_set_at": "2026-10-22T12:30:00+03:00"
+   "price_set_at": "2026-10-22T12:30:00+03:00",
+   "category_set_at": "2026-11-17T07:20:00+02:00"
   },
   {
    "id": "car-clips-925",

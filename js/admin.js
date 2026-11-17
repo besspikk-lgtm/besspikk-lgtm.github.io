@@ -94,7 +94,8 @@ function merged() {
     const v = Object.assign({ name: '', category: '', price_eur: null, price_old_eur: null, price_label: '', in_stock: 'Наявність уточнюйте', description: '', promo: '', variants: null, code: '' }, b || {});
     // 19.10: як на сайті — price_set_at у products.json новіша за правку адмінки -> стара ціна з адмінки не показується й не перезаписується
     const psa = BASE[id] && BASE[id].price_set_at ? Date.parse(BASE[id].price_set_at) : 0, stale = r && psa > 0 && !((Number(r.updatedAt) || 0) > psa);
-    if (r) { const rn = discNorm(BASE[id], r); FIELDS.forEach((k) => { if (rn[k] !== undefined && !(stale && (k === 'price_eur' || k === 'price_old_eur' || k === 'price_label' || k === 'variants'))) v[k] = rn[k]; }); }
+    const csa = BASE[id] && BASE[id].category_set_at ? Date.parse(BASE[id].category_set_at) : 0, staleCat = r && csa > 0 && !((Number(r.updatedAt) || 0) > csa);
+    if (r) { const rn = discNorm(BASE[id], r); FIELDS.forEach((k) => { if (rn[k] !== undefined && !(stale && (k === 'price_eur' || k === 'price_old_eur' || k === 'price_label' || k === 'variants')) && !(staleCat && k === 'category')) v[k] = rn[k]; }); }
     const gallery = effGallery(id, r);
     out.push(Object.assign(v, { id, isStatic: !!b, changed: !!(b && r && FIELDS.some((k) => r[k] !== undefined)), hidden: r && r.hidden !== undefined ? !!r.hidden : !!(b && BASE[id] && BASE[id].hidden), hasPhoto: !!(r && r.hasPhoto),
       gallery, photoChanged: !!(b && JSON.stringify(gallery) !== '["static"]'),
