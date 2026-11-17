@@ -195,3 +195,7 @@ body.has-ppbar{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
 .pp__ph,.ar__pimg{background:#fff}
 .pp__box.rel .rel__add{display:block;text-align:center;text-decoration:none}.pp__box.rel .rel__open{text-decoration:none}.pp__box.rel .rel__ttl{font-size:18px}
 .pp__ax{display:flex;gap:10px;margin:8px 0 4px}.pp__ax label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted,#9fb0c8);flex:1}.pp__ax select{min-height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.18);background:#0d1d3a;color:#fff;font:inherit;font-size:16px;padding:0 10px}
+
+/* 17.11.2026: бейдж переглядів на статичній сторінці товару (лише адмін) */
+.vw--pp{display:inline-flex;align-items:center;gap:4px;margin:8px 0 0;padding:3px 8px 3px 6px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;line-height:1;color:var(--muted);background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line2);pointer-events:none;white-space:nowrap;width:max-content}
+.vw--pp b{color:var(--text2);font-weight:700}

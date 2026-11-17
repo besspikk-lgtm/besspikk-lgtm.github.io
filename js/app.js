@@ -642,7 +642,7 @@
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
       '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + (spinOf(p) ? '<span class="spinb" title="Є обертання 360°">' + SPIN_IC + '360°</span>' : '') + '</button>' +
-      '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + '</div>' +
+      '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + viewsBadgeHTML(p.id, 'vw--card') + '</div>' +
       giftHTML(p, 'gift--card') +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg> Відео</span>' : '') + '</span>' +
@@ -823,9 +823,13 @@
   }
 
   /* ---------- власна статистика: Firestore stats/{день за Києвом} (пише js/fb.js), без cookies і персональних даних ----------
-     Кожна подія — +1 до одного лічильника; кожну подію рахуємо раз за сесію вкладки (дедуп у sessionStorage), не більше
-     STAT_MAX записів за сесію — щоб не з'їсти ліміт безкоштовного плану (~20 тис. записів/добу). Боти й автотести не рахуються. */
+     Кожна подія — +1 до одного лічильника; views/cart/o_* рахуємо раз за сесію вкладки (дедуп у sessionStorage), не більше
+     STAT_MAX записів за сесію — щоб не з'їсти ліміт безкоштовного плану (~20 тис. записів/добу). Боти й автотести не рахуються.
+     Відкриття товару (p_<id>): раз на відвідувача на товар на добу (localStorage alexbes_pv, до PV_MAX/добу).
+     Перегляди адміна не пишемо; суму за 365 днів показуємо бейджем лише йому (setAdminViews з js/fb.js). */
   var statWriter = null, statQ = [], STAT_MAX = 40;
+  var viewAdmin = false, viewCounts = {}, statAdminReady = false, statPQ = [], PV_MAX = 80, PV_KEY = 'alexbes_pv';
+  var IC_EYE = '<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>';
   var statSkip = (function () {
     try { return !!navigator.webdriver || /bot|crawl|spider|slurp|lighthouse|headless|preview|facebookexternalhit|whatsapp|telegram/i.test(navigator.userAgent || ''); } catch (e) { return true; }
   })();
@@ -848,6 +852,94 @@
       s.k.push(key); sessionStorage.setItem('alexbes_st', JSON.stringify(s));
       if (statWriter) statSend(day, field); else if (statQ.length < STAT_MAX) statQ.push([day, field]);
     } catch (e) {}
+  }
+  function pvTaken(id) {
+    var day = statDay(), s = null;
+    try { s = JSON.parse(localStorage.getItem(PV_KEY) || 'null'); } catch (e) {}
+    if (!s || s.d !== day || !Array.isArray(s.k)) s = { d: day, k: [] };
+    if (s.k.indexOf(id) >= 0 || s.k.length >= PV_MAX) return true;
+    s.k.push(id);
+    try { localStorage.setItem(PV_KEY, JSON.stringify(s)); } catch (e) {}
+    return false;
+  }
+  function statProductNow(id) {
+    if (pvTaken(id)) return;
+    var day = statDay(), field = 'p_' + id;
+    if (statWriter) statSend(day, field); else if (statQ.length < STAT_MAX) statQ.push([day, field]);
+  }
+  function flushStatPQ() {
+    var q = statPQ; statPQ = [];
+    if (viewAdmin) return;
+    q.forEach(statProductNow);
+  }
+  function statProduct(id) {
+    try {
+      if (statSkip) return;
+      try { if (localStorage.getItem('alexbes_nostats') === '1') return; } catch (e) {}
+      if (!id || !/^[A-Za-z0-9_-]{1,80}$/.test(id)) return;
+      if (!statAdminReady) { if (statPQ.indexOf(id) < 0) statPQ.push(id); return; }
+      if (viewAdmin) return;
+      statProductNow(id);
+    } catch (e) {}
+  }
+  setTimeout(function () { if (!statAdminReady) { statAdminReady = true; flushStatPQ(); } }, 4000);
+  function viewsFmt(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00a0'); }
+  function viewsBadgeHTML(id, cls) {
+    if (!viewAdmin) return '';
+    var n = viewCounts[id] || 0;
+    return '<span class="vw ' + (cls || 'vw--card') + '" title="Перегляди картки товару (видно лише вам)" aria-label="Переглядів: ' + n + '">' + svgI(IC_EYE, 13) + '<b>' + viewsFmt(n) + '</b></span>';
+  }
+  function ensureViewsCss() {
+    if (document.getElementById('ab-views-css')) return;
+    var s = document.createElement('style');
+    s.id = 'ab-views-css';
+    s.textContent = '.vw{display:inline-flex;align-items:center;gap:4px;padding:3px 8px 3px 6px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:0;line-height:1;color:var(--text2);background:rgba(8,17,31,.72);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none;white-space:nowrap;text-transform:none}' +
+      '.vw b{font-weight:700}' +
+      '.vw--card{position:absolute;left:10px;top:10px;z-index:2;margin:0}' +
+      '.prem .vw--card{left:16px;top:16px}' +
+      '.vw--pm,.vw--pp{position:static;margin:0;align-self:flex-start;width:max-content;background:rgba(255,255,255,.04);box-shadow:inset 0 0 0 1px var(--line2);color:var(--muted)}' +
+      '.vw--pm b,.vw--pp b{color:var(--text2)}' +
+      '@media (max-width:760px){.vw{font-size:10.5px;padding:3px 7px 3px 5px}.prem .vw--card{left:12px;top:12px}}';
+    document.head.appendChild(s);
+  }
+  function paintViews() {
+    if (viewAdmin) ensureViewsCss();
+    document.body.classList.toggle('is-admin-views', viewAdmin);
+    $$('#grid .card').forEach(function (card) {
+      var btn = card.querySelector('[data-open]'), id = btn && btn.getAttribute('data-open');
+      var media = card.querySelector('.card__media');
+      var old = card.querySelector('.vw');
+      if (!viewAdmin || !id || !media) { if (old) old.remove(); return; }
+      var html = viewsBadgeHTML(id, 'vw--card');
+      if (old) old.outerHTML = html; else media.insertAdjacentHTML('beforeend', html);
+    });
+    var info = $('#pm .pm__info');
+    if (info) {
+      var oldp = info.querySelector('.vw');
+      if (!viewAdmin || !pmState.id) { if (oldp) oldp.remove(); }
+      else {
+        var htmlp = viewsBadgeHTML(pmState.id, 'vw--pm');
+        if (oldp) oldp.outerHTML = htmlp;
+        else {
+          var h2 = $('#pm-name', info);
+          if (h2) h2.insertAdjacentHTML('afterend', htmlp);
+        }
+      }
+    }
+  }
+  function setAdminViews(on, loader) {
+    viewAdmin = !!on;
+    statAdminReady = true;
+    if (!on) viewCounts = {};
+    paintViews();
+    flushStatPQ();
+    if (on && typeof loader === 'function') {
+      Promise.resolve(loader()).then(function (c) {
+        if (!viewAdmin) return;
+        if (c && typeof c === 'object') viewCounts = c;
+        paintViews();
+      }).catch(function () {});
+    }
   }
   // 18.10.2026 / 02.11.2026: «Отримати консультацію» → бот ?start=consult[_<id>] — бот одразу пише Alex у Telegram
   function consultHref() {
@@ -956,7 +1048,7 @@
   var trackedOpen = null; // product id already counted for the current modal open
   function openProduct(id) {
     var p = byId[id]; if (!p) return;
-    if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); stat('p_' + p.id); }
+    if (trackedOpen !== id || !openModalEl || openModalEl !== $('#pmodal')) { trackedOpen = id; track('товар/' + p.id, p.name); statProduct(p.id); }
     var swap = openModalEl && openModalEl === $('#pmodal') && pmState.id !== id; // перехід з «Разом з цим купують»
     lbHide();
     pmState = { id: id, vi: 0, qty: 1, gi: 0 };
@@ -1562,6 +1654,7 @@
       '<div class="pm__info">' +
         '<span class="pm__cat">' + esc(p.category_name) + '</span>' +
         '<h2 id="pm-name">' + esc(p.name) + '</h2>' +
+        viewsBadgeHTML(p.id, 'vw--pm') +
         '<div class="pm__tools">' + favBtnHTML(p, 'favb--pm') + '<button class="pmt" type="button" data-share="' + esc(p.id) + '" aria-label="Поділитися: ' + esc(p.name) + '">' + svgI(IC.share, 19) + '<span>Поділитися</span></button></div>' +
         '<div>' + price + '</div>' + vars +
         stockHTML(p) +
@@ -2881,6 +2974,7 @@
     setOrderWriter: function (fn) { orderWriter = typeof fn === 'function' ? fn : null; },
     setCartEventWriter: function (fn) { cartEvWriter = typeof fn === 'function' ? fn : null; if (cartEvWriter) { var q = cartEvQ; cartEvQ = []; q.forEach(cartEvSend); } },
     setStatWriter: function (fn) { statWriter = typeof fn === 'function' ? fn : null; if (statWriter) { var q = statQ; statQ = []; q.forEach(function (x) { statSend(x[0], x[1]); }); } },
+    setAdminViews: setAdminViews,
     onFormChange: function (fn) { formListener = typeof fn === 'function' ? fn : null; },
     // профіль змінено явно (сторінка профілю / інший пристрій) → перезаписати поля кошика переданими значеннями
     setForm: function (f) { var ch = false; ['name', 'phone', 'city'].forEach(function (k) { if (typeof f[k] === 'string' && f[k] !== (form[k] || '')) { form[k] = f[k]; ch = true; } }); if (ch) { save('alexbes_form', form); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); } },

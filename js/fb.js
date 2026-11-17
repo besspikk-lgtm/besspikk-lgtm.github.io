@@ -180,7 +180,42 @@ function setBtn() {
   });
 }
 
+
+function kyivDayId() {
+  try {
+    const o = {}; new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(new Date()).forEach((x) => { o[x.type] = x.value; });
+    if (o.year && o.month && o.day) return o.year + '-' + o.month + '-' + o.day;
+  } catch (e) {}
+  return new Date(Date.now() + 3 * 3600e3).toISOString().slice(0, 10);
+}
+async function loadProductViewCounts() {
+  const { F, db } = fb;
+  const t = kyivDayId();
+  const base = Date.UTC(+t.slice(0, 4), +t.slice(5, 7) - 1, +t.slice(8, 10));
+  const from = new Date(base - 364 * 864e5).toISOString().slice(0, 10);
+  const qs = await F.getDocs(F.query(F.collection(db, 'stats'), F.where(F.documentId(), '>=', from)));
+  const counts = {};
+  qs.forEach((d) => {
+    const x = d.data() || {};
+    Object.keys(x).forEach((k) => {
+      if (k.indexOf('p_') === 0 && typeof x[k] === 'number' && isFinite(x[k])) counts[k.slice(2)] = (counts[k.slice(2)] || 0) + x[k];
+    });
+  });
+  return counts;
+}
+function syncAdminViews(u) {
+  const adm = isAdminUser(u);
+  try {
+    if (adm) localStorage.setItem('alexbes_adm', '1');
+    else localStorage.removeItem('alexbes_adm');
+  } catch (e) {}
+  if (!AB.setAdminViews) return;
+  if (!adm) AB.setAdminViews(false);
+  else AB.setAdminViews(true, loadProductViewCounts);
+}
+
 async function onUser(u) {
+
   const { db, F } = fb;
   if (unsubUser) { unsubUser(); unsubUser = null; }
   clearTimeout(saveT); saveT = null;
@@ -194,11 +229,13 @@ async function onUser(u) {
     avatar = null; avaLocal = false; serverPhoto = null; avaTok++;
     view = (view === 'account' || view === 'orders') ? 'login' : view;
     if (AB.setAcct) AB.setAcct(null);
+    syncAdminViews(null);
     setBtn(); render();
     return;
   }
   LS.set('alexbes_had_acct', '1');
   if (AB.setAcct) AB.setAcct({ uid: u.uid });
+  syncAdminViews(u);
   const la0 = localAva(u.uid);
   avatar = la0 ? la0.d : null; avaLocal = !!(la0 && !la0.synced); serverPhoto = null;
   const tok = ++avaTok;
