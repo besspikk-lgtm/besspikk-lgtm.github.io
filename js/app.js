@@ -177,7 +177,6 @@
     'auarita-lion': 'guns',
     'auarita-mini': 'guns',
     'auarita-ps5': 'guns',
-    'pps-adapter': 'pps',
     'wall-mount-gun-holder': 'pps',
     'auarita-spj06': 'pps',
     'gun-cleaning-brushes-22': 'pps',

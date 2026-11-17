@@ -13,13 +13,13 @@
    "id": "guns",
    "name": "Фарбопульти/пістолети",
    "icon": "",
-   "count": 37
+   "count": 38
   },
   {
    "id": "budget",
    "name": "Бюджетні товари",
    "icon": "",
-   "count": 75
+   "count": 74
   },
   {
    "id": "abraz",
@@ -2772,9 +2772,9 @@
   },
   {
    "id": "pps-adapter",
-   "category": "budget",
-   "category_name": "Бюджетні товари",
-   "name": "PPS перехідник",
+   "category": "guns",
+   "category_name": "Фарбопульти/пістолети",
+   "name": "PPS перехідник для Meiji",
    "description": "Перехідник під систему PPS для фарбопультів Meiji FINER-CORE.",
    "price_eur": 20,
    "price_label": null,
@@ -2791,7 +2791,7 @@
    "flag": null,
    "sub": "acc",
    "type": "pps",
-   "category_set_at": "2026-11-17T07:32:00+02:00"
+   "category_set_at": "2026-11-17T08:53:00+02:00"
   },
   {
    "id": "meiji-nozzle",

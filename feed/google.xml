@@ -325,7 +325,7 @@
     </item>
     <item>
       <g:id>pps-adapter</g:id>
-      <title>PPS перехідник</title>
+      <title>PPS перехідник для Meiji</title>
       <description>Перехідник під систему PPS для фарбопультів Meiji FINER-CORE.</description>
       <g:price>1040.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/pps-adapter/</link>
@@ -334,7 +334,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>meiji-nozzle</g:id>
