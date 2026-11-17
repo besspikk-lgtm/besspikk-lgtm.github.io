@@ -191,6 +191,20 @@ button{font:inherit;cursor:pointer}
 .cform .full{grid-column:1/-1}
 .cform input,.cform textarea{border-radius:10px;border:1px solid var(--line);background:var(--bg2);color:var(--text);padding:10px 12px;font:inherit;outline:none}
 .cform input:focus,.cform textarea:focus{border-color:var(--yellow)}
+
+/* 17.11.2026: спосіб оплати в кошику — сегмент з двох радіо, у стилі полів форми */
+.cpay{grid-column:1/-1;margin:2px 0 2px;padding:0;border:0;min-width:0}
+.cpay legend{font-size:12.5px;font-weight:600;letter-spacing:.02em;color:var(--muted);padding:0;margin:0 0 6px}
+.cpay__req{font-weight:500;color:var(--muted);opacity:.85}
+.cpay__opts{display:flex;flex-direction:column;gap:8px}
+.cpay__opt{display:flex;align-items:flex-start;gap:10px;margin:0;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:15px;font-weight:600;line-height:1.35;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.cpay__opt input{accent-color:var(--yellow);width:18px;height:18px;margin:2px 0 0;flex:none}
+.cpay__opt span{flex:1;min-width:0}
+.cpay__opt:focus-within{border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,215,0,.18)}
+.cpay__opt:has(input:checked){border-color:var(--yellow);box-shadow:0 0 0 3px rgba(255,215,0,.18);color:var(--yellow-hi)}
+.cpay--err .cpay__opt{border-color:#e05a5a}
+.prem .cpay legend{font-weight:600;letter-spacing:.02em}
+.prem .cpay__opt{background:var(--bg2);border:1px solid var(--line2,var(--line));border-radius:12px}
 .cactions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cactions .btn--full{grid-column:1/-1}
 .cempty{text-align:center;padding:26px 10px;color:var(--muted)}

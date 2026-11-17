@@ -30,6 +30,7 @@ function parseAll(s) {
 // 16.10.2026: службовий елемент {id:'_acct', uid, discountPct, discountAmount, totalBeforeDiscount, total} — не товар
 function parseItems(s) { const a = parseAll(s); return a === null ? null : a.filter((x) => x.id !== '_acct'); }
 function acctOf(o) { const a = parseAll(o.items) || []; return a.find((x) => x.id === '_acct') || null; }
+function payOf(o) { const a = acctOf(o); const v = (a && a.payment) || o.payment || ''; return (v === 'Повна оплата' || v === 'По передоплаті, накладеним платежем') ? v : (v ? String(v) : ''); }
 
 let ctx = null; // { fb, toast, names(), products(), thumb(p), lazy() }
 let orders = [], unsubO = null, flt = 'all', oq = '', loaded = false, oErr = '';
@@ -59,7 +60,7 @@ function chOf(o) { const a = acctOf(o); return a && a.ch ? (CHN[a.ch] || String(
 function chHTML(o) { const c = chOf(o); return c ? '<span class="oquick" title="Канал, яким клієнт надіслав замовлення">' + esc(c) + '</span>' : ''; }
 function orderHay(o) {
   const it = parseItems(o.items) || [];
-  return [isQuick(o) ? 'швидке замовлення в один клік' : '', chOf(o), o.name, o.phone, o.city, o.note, o.id].concat(it.map((x) => x.name + ' ' + (x.variant || ''))).join(' ').toLowerCase();
+  return [isQuick(o) ? 'швидке замовлення в один клік' : '', chOf(o), o.name, o.phone, o.city, o.note, payOf(o), o.id].concat(it.map((x) => x.name + ' ' + (x.variant || ''))).join(' ').toLowerCase();
 }
 function itemsHTML(o) {
   const it = parseItems(o.items);
@@ -99,6 +100,7 @@ function orderHTML(o) {
       '<div>📍 ' + (o.city ? esc(o.city) : '<span class="muted">місто / НП не вказано</span>') + '</div>' +
     '</div>' +
     itemsHTML(o) + totalHTML(o) + giftHTML(o) +
+    (payOf(o) ? '<div class="ocard__pay">Оплата: ' + esc(payOf(o)) + '</div>' : '') +
     (o.note ? '<div class="ocard__note">💬 ' + esc(o.note) + '</div>' : '') +
     '<div class="ocard__a"><label class="ocard__sel"><span>Статус</span><select data-ost="' + esc(o.id) + '" aria-label="Статус замовлення">' +
       STATUSES.map((x) => '<option value="' + x.id + '"' + (x.id === s ? ' selected' : '') + '>' + x.label + '</option>').join('') + '</select></label>' +

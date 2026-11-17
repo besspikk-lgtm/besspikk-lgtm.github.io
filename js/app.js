@@ -1810,6 +1810,12 @@
     var json = JSON.stringify(items);
     while (json.length > 14500 && items.length > 1) { items.pop(); json = JSON.stringify(items); } // ліміт правил — решта є в text
     var meta = acctMeta(sum);
+    var pay = payOf();
+    // Правила Firestore не дозволяють окремого поля payment у orders/* — пишемо в службовий _acct (як ch) і в text.
+    if (pay) {
+      if (!meta) meta = { id: '_acct', uid: acct && acct.uid ? String(acct.uid).slice(0, 128) : '' };
+      meta.payment = pay;
+    }
     if (meta) { items.push(meta); json = JSON.stringify(items); }
     if (meta && meta.discountAmount) sum = meta.total;
     return {
@@ -1847,7 +1853,7 @@
   function saveMsgOrder(ch) {
     try {
       if (!orderWriter || !cart.length) return;
-      var key = cartHash() + '|' + [form.name, form.phone, form.city, form.note].join('|');
+      var key = cartHash() + '|' + [form.name, form.phone, form.city, form.note, payOf()].join('|');
       var prev = load(MSG_ORD_KEY, null);
       if (prev && prev.k === key && Date.now() - prev.t < 30 * 6e4) return;
       var data = siteOrderData(), items = JSON.parse(data.items), m = null;
@@ -1960,6 +1966,33 @@
         '<button class="btn btn--o" type="button" data-close>До каталогу</button>' +
       '</div></div>';
   }
+  var PAY_FULL = 'Повна оплата';
+  var PAY_COD = 'По передоплаті, накладеним платежем';
+  function payOf() {
+    var v = form.payment || '';
+    return (v === PAY_FULL || v === PAY_COD) ? v : '';
+  }
+  function needPayment() {
+    if (payOf()) return false;
+    var box = document.querySelector('#cartbody .cpay');
+    if (box) {
+      box.classList.add('cpay--err');
+      if (box.scrollIntoView) box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      var first = box.querySelector('input[name="cpay"]');
+      if (first && first.focus) try { first.focus({ preventScroll: true }); } catch (e) {}
+    }
+    toast('Оберіть, будь ласка, спосіб оплати.');
+    return true;
+  }
+  function payChoiceHTML() {
+    var cur = payOf();
+    function opt(val) {
+      return '<label class="cpay__opt"><input type="radio" name="cpay" data-f="payment" value="' + esc(val) + '"' + (cur === val ? ' checked' : '') + '><span>' + esc(val) + '</span></label>';
+    }
+    return '<fieldset class="cpay full"><legend>Спосіб оплати <span class="cpay__req">обов’язково</span></legend>' +
+      '<div class="cpay__opts" role="radiogroup" aria-required="true" aria-label="Спосіб оплати">' +
+      opt(PAY_FULL) + opt(PAY_COD) + '</div></fieldset>';
+  }
   function orderText() {
     var lines = ['Вітаю! Хочу замовити (з сайту ' + CONFIG.siteName + '):', ''];
     var sum = 0, ask = 0;
@@ -1980,6 +2013,7 @@
     if (f.phone) lines.push('Телефон: ' + f.phone);
     if (f.city) lines.push('Місто / доставка: ' + f.city);
     if (f.note) lines.push('Коментар: ' + f.note);
+    if (payOf()) lines.push('Спосіб оплати: ' + payOf());
     lines.push('', 'Прошу підтвердити ціну та наявність 🙏');
     return lines.join('\n');
   }
@@ -2051,6 +2085,7 @@
       '<div class="cform">' +
         '<label>Ім’я<input data-f="name" value="' + esc(form.name || '') + '" autocomplete="name"></label>' +
         '<label>Телефон<input data-f="phone" value="' + esc(maskPhone(form.phone || '')) + '" type="tel" inputmode="tel" autocomplete="tel" placeholder="+380 __ ___ __ __" maxlength="17"></label>' +
+        payChoiceHTML() +
         '<details class="cmore full"' + (form.city || form.note ? ' open' : '') + '><summary>Додати коментар</summary><div class="cform cform--more">' +
         '<label class="full">Місто / доставка<input data-f="city" value="' + esc(form.city || '') + '" placeholder="Місто, спосіб доставки"></label>' +
         '<label class="full">Коментар<textarea data-f="note" rows="2" placeholder="Дюза, система, питання…">' + esc(form.note || '') + '</textarea></label>' +
@@ -2514,6 +2549,7 @@
     if (t.hasAttribute('data-cq')) { var i = +t.getAttribute('data-cq'); cart[i].qty = Math.max(1, cart[i].qty + +t.getAttribute('data-d')); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-rm')) { cart.splice(+t.getAttribute('data-rm'), 1); saveCart(); updateBadges(); renderCart(); return; }
     if (t.hasAttribute('data-botcart')) {
+      if (needPayment()) { e.preventDefault(); return; }
       var bu = null;
       try { bu = siteOrderLink(); } catch (err) { bu = null; }
       if (!bu) { t.setAttribute('href', CONFIG.orderBot + '?start=' + botCartPayload()); track('бот/кошик', 'Бот для замовлень (кошик)'); markPending(); return; } // звичайне посилання
@@ -2523,7 +2559,10 @@
       t.setAttribute('href', bu);
       return;
     }
-    if (t.hasAttribute('data-copy') || t.hasAttribute('data-send') || t.hasAttribute('data-wa') || t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) markPending();
+    if (t.hasAttribute('data-copy') || t.hasAttribute('data-send') || t.hasAttribute('data-wa') || t.hasAttribute('data-viber') || t.hasAttribute('data-ig')) {
+      if (needPayment()) { e.preventDefault(); return; }
+      markPending();
+    }
     if (t.hasAttribute('data-send')) saveMsgOrder('telegram-personal'); else if (t.hasAttribute('data-wa')) saveMsgOrder('whatsapp'); else if (t.hasAttribute('data-viber')) saveMsgOrder('viber'); else if (t.hasAttribute('data-ig')) saveMsgOrder('instagram'); else if (t.hasAttribute('data-copy')) saveMsgOrder('copy'); // спитаємо «Очистити кошик?», коли повернуться
     if (t.hasAttribute('data-copy')) { copyText(orderText()).then(function (ok) { toast(ok ? 'Текст замовлення скопійовано' : 'Не вдалося скопіювати — виділіть текст нижче'); if (!ok) $('.preview').open = true; }); return; }
     if (t.hasAttribute('data-send')) {
@@ -2564,10 +2603,18 @@
     }
     if (t.hasAttribute('data-focus-search')) { e.preventDefault(); if (location.hash !== '#/' && !/^#\/c\//.test(location.hash)) location.hash = '#/'; window.scrollTo({ top: 0, behavior: 'smooth' }); setTimeout(function () { $('#q').focus(); }, 250); return; }
   });
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t && t.getAttribute && t.getAttribute('data-f') === 'payment') {
+      form.payment = t.value; save('alexbes_form', form);
+      var o = $('#otext'); if (o) o.textContent = orderText();
+      var box = t.closest && t.closest('.cpay'); if (box) box.classList.remove('cpay--err');
+    }
+  });
   document.addEventListener('input', function (e) {
     var t = e.target;
     if (t.id === 'q') { state.q = t.value.trim(); renderGridSearch(); return; }
-    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); if (fk === 'phone') { var mv = maskPhone(t.value); if (mv !== t.value) t.value = mv; } form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk !== 'note') formChanged('input'); if (fk === 'phone' && CLIENT_DISCS && Object.keys(CLIENT_DISCS).length) { clearTimeout(phoneDiscT); phoneDiscT = setTimeout(function () { if (openModalEl && openModalEl === $('#cmodal')) renderCart(); }, 450); } return; }
+    if (t.hasAttribute('data-f')) { var fk = t.getAttribute('data-f'); if (fk === 'phone') { var mv = maskPhone(t.value); if (mv !== t.value) t.value = mv; } form[fk] = t.value; save('alexbes_form', form); var o = $('#otext'); if (o) o.textContent = orderText(); if (fk === 'payment') { var box = t.closest && t.closest('.cpay'); if (box) box.classList.remove('cpay--err'); } if (fk !== 'note') formChanged('input'); if (fk === 'phone' && CLIENT_DISCS && Object.keys(CLIENT_DISCS).length) { clearTimeout(phoneDiscT); phoneDiscT = setTimeout(function () { if (openModalEl && openModalEl === $('#cmodal')) renderCart(); }, 450); } return; }
     if (t.hasAttribute('data-ci')) { var i = +t.getAttribute('data-ci'); cart[i].qty = Math.max(1, parseInt(t.value, 10) || 1); saveCart(); updateBadges(); var o2 = $('#otext'); if (o2) o2.textContent = orderText(); return; }
   });
   function renderGridSearch() {
