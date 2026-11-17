@@ -71,7 +71,7 @@
   /* lakmerge-20261009: лаки 5 л об’єднано з карткою 1 л — старе посилання / рядок кошика відкриває варіант 5 л (індекс) */
   var PROD_ALIAS_VI = { 'pal-923-smart-5l': 1, 'pal-923-as90-5l': 1, 'pal-223-flash-5l': 1, 'pal-223-shine-5l': 1, 'pal-075-0020-5l': 1, 'pal-075-0030-5l': 1, 'pal-077-5l': 1, 'savex-646': 1, 'savex-acrylic': 1, 'savex-metalic': 1, 'savex-gun-cleaner': 1 };
   function aliasId(id) { return PROD_ALIAS[id] && !byId[id] ? PROD_ALIAS[id] : id; }
-  var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'tuba', t: 'TUBA', re: /\btuba\b/i }, { k: 'other', t: 'Інші', re: null }];
+  var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'norber', t: 'Norber Alonso', re: /norber|\balonso\b|\bfoxy\b/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'tuba', t: 'TUBA', re: /\btuba\b/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
   /* 04.10: підрозділи (чипи) всередині розділу: PALINAL — за типом товару; фарбопульти — за типом (+ фільтр бренду) */
   var GUN_MINI = /міні|mini|spot|\b0\.8\b/i;
