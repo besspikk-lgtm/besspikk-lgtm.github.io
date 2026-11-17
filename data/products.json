@@ -5,39 +5,39 @@
  "categories": [
   {
    "id": "palinal",
-   "name": "PALINAL",
+   "name": "Продукція Palinal",
    "icon": "",
-   "count": 104
+   "count": 110
   },
   {
    "id": "guns",
    "name": "Фарбопульти/пістолети",
    "icon": "",
-   "count": 50
+   "count": 34
+  },
+  {
+   "id": "budget",
+   "name": "Бюджетні товари",
+   "icon": "",
+   "count": 36
   },
   {
    "id": "pnevmo",
    "name": "Інструменти",
    "icon": "",
-   "count": 14
+   "count": 7
   },
   {
    "id": "equip",
    "name": "Додаткове обладнання",
    "icon": "",
-   "count": 33
+   "count": 30
   },
   {
    "id": "abraz",
    "name": "Абразиви та підготовка поверхні",
    "icon": "",
-   "count": 31
-  },
-  {
-   "id": "shpak",
-   "name": "Шпаклівки",
-   "icon": "🪣",
-   "count": 12
+   "count": 28
   },
   {
    "id": "savex",
@@ -2920,7 +2920,7 @@
   {
    "id": "pal-223-ultra",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 223 ULTRA — лак",
    "description": "Один з топових лаків у лінійці Palinal. На банці: «Ultra rapid air / oven».",
    "price_eur": 50,
@@ -3016,7 +3016,7 @@
   {
    "id": "pal-223-shine",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 223 SHINE — лак",
    "description": "Двокомпонентний акриловий UHS лак 2:1 EXTRA з високим глянцем, швидке сушіння в камері. Комплект 5 л: 5 л лаку + 2,5 л затверджувача HS.20.",
    "price_eur": 50,
@@ -3122,7 +3122,7 @@
   {
    "id": "pal-223-flash-new",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 223 FLASH NEW — лак",
    "description": "UHS лак 2:1 з швидким сушінням (близько 15 хв при 60 °C). Комплект 5 л: 5 л лаку + 2,5 л затверджувача HS.20.",
    "price_eur": 47.2,
@@ -3226,7 +3226,7 @@
   {
    "id": "pal-223-speed",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 223 SPEED — лак",
    "description": "Акриловий лак Palinal 223 SPEED.",
    "price_eur": 47.2,
@@ -3306,7 +3306,7 @@
   {
    "id": "pal-223-us90",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 223 US 90 — лак",
    "description": "Двокомпонентний акриловий лак Palinal 223.US90.",
    "price_eur": 36,
@@ -3383,7 +3383,7 @@
   {
    "id": "pal-923-smart",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 923 SMART — HS лак",
    "description": "Бюджетний варіант HS-лаку від Palinal — двокомпонентний антивандальний акриловий лак 2:1, стійкий до подряпин. Іде без додавання розчинника. Сушіння на повітрі або в камері. Комплект 5 л: 5 л лаку + 2,5 л затверджувача 999.HS98M.",
    "price_eur": 23.1,
@@ -3475,7 +3475,7 @@
   {
    "id": "pal-923-as90",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 923 AS 90 — лак",
    "description": "Прозорий 2K акриловий HS лак 2:1 Anti Scratch — тверде покриття, стійке до подряпин. Комплект 5 л: 5 л лаку + 2,5 л затверджувача 993.MS.",
    "price_eur": 32.9,
@@ -3580,7 +3580,7 @@
   {
    "id": "pal-923-hs90",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 923 HS 90 — лак",
    "description": "Акриловий HS-лак Palinal 923.HS90.",
    "price_eur": 32.9,
@@ -3655,7 +3655,7 @@
   {
    "id": "pal-923-mat5",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 923 MAT5 — матовий лак",
    "description": "Матовий лак Palinal 923 (мат 5).",
    "price_eur": 30,
@@ -3735,7 +3735,7 @@
   {
    "id": "pal-873-filler-51",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 873 Acryl Filler 5:1 — акриловий ґрунт-наповнювач",
    "description": "Акриловий 2K ґрунт-наповнювач 5:1, комплект 1 л. Кольори: білий (873.1151), темно-сірий (873.ST51), світло-сірий (873.2K51), чорний (873.2251).",
    "price_eur": 19.3077,
@@ -3835,7 +3835,7 @@
   {
    "id": "pal-873-fast",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 873.6005 / 6011 / 6022 — швидкий акриловий ґрунт 5:1",
    "description": "Palinal FAST-AIR HS Filler — швидкий 2K акриловий HS ґрунт-наповнювач 5:1. Висихає за 60 хв при 20 °C або за 10 хв при 60 °C (із затверджувачем 293.6010). Змішування 5 : 1 : 0,5 за об’ємом — ґрунт, затверджувач 293.6020 або 293.6010, розчинник 075.0020 або 075.0030. До 120 ± 10 мкм за шар (до 3 шарів); шліфування ексцентриком насухо P360–P400. Кольори: білий (873.6011), сірий (873.6005), чорний (873.6022). Об’єм 1 л.",
    "price_eur": 22.1154,
@@ -3929,7 +3929,7 @@
   {
    "id": "pal-873-gt-wet",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 873.GT — ґрунт «мокрий по мокрому»",
    "description": "Акриловий ґрунт «мокрий по мокрому» 873.GT05 / GT11 / GT22 / GT00. Іде як сілер. Прозорий, білий, сірий, чорний.",
    "price_eur": 36.0,
@@ -4026,7 +4026,7 @@
   {
    "id": "pal-844-upp",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 844 UPP — ґрунт-праймер по пластику",
    "description": "Palinal 844 UPP — універсальний пігментований поліуретановий праймер для пластикових деталей авто, зовнішніх і салонних. Добра адгезія та швидке висихання. Завдяки білому або чорному кольору (змішуванням — сірому) вже за два шари дає основу, на яку фарби наносяться «мокрим по мокрому». Змінюючи розведення, можна отримати різну фактуру. З 10 % затверджувача 993.MS-- тримається й на алюмінії та залізі. Кольори: білий (844UPP11), чорний (844UPP22).",
    "price_eur": 29.0,
@@ -4115,7 +4115,7 @@
   {
    "id": "pal-844-1k",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 844 — 1K адгезійний ґрунт по пластику",
    "description": "Однокомпонентний адгезійний ґрунт по пластику.",
    "price_eur": 22.0,
@@ -4174,7 +4174,7 @@
   {
    "id": "pal-881-epoxy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 881.7777 — епоксидний ґрунт",
    "description": "Епоксидний ґрунт Palinal 881.7777.",
    "price_eur": 22.1,
@@ -4258,7 +4258,7 @@
   {
    "id": "pal-868-wash",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal Wash Primer 868.2000 + затверджувач 009",
    "description": "Реактивний ґрунт (Wash Primer) з затверджувачем 009.",
    "price_eur": 35.8,
@@ -4330,7 +4330,7 @@
   {
    "id": "pal-hydropal-filler",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal Hydropal Filler 1K",
    "description": "Ґрунт-наповнювач Hydropal Filler 1K.",
    "price_eur": 32.5,
@@ -4398,7 +4398,7 @@
   {
    "id": "pal-873-ff90",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 873.FF90 — ґрунт",
    "description": "Ґрунт Palinal 873.FF90.",
    "price_eur": 19.3,
@@ -4477,8 +4477,8 @@
   },
   {
    "id": "pal-862-7777",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "palinal",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 862.7777 — розпилювальна шпаклівка",
    "description": "Розпилювальна шпаклівка Palinal.",
    "price_eur": 22,
@@ -4538,12 +4538,13 @@
       "24 місяці при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "shpak"
   },
   {
    "id": "pal-861-p028",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "palinal",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 861.P028 UNI — універсальна шпаклівка",
    "description": "Універсальна шпаклівка.",
    "price_eur": 15.25,
@@ -4604,12 +4605,13 @@
       "12 місяців при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "shpak"
   },
   {
    "id": "pal-861-p001",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "palinal",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 861.P001 UNI LEGGERO — полегшена шпаклівка",
    "description": "Полегшена універсальна шпаклівка.",
    "price_eur": 17.8,
@@ -4670,12 +4672,13 @@
       "12 місяців при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "shpak"
   },
   {
    "id": "pal-861-p044",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "palinal",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 861.P044 PLASTIC — шпаклівка по пластику",
    "description": "Шпаклівка для пластику.",
    "price_eur": 11.5,
@@ -4736,12 +4739,13 @@
       "12 місяців при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "shpak"
   },
   {
    "id": "pal-861-p088",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "palinal",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 861.P088 ALU — шпаклівка з алюмінієм",
    "description": "Шпаклівка з алюмінієвим наповнювачем.",
    "price_eur": 37.5,
@@ -4802,12 +4806,13 @@
       "12 місяців при 5–35 °C"
      ]
     ]
-   }
+   },
+   "sub": "shpak"
   },
   {
    "id": "pal-075-0020",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 075.0020 — стандартний розчинник",
    "description": "Multicryl Standard Thinner — стандартний розчинник для 2K акрил-поліуретанових емалей, лаків і ґрунтів. Для роботи при 15–25 °C.",
    "price_eur": 11.5,
@@ -4848,7 +4853,7 @@
   {
    "id": "pal-075-0030",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 075.0030 — повільний розчинник",
    "description": "Multicryl Slow Thinner — повільний розчинник для 2K емалей, лаків і ґрунтів, для роботи в спеку (понад 25 °C).",
    "price_eur": 11.5,
@@ -4889,7 +4894,7 @@
   {
    "id": "pal-075-0015",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 075.0015 — швидкий розчинник",
    "description": "Multicryl Fast Thinner — швидкий розчинник для 2K матеріалів.",
    "price_eur": 11.5,
@@ -4911,7 +4916,7 @@
   {
    "id": "pal-077",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 077 — розчинник для епоксиду",
    "description": "Epoxy Thinner — розчинник для епоксидних ґрунтів Palinal (зокрема 881.7777), регулює в’язкість.",
    "price_eur": 11.5,
@@ -4952,7 +4957,7 @@
   {
    "id": "pal-075-t926",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 075.T926 — розчинник для тришарових фарб",
    "description": "Multicryl Thinner — розчинник для тришарових фарб.",
    "price_eur": 11,
@@ -4999,7 +5004,7 @@
   {
    "id": "pal-958-1000m",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 958.1000M — прискорювач сушіння",
    "description": "2K Accelerante — прискорювач сушіння.",
    "price_eur": 10,
@@ -5037,7 +5042,7 @@
   {
    "id": "pal-100d1998",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 100D1998 — водний антисилікон (Hydropal)",
    "description": "Antisilicon Thinner Hydropal — водний знежирювач, очищує від солей і статики.",
    "price_eur": 5.8,
@@ -5058,7 +5063,7 @@
   {
    "id": "pal-950",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 950 — антисилікон (сольвент)",
    "description": "Antisilicon Washing Thinner — сольвентний знежирювач по кузову і пластику.",
    "price_eur": 7.2,
@@ -5099,7 +5104,7 @@
   {
    "id": "pal-981-1000m",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 981.1000M — антисиліконова добавка",
    "description": "Universal Antisilicon Additive — універсальна антисиліконова добавка.",
    "price_eur": 29,
@@ -5146,7 +5151,7 @@
   {
    "id": "pal-957",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 957 — еластифікатор",
    "description": "2K Elastic Additive — еластична добавка.",
    "price_eur": 19,
@@ -5197,7 +5202,7 @@
   {
    "id": "pal-900-3570-special-red",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 900.3570 SPECIAL RED — тонер для кольорового прозорого шару, 0,5 л",
    "description": "Palinal 900.3570 SPECIAL RED — напівпрозорий червоний тонер (колорант) для фарбування проміжного прозорого шару в тришарових кольорах. Дає дуже чистий, глибокий червоний відтінок з високим блиском — для відтворення яскравих червоних металіків, як-от MAZDA 46V Soul Red Crystal, TOYOTA 3T3 / 3U5, FORD Ruby Red. Тонер не призначений для змішування безпосередньо в базовій фарбі: його додають лише до прозорого лаку серії 223 (крім швидких 223ULTRA і 223.0550). Червоний прозорий шар наносять поверх бази HYDROPAL120 або MULTICRYL900, а зверху — звичайний лак 223. Пропорцію тонера до лаку 223 для конкретного кольору дає формула в PALCOLORFINDER; обов’язково робіть тестові пластини. Об’єм 0,5 л.",
    "price_eur": 50.0,
@@ -5259,7 +5264,7 @@
   {
    "id": "pal-900-fix1",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 900.FIX1 — біндер для переходу по базі",
    "description": "FIX 1 — безбарвна база для переходів по металіках. «Фікс для переходів по базі — без нього ніяк».",
    "price_eur": 29,
@@ -5309,7 +5314,7 @@
   {
    "id": "pal-955-blend",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 955 BLEND — Easy Blend",
    "description": "Easy Blend 955 — для переходів 2K емалей і лаків по блиску.",
    "price_eur": 29,
@@ -5355,7 +5360,7 @@
   {
    "id": "pal-074-ds",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 074.DS — Thinner for metallic",
    "description": "Добавка в металік від хмар і плям.",
    "price_eur": 29,
@@ -5377,7 +5382,7 @@
   {
    "id": "pal-075-0040",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 075.0040 — екстра повільний розчинник",
    "description": "Multicryl Extra Slow Thinner — екстра повільний розчинник.",
    "price_eur": 11.5,
@@ -5756,7 +5761,7 @@
   {
    "id": "palinal-stand-multicryl-900",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Змішувальна система Palinal MULTICRYL 900 (стійка)",
    "description": "Стійка-міксер з пігментними пастами Palinal Multicryl 900 для підбору та змішування фарб на розчиннику в майстерні: двошарові базові й прямий глянець. Комплектацію уточнюйте.",
    "price_eur": 7124.0,
@@ -5777,7 +5782,7 @@
   {
    "id": "palinal-stand-polypal-607",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Змішувальна система Palinal POLYPAL 607 (стійка)",
    "description": "Колориметрична система розчинних фарб Polypal 607 для комерційного, промислового та спецтранспорту: пастельні кольори за RAL, NCS, Pantone. Комплектацію уточнюйте.",
    "price_eur": 6000.0,
@@ -5818,7 +5823,7 @@
   {
    "id": "palinal-catalog-ready-colors",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Каталог готових фарб PALINAL (більше 80 кольорів)",
    "description": "Фірмовий каталог-викраска готових фарб PALINAL: більше 80 кольорів — білі, сірі, чорні, червоні, сині, зелені, жовті та металік. Фарбовані зразки зібрані на кільці, тож колір зручно розглянути й порівняти. Допомагає підібрати колір готової фарби PALINAL. Виробництво — Італія.",
    "price_eur": 23.0769,
@@ -5867,7 +5872,7 @@
   {
    "id": "pal-2k-merc-7103-schwarzgrau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 7103 SCHWARZGRAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 7103 SCHWARZGRAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06631.",
    "price_eur": 31.9,
@@ -5888,7 +5893,7 @@
   {
    "id": "pal-2k-ral-vw-9010-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль RAL/VW 9010 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL/VW 9010 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815.90101.",
    "price_eur": 32.8,
@@ -5909,7 +5914,7 @@
   {
    "id": "pal-2k-vw-h3t-kirschrot",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW H3T KIRSCHROT",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW H3T KIRSCHROT. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907X72591.",
    "price_eur": 42.2,
@@ -5930,7 +5935,7 @@
   {
    "id": "pal-2k-vw-candy-weiss-b9a-y-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW CANDY WEISS B9A/Y GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW CANDY WEISS B9A/Y GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814WB9AY1.",
    "price_eur": 31.9,
@@ -5951,7 +5956,7 @@
   {
    "id": "pal-2k-ral-5002-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль RAL 5002 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL 5002 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.50021.",
    "price_eur": 31.9,
@@ -5972,7 +5977,7 @@
   {
    "id": "pal-2k-ral-5005-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль RAL 5005 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL 5005 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.50051.",
    "price_eur": 31.9,
@@ -5993,7 +5998,7 @@
   {
    "id": "pal-2k-vw-r902-weiss-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW R902 WEISS GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW R902 WEISS GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06611.",
    "price_eur": 31.9,
@@ -6014,7 +6019,7 @@
   {
    "id": "pal-2k-merc-0373-atlantisblau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 0373 ATLANTISBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 0373 ATLANTISBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M03731.",
    "price_eur": 32.8,
@@ -6035,7 +6040,7 @@
   {
    "id": "pal-2k-merc-907-tool-green-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 907 TOOL GREEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 907 TOOL GREEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M09071.",
    "price_eur": 31.7,
@@ -6056,7 +6061,7 @@
   {
    "id": "pal-2k-merc-5376-hyazinth-blau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 5376 HYAZINTH BLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5376 HYAZINTH BLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X02501.",
    "price_eur": 31.7,
@@ -6077,7 +6082,7 @@
   {
    "id": "pal-2k-ren-489-blu-myosotis-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль REN 489 BLU MYOSOTIS GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі REN 489 BLU MYOSOTIS GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814R94891.",
    "price_eur": 31.9,
@@ -6098,7 +6103,7 @@
   {
    "id": "pal-2k-citr-ewp-blanc-banquise-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль CITR EWP BLANC BANQUISE GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі CITR EWP BLANC BANQUISE GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06621.",
    "price_eur": 31.9,
@@ -6119,7 +6124,7 @@
   {
    "id": "pal-2k-merc-6464-orchidgruen-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 6464 ORCHIDGRUEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 6464 ORCHIDGRUEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M64641.",
    "price_eur": 32.8,
@@ -6140,7 +6145,7 @@
   {
    "id": "pal-2k-merc-0583-velvetrot-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 0583 VELVETROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 0583 VELVETROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M05831.",
    "price_eur": 40.4,
@@ -6161,7 +6166,7 @@
   {
    "id": "pal-2k-lada-601-deep-black-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль LADA 601 DEEP BLACK GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі LADA 601 DEEP BLACK GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.00331.",
    "price_eur": 31.9,
@@ -6182,7 +6187,7 @@
   {
    "id": "pal-2k-merc-5856-tuerkisgruen-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 5856 TUERKISGRUEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5856 TUERKISGRUEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X03171.",
    "price_eur": 31.7,
@@ -6203,7 +6208,7 @@
   {
    "id": "pal-2k-ral-7001-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль RAL 7001 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі RAL 7001 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814.70011.",
    "price_eur": 31.9,
@@ -6224,7 +6229,7 @@
   {
    "id": "pal-2k-merc-5522-ozeanblau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 5522 OZEANBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5522 OZEANBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M55221.",
    "price_eur": 31.9,
@@ -6245,7 +6250,7 @@
   {
    "id": "pal-2k-7709-mercedes-blaugrau-maschinengrau",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль 7709 MERCEDES BLAUGRAU/MASCHINENGRAU",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі 7709 MERCEDES BLAUGRAU/MASCHINENGRAU. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814AG2321.",
    "price_eur": 31.9,
@@ -6266,7 +6271,7 @@
   {
    "id": "pal-2k-vw-p6m-karabikgruen-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW P6M KARABIKGRUEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW P6M KARABIKGRUEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814W0P6M1.",
    "price_eur": 31.9,
@@ -6287,7 +6292,7 @@
   {
    "id": "pal-2k-vw-5115-13m-schwefelgelb-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW 5115 13M SCHWEFELGELB GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW 5115 13M SCHWEFELGELB GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907W51161.",
    "price_eur": 40.2,
@@ -6308,7 +6313,7 @@
   {
    "id": "pal-2k-merc-3530-lavarot-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 3530 LAVAROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 3530 LAVAROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907M35301.",
    "price_eur": 41.9,
@@ -6329,7 +6334,7 @@
   {
    "id": "pal-2k-merc-147-artikweiss-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 147 ARTIKWEISS GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 147 ARTIKWEISS GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814ML1471.",
    "price_eur": 31.4,
@@ -6350,7 +6355,7 @@
   {
    "id": "pal-2k-lada-325-sea-depth-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль LADA 325 SEA DEPTH GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі LADA 325 SEA DEPTH GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815XU3971.",
    "price_eur": 35.8,
@@ -6371,7 +6376,7 @@
   {
    "id": "pal-2k-merc-513-dunkelviolet-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 513 DUNKELVIOLET GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 513 DUNKELVIOLET GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815X74281.",
    "price_eur": 33.7,
@@ -6392,7 +6397,7 @@
   {
    "id": "pal-2k-merc-830-aquagrun-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 830 AQUAGRUN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 830 AQUAGRUN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814M08301.",
    "price_eur": 31.4,
@@ -6413,7 +6418,7 @@
   {
    "id": "pal-2k-lada-440-l-atlantica",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль LADA 440/L ATLANTICA",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі LADA 440/L ATLANTICA. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814 LADA 440/L.",
    "price_eur": 32.5,
@@ -6434,7 +6439,7 @@
   {
    "id": "pal-2k-ren-232-jaune-poste-allemagne",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль REN 232 JAUNE POSTE ALLEMAGNE",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі REN 232 JAUNE POSTE ALLEMAGNE. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815X29481.",
    "price_eur": 35.8,
@@ -6455,7 +6460,7 @@
   {
    "id": "pal-2k-ford-5048-frozen-white-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль FORD 5048 FROZEN WHITE GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі FORD 5048 FROZEN WHITE GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06601.",
    "price_eur": 31.4,
@@ -6476,7 +6481,7 @@
   {
    "id": "pal-2k-merc-5389-g-stahlblau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 5389/G STAHLBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5389/G STAHLBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815AE9991.",
    "price_eur": 33.7,
@@ -6497,7 +6502,7 @@
   {
    "id": "pal-2k-vw-y3r-tornadorot",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW Y3R TORNADOROT",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW Y3R TORNADOROT. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907WY3DR1.",
    "price_eur": 41.9,
@@ -6518,7 +6523,7 @@
   {
    "id": "pal-2k-merc-1239-verkehersgelb-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 1239 VERKEHERSGELB GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 1239 VERKEHERSGELB GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907M12391.",
    "price_eur": 40.2,
@@ -6539,7 +6544,7 @@
   {
    "id": "pal-2k-vw-h7-paprikarot-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW H7 PAPRIKAROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW H7 PAPRIKAROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907W0K3A1.",
    "price_eur": 41.9,
@@ -6560,7 +6565,7 @@
   {
    "id": "pal-2k-ford-4856-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль FORD 4856 GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі FORD 4856 GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907D48561.",
    "price_eur": 40.2,
@@ -6581,7 +6586,7 @@
   {
    "id": "pal-2k-vw-a5e-maritimblau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW A5E MARITIMBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW A5E MARITIMBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815X74291.",
    "price_eur": 32.5,
@@ -6602,7 +6607,7 @@
   {
    "id": "pal-2k-vw-h7j-pure-grey",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW H7J PURE GREY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW H7J PURE GREY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814W0H7J1.",
    "price_eur": 31.4,
@@ -6623,7 +6628,7 @@
   {
    "id": "pal-2k-ren-389-blanc-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль REN 389 BLANC GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі REN 389 BLANC GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814R83891.",
    "price_eur": 31.4,
@@ -6644,7 +6649,7 @@
   {
    "id": "pal-2k-fiat-249-white-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль FIAT 249 WHITE GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі FIAT 249 WHITE GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814F62491.",
    "price_eur": 31.4,
@@ -6665,7 +6670,7 @@
   {
    "id": "pal-2k-daf-h3915-spring-green-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль DAF H3915 SPRING GREEN GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі DAF H3915 SPRING GREEN GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 907J60251.",
    "price_eur": 40.2,
@@ -6686,7 +6691,7 @@
   {
    "id": "pal-2k-vw-l5m-indienblau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль VW L5M INDIENBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі VW L5M INDIENBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814W0L5M1.",
    "price_eur": 31.4,
@@ -6707,7 +6712,7 @@
   {
    "id": "pal-2k-merc-5515-himmelblau-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 5515 HIMMELBLAU GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 5515 HIMMELBLAU GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X74271.",
    "price_eur": 31.4,
@@ -6728,7 +6733,7 @@
   {
    "id": "pal-2k-merc-3636-piemonte-rot-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 3636 PIEMONTE ROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 3636 PIEMONTE ROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M363R1.",
    "price_eur": 32.5,
@@ -6749,7 +6754,7 @@
   {
    "id": "pal-2k-merc-1243-calcitgelb-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 1243 CALCITGELB GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 1243 CALCITGELB GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 814X06581.",
    "price_eur": 35.8,
@@ -6770,7 +6775,7 @@
   {
    "id": "pal-2k-merc-586-magmarot-glossy",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal 2K автоемаль MERC 586 MAGMAROT GLOSSY",
    "description": "Двокомпонентна акрилова автоемаль Palinal Multicryl 900 (MS) у готовому кольорі MERC 586 MAGMAROT GLOSSY. Глянцеве покриття без лаку, стійке до бензину й мастил. Комплект: 1 л фарби + 0,5 л затверджувача. Код: 815M05861.",
    "price_eur": 40.2,
@@ -6791,7 +6796,7 @@
   {
    "id": "pal-base-bmw-475-blacksapphire-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба BMW 475 BLACKSAPPHIRE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі BMW 475 BLACKSAPPHIRE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAE998.",
    "price_eur": 28.6,
@@ -6812,7 +6817,7 @@
   {
    "id": "pal-base-bmw-317-3739-orient-blau-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба BMW 317 3739 ORIENT BLAU MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі BMW 317 3739 ORIENT BLAU MET. Наноситься під 2K лак. Банка 1 л. Код: SMTB3739.",
    "price_eur": 28.6,
@@ -6833,7 +6838,7 @@
   {
    "id": "pal-base-ford-j7-magnetic-grey-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба FORD J7 MAGNETIC GREY MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі FORD J7 MAGNETIC GREY MET. Наноситься під 2K лак. Банка 1 л. Код: FORD  J7.",
    "price_eur": 26.5,
@@ -6854,7 +6859,7 @@
   {
    "id": "pal-base-vw-c6m",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW C6M",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW C6M. Наноситься під 2K лак. Банка 1 л. Код: SMTW0C6M.",
    "price_eur": 25.0,
@@ -6875,7 +6880,7 @@
   {
    "id": "pal-base-nissan-g41",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба NISSAN G41",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі NISSAN G41. Наноситься під 2K лак. Банка 1 л. Код: SMTY0G411.",
    "price_eur": 26.5,
@@ -6896,7 +6901,7 @@
   {
    "id": "pal-base-mercedes-735",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERCEDES 735",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERCEDES 735. Наноситься під 2K лак. Банка 1 л. Код: SMTM735D.",
    "price_eur": 25.0,
@@ -6917,7 +6922,7 @@
   {
    "id": "pal-base-mercedes-154-carbonschwarz-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERCEDES 154 CARBONSCHWARZ MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERCEDES 154 CARBONSCHWARZ MET. Наноситься під 2K лак. Банка 1 л. Код: SMTM91541.",
    "price_eur": 26.5,
@@ -6938,7 +6943,7 @@
   {
    "id": "pal-base-vw-a3w-red-spice-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW A3W RED SPICE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW A3W RED SPICE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWA3W.",
    "price_eur": 30.0,
@@ -6959,7 +6964,7 @@
   {
    "id": "pal-base-vw-a7w-reflexsilber-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW A7W REFLEXSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW A7W REFLEXSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTW0A7W.",
    "price_eur": 28.5,
@@ -6980,7 +6985,7 @@
   {
    "id": "pal-base-niss-k23-d-yellowwish-silver-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба NISS K23/D YELLOWWISH SILVER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі NISS K23/D YELLOWWISH SILVER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAC5191.",
    "price_eur": 26.5,
@@ -7001,7 +7006,7 @@
   {
    "id": "pal-base-renault-rpl",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба RENAULT RPL",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі RENAULT RPL. Наноситься під 2K лак. Банка 1 л. Код: SMTXT7301.",
    "price_eur": 30.0,
@@ -7022,7 +7027,7 @@
   {
    "id": "pal-base-vw-d7x-platinum-grey-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW D7X PLATINUM GREY MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW D7X PLATINUM GREY MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWD7XL.",
    "price_eur": 26.5,
@@ -7043,7 +7048,7 @@
   {
    "id": "pal-base-ren-kng-gris-cassiopee-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба REN KNG GRIS CASSIOPEE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі REN KNG GRIS CASSIOPEE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTRKNGL.",
    "price_eur": 25.0,
@@ -7064,7 +7069,7 @@
   {
    "id": "pal-base-merc-723-cubamitsilber-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERC 723 CUBAMITSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 723 CUBAMITSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTM723L1.",
    "price_eur": 25.0,
@@ -7085,7 +7090,7 @@
   {
    "id": "pal-base-mercedes-197-obsidianshwarz-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERCEDES 197 OBSIDIANSHWARZ MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERCEDES 197 OBSIDIANSHWARZ MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAG2381.",
    "price_eur": 26.5,
@@ -7106,7 +7111,7 @@
   {
    "id": "pal-base-vw-d7u-offroad-grey-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW D7U OFFROAD GREY MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW D7U OFFROAD GREY MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWD7UL.",
    "price_eur": 30.0,
@@ -7127,7 +7132,7 @@
   {
    "id": "pal-base-merc-744-y-brillantsilber-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERC 744/Y BRILLANTSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 744/Y BRILLANTSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTM744Y1.",
    "price_eur": 25.0,
@@ -7148,7 +7153,7 @@
   {
    "id": "pal-base-merc-744-brillantsilber-m",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERC 744 BRILLANTSILBER M",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 744 BRILLANTSILBER M. Наноситься під 2K лак. Банка 1 л. Код: SMTM07441.",
    "price_eur": 25.0,
@@ -7169,7 +7174,7 @@
   {
    "id": "pal-base-vw-d5q-shadowblue-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW D5Q SHADOWBLUE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW D5Q SHADOWBLUE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTWBD5Q.",
    "price_eur": 28.5,
@@ -7190,7 +7195,7 @@
   {
    "id": "pal-base-vw-a5w-ravennablau-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW A5W RAVENNABLAU MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW A5W RAVENNABLAU MET. Наноситься під 2K лак. Банка 1 л. Код: SMTW0A5W.",
    "price_eur": 26.5,
@@ -7211,7 +7216,7 @@
   {
    "id": "pal-base-merc-775-iridiumsilber-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба MERC 775 IRIDIUMSILBER MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі MERC 775 IRIDIUMSILBER MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAA4971.",
    "price_eur": 26.5,
@@ -7232,7 +7237,7 @@
   {
    "id": "pal-base-skoda-9910-vw-c9z",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба SKODA 9910 / VW C9Z",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі SKODA 9910 / VW C9Z. Наноситься під 2K лак. Банка 1 л. Код: SMTAB3491.",
    "price_eur": 30.0,
@@ -7253,7 +7258,7 @@
   {
    "id": "pal-base-vw-b5n-indigoblue",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба VW B5N INDIGOBLUE",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі VW B5N INDIGOBLUE. Наноситься під 2K лак. Банка 1 л. Код: SMT799671.",
    "price_eur": 28.5,
@@ -7274,7 +7279,7 @@
   {
    "id": "pal-base-toy-202-black",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба TOY 202 BLACK",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі TOY 202 BLACK. Наноситься під 2K лак. Банка 1 л. Код: SMTT02021.",
    "price_eur": 31.0,
@@ -7295,7 +7300,7 @@
   {
    "id": "pal-base-368-d-flintgrau-saphire-blue-met",
    "category": "palinal",
-   "category_name": "PALINAL",
+   "category_name": "Продукція Palinal",
    "name": "Palinal базова фарба 368/D FLINTGRAU/SAPHIRE BLUE MET",
    "description": "Базова фарба Palinal під лак (basecoat) у готовому кольорі 368/D FLINTGRAU/SAPHIRE BLUE MET. Наноситься під 2K лак. Банка 1 л. Код: SMTAD0011.",
    "price_eur": 30.0,
@@ -7315,8 +7320,8 @@
   },
   {
    "id": "novol-fiber-micro",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "NOVOL Professional FIBER MICRO — шпаклівка зі скловолокном",
    "description": "Структурна еластична шпаклівка з короткими скловолокнами для заповнення великих дефектів і зміцнення пошкоджених ділянок. Поєднує високу механічну міцність з підвищеною еластичністю, має низьку об'ємну усадку і не стікає. Шліфується легше, ніж традиційні шпаклівки зі скловолокном; наступні шари шпаклівки можна наносити без шліфування протягом 48 год при 20 °C.",
    "price_eur": 9.1154,
@@ -7366,8 +7371,8 @@
   },
   {
    "id": "novol-fiber",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "NOVOL Professional FIBER — шпаклівка зі скловолокном 1,8 кг",
    "description": "Структурна армувальна шпаклівка зі скловолокном для великих поверхонь. Дуже висока механічна міцність дозволяє заповнювати великі дефекти та зміцнювати пошкоджені елементи; підходить для ремонту поліефірних ламінатів. Дуже низька об'ємна усадка, без стікання.",
    "price_eur": 12.0,
@@ -7408,8 +7413,8 @@
   },
   {
    "id": "novol-uni",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "NOVOL Professional UNI — універсальна шпаклівка",
    "description": "Базова універсальна поліефірна наповнювальна шпаклівка, визнана малярами в усьому світі. Призначена для заповнення дрібних і середніх дефектів, має добру адгезію до сталі та алюмінію.",
    "price_eur": 7.8077,
@@ -7459,8 +7464,8 @@
   },
   {
    "id": "novol-alu",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "NOVOL Professional ALU — шпаклівка з алюмінієвим пилом 1,8 кг",
    "description": "Шпаклівка з теплопровідним алюмінієвим порошком для великих поверхонь, що зазнають перепадів температур (капот, дах). Алюміній забезпечує дуже добрий тепловідвід і дуже низьку об'ємну усадку, а структурні властивості дозволяють вирівнювати великі нерівності. Колір — темно-сірий металік.",
    "price_eur": 12.5962,
@@ -7501,8 +7506,8 @@
   },
   {
    "id": "novol-finish",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "NOVOL Professional FINISH — оздоблювальна шпаклівка 2 кг",
    "description": "Дуже гладка оздоблювальна шпаклівка для нанесення тонкими шарами на невеликі поверхні. Використовується для фінального вирівнювання перед ґрунтуванням і забезпечує плавний перехід між шпаклівкою та ґрунтом. Шліфується дрібнозернистим папером P240–P320.",
    "price_eur": 12.7115,
@@ -7542,8 +7547,8 @@
   },
   {
    "id": "novol-carbon",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "NOVOL Professional CARBON — шпаклівка з вуглеволокном 1 л",
    "description": "Легка та міцна шпаклівка з вуглецевими волокнами: поєднує структурну міцність, легкість і еластичність. Завдяки низькій об'ємній усадці добре заповнює великі дефекти й не стікає, легко шліфується до гладкої поверхні. Характерний графітовий колір.",
    "price_eur": 12.3654,
@@ -10382,8 +10387,8 @@
   },
   {
    "id": "roberlo-multiextender",
-   "category": "shpak",
-   "category_name": "Шпаклівки",
+   "category": "abraz",
+   "category_name": "Абразиви та підготовка поверхні",
    "name": "Roberlo Multiextender — універсальна легка поліефірна шпаклівка",
    "description": "Універсальна легка поліефірна шпаклівка для заповнення вм'ятин і вирівнювання дефектів на металі, оцинкованій сталі та алюмінії. Добре тримається на складних основах, дуже легко наноситься та шліфується; шліфувати можна починати абразивом P120.",
    "price_eur": 27.2308,
@@ -11604,8 +11609,8 @@
   },
   {
    "id": "pdr-double-hammer-set",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Набір подвійних молотків для рихтування з насадками в кейсі",
    "description": "Набір для безфарбового видалення вм’ятин: подвійні молотки зі змінними бойками й насадками різної форми, у кейсі на блискавці.",
    "price_eur": 126.3654,
@@ -11744,8 +11749,8 @@
   },
   {
    "id": "gun-sutu-rp5800-kit",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт SUTU Vreio-RP5800 з ППС, дюзи 1.3 + 1.7 (графіті)",
    "description": "Набір: фарбопульт SUTU Vreio-RP5800 B з двома комплектами дюз — 1,3 мм і 1,7 мм — та PPS-системою. Дюза 1,3 мм — для бази й лаку, 1,7 мм — для ґрунту, тож один фарбопульт закриває ґрунт, базу, лак та акрил. Можна працювати зі звичайним верхнім пластиковим бачком або з PPS: фарбу змішують і розпилюють прямо з одноразового стакана 600 мл з мірною шкалою — менше миття й швидша зміна матеріалу. Подача гравітаційна, корпус з графіті-малюнком. У комплекті (за фото) — фарбопульт з повітряною головою 1,3, верхній пластиковий бачок, додаткова повітряна голова 1,7, додаткові голка й дюза, PPS-стакан 600 мл і червоний перехідник для PPS.",
    "price_eur": 76.9231,
@@ -11810,8 +11815,8 @@
   },
   {
    "id": "gun-ntools-tested",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт NTools X-4 RP 1.3 з розрізною дюзою (відтестований)",
    "description": "Фарбопульт NTools X-4 системи RP з дюзою 1,3 мм і розрізною повітряною головкою з V-подібним розрізом («квітка сливи») — на головці маркування «X4 RP PLUS 1.3» і NTools. Сірий матовий корпус, регулювання факела, подачі матеріалу та повітря, гравітаційна подача з верхнього бачка. У комплекті — пластиковий бачок з кришкою, універсальний ключ, щіточка для чищення та штуцер для підключення повітря. Пістолет відтестований перед продажем — відео в коментарях до поста.",
    "price_eur": 76.9231,
@@ -11884,8 +11889,8 @@
   },
   {
    "id": "gun-hvlp-graffiti",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт HVLP 1.3 з бачком (графіті)",
    "description": "Фарбопульт системи HVLP з дюзою 1,3 мм і верхнім пластиковим бачком (гравітаційна подача). Корпус з графіті-малюнком, хромований курок, регулятори факела та подачі матеріалу зверху. Для ґрунту, бази, лаку та акрилу. У комплекті (за фото) — фарбопульт, пластиковий бачок, універсальний ключ, щіточка для чищення, штуцер для повітря, ущільнювальна шайба, шестигранний ключ та інструкція, у фірмовій коробці.",
    "price_eur": 76.9231,
@@ -11951,8 +11956,8 @@
   },
   {
    "id": "ntools-te20",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт NTools High Efficiency TE20",
    "description": "Фарбопульт NTools з повітряною головою High Efficiency TE20 і розрізною (щілинною) дюзою 1,3 мм — для нанесення фарб і лаків, зокрема водних. Чорний корпус, хромовані курок і повітряна голова, жовте кільце на штуцері повітря; регулювання факела, подачі матеріалу та повітря. Дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл. Робочий тиск — 2,5–3,0 бар, витрата повітря — 270 л/хв при 2,0 бар, ширина факела — 25–35 см. У комплекті — верхній пластиковий бачок, ключ, щіточка для чищення, перехідник і ущільнювачі в пакеті.",
    "price_eur": 76.9231,
@@ -12030,8 +12035,8 @@
   },
   {
    "id": "gun-m9-pps",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт M9 HVLP 1.3 з ППС (графіті)",
    "description": "Фарбопульт M9 системи HVLP з дюзою 1,3 мм і PPS-системою: фарбу змішують і розпилюють прямо з одноразового стакана з мірною шкалою, тож менше миття бачка й швидша зміна матеріалу. Стакан ставиться на червоний перехідник зверху, подача гравітаційна. Корпус з графіті-малюнком, чорні курок і регулятори. Для ґрунту, бази, лаку та акрилу. У комплекті (за фото) — фарбопульт з PPS-стаканом і перехідником, ущільнювальна шайба, штуцер для повітря, фільтр, щіточка для чищення та ключ.",
    "price_eur": 76.9231,
@@ -12099,8 +12104,8 @@
   },
   {
    "id": "spi-pro-te20-sticker-bomb",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "SPI Pro TE20 High Efficiency 1.3 — дизайн Sticker Bomb",
    "description": "Фарбопульт SPI Pro з повітряною головою High Efficiency TE20 і дюзою 1,3 мм для нанесення бази та лаку. Корпус з анодованим покриттям і яскравим різнокольоровим візерунком у стилі Sticker Bomb — такий пістолет не сплутаєш з жодним іншим. Хромовані повітряна голова та регулятори, червоний ковпачок на вході повітря, гравітаційна подача з кріпленням бачка зверху; на фото — без бачка, комплектацію уточнюйте.",
    "price_eur": 76.9231,
@@ -12170,8 +12175,8 @@
   },
   {
    "id": "gun-374",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт HVLP з карбоновим корпусом, дюза 1,3 мм",
    "description": "Фарбопульт HVLP із верхнім бачком (гравітаційна подача) для кузовного ремонту. Корпус чорний з карбоновим візерунком, хромований курок, дюза 1,3 мм. Підходить для базових покриттів, лаку, ґрунту та фінішних покриттів. У комплекті білий пластиковий бачок.",
    "price_eur": 76.9231,
@@ -12228,8 +12233,8 @@
   },
   {
    "id": "gun-375",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт NTools 4000B Upgrades (чорний, карбон)",
    "description": "Фарбопульт NTools 4000B Upgrades системи HVLP у чорному корпусі з малюнком під карбон: на рукоятці — напис «NTOOLS 4000B UPGRADES», на повітряній голові — «NTOOLS 4000B HVLP». Чорні регулятори факела, подачі матеріалу та повітря, чорний курок; дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. Модель випускається з дюзою 1,3 або 1,4 мм — розмір уточнюйте. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг, червоний повітряний фільтр і рожеве кільце.",
    "price_eur": 76.9231,
@@ -12300,8 +12305,8 @@
   },
   {
    "id": "gun-376",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт NTools 4000B Upgrades 1.4 (кольоровий дизайн)",
    "description": "Фарбопульт NTools 4000B Upgrades системи HVLP з дюзою 1,4 мм у яскравому різнокольоровому дизайні в стилі графіті: на повітряній голові — напис «NTOOLS 4000B HVLP 1.4», на рукоятці — «NTOOLS 4000B UPGRADES». Чорні регулятори й курок, дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг і блакитний повітряний фільтр.",
    "price_eur": 76.9231,
@@ -12373,8 +12378,8 @@
   },
   {
    "id": "gun-primer-17-pps",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Ґрунтовочний фарбопульт 1.7 (PPS)",
    "description": "Ґрунтовочний фарбопульт з дюзою 1.7, працює на системі PPS.",
    "price_eur": 76.9231,
@@ -12416,8 +12421,8 @@
   },
   {
    "id": "ntools-5000b-upgrades",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт NTools 5000 B Upgrades HVLP 1.3",
    "description": "Фарбопульт NTools 5000 B Upgrades системи HVLP з дюзою 1,3 мм — на повітряній голові напис «NTOOLS 5000 B HVLP 1.3». Червоно-помаранчевий корпус з алюмінієвого сплаву, чорні регулятори факела, подачі матеріалу та повітря, чорний курок; гравітаційна подача з верхнього бачка 600 мл, підключення повітря 1/4\". Робочий тиск — 2–3,5 бар, витрата повітря — 140 л/хв, ширина факела — 160–240 мм, відстань розпилення — 200–300 мм. Підійде для ґрунтів, фарб і лаків. У комплекті — верхній пластиковий бачок, універсальний ключ, щіточка для чищення та дрібні запчастини й ущільнювачі в пакеті.",
    "price_eur": 76.9231,
@@ -12506,8 +12511,8 @@
   },
   {
    "id": "pdr-knockdown-handle-set",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Набір для осадження вм’ятин: ручка й насадки в кейсі",
    "description": "Набір для безфарбового видалення вм’ятин (PDR): ручка й набір змінних насадок різної форми для осадження (tap-down) у кейсі на блискавці.",
    "price_eur": 75.5962,
@@ -12600,8 +12605,8 @@
   },
   {
    "id": "gun-hvlp-13",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт HVLP 1.3",
    "description": "Фарбопульт HVLP з дюзою 1.3.",
    "price_eur": 76.9231,
@@ -12639,8 +12644,8 @@
   },
   {
    "id": "baishangsi-palm-sander-817",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Пневматична шліфмашинка BAISHANGSI 817, підошва 75 × 100 мм",
    "description": "Компактна пневматична шліфмашинка BAISHANGSI (модель 817) з прямокутною підошвою 75 × 100 мм на липучці. 9500 об/хв. У комплекті 2 штуцери для повітря.",
    "price_eur": 70.7692,
@@ -12751,8 +12756,8 @@
   },
   {
    "id": "gun-377",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульт HVLP «Графіті» червоний, дюза 1,4 мм, 600 мл",
    "description": "Фарбопульт HVLP із верхнім бачком 600 мл (гравітаційна подача) для ґрунту, базових покриттів і лаку. Дюза 1,4 мм, ширина факела 180–220 мм, робочий тиск 3,5–5,0 бар, вхід повітря 1/4″. Корпус із червоно-графітовим аквадруком, ергономічна нековзна рукоятка, металеве сопло з полірованою кромкою, синє ущільнювальне кільце, ручки регулювання. Висота й ширина — близько 245 мм.",
    "price_eur": 76.9231,
@@ -12915,8 +12920,8 @@
   },
   {
    "id": "pdr-glue-puller-kit-red",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Набір для витягування вм’ятин: зворотний молоток, 4 грибки, клейова стрічка",
    "description": "Набір для витягування вм’ятин на клей без фарбування: зворотний молоток з червоною ручкою, 4 грибки під клей і стрічка холодного клею.",
    "price_eur": 62.6923,
@@ -12953,8 +12958,8 @@
   },
   {
    "id": "ntools-mini-5002",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "NTools MINI 5002 1.2 HVLP — міні-фарбопульт",
    "description": "Міні-фарбопульт NTools MINI 5002 з дюзою 1,2 мм, система HVLP, витрата повітря — 200 л/хв. Сріблястий корпус з анодованим покриттям, помаранчеві регулятори й чорний курок, гравітаційна подача з верхнім бачком — чудово підійде для локальних фарбувань. У комплекті (за фото): пластиковий бачок з мірною шкалою, червоний повітряний фільтр, рожеве кільце, ключ, шестигранний ключ, щіточка для чищення та невеликий фітинг.",
    "price_eur": 62.3077,
@@ -13028,8 +13033,8 @@
   },
   {
    "id": "gun-pps-set",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Фарбопульти на PPS-системі 1.3 / 1.4 / 1.7 / 1.8",
    "description": "Усі на PPS-системі, дюзи 1.3, 1.4, 1.7 або 1.8.",
    "price_eur": 76.9231,
@@ -13107,8 +13112,8 @@
   },
   {
    "id": "sanding-frame-adjustable-arc",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Шліфувальні бруски з регульованою дугою 19,5 і 39,5 см, з наждачним папером",
    "description": "Набір шліфувальних брусків з регульованою дугою: вигин підошви підлаштовують під кривизну деталі. Підошва самоклейна, ручка неслизька. Два розміри: 19,5 × 12 см і 39,5 × 12 см. Наждачний папір у комплекті; набір 11 або 21 предмет (комплектацію уточнюйте).",
    "price_eur": 51.9423,
@@ -13149,8 +13154,8 @@
   },
   {
    "id": "baishangsi-mini-angle-polisher",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Пневматична міні-полірувальна машинка BAISHANGSI з насадками (синя)",
    "description": "Кутова пневматична міні-машинка BAISHANGSI для полірування й шліфування дрібних ділянок. У комплекті 3 жовті підошви різного діаметра, подовжувач і штуцери. Корпус синій.",
    "price_eur": 42.4038,
@@ -13192,8 +13197,8 @@
   },
   {
    "id": "air-angle-die-grinder-90",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Пневматична кутова шліфмашинка (бормашина) 90°, цанга 3–6 мм",
    "description": "Пневматична кутова шліфмашинка (бормашина) з головкою під кутом 90° для шліфування й зачищення у важкодоступних місцях. Цанга 3–6 мм. У комплекті ключі й 3 штуцери.",
    "price_eur": 41.7308,
@@ -13234,8 +13239,8 @@
   },
   {
    "id": "sanding-block-vacuum-400x70",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Ручний шліфувальний брусок 400 × 70 мм з пиловідводом і регульованим вигином (жовтий / червоний)",
    "description": "Довгий ручний шліфувальний брусок (рубанок) 400 × 70 мм для вирівнювання площин і плавних вигинів кузова. Дві ручки, між ними — регулювальна тяга: нею змінюють радіус вигину гнучкої підошви під кривизну деталі. Отвори в підошві й патрубок під шланг пилососа відводять пил під час шліфування. Підходить для наждачного паперу в рулоні або аркушах; для кузовних і столярних робіт. Два кольори корпусу: жовтий і червоний.",
    "price_eur": 30.7692,
@@ -13300,8 +13305,8 @@
   },
   {
    "id": "gun-mini-08",
-   "category": "guns",
-   "category_name": "Фарбопульти/пістолети",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Міні-джет HVLP 0.8",
    "description": "Міні-джет HVLP з дюзою 0.8.",
    "price_eur": 36.0,
@@ -13342,8 +13347,8 @@
   },
   {
    "id": "pdr-suction-cup-t-handle",
-   "category": "pnevmo",
-   "category_name": "Інструменти",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Вакуумна присоска для витягування вм’ятин з Т-подібною ручкою (TXXP-2)",
    "description": "Вакуумна присоска з насосом і Т-подібною ручкою для витягування вм’ятин на кузові без фарбування. Модель TXXP-2.",
    "price_eur": 27.6154,
@@ -13384,8 +13389,8 @@
   },
   {
    "id": "strip-discs-quick-change-25",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Зачисні диски швидкої заміни 50,8 мм (2″), 25 шт., 5 кольорів",
    "description": "Набір зачисних дисків з грубого нетканого абразиву на швидкозмінному кріпленні діаметром 50,8 мм (2″) — для зняття фарби й покриття. 25 дисків п’яти кольорів.",
    "price_eur": 27.3077,
@@ -13620,8 +13625,8 @@
   },
   {
    "id": "air-regulator-gauge-separator-red",
-   "category": "equip",
-   "category_name": "Додаткове обладнання",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Регулятор тиску повітря з манометром і вологовідділювачем, 1/4\"",
    "description": "Регулятор тиску повітря з манометром і масло-вологовідділювачем для пневмоінструменту й фарбопульта: тиск виставляють ручкою й контролюють по манометру, а відділювач затримує масло й воду з магістралі. Різьба 1/4\" NPT. Корпус червоний.",
    "price_eur": 23.6538,
@@ -13711,8 +13716,8 @@
   },
   {
    "id": "strip-discs-black-king-2in-21",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Зачисні диски «Чорний король» 5,08 см (2″), набір 21 шт: 20 дисків + тримач",
    "description": "Набір зачисних дисків «Чорний король» діаметром 5,08 см (2″) для очищення поверхонь. У наборі 20 чорних дисків і тримач швидкої заміни з хвостовиками для дриля.",
    "price_eur": 23.2692,
@@ -13753,8 +13758,8 @@
   },
   {
    "id": "sanding-block-dust-70x125-13h",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Ручний шліфувальний брусок 70 × 125 мм з пиловідводом, 13 отворів",
    "description": "Ручний шліфувальний брусок без пилу: 13 отворів у підошві й патрубок під шланг пилососа, абразив кріпиться на липучку. Корпус жовтий, ручка чорна. У комплекті перехідник для шланга.",
    "price_eur": 22.0192,
@@ -13795,8 +13800,8 @@
   },
   {
    "id": "zirconia-sanding-belts-10x330-40",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Шліфувальні стрічки з цирконієм 10 × 330 мм, набір 40 шт (P40, P60, P80, P120)",
    "description": "Набір шліфувальних стрічок з цирконієм розміром 10 × 330 мм, 4 зернистості: по 10 шт P40, P60, P80 і P120.",
    "price_eur": 21.3462,
@@ -13837,8 +13842,8 @@
   },
   {
    "id": "sanding-plate-spring-70x198",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Еластичний шліфувальний брусок 70 × 198 мм з пружиною",
    "description": "Ручний шліфувальний брусок з пружиною між ручкою та підошвою: підошва сама підлаштовується під поверхню. Середня жорсткість. Ручка чорна.",
    "price_eur": 21.1154,
@@ -13921,8 +13926,8 @@
   },
   {
    "id": "sanding-sponges-24-p80-p3000",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Шліфувальні губки P80–P3000, набори 24 і 66 шт",
    "description": "Шліфувальні губки на м’якій основі для ручного шліфування профілів, ребер і заокруглень, матування перед фарбуванням і доведення поверхні. Губка гнеться по формі деталі, на червоній стороні — позначка зернистості. Два набори на вибір. 24 шт (P80–P3000): 12 зернистостей — P80, P120, P180, P320, P400, P600, P800, P1200, P1500, P2000, P2500 і P3000; губка тришарова: чорна абразивна сторона, м’яка біла основа й червона сторона. 66 шт (P240–P3000): 11 зернистостей по 6 шт кожної — P240, P320, P400, P600, P800, P1000, P1200, P1500, P2000, P2500 і P3000.",
    "price_eur": 17.8846,
@@ -13977,8 +13982,8 @@
   },
   {
    "id": "air-regulator-filter-blue",
-   "category": "equip",
-   "category_name": "Додаткове обладнання",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Регулятор тиску повітря з манометром і водо-масляним фільтром (синій)",
    "description": "Регулятор тиску повітря з манометром і водо-масляним фільтром: тиск виставляють ручкою й контролюють по манометру (bar / psi), фільтр затримує воду й масло. У комплекті перехідники під роз’єми JP і EU. Колба синя.",
    "price_eur": 16.7885,
@@ -14019,8 +14024,8 @@
   },
   {
    "id": "sanding-discs-1in-polishing-set-131",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Шліфувальні диски 2,5 см (1″), 131 шт, з полірувальними губками та адаптерами",
    "description": "Набір шліфувальних дисків діаметром 2,5 см (1″) для вологого й сухого шліфування, зернистість від 60 до 10000 (60, 80, 100, 150, 240, 400, 800, 1200, 2000, 3000, 5000, 10000). У комплекті кольорові полірувальні губки, вовняна полірувальна насадка, підошва на липучці, хвостовики для дриля, тримач і жовта підошва з різьбою М6.",
    "price_eur": 16.3462,
@@ -14093,8 +14098,8 @@
   },
   {
    "id": "air-regulator-gauge-set-2",
-   "category": "equip",
-   "category_name": "Додаткове обладнання",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Регулятор тиску повітря з манометром для фарбопульта, набір 2 шт",
    "description": "Регулятор тиску повітря з манометром, що ставиться на вхід фарбопульта: тиск виставляють ручкою й контролюють по шкалі манометра. На шкалі дві одиниці виміру — bar і psi — та кольорові зони. У наборі 2 регулятори: тип А і тип Б (відмінності між типами уточнюйте).",
    "price_eur": 13.8269,
@@ -14387,8 +14392,8 @@
   },
   {
    "id": "sanding-discs-1in-hook-124",
-   "category": "abraz",
-   "category_name": "Абразиви та підготовка поверхні",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Шліфувальні диски 2,5 см (1″) на липучці, 124 шт, зернистість 60–10000",
    "description": "Набір шліфувальних дисків діаметром 2,5 см (1″) на липучці для вологого й сухого шліфування. Фіолетові диски 12 зернистостей: 60, 80, 100, 150, 240, 400, 800, 1200, 2000, 3000, 5000, 10000. У комплекті тримачі: поролонова підошва, жовта підошва з різьбою М6, хвостовик для дриля та м’яка проміжна підкладка.",
    "price_eur": 12.5,
@@ -14465,8 +14470,8 @@
   },
   {
    "id": "microfiber-cleaning-cloths-grey-10",
-   "category": "equip",
-   "category_name": "Додаткове обладнання",
+   "category": "budget",
+   "category_name": "Бюджетні товари",
    "name": "Серветки з мікрофібри для чистки, 10 шт, 25 × 25 см (сірі)",
    "description": "Набір серветок з мікрофібри для чистки: добре вбирають вологу й швидко сохнуть. 10 сірих серветок розміром 25 × 25 см. Ціна за набір.",
    "price_eur": 9.6154,
