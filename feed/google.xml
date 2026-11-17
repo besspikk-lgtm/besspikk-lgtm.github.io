@@ -282,7 +282,7 @@
       <g:condition>new</g:condition>
       <g:brand>SATA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>meiji-mard</g:id>
@@ -295,7 +295,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>meiji-mar</g:id>
@@ -308,7 +308,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>meiji-cup</g:id>
@@ -321,7 +321,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>pps-adapter</g:id>
@@ -334,7 +334,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>meiji-nozzle</g:id>
@@ -347,7 +347,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>3m-d7915-prefilters</g:id>
@@ -361,7 +361,7 @@
       <g:condition>new</g:condition>
       <g:brand>3M</g:brand>
       <g:google_product_category>8269</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>wall-mount-gun-holder</g:id>
@@ -376,7 +376,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>pal-223-ultra-komplekt-1-l</g:id>
@@ -1130,7 +1130,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>detailing-set</g:id>
@@ -1142,7 +1142,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>sanding-block-kit-7</g:id>
@@ -1155,7 +1155,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>4419</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>savex-acrylic-1l-1-l</g:id>
@@ -4887,7 +4887,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>1202</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>hardy-japonki</g:id>
@@ -4903,7 +4903,7 @@
       <g:condition>new</g:condition>
       <g:brand>HARDY</g:brand>
       <g:google_product_category>1202</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>app-sts3</g:id>
@@ -4918,7 +4918,7 @@
       <g:condition>new</g:condition>
       <g:brand>APP</g:brand>
       <g:google_product_category>1202</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>devilbiss-haf507</g:id>
@@ -4932,7 +4932,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>DeVilbiss</g:brand>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>ncp-paper-masking-30-sm-x-60-m</g:id>
@@ -5545,7 +5545,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>mercator-gogrip-l</g:id>
@@ -5561,7 +5561,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>mercator-gogrip-xl</g:id>
@@ -5577,7 +5577,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>mercator-gogrip-xxl</g:id>
@@ -5593,7 +5593,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>mobihel-coverall-l</g:id>
@@ -5609,7 +5609,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mobihel</g:brand>
       <g:google_product_category>5484</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>mobihel-coverall-xl</g:id>
@@ -5625,7 +5625,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mobihel</g:brand>
       <g:google_product_category>5484</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>mobihel-coverall-xxl</g:id>
@@ -5641,7 +5641,7 @@
       <g:condition>new</g:condition>
       <g:brand>Mobihel</g:brand>
       <g:google_product_category>5484</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>cartec-pads-pomaranchevyi</g:id>
@@ -5735,7 +5735,7 @@
       <g:condition>new</g:condition>
       <g:brand>BarpiCAR</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>barpicar-pps-system-600-ml</g:id>
@@ -5751,7 +5751,7 @@
       <g:condition>new</g:condition>
       <g:brand>BarpiCAR</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>barpicar-masking-film-8-4-x-150-m</g:id>
@@ -6195,7 +6195,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
     <item>
       <g:id>auarita-mini</g:id>
@@ -6280,7 +6280,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Бюджетні товари</g:product_type>
     </item>
   <item>
       <g:id>tuba-th102ag-mini-hvlp</g:id>
@@ -6643,7 +6643,7 @@
       <g:condition>new</g:condition>
       <g:brand>TUBA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
 <item>
       <g:id>tuba-alu-cup-1-l</g:id>
@@ -6660,7 +6660,7 @@
       <g:condition>new</g:condition>
       <g:brand>TUBA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
 <item>
       <g:id>tuba-plastic-cup-m14x1-0</g:id>
@@ -6676,7 +6676,7 @@
       <g:condition>new</g:condition>
       <g:brand>TUBA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
 <item>
       <g:id>tuba-plastic-cup-m16x1-5</g:id>
@@ -6692,7 +6692,7 @@
       <g:condition>new</g:condition>
       <g:brand>TUBA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
 <item>
       <g:id>tuba-plastic-cup-v3</g:id>
@@ -6708,7 +6708,7 @@
       <g:condition>new</g:condition>
       <g:brand>TUBA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
 <item>
       <g:id>tuba-regulator-gauge-steel</g:id>
@@ -6722,7 +6722,7 @@
       <g:condition>new</g:condition>
       <g:brand>TUBA</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Додаткове обладнання</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
 
     <item>

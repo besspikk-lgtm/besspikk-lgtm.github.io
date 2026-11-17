@@ -60,9 +60,9 @@
 
   var state = { cat: 'all', q: '', sort: 'def', brand: '', sub: '' };
   /* усі фарбопульти й пістолети — один розділ «guns»; старі розділи (посилання #/c/meiji тощо) ведуть туди ж, Meiji/SATA — фільтром бренду */
-  var CAT_ALIAS = { pdr: ['pnevmo', ''], meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], tuba: ['guns', 'tuba'], guns2: ['guns', ''], putty: ['abraz', ''], shpak: ['abraz', ''], cn: ['budget', ''], china: ['budget', ''],
+  var CAT_ALIAS = { pdr: ['budget', ''], pnevmo: ['budget', ''], meiji: ['guns', 'meiji'], sata: ['guns', 'sata'], tuba: ['guns', 'tuba'], guns2: ['guns', ''], putty: ['abraz', ''], shpak: ['abraz', ''], cn: ['budget', ''], china: ['budget', ''],
     lak: ['palinal', 'lak'], emal2k: ['palinal', 'emal2k'], baza: ['palinal', 'baza'], grunt: ['palinal', 'grunt'], rozch: ['palinal', 'rozch'], // 04.10: усі PALINAL (крім шпаклівок) — один розділ
-    acc: ['equip', ''], tools: ['equip', 'tools'], ppe: ['equip', 'ppe'],
+    acc: ['budget', ''], tools: ['budget', ''], ppe: ['budget', ''], equip: ['budget', ''],
     cloth: ['polish', 'cloth'], seal: ['chem', 'seal'] }; // 04.10: мікрофібра → «Полірування та догляд», герметики → «Автохімія та герметики» // 04.10: аксесуари + інструмент + захист — один розділ «equip»
   /* об’єднані картки: старе посилання #/p/<id> веде на нову */
   var PROD_ALIAS = { '3m-trizact-foam-8000': '3m-trizact-50341', 'pal-fast-air': 'pal-873-fast',
@@ -2045,7 +2045,7 @@
     var prevCat = state.cat;
     var prevBrand = state.brand, prevSub = state.sub; state.brand = ''; state.sub = '';
     var CRE = /^#\/c\/([\w-]+)(?:\/([\w-]+))?(?:\/([\w-]+))?/;
-    if (/^#\/c\/(cn|china)(\/|$)/.test(h)) { try { history.replaceState(null, '', '#/c/budget'); } catch (e) {} h = '#/c/budget'; } // 17.11: старі посилання «Товари з Китаю» -> «Бюджетні товари»
+    if (/^#\/c\/(cn|china|pnevmo|equip)(\/|$)/.test(h)) { try { history.replaceState(null, '', '#/c/budget'); } catch (e) {} h = '#/c/budget'; } // 17.11: старі посилання «Товари з Китаю» / «Інструменти» / «Додаткове обладнання» -> «Бюджетні товари»
     if ((m = h.match(CRE)) && CAT_ALIAS[m[1]] && (!catById[m[1]] || !catById[m[1]].count)) { // 16.10: «ПДР» без видимих товарів -> «Товари з Китаю · ПДР» // старі посилання: розділи фарбопультів, Palinal-розділи
       var al = CAT_ALIAS[m[1]], nh = '#/c/' + al[0] + (al[1] ? '/' + al[1] : '');
       try { history.replaceState(null, '', nh); } catch (e) {}
@@ -2463,7 +2463,7 @@
       }
       if (d && d.hidden !== undefined ? d.hidden : p.hidden) return; // правка адмінки (true/false) важливіша за hidden із products.json
       delete p.hidden;
-      if (p.category === 'pdr' || p.category === 'cn') p.category = (BASE[p.id] && BASE[p.id].category) || 'pnevmo'; // 22.10: розділу «Товари з Китаю» більше немає // 16.10: розділу «ПДР» немає — товари в «Товари з Китаю · ПДР і рихтування» (навіть якщо адмінка має стару категорію)
+      if (p.category === 'pdr' || p.category === 'cn') p.category = (BASE[p.id] && BASE[p.id].category) || 'budget'; // 17.11: розділу «Інструменти» більше немає // 22.10: розділу «Товари з Китаю» більше немає // 16.10: розділу «ПДР» немає
       if (CAT_ALIAS[p.category] && !catById[p.category]) { if (!p.sub) p.sub = p.category; p.category = CAT_ALIAS[p.category][0]; }
       if (!catById[p.category]) { if (BASE[p.id]) p.category = BASE[p.id].category; else return; }
       p.category_name = catName(p.category);
