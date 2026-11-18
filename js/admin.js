@@ -187,7 +187,7 @@ function onUser(u) {
   $('#adm-cat').innerHTML = '<option value="all">Усі розділи</option>' + ED_CATS().map((c) => '<option value="' + c.id + '">' + esc(c.name) + '</option>').join('');
   const { F, db } = fb;
   unsub = F.onSnapshot(F.collection(db, 'products'), (qs) => {
-    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-|site$|qty$)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
+    remote = {}; svc = {}; qs.forEach((d) => { if (/^_(cfg|ord-|site$|qty$|potd$)/.test(d.id)) svc[d.id] = d.data(); else remote[d.id] = d.data(); });
     readCfg();
     if (curTab() === 'settings') renderSettings(svc);
     renderList(); bulkInfo();
@@ -279,7 +279,7 @@ function renderList() {
         '<div class="arow__m">' + esc(catById[p.category] ? catById[p.category].name : p.category) + (p.typ ? ' · ' + esc(p.typ.t) : '') + ' · ' + esc(priceTxt(p)) + ' · ' + esc(p.in_stock) + '</div>' +
         '<div class="arow__b">' + (p.isStatic ? '' : '<span class="tag tag--new">Новий</span>') + (p.changed ? '<span class="tag tag--chg">Змінено</span>' : '') +
           (p.photoChanged || (!p.isStatic && p.gallery.length) ? '<span class="tag">' + IC_CAM + p.gallery.length + '</span>' : '') + (p.videos && p.videos.length ? '<span class="tag">' + IC_VID + p.videos.length + '</span>' : '') + (p.hidden ? '<span class="tag tag--hid">Приховано</span>' : '') +
-          (p.noPrice ? '<span class="tag tag--warn">Без ціни</span>' : '') + (p.noPhoto ? '<span class="tag tag--warn">Без фото</span>' : '') + (p.variants && p.variants.length > 1 ? '<span class="tag">Варіантів: ' + p.variants.length + '</span>' : '') + discTag(p) + promoTag(p.promo) + '</div></div>' +
+          (p.noPrice ? '<span class="tag tag--warn">Без ціни</span>' : '') + (p.noPhoto ? '<span class="tag tag--warn">Без фото</span>' : '') + (p.variants && p.variants.length > 1 ? '<span class="tag">Варіантів: ' + p.variants.length + '</span>' : '') + discTag(p) + promoTag(p.promo) + (potdId() === p.id ? '<span class="tag tag--promo">Вибір дня</span>' : '') + '</div></div>' +
       '<div class="arow__bd">' + badgeBtns(p) + '<button class="chipb" type="button" data-share="' + esc(p.id) + '" title="Поділитися в Telegram-канал">' + IC_SEND + 'В канал</button></div>' +
       '<div class="arow__a"><button class="btn btn--y" type="button" data-edit="' + esc(p.id) + '">' + IC_EDIT + 'Редагувати</button>' +
         '<button class="btn btn--o" type="button" data-toggle="' + esc(p.id) + '">' + (p.hidden ? IC_EYE + 'Показати' : IC_EYEOFF + 'Сховати') + '</button></div>' +
@@ -376,6 +376,7 @@ function openEdit(id, opts) {
       '<label class="ed__chk ed__excl"><input name="promo_excl" type="checkbox"' + (pm.excl ? ' checked' : '') + '><span>Ексклюзив <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
       '<label class="ed__chk ed__excl"><input name="promo_ssn" type="checkbox"' + (pm.ssn ? ' checked' : '') + '><span>Хіт сезону <span class="hint">окрема позначка — поєднується з будь-якою</span></span></label>' +
       '<label class="ed__chk ed__excl"><input name="promo_hot" type="checkbox"' + (pm.hot ? ' checked' : '') + '><span>Гаряча пропозиція <span class="hint">позначка на картці й блок на головній після розділів</span></span></label>' +
+      '<label class="ed__chk ed__excl"><input name="potd" type="checkbox"' + (p && potdId() === p.id ? ' checked' : '') + '><span>Вибір дня <span class="hint">картка на головній під кнопкою «Отримати консультацію»; новий вибір замінює попередній, зніміть галочку — прибрати</span></span></label>' +
       '<label>Код / артикул <span class="hint">(для пошуку)</span><input name="code" maxlength="120" value="' + esc(v.code || '') + '"></label>' +
       '<label class="full">Опис<textarea name="description" maxlength="6000" rows="5">' + esc(v.description) + '</textarea>' + (was('description', '(змінено)')) + '</label>' +
       '<div class="full ed__vars" id="ed-vars"></div>' +
@@ -756,7 +757,8 @@ async function rejectReview(id, btn) {
 /* ====================== 16.10.2026 (v3): налаштування, огляд, порядок, позначки, акції, промокоди, курс, канал ======================
    Службові документи (пишуться тим самим дозволеним для адміна шляхом products/{id}; на сайті не показуються — hidden:true):
    products/_cfg       — description = JSON { rate, promos:[{t:'p'|'c', id, pct, until, from?}], codes:[{h, hint, pct, until, off}] }
-   products/_ord-<розділ> — description = JSON [id, id, …] (порядок товарів у розділі; решта — як раніше, від дорожчого) */
+   products/_ord-<розділ> — description = JSON [id, id, …] (порядок товарів у розділі; решта — як раніше, від дорожчого)
+   products/_potd      — description = JSON { id } (один «Вибір дня» на головній; новий запис замінює попередній) */
 const IC_SEND = SVG('<path d="M21 3 3 10.5l7 2.5 2.5 7L21 3Z"/><path d="m10 13 4.5-4.5"/>', 14);
 const IC_COPY = SVG('<rect x="8.5" y="8.5" width="12" height="12" rx="2.2"/><path d="M15.5 8.5V5.7a2.2 2.2 0 0 0-2.2-2.2H5.7a2.2 2.2 0 0 0-2.2 2.2v7.6a2.2 2.2 0 0 0 2.2 2.2h2.8"/>');
 const IC_DRAG = SVG('<circle cx="9" cy="6" r="1.2"/><circle cx="15" cy="6" r="1.2"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/><circle cx="9" cy="18" r="1.2"/><circle cx="15" cy="18" r="1.2"/>', 18);
@@ -764,6 +766,20 @@ const IC_DOWN = SVG('<path d="m6 9 6 6 6-6"/>');
 const IC_SPARK = SVG('<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>', 13);
 const IC_FLAME = SVG('<path d="M12 21c4 0 7-2.7 7-6.6 0-3.4-2.3-5.6-4-7.4-.3 2-1.3 3.3-2.6 3.8C12.8 7.6 11.5 5 9 3c.3 3.2-4 6-4 11 0 4 3 7 7 7Z"/>', 13);
 const SVC_DOC = (name, description) => ({ name, category: '', description, hidden: true, custom: true, createdAt: Date.now(), updatedAt: Date.now() });
+function potdId() {
+  try { const m = JSON.parse((svc._potd && svc._potd.description) || '{}'); const id = m && typeof m.id === 'string' ? m.id.trim() : ''; return /^[\w-]{1,80}$/.test(id) ? id : ''; }
+  catch (e) { return ''; }
+}
+async function savePotd(id) {
+  const { F, db } = fb, ref = F.doc(db, 'products', '_potd');
+  const next = id && /^[\w-]{1,80}$/.test(id) ? id : '';
+  if (next === potdId()) return next;
+  if (!next) { await F.deleteDoc(ref); delete svc._potd; return ''; }
+  const json = JSON.stringify({ id: next }), createdAt = (svc._potd && svc._potd.createdAt) || Date.now();
+  await F.setDoc(ref, Object.assign(SVC_DOC('Вибір дня (службовий запис адмінки)', json), { createdAt }));
+  svc._potd = Object.assign({}, svc._potd || {}, { description: json, createdAt, updatedAt: Date.now() });
+  return next;
+}
 function readCfg() {
   let c = {}; try { c = JSON.parse((svc._cfg && svc._cfg.description) || '{}') || {}; } catch (e) { c = {}; }
   const r = Number(c.rate);
@@ -1503,7 +1519,7 @@ async function onSubmit(e) {
     e.preventDefault();
     if (!edit) return;
     const btns = $$('button', f); btns.forEach((b) => { b.disabled = true; }); edMsg('Збереження…', true);
-    try { const r = await save(f); toast(r.reset ? 'Збережено — товар такий самий, як у каталозі' : (edit.isNew ? 'Товар додано' : 'Збережено')); closeEdit(); }
+    try { const r = await save(f); const want = !!(f.elements.potd && f.elements.potd.checked); await savePotd(want ? r.id : (potdId() === r.id ? '' : potdId())); toast(want ? 'Збережено. Це вибір дня на головній.' : (r.reset ? 'Збережено — товар такий самий, як у каталозі' : (edit.isNew ? 'Товар додано' : 'Збережено'))); closeEdit(); }
     catch (err) { edMsg(err && err.code ? authErr(err) : (err.message || String(err))); btns.forEach((b) => { b.disabled = false; }); }
   }
 }

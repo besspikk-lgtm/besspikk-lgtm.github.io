@@ -1893,6 +1893,26 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .prem .side li a[data-cat="sale"] .cic{color:#ff8a80}
 .prem .side li a[data-cat="new"] .cic{color:#6fdc95}
 
+
+/* 18.11.2026: «Вибір дня» на головній під кнопкою консультації — одна картка, світломузика (обертове RGB-кільце + м’яке пульсування) */
+.potd{max-width:640px;margin:6px auto 22px;display:flex;flex-direction:column;align-items:center;gap:16px}
+.potd[hidden]{display:none}
+.potd__ttl{margin:0;font-size:22px;font-weight:700;color:var(--text);letter-spacing:.02em;text-align:center;line-height:1.25}
+.potd__glow{position:relative;width:min(300px,100%);isolation:isolate}
+.potd__halo{position:absolute;inset:-8px;border-radius:calc(var(--radius) + 12px);overflow:hidden;pointer-events:none;z-index:0;filter:blur(14px);opacity:.55;animation:potd-pulse 2.2s ease-in-out infinite;will-change:opacity}
+.potd__halo::before{content:"";position:absolute;inset:-45%;background:conic-gradient(#ff0048,#ffee00,#00f07a,#00b4ff,#8a2be2,#ff00b8,#ff0048);animation:potd-spin 3s linear infinite;will-change:transform}
+.potd__ring{position:relative;z-index:1;border-radius:calc(var(--radius) + 4px);padding:3px;overflow:hidden}
+.potd__spin{position:absolute;inset:-50%;z-index:0;pointer-events:none;background:conic-gradient(#ff0048,#ffee00,#00f07a,#00b4ff,#8a2be2,#ff00b8,#ff0048);animation:potd-spin 3s linear infinite;will-change:transform}
+.potd__list{position:relative;z-index:1;list-style:none;margin:0;padding:0}
+.potd__list > .card{width:100%}
+@keyframes potd-spin{to{transform:rotate(360deg)}}
+@keyframes potd-pulse{50%{opacity:.28}}
+@media (prefers-reduced-motion:reduce){
+  .potd__spin,.potd__halo::before{animation:none}
+  .potd__halo{animation:none;opacity:.5}
+}
+@media (max-width:760px){.potd{margin:4px auto 18px}.potd__ttl{font-size:20px}}
+
 .cattiles{margin:4px 0 30px}
 .cattiles[hidden]{display:none}
 .cattiles__hd{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 2px 14px}

@@ -484,6 +484,23 @@
   /* 16.11.2026: головна — блок «Гарячі пропозиції» одразу після розділів (#cattiles / #chips).
      Джерело: позначка «Гаряча пропозиція» у каталозі або поле promo з Firestore (applyRemote підміняє promo;
      порожнє remote promo знімає позначку навіть зі статичного каталогу). Ховаємо, якщо не головна або немає товарів. */
+  function potdProduct() {
+    if (!POTD) return null;
+    var p = byId[POTD];
+    return (p && !p.hidden) ? p : null;
+  }
+  /* 18.11.2026: головна — «Вибір дня» одразу під кнопкою консультації, над сіткою розділів.
+     id товару в products/_potd.description ({id}); немає запису або товар приховано / не знайдено — блок сховано. */
+  function renderPotd() {
+    var sec = $('#potd'), ul = $('#potd-list'); if (!sec || !ul) return;
+    var idle = state.cat === 'all' && !state.q;
+    var p = potdProduct();
+    if (!idle || !p) { sec.hidden = true; ul.innerHTML = ''; return; }
+    sec.hidden = false;
+    ul.innerHTML = cardHTML(p, 0);
+    imgWatch(sec);
+    fillPhotos();
+  }
   function renderHotOffers() {
     var sec = $('#hotoffers'), ul = $('#hotoffers-list'); if (!sec || !ul) return;
     var idle = state.cat === 'all' && !state.q;
@@ -797,6 +814,7 @@
     var so = $('#sort option[value="def"]'); if (so) so.textContent = state.cat === 'all' ? 'За розділами' : 'Спочатку дорожчі';
     var ct = $('#cattiles'); if (ct) ct.hidden = state.cat !== 'all' || !!state.q;
     renderHotOffers();
+    renderPotd();
     if (!openModalEl) document.title = listTitle();
     $$('[data-cat]').forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-cat') === state.cat); });
     var chip = $('.chip.on'); if (chip && chip.scrollIntoView && window.innerWidth < 900) { var c = $('#chips'); c.scrollLeft = chip.offsetLeft - 16; }
@@ -2645,14 +2663,18 @@
   function catName(id) { return catById[id] ? catById[id].name : id; }
   // docs: [{id, ...fields}] from Firestore products/{id}. Doc with a static id overrides that product's fields;
   // new ids are appended (sorted into their category); hidden:true removes the product from the public catalog.
-  /* 16.10.2026: налаштування з адмінки — службові документи products/_cfg (курс, акції до дати, промокоди) і products/_ord-<розділ>
-     (порядок товарів у розділі). Обидва hidden:true, дані — JSON у description (поля дозволені чинними правилами Firestore). */
-  var SETTINGS = { rate: null, promos: [], codes: [] }, ORD = {}, lastDocs = null, promoTimer = 0;
+  /* 16.10.2026: налаштування з адмінки — службові документи products/_cfg (курс, акції до дати, промокоди), products/_ord-<розділ>
+     (порядок товарів у розділі) і products/_potd (вибір дня: {id}). hidden:true, дані — JSON у description (поля дозволені чинними правилами Firestore). */
+  var SETTINGS = { rate: null, promos: [], codes: [] }, ORD = {}, lastDocs = null, promoTimer = 0, POTD = '';
   var BASE_RATE = CONFIG.uahRate;
   function readSettings(docs) {
     var cfg = null; ORD = {}; QTY = {}; CLIENT_DISCS = {};
+    POTD = '';
     docs.forEach(function (d) {
       if (d.id === '_qty') { try { var q = JSON.parse(d.description || '{}'); if (q && typeof q === 'object') Object.keys(q).forEach(function (k) { if (typeof q[k] === 'number') QTY[k] = Math.floor(q[k]); }); } catch (e) {} }
+      else if (d.id === '_potd') {
+        try { var pd = JSON.parse(d.description || '{}'); var pid = pd && typeof pd.id === 'string' ? pd.id.trim() : ''; if (/^[\w-]{1,80}$/.test(pid)) POTD = pid; } catch (e) {}
+      }
       else if (d.id === '_cfg') { try { cfg = JSON.parse(d.description || '{}'); } catch (e) { cfg = null; } }
       else if (d.id === '_discs') {
         try {
@@ -2690,8 +2712,8 @@
   var PRICE_KEYS = { price_eur: 1, price_old_eur: 1, price_label: 1, variants: 1 };
   function applyRemote(docs) {
     lastDocs = docs = (docs || []);
-    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$|qty$|discs$)/.test(d.id || ''); }));
-    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$|qty$|discs$)/.test(d.id || '')); });
+    readSettings(docs.filter(function (d) { return d && /^_(cfg|ord-|site$|qty$|discs$|potd$)/.test(d.id || ''); }));
+    docs = docs.filter(function (d) { return !(d && /^_(cfg|ord-|site$|qty$|discs$|potd$)/.test(d.id || '')); });
     var list = [], seen = {};
     STATIC_ORDER.forEach(function (bp) { list.push(bp); });
     (docs || []).forEach(function (d) { if (d && typeof d.id === 'string' && /^[\w-]{1,80}$/.test(d.id)) seen[d.id] = d; });
@@ -3011,6 +3033,8 @@
 
   window.AlexBes = {
     applyRemote: applyRemote,
+    // лише для локального перегляду / скрінів: не пише в Firestore
+    previewPotd: function (id) { POTD = (typeof id === 'string' && /^[\w-]{1,80}$/.test(id)) ? id : ''; renderPotd(); },
     setPhotoLoader: function (fn) { photoLoader = fn; fillPhotos(); },
     getCart: allLines,
     setCart: function (lines) { splitCart(lines); saveCart(true); updateBadges(); if (openModalEl && openModalEl === $('#cmodal')) renderCart(); },
