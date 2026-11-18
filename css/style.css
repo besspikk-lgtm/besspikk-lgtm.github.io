@@ -1897,7 +1897,8 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 /* 18.11.2026: «Вибір дня» на головній під кнопкою консультації — одна картка, світломузика (обертове RGB-кільце + м’яке пульсування) */
 .potd{max-width:640px;margin:6px auto 22px;display:flex;flex-direction:column;align-items:center;gap:16px}
 .potd[hidden]{display:none}
-.potd__ttl{margin:0;font-size:22px;font-weight:700;color:var(--text);letter-spacing:.02em;text-align:center;line-height:1.25}
+.potd__ttl{margin:0;width:100%;text-align:center;line-height:0}
+.potd__ttl img{display:block;width:min(500px,100%);height:auto;margin:0 auto}
 .potd__glow{position:relative;width:min(300px,100%);isolation:isolate}
 .potd__halo{position:absolute;inset:-8px;border-radius:calc(var(--radius) + 12px);overflow:hidden;pointer-events:none;z-index:0;filter:blur(14px);opacity:.55;animation:potd-pulse 2.2s ease-in-out infinite;will-change:opacity}
 .potd__halo::before{content:"";position:absolute;inset:-45%;background:conic-gradient(#ff0048,#ffee00,#00f07a,#00b4ff,#8a2be2,#ff00b8,#ff0048);animation:potd-spin 3s linear infinite;will-change:transform}
@@ -1911,7 +1912,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .potd__spin,.potd__halo::before{animation:none}
   .potd__halo{animation:none;opacity:.5}
 }
-@media (max-width:760px){.potd{margin:4px auto 18px}.potd__ttl{font-size:20px}}
+@media (max-width:760px){.potd{margin:4px auto 18px}.potd__ttl img{width:min(420px,100%)}}
 
 .cattiles{margin:4px 0 30px}
 .cattiles[hidden]{display:none}
