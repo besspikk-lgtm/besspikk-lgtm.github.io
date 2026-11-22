@@ -73,6 +73,108 @@
   function aliasId(id) { return PROD_ALIAS[id] && !byId[id] ? PROD_ALIAS[id] : id; }
   var GUN_BRANDS = [{ k: 'meiji', t: 'Meiji', re: /meiji/i }, { k: 'sata', t: 'SATA', re: /sata/i }, { k: 'norber', t: 'Norber Alonso', re: /norber|\balonso\b|\bfoxy\b/i }, { k: 'ntools', t: 'NTools', re: /ntools/i }, { k: 'italco', t: 'ITALCO', re: /italco/i }, { k: 'auarita', t: 'Auarita', re: /auarita/i }, { k: 'tuba', t: 'TUBA', re: /\btuba\b/i }, { k: 'other', t: 'Інші', re: null }];
   function gunBrand(p) { var s = (p.brand || '') + ' ' + p.name; for (var i = 0; i < GUN_BRANDS.length - 1; i++) if (GUN_BRANDS[i].re.test(s)) return GUN_BRANDS[i].k; return 'other'; }
+  /* 22.11.2026: бренди в «Пропозиція від партнерів» — нормалізовані назви фірм; без бренду та рідкісні (< 3 у розділі) — в «Інші». */
+  var PT_BRAND_MIN = 3;
+  var PT_BRANDS = [
+    { k: 'onebond', t: 'OneBond', re: /onebond/i },
+    { k: 'onetech', t: 'One Tech', re: /one\s*tech/i },
+    { k: 'carsgift', t: "Car's Gift", re: /car['’`]?s?\s*gift/i },
+    { k: 'lakecountry', t: 'Lake Country', re: /lake\s*country/i },
+    { k: 'devilbiss', t: 'DeVilbiss', re: /devilbiss/i },
+    { k: 'carsystem', t: 'CARSYSTEM', re: /carsystem/i },
+    { k: 'cartec', t: 'CARTEC', re: /cartec/i },
+    { k: 'shinemate', t: 'ShineMate', re: /shinemate/i },
+    { k: 'scangrip', t: 'SCANGRIP', re: /scangrip/i },
+    { k: 'scholl', t: 'Scholl', re: /sscholl|\bscholl\b/i },
+    { k: 'walcom', t: 'Walcom', re: /\bwalcom\b|\baz4\b|\bair\s*gunsa\b/i },
+    { k: 'rupes', t: 'RUPES', re: /\brupes\b|\bbigfoot\b|\bmarkiii\b/i },
+    { k: 'mirka', t: 'Mirka', re: /\bmirka\b|\bpolarshine\b/i },
+    { k: 'iwata', t: 'IWATA', re: /\biwata\b|\banest\b/i },
+    { k: 'sata', t: 'SATA', re: /\bsata\b/i },
+    { k: 'avalon', t: 'Avalon', re: /\bavalon\b/i },
+    { k: 'flex', t: 'FLEX', re: /\bflex\b/i },
+    { k: 'hendlex', t: 'Hendlex', re: /\bhendlex\b/i },
+    { k: 'kovax', t: 'Kovax', re: /\bkovax\b/i },
+    { k: 'gys', t: 'GYS', re: /\bgys\b/i },
+    { k: 'ani', t: 'ANI', re: /\bani\b/i },
+    { k: 'zvizzer', t: 'ZviZZer', re: /\bzvizzer\b/i },
+    { k: 'titan', t: 'TITAN', re: /\btitan\b/i },
+    { k: 'prevost', t: 'Prevost', re: /\bprevost\b/i },
+    { k: 'gav', t: 'GAV', re: /\bgav\b/i },
+    { k: 'goebel', t: 'Goebel', re: /\bgoebel\b/i },
+    { k: '3m', t: '3M', re: /\b3m\b/i },
+    { k: 'auarita', t: 'Auarita', re: /auarita/i },
+    { k: 'norton', t: 'Norton', re: /\bnorton\b/i },
+    { k: 'wurth', t: 'WURTH', re: /\bwurth\b|\bw[uü]rth\b/i },
+    { k: 'olym', t: 'OLYM', re: /\bolym\b/i },
+    { k: '3d', t: '3D', re: /\b3d\b/i },
+    { k: 'belton', t: 'Belton', re: /\bbelton\b/i },
+    { k: 'porhis', t: 'Porhis', re: /\bporhis\b/i },
+    { k: 'sia', t: 'SIA', re: /\bsia\b/i },
+    { k: 'teroson', t: 'Teroson', re: /\bteroson\b/i },
+    { k: 'italco', t: 'Italco', re: /\bitalco\b/i },
+    { k: 'meguiar', t: "Meguiar's", re: /meguiar/i },
+    { k: 'sgcb', t: 'SGCB', re: /\bsgcb\b/i },
+    { k: 'sico', t: 'SICO', re: /\bsico\b/i },
+    { k: 'milwaukee', t: 'Milwaukee', re: /\bmilwaukee\b/i },
+    { k: 'ruko', t: 'RUKO', re: /\bruko\b/i },
+    { k: 'sandwox', t: 'SANDWOX', re: /\bsandwox\b/i },
+    { k: 'ntools', t: 'NTools', re: /\bntools\b/i },
+    { k: 'koch', t: 'Koch Chemie', re: /\bkoch\b/i },
+    { k: 'mixon', t: 'Mixon', re: /\bmixon\b/i },
+    { k: 'tekwey', t: 'Tekwey', re: /\btekwey\b/i },
+    { k: 'irad', t: 'IRAD', re: /\birad\b/i },
+    { k: 'sigma', t: 'SIGMA', re: /\bsigma\b/i },
+    { k: 'alpha', t: 'ALPHA', re: /\balpha\b/i },
+    { k: 'cmatic', t: 'CMATIC', re: /\bcmatic\b/i },
+    { k: 'festo', t: 'FESTO', re: /\bfesto\b/i },
+    { k: 'gerson', t: 'Gerson', re: /\bgerson\b/i },
+    { k: 'magnum', t: 'Magnum', re: /\bmagnum\b/i },
+    { k: 'radex', t: 'RADEX', re: /\bradex\b/i },
+    { k: 'proxxon', t: 'PROXXON', re: /\bproxxon\b/i },
+    { k: 'marine', t: 'Marine', re: /\bmarine\b/i },
+    { k: 'other', t: 'Інші', re: null }
+  ];
+  var PT_BRAND_ALIAS = {
+    'bigfoot': 'rupes', 'markiii': 'rupes', 'polarshine': 'mirka', 'sscholl': 'scholl',
+    'scholl concepts': 'scholl', 'az4': 'walcom', 'aat': '3d', 'aca': '3d',
+    "car's gift": 'carsgift', 'cars gift': 'carsgift'
+  };
+  function ptNormBrand(s) { return String(s || '').replace(/[’‘`]/g, "'").replace(/\s+/g, ' ').trim().toLowerCase(); }
+  function ptBrandCanon(p) {
+    var b = ptNormBrand(p && p.brand), n = (p && p.name) || '', i, br;
+    if (b === 'one') {
+      if (/3d/i.test(n)) return '3d';
+      if (/one\s*tech/i.test(n)) return 'onetech';
+      return 'other';
+    }
+    if (b === 'speed') return /3d/i.test(n) ? '3d' : 'other';
+    if (b && PT_BRAND_ALIAS[b]) return PT_BRAND_ALIAS[b];
+    if (b) {
+      for (i = 0; i < PT_BRANDS.length - 1; i++) if (PT_BRANDS[i].re.test(b)) return PT_BRANDS[i].k;
+    }
+    for (i = 0; i < PT_BRANDS.length - 1; i++) if (PT_BRANDS[i].re.test(n)) return PT_BRANDS[i].k;
+    return 'other';
+  }
+  var _ptFold = null, _ptFoldN = -1;
+  function ptBrand(p) {
+    if (_ptFoldN !== PRODUCTS.length) {
+      var c = {};
+      PRODUCTS.forEach(function (x) {
+        if (x.category !== 'partners') return;
+        var k = ptBrandCanon(x);
+        c[k] = (c[k] || 0) + 1;
+      });
+      _ptFold = { other: 'other' };
+      PT_BRANDS.forEach(function (b) {
+        if (b.k !== 'other') _ptFold[b.k] = (c[b.k] || 0) >= PT_BRAND_MIN ? b.k : 'other';
+      });
+      _ptFoldN = PRODUCTS.length;
+    }
+    return _ptFold[ptBrandCanon(p)] || 'other';
+  }
+  function catKeepsBrand() { return state.cat === 'guns' || state.cat === 'partners'; }
+  function brandOf(p) { return state.cat === 'partners' ? ptBrand(p) : gunBrand(p); }
   /* 04.10: підрозділи (чипи) всередині розділу: PALINAL — за типом товару; фарбопульти — за типом (+ фільтр бренду) */
   var GUN_MINI = /міні|mini|spot|\b0\.8\b/i;
   var SUBCATS = {
@@ -1151,30 +1253,55 @@
     imgWatch(sec);
     fillPhotos();
   }
-  /* підрозділи (#subbar) і фільтр бренду фарбопультів (#brandbar) */
+  /* підрозділи (#subbar) і фільтр бренду фарбопультів / партнерів (#brandbar) */
   function renderBrandBar() {
     var sb = $('#subbar'), el = $('#brandbar');
     var sc = SUBCATS[state.cat];
     if (sb) {
       if (!sc || state.q) sb.hidden = true;
       else {
-        var inCat = PRODUCTS.filter(function (p) { return inCatX(p, state.cat) && (state.cat !== 'guns' || !state.brand || gunBrand(p) === state.brand); });
+        var inCat = PRODUCTS.filter(function (p) { return inCatX(p, state.cat) && (!catKeepsBrand() || !state.brand || brandOf(p) === state.brand); });
         var subs = [{ k: '', t: 'Усі', n: inCat.length }].concat(sc.items.map(function (s) { return { k: s.k, t: s.t, n: inCat.filter(s.f).length }; }).filter(function (s) { return s.n > 0 || s.k === state.sub; }));
         sb.innerHTML = '<span class="bbar__l">' + esc(sc.label) + '</span>' + subs.map(function (s) {
-          return '<a class="bbar__b' + (state.sub === s.k ? ' on' : '') + '" href="' + catHash(state.cat, s.k, state.cat === 'guns' ? state.brand : '') + '"' + (state.sub === s.k ? ' aria-current="true"' : '') + '>' + esc(s.t) + '<small>' + s.n + '</small></a>';
+          return '<a class="bbar__b' + (state.sub === s.k ? ' on' : '') + '" href="' + catHash(state.cat, s.k, catKeepsBrand() ? state.brand : '') + '"' + (state.sub === s.k ? ' aria-current="true"' : '') + '>' + esc(s.t) + '<small>' + s.n + '</small></a>';
         }).join('');
-        sb.classList.toggle('bbar--grid', subs.length > 3); sb.hidden = false; if (subs.length <= 3) barToOn(sb);
+        var useGrid = subs.length > 3 || (state.cat === 'partners' && subs.length > 1);
+        sb.classList.toggle('bbar--grid', useGrid); sb.hidden = false; if (!useGrid) barToOn(sb);
       }
     }
     if (!el) return;
-    if (state.cat !== 'guns' || state.q) { el.hidden = true; return; }
-    var si = subItem('guns', state.sub);
-    var all = PRODUCTS.filter(function (p) { return p.category === 'guns' && (!si || si.f(p)); });
-    var items = [{ k: '', t: 'Усі', n: all.length }].concat(GUN_BRANDS.map(function (b) { return { k: b.k, t: b.t, n: all.filter(function (p) { return gunBrand(p) === b.k; }).length }; }).filter(function (b) { return b.n > 0 || b.k === state.brand; }));
-    el.innerHTML = '<span class="bbar__l">Бренд</span>' + items.map(function (b) {
-      return '<a class="bbar__b' + (state.brand === b.k ? ' on' : '') + '" href="' + catHash('guns', state.sub, b.k) + '"' + (state.brand === b.k ? ' aria-current="true"' : '') + '>' + esc(b.t) + '<small>' + b.n + '</small></a>';
-    }).join('');
-    el.classList.add('bbar--grid'); el.hidden = false; // 23.10: бренди — сіткою, як «Тип»
+    if (!catKeepsBrand() || state.q) { el.hidden = true; el.classList.remove('bbar--sel'); return; }
+    var si = subItem(state.cat, state.sub);
+    var all = PRODUCTS.filter(function (p) { return inCatX(p, state.cat) && (!si || si.f(p)); });
+    var brands = state.cat === 'partners' ? PT_BRANDS : GUN_BRANDS;
+    var of = state.cat === 'partners' ? ptBrand : gunBrand;
+    var allLbl = state.cat === 'partners' ? 'Усі бренди' : 'Усі';
+    var named = brands.filter(function (b) { return b.k !== 'other'; }).map(function (b) {
+      return { k: b.k, t: b.t, n: all.filter(function (p) { return of(p) === b.k; }).length };
+    }).filter(function (b) { return b.n > 0 || b.k === state.brand; });
+    if (state.cat === 'partners') named.sort(function (a, b) { return b.n - a.n || a.t.localeCompare(b.t, 'uk'); });
+    var otherN = all.filter(function (p) { return of(p) === 'other'; }).length;
+    var items = [{ k: '', t: allLbl, n: all.length }].concat(named);
+    if (otherN > 0 || state.brand === 'other') items.push({ k: 'other', t: 'Інші', n: otherN });
+    var useSel = state.cat === 'partners' && (named.length + ((otherN > 0 || state.brand === 'other') ? 1 : 0) > 14);
+    el.classList.toggle('bbar--sel', useSel);
+    el.classList.toggle('bbar--grid', !useSel);
+    if (useSel) {
+      el.innerHTML = '<span class="bbar__l" id="brandbar-l">Бренд</span><label class="bbar__selwrap"><select class="bbar__sel" aria-labelledby="brandbar-l">' + items.map(function (b) {
+        return '<option value="' + esc(b.k) + '"' + (state.brand === b.k ? ' selected' : '') + '>' + esc(b.t) + ' (' + b.n + ')</option>';
+      }).join('') + '</select></label>';
+      var sel = el.querySelector('.bbar__sel');
+      if (sel) sel.addEventListener('change', function () {
+        var next = catHash('partners', state.sub, sel.value);
+        if (location.hash !== next) location.hash = next;
+      });
+    } else {
+      el.innerHTML = '<span class="bbar__l">Бренд</span>' + items.map(function (b) {
+        return '<a class="bbar__b' + (state.brand === b.k ? ' on' : '') + '" href="' + catHash(state.cat, state.sub, b.k) + '"' + (state.brand === b.k ? ' aria-current="true"' : '') + '>' + esc(b.t) + '<small>' + b.n + '</small></a>';
+      }).join('');
+      barToOn(el);
+    }
+    el.hidden = false;
   }
   function barToOn(bar) { var on = bar.querySelector('.on'); if (on && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = Math.max(0, on.offsetLeft - bar.offsetLeft - 16); } // мобільний: обраний чип — у полі зору
 
@@ -1214,7 +1341,7 @@
       else if (state.cat === 'excl') { if (!isExcl(p)) return false; }
       else if (state.cat === 'fav') { if (!isFav(p.id)) return false; }
       else if (state.cat !== 'all' && !inCatX(p, state.cat)) return false;
-      if (state.cat === 'guns' && state.brand && !state.q && gunBrand(p) !== state.brand) return false;
+      if (catKeepsBrand() && state.brand && !state.q && brandOf(p) !== state.brand) return false;
       if (state.sub && !state.q) { var si = subItem(state.cat, state.sub); if (si && !si.f(p)) return false; }
       return toks.every(function (t) { return index[p.id].indexOf(t) >= 0; });
     });
@@ -1413,10 +1540,18 @@
     meiji: 'Японські фарбопульти Meiji від офіційного представника в Україні: FINER-CORE, FINER III, F410, міні-джет FINER SPOT. Дюзу і систему (HVLP / SP) підберемо в Telegram.',
     sata: 'Фарбопульти SATA з технологією RP: SATAjet X DIGITAL pro та SATAjet 100 B.'
   };
-  function brandName(k) { for (var i = 0; i < GUN_BRANDS.length; i++) if (GUN_BRANDS[i].k === k) return GUN_BRANDS[i].t; return ''; }
+  function brandName(k) {
+    if (!k) return '';
+    var lists = [GUN_BRANDS, PT_BRANDS], L, i;
+    for (L = 0; L < lists.length; L++) for (i = 0; i < lists[L].length; i++) if (lists[L][i].k === k) return lists[L][i].t;
+    return '';
+  }
   function listTitle() {
     if (state.cat === 'all') return CONFIG.homeTitle;
-    if (state.cat === 'guns' && state.brand && state.brand !== 'other') return (state.sub ? subName('guns', state.sub) : 'Фарбопульти') + ' ' + brandName(state.brand) + ' — купити в Україні | ' + CONFIG.titleName;
+    if ((state.cat === 'guns' || state.cat === 'partners') && state.brand && state.brand !== 'other') {
+      var head = state.sub ? subName(state.cat, state.sub) : (state.cat === 'guns' ? 'Фарбопульти' : (catById[state.cat] && catById[state.cat].name) || '');
+      return head + ' ' + brandName(state.brand) + ' — купити в Україні | ' + CONFIG.titleName;
+    }
     if (state.sub && subItem(state.cat, state.sub)) return (state.cat === 'palinal' ? 'PALINAL — ' + subName('palinal', state.sub).toLowerCase() : subName(state.cat, state.sub)) + ' — купити в Україні | ' + CONFIG.titleName;
     if (state.cat === 'sale') return 'Акції | ' + CONFIG.titleName;
     if (state.cat === 'new') return 'Новинки | ' + CONFIG.titleName;
@@ -1443,7 +1578,7 @@
     $('#empty').textContent = state.cat === 'fav' && !state.q ? 'У вибраному поки порожньо. Натисніть сердечко на картці товару, щоб зберегти його тут.' : EMPTY_TXT;
     var cn = catLabel(state.cat);
     if (state.sub && !state.q && subItem(state.cat, state.sub)) cn += ' · ' + subName(state.cat, state.sub);
-    if (state.cat === 'guns' && state.brand && !state.q) cn += ' · ' + brandName(state.brand);
+    if (catKeepsBrand() && state.brand && !state.q) cn += ' · ' + brandName(state.brand);
     var title = state.cat === 'all' ? 'Усі товари' : cn;
     if (state.q) title = 'Пошук: «' + state.q + '»' + (state.cat !== 'all' ? ' · ' + cn : '');
     $('#restitle').textContent = title + ' (' + list.length + ')';
@@ -2991,6 +3126,7 @@
         if (!seg) return;
         if (subItem(m[1], seg)) state.sub = seg;
         else if (m[1] === 'guns' && GUN_BRANDS.some(function (b) { return b.k === seg; })) state.brand = seg;
+        else if (m[1] === 'partners' && PT_BRANDS.some(function (b) { return b.k === seg; })) state.brand = seg;
       });
     } else state.cat = 'all';
     if (prevCat === 'fav' || state.cat === 'fav') { renderCats(); }
@@ -3553,7 +3689,7 @@
   function productUrl(p) { return BASE[p.id] && !/vens/i.test(p.id + ' ' + (BASE[p.id].name || '')) ? SITE_URL + 'p/' + encodeURIComponent(p.id) + '/' : SITE_URL + '#/p/' + encodeURIComponent(p.id); }
   function catShareUrl() {
     if (!catById[state.cat]) return SITE_URL + '#/c/' + state.cat; // «Акції», «Новинки», «Ексклюзив»
-    var tail = [state.sub, state.cat === 'guns' ? state.brand : ''].filter(Boolean).join('/');
+    var tail = [state.sub, catKeepsBrand() ? state.brand : ''].filter(Boolean).join('/');
     return SITE_URL + 'c/' + encodeURIComponent(state.cat) + '/' + (tail ? '#' + tail : '');
   }
   function shareLink(title, url, key) {
@@ -3569,7 +3705,7 @@
     if (state.cat === 'all' || state.cat === 'fav') return;
     var t = catLabel(state.cat);
     if (state.sub && subItem(state.cat, state.sub)) t += ' · ' + subName(state.cat, state.sub);
-    if (state.cat === 'guns' && state.brand) t += ' · ' + brandName(state.brand);
+    if (catKeepsBrand() && state.brand) t += ' · ' + brandName(state.brand);
     shareLink(t + ' — Alex_bes', catShareUrl(), 'c/' + state.cat);
   }
   function shareMenu(title, url, key) {
@@ -4071,7 +4207,7 @@
   window.AlexBesUX = {
     on: function (name, fn) { (uxHooks[name] = uxHooks[name] || []).push(fn); },
     products: function () { return PRODUCTS; }, byId: function (id) { return byId[id]; },
-    state: state, cats: CATS, catById: catById, SUBCATS: SUBCATS, GUN_BRANDS: GUN_BRANDS, gunBrand: gunBrand, subItem: subItem, catHash: catHash,
+    state: state, cats: CATS, catById: catById, SUBCATS: SUBCATS, GUN_BRANDS: GUN_BRANDS, gunBrand: gunBrand, PT_BRANDS: PT_BRANDS, ptBrand: ptBrand, subItem: subItem, catHash: catHash,
     CONFIG: CONFIG, esc: esc, norm: norm, toUah: toUah, fmtUah: fmtUah, uah: uah, uahTxt: uahTxt, uahText: uahText, hasPrice: hasPrice,
     unitPrice: unitPrice, unitOld: unitOld, variantOf: variantOf, oldOf: oldOf, pillHTML: pillHTML, mainImg: mainImg, galleryOf: galleryOf, imgAttrs: imgAttrs,
     svgI: svgI, IC: IC, CAT_IC: CAT_IC, pkIc: pkIc, productUrl: productUrl, pmState: pmState, track: track, plural: plural, countWord: countWord,
