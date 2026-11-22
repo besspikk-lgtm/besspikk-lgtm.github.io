@@ -62,13 +62,24 @@ function orderHay(o) {
   const it = parseItems(o.items) || [];
   return [isQuick(o) ? 'швидке замовлення в один клік' : '', chOf(o), o.name, o.phone, o.city, o.note, payOf(o), o.id].concat(it.map((x) => x.name + ' ' + (x.variant || ''))).join(' ').toLowerCase();
 }
+function itemSupplier(x) {
+  // 22.11.2026: службова позначка постачальника (лише адмінка). Клієнту не показується.
+  const up = (s) => String(s || '').trim().toUpperCase();
+  if (up(x && x.supplier) === 'LKM') return 'LKM';
+  const id = x && x.id;
+  if (!id) return '';
+  const P = (ctx && ctx.products && ctx.products()) || PNAME;
+  const p = (P && P[id]) || PNAME[id];
+  return (p && up(p.supplier) === 'LKM') ? 'LKM' : '';
+}
 function itemsHTML(o) {
   const it = parseItems(o.items);
   if (it === null) return '<p class="muted small">Не вдалося прочитати список товарів.</p>';
   if (!it.length) return '<p class="muted small">Товарів немає.</p>';
   return '<ul class="ocard__items">' + it.map((x) => {
     const q = Math.max(1, parseInt(x.qty, 10) || 1), pr = typeof x.price_uah === 'number' ? x.price_uah : null;
-    return '<li><span class="ocard__iname">' + esc(x.name || x.id || '—') + (x.variant ? ' <i>(' + esc(x.variant) + ')</i>' : '') + '</span>' +
+    const sup = itemSupplier(x);
+    return '<li><span class="ocard__iname">' + esc(x.name || x.id || '—') + (x.variant ? ' <i>(' + esc(x.variant) + ')</i>' : '') + (sup ? ' <span class="ocard__sup">' + esc(sup) + '</span>' : '') + '</span>' +
       '<span class="ocard__ipr">' + (pr == null ? q + ' шт · ціну уточнити' : q + ' × ' + grn(pr) + (q > 1 ? ' = <b>' + grn(pr * q) + '</b>' : '')) + '</span></li>';
   }).join('') + '</ul>';
 }
