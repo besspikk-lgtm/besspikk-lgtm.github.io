@@ -464,7 +464,8 @@
     seal: '<path d="M7 9.5h9.5v10a1.5 1.5 0 0 1-1.5 1.5H8.5A1.5 1.5 0 0 1 7 19.5z"/><path d="M8.5 9.5 10 6h3.5l1.5 3.5"/><path d="M11.75 6V2.8"/><path d="M7 13.5h9.5"/>',
     cloth: '<path d="M4 6.5c2.7-1.6 5.3 1.6 8 0s5.3 1.6 8 0v11c-2.7 1.6-5.3-1.6-8 0s-5.3-1.6-8 0z"/><path d="M4 12c2.7-1.6 5.3 1.6 8 0s5.3 1.6 8 0"/>',
     ppe: '<path d="M12 3 4.5 6v5.5c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5V6z"/><path d="m8.8 12 2.2 2.2 4.3-4.4"/>',
-    tools: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>'
+    tools: '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+    partners: '<path d="M3.5 10.2 6 5.2h12l2.5 5"/><path d="M4 10.2V20h16v-9.8"/><path d="M9.5 20v-5.5h5V20"/><path d="M3.5 10.2h17"/><path d="M17.8 3.8l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5z"/>' // 22.11.2026: «Пропозиція від партнерів» — вітрина
   };
   // 23.10.2026: PALINAL — прапор Італії (SVG, без емодзі)
   var IT_FLAG = function (n) { return '<svg viewBox="0 0 24 24" width="' + n + '" height="' + n + '" aria-hidden="true" focusable="false"><defs><clipPath id="itfc"><rect x="2.5" y="5.5" width="19" height="13" rx="2.2"/></clipPath></defs><g clip-path="url(#itfc)"><rect x="2.5" y="5.5" width="6.34" height="13" fill="#009246"/><rect x="8.83" y="5.5" width="6.34" height="13" fill="#fff"/><rect x="15.16" y="5.5" width="6.34" height="13" fill="#CE2B37"/></g><rect x="2.5" y="5.5" width="19" height="13" rx="2.2" fill="none" stroke="rgba(0,0,0,.25)" stroke-width=".6"/></svg>'; };
@@ -473,11 +474,20 @@
   function catLabel(id) { return CAT_LABEL[id] || (id === 'all' ? '' : catById[id] ? catById[id].name : id); }
   function countWord(n) { var a = n % 10, b = n % 100; return n + ' ' + (a === 1 && b !== 11 ? 'товар' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'товари' : 'товарів'); }
   /* головна: блок «Категорії» — плитки з іконкою, назвою і кількістю (на мобільному — сітка #chips) */
+  function isCatPreview() {
+    try { return /(?:^|[?&])preview=(?:1|cats)(?:&|$)/.test(location.search || ''); } catch (e) { return false; }
+  }
+  function catTileVisible(c) {
+    if (!c) return false;
+    if (c.count > 0) return true;
+    return c.id === 'partners' && isCatPreview(); // 22.11: порожній розділ партнерів — лише в ?preview=1
+  }
   function renderHomeCats() {
     var el = $('#cattiles'); if (!el) return;
-    el.querySelector('.ctiles').innerHTML = CATS.filter(function (c) { return c.count > 0; }).map(function (c) {
-      return '<li><a class="ctile" href="#/c/' + c.id + '" data-cat-tile="' + c.id + '">' + catIc(c.id, 24) +
-        '<span class="ctile__t"><b>' + esc(c.name) + '</b><small>' + countWord(c.count) + '</small></span>' +
+    el.querySelector('.ctiles').innerHTML = CATS.filter(catTileVisible).map(function (c) {
+      return '<li><a class="ctile' + (c.count ? '' : ' is-empty') + (c.id === 'partners' ? ' ctile--hi' : '') + '" href="#/c/' + c.id + '" data-cat-tile="' + c.id + '" data-cat="' + c.id + '">' + catIc(c.id, 30) +
+        '<span class="ctile__t"><b>' + esc(c.name) + '</b>' + (c.count ? '' : '<small>Незабаром</small>') + '</span>' +
+        '<span class="ctile__n" aria-label="' + esc(c.count ? countWord(c.count) : 'Незабаром') + '">' + (c.count || '0') + '</span>' +
         '<span class="ctile__go" aria-hidden="true">' + svgI('<path d="M9 6l6 6-6 6"/>', 16) + '</span></a></li>';
     }).join('');
   }
@@ -543,19 +553,19 @@
     var total = PRODUCTS.length;
     var items = [{ id: 'sale', name: 'Акції', count: PRODUCTS.filter(isSale).length }, { id: 'new', name: 'Новинки', count: PRODUCTS.filter(isNew).length }];
     // 08.10.2026 (Alex): замість розділу «Ексклюзив» — «Товари з Китаю» на тому ж місці (позначки «Ексклюзив» на картках лишаються)
-    // 23.10.2026 (Alex): порядок розділів — як у data/products.js (PALINAL перший, «Брендований одяг» останній)
+    // 23.10.2026 (Alex): порядок розділів — як у data/products.js; 22.11: «Пропозиція від партнерів» перша (поки порожня — лише в ?preview=1), далі Palinal, «Брендований одяг» останній серед постійних
     var cn = CATS.filter(function (c) { return c.id === 'cn' && c.count > 0; })[0];
     if (cn) items.push(cn);
     var nf = favList().length; // «Вибране (N)» — лише коли N > 0 (або коли його зараз відкрито)
     if (nf || state.cat === 'fav') items.push({ id: 'fav', name: 'Вибране', count: nf });
-    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && c.count > 0; })); // порожні (усі товари приховані) розділи не показуємо
+    items = items.concat(CATS.filter(function (c) { return c.id !== 'cn' && catTileVisible(c); })); // порожні розділи не показуємо (партнери — лише в ?preview=1)
     var nm = function (c, short) { return esc(short && c.id === 'all' ? 'Усі товари' : c.name); };
     $('#catlist').innerHTML = items.map(function (c) {
       return '<li><a href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="side__nm">' + nm(c) + '</span><span class="n">' + c.count + '</span></a></li>';
     }).join('');
     // 04.10: у мобільній сітці категорій без «Акцій» і «Новинок» (акції — вкладка нижнього меню й банер; у бічному меню на ПК лишаються)
     $('#chips').innerHTML = items.filter(function (c) { return c.id !== 'sale' && c.id !== 'new'; }).map(function (c) {
-      return '<a class="chip" role="tab" href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 18) + '<span class="chip__nm">' + nm(c, true) + '</span><small>' + c.count + '</small></a>';
+      return '<a class="chip' + (c.count ? '' : ' is-empty') + (c.id === 'partners' ? ' chip--hi' : '') + '" role="tab" href="' + (c.id === 'all' ? '#/' : '#/c/' + c.id) + '" data-cat="' + c.id + '">' + catIc(c.id, 28) + '<span class="chip__nm">' + nm(c, true) + '</span><small aria-label="' + esc(c.count ? countWord(c.count) : 'Незабаром') + '">' + (c.count || '0') + '</small></a>';
     }).join('');
     renderHomeCats();
   }
@@ -766,7 +776,8 @@
     chem: 'Поліуретанові клеї-герметики TEROSON для вклеювання скла, антигравій APP і перетворювач іржі TEROSON VR 625, антисиліконова добавка APP та змивка старої фарби PiTon.',
     seal: 'Поліуретанові клеї-герметики TEROSON для вклеювання автомобільного скла.',
     cloth: 'Серветки з мікрофібри NOWAX, плюшева мікрофібра, паперові рушники та протирочні серветки для майстерні.',
-    ppe: 'Засоби захисту для маляра: нітрилові рукавички MERCATOR GoGrip PRO та малярний комбінезон Mobihel.'
+    ppe: 'Засоби захисту для маляра: нітрилові рукавички MERCATOR GoGrip PRO та малярний комбінезон Mobihel.',
+    partners: 'Пропозиції від партнерів Alex_bes. Ціну і наявність підтверджуємо при замовленні.'
   };
   var BRAND_INTRO = {
     meiji: 'Японські фарбопульти Meiji від офіційного представника в Україні: FINER-CORE, FINER III, F410, міні-джет FINER SPOT. Дюзу і систему (HVLP / SP) підберемо в Telegram.',
@@ -2344,7 +2355,7 @@
       try { history.replaceState(null, '', nh); } catch (e) {}
       h = nh; m = h.match(CRE);
     }
-    if (m && ((catById[m[1]] && catById[m[1]].count > 0) || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) { // 08.10: розділ без видимих товарів (напр. «ПДР», усі hidden) -> «Усі товари» // 08.10: #/c/excl більше немає -> «Усі товари»
+    if (m && ((catById[m[1]] && (catById[m[1]].count > 0 || catTileVisible(catById[m[1]]))) || m[1] === 'sale' || m[1] === 'new' || m[1] === 'fav')) { // 08.10: розділ без видимих товарів (напр. «ПДР», усі hidden) -> «Усі товари» // 08.10: #/c/excl більше немає -> «Усі товари»
       state.cat = m[1];
       [m[2], m[3]].forEach(function (seg) {
         if (!seg) return;

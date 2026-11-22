@@ -4,6 +4,12 @@
  "eur_rate_uah": 51.5,
  "categories": [
   {
+   "id": "partners",
+   "name": "Пропозиція від партнерів",
+   "icon": "",
+   "count": 0
+  },
+  {
    "id": "palinal",
    "name": "Продукція Palinal",
    "icon": "",
