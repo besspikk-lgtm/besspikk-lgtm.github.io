@@ -755,7 +755,8 @@ body.has-cmpbar{padding-bottom:calc(68px + 64px + env(safe-area-inset-bottom))}
 /* категорії (мобільні плитки): темно-сині з тонкою рамкою; активна — синя з жовтою рамкою */
 .chip{background:rgba(10,44,102,.85);border:1px solid #2a5aa8;color:var(--text2);box-shadow:none;transition:background-color .15s,border-color .15s}
 .chip small{background:rgba(255,255,255,.10);color:var(--text2)}
-.chip:hover{text-decoration:none;border-color:#4a86e0}
+@media (hover:hover) and (pointer:fine){.chip:hover{text-decoration:none;border-color:#4a86e0}}
+.chip:active{border-color:#4a86e0}
 .chip.on{background:linear-gradient(180deg,#0b5fc4,#0050a8);color:#fff;border-color:var(--yellow);box-shadow:inset 0 0 0 1px var(--yellow),0 4px 14px rgba(0,0,0,.25)}
 .chip.on small{background:var(--yellow);color:var(--navy-text)}
 /* «Акції» і «Новинки»: колір — лише рамка/акцент; активний стан — заливка */
@@ -960,7 +961,8 @@ html:has(body.prem){scroll-padding-top:96px}
 .prem .chips{gap:10px;padding:0 0 28px}
 .prem .chip,.prem .chip[data-cat="sale"]:not(.on),.prem .chip[data-cat="new"]:not(.on){background:var(--surface);border:1px solid var(--line);color:var(--text2);box-shadow:none;border-radius:14px;font-weight:600;letter-spacing:.005em}
 .prem .chip small,.prem .chip[data-cat="sale"]:not(.on) small,.prem .chip[data-cat="new"]:not(.on) small{background:rgba(255,255,255,.06);color:var(--muted);font-weight:600}
-.prem .chip:hover{border-color:var(--line2)}
+@media (hover:hover) and (pointer:fine){.prem .chip:hover{border-color:var(--line2)}}
+.prem .chip:active{border-color:var(--line2)}
 .prem .chip.on,.prem .chip[data-cat="sale"].on,.prem .chip[data-cat="new"].on{background:rgba(255,215,0,.08);color:var(--text);border-color:rgba(255,215,0,.75);box-shadow:none}
 .prem .chip.on small,.prem .chip[data-cat="sale"].on small,.prem .chip[data-cat="new"].on small{background:var(--yellow);color:var(--navy-text)}
 .prem .side{background:var(--surface);border:1px solid var(--line);border-top:1px solid var(--line);border-radius:20px;padding:18px}
@@ -1923,13 +1925,15 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .ctiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px}
 .ctile{display:flex;align-items:center;gap:14px;height:100%;min-height:76px;padding:14px 14px 14px 16px;border-radius:18px;background:var(--surface);
   box-shadow:inset 0 0 0 1px var(--line);color:var(--text)!important;transition:box-shadow .18s ease,transform .18s ease,background-color .18s ease}
-.ctile:hover{text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,215,0,.55);background:var(--surface2);transform:translateY(-1px)}
 .ctile .cic{width:46px;height:46px;border-radius:14px;background:linear-gradient(180deg,rgba(255,215,0,.12),rgba(255,215,0,.04));box-shadow:inset 0 0 0 1px rgba(255,215,0,.22)}
 .ctile__t{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
 .ctile__t b{font-size:14.5px;font-weight:650;line-height:1.3;color:var(--text)}
 .ctile__t small{font-size:12.5px;color:var(--muted);font-weight:600}
 .ctile__go{flex:none;color:var(--muted);opacity:.7;transition:transform .18s ease,color .18s ease}
-.ctile:hover .ctile__go{color:var(--yellow);transform:translateX(2px);opacity:1}
+@media (hover:hover) and (pointer:fine){
+  .ctile:hover{text-decoration:none;box-shadow:inset 0 0 0 1px rgba(255,215,0,.55);background:var(--surface2);transform:translateY(-1px)}
+  .ctile:hover .ctile__go{color:var(--yellow);transform:translateX(2px);opacity:1}
+}
 @media (max-width:899px){.cattiles{display:none}} /* на мобільному ту саму роль виконує сітка #chips з іконками й кількістю */
 @media (prefers-reduced-motion:reduce){.ctile,.ctile__go{transition:none}.ctile:hover{transform:none}}
 
@@ -1954,7 +1958,8 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .bbar__b{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border-radius:999px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line);
   color:var(--text2)!important;font-weight:600;font-size:13.5px;line-height:1.2}
 .bbar__b small{font-size:11.5px;color:var(--muted);background:rgba(255,255,255,.06);border-radius:999px;padding:1px 7px}
-.bbar__b:hover{text-decoration:none;box-shadow:inset 0 0 0 1px var(--line2)}
+@media (hover:hover) and (pointer:fine){.bbar__b:hover{text-decoration:none;box-shadow:inset 0 0 0 1px var(--line2)}}
+.bbar__b:active{text-decoration:none;box-shadow:inset 0 0 0 1px var(--line2)}
 .bbar__b.on{background:rgba(255,215,0,.08);box-shadow:inset 0 0 0 1px rgba(255,215,0,.75);color:var(--text)!important}
 .bbar__b.on small{background:var(--yellow);color:var(--navy-text)}
 @media (max-width:760px){.bbar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px 16px;padding:0 16px}.bbar::-webkit-scrollbar{display:none}.bbar__b{flex:none}}
@@ -2231,7 +2236,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   box-shadow:inset 0 0 0 1px var(--cat-bd),0 0 22px var(--cat-glow);color:var(--text)!important;
   transition:box-shadow .2s ease,transform .2s ease,background-color .2s ease,filter .2s ease}
 .ctile::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;
-  background:linear-gradient(180deg,var(--cat),var(--cat2));box-shadow:0 0 10px var(--cat-glow)}
+  background:linear-gradient(180deg,var(--cat),var(--cat2));box-shadow:0 0 10px var(--cat-glow);pointer-events:none}
 .ctile[data-cat="palinal"]::before{background:linear-gradient(180deg,#009246 0 33%,#fff 33% 66%,#CE2B37 66% 100%);box-shadow:none}
 .ctile .cic{width:58px;height:58px;border-radius:16px;color:var(--cat);background:var(--cat-bg);
   box-shadow:inset 0 0 0 1px var(--cat-bd),0 0 18px var(--cat-glow)}
@@ -2241,9 +2246,13 @@ body.prem .hdr,.hdr{position:relative;top:auto}
 .ctile__t small{color:var(--muted);font-size:12px;font-weight:650}
 .ctile__n{flex:none;min-width:32px;height:28px;padding:0 10px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
   font-size:13.5px;font-weight:800;color:#081226;background:var(--cat);box-shadow:0 0 12px var(--cat-glow)}
-.ctile:hover,.ctile:focus-visible{text-decoration:none;transform:translateY(-3px);box-shadow:inset 0 0 0 1px var(--cat),0 10px 28px var(--cat-glow);filter:brightness(1.06)}
-.ctile:hover .ctile__go,.ctile:focus-visible .ctile__go{color:var(--cat);transform:translateX(3px);opacity:1}
-.ctile:active{transform:translateY(-1px) scale(.985)}
+.ctile:focus-visible{text-decoration:none;transform:translateY(-3px);box-shadow:inset 0 0 0 1px var(--cat),0 10px 28px var(--cat-glow);filter:brightness(1.06)}
+.ctile:focus-visible .ctile__go{color:var(--cat);transform:translateX(3px);opacity:1}
+@media (hover:hover) and (pointer:fine){
+  .ctile:hover{text-decoration:none;transform:translateY(-3px);box-shadow:inset 0 0 0 1px var(--cat),0 10px 28px var(--cat-glow);filter:brightness(1.06)}
+  .ctile:hover .ctile__go{color:var(--cat);transform:translateX(3px);opacity:1}
+}
+.ctile:active{transform:translateY(-1px) scale(.985);filter:brightness(1.04)}
 .ctile.is-empty{opacity:.92}
 .ctile--hi::after,.prem .chip--hi::after{content:"";position:absolute;inset:-40% -20%;pointer-events:none;
   background:linear-gradient(115deg,transparent 30%,rgba(255,215,0,.16),rgba(196,76,255,.14),transparent 68%);
@@ -2258,7 +2267,7 @@ body.prem .hdr,.hdr{position:relative;top:auto}
     border:1px solid var(--cat-bd);color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.03),0 0 18px var(--cat-glow);
     transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,filter .2s ease}
   .prem .chip[data-cat]::before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:3px;border-radius:0 3px 3px 0;
-    background:linear-gradient(180deg,var(--cat),var(--cat2));box-shadow:0 0 8px var(--cat-glow)}
+    background:linear-gradient(180deg,var(--cat),var(--cat2));box-shadow:0 0 8px var(--cat-glow);pointer-events:none}
   .prem .chip[data-cat="palinal"]::before{background:linear-gradient(180deg,#009246 0 33%,#fff 33% 66%,#CE2B37 66% 100%);box-shadow:none}
   .prem .chip[data-cat] .cic{width:52px;height:52px;border-radius:16px;color:var(--cat);background:var(--cat-bg);
     box-shadow:inset 0 0 0 1px var(--cat-bd),0 0 16px var(--cat-glow)}
@@ -2267,9 +2276,9 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .prem .chip[data-cat] .chip__nm{flex:none;width:100%;padding-right:4px;font-size:13.5px;font-weight:750;line-height:1.25;color:var(--text);letter-spacing:.01em}
   .prem .chip[data-cat] small{position:absolute;top:12px;right:10px;min-width:28px;height:24px;padding:0 8px;display:inline-flex;align-items:center;justify-content:center;
     font-size:13px;font-weight:800;letter-spacing:.01em;color:#081226;background:var(--cat);border-radius:999px;box-shadow:0 0 10px var(--cat-glow)}
-  .prem .chip[data-cat]:hover,.prem .chip[data-cat]:focus-visible{text-decoration:none;transform:translateY(-2px);border-color:var(--cat);filter:brightness(1.06);
+  .prem .chip[data-cat]:focus-visible{text-decoration:none;transform:translateY(-2px);border-color:var(--cat);filter:brightness(1.06);
     box-shadow:inset 0 0 0 1px var(--cat),0 8px 22px var(--cat-glow)}
-  .prem .chip[data-cat]:active{transform:scale(.98)}
+  .prem .chip[data-cat]:active{transform:scale(.98);filter:brightness(1.04)}
   .prem .chip[data-cat].on{background:linear-gradient(165deg,var(--cat-bg),rgba(8,18,38,.9) 50%);color:var(--text);
     border-color:var(--yellow);box-shadow:inset 0 0 0 1px var(--yellow),0 8px 22px var(--cat-glow)}
   .prem .chip[data-cat].on small{background:var(--yellow);color:var(--navy-text)}
@@ -2281,6 +2290,13 @@ body.prem .hdr,.hdr{position:relative;top:auto}
   .chips>.chip:last-child:nth-child(3n+2){grid-column:auto}
   .chips>.chip:last-child:nth-child(3n+1){grid-column:1/-1}
 }
+/* 22.11.2026: hover-підйом лише для миші. На iPhone перший тап інакше йшов у :hover, а розділ відкривався з другого. */
+@media (hover:hover) and (pointer:fine) and (max-width:899px){
+  .prem .chip[data-cat]:hover{text-decoration:none;transform:translateY(-2px);border-color:var(--cat);filter:brightness(1.06);
+    box-shadow:inset 0 0 0 1px var(--cat),0 8px 22px var(--cat-glow)}
+}
+.ctile,.prem .chip[data-cat],.bbar__b{touch-action:manipulation;-webkit-tap-highlight-color:rgba(255,215,0,.18)}
+.ctile::after,.prem .chip[data-cat]::after,.prem .chip[data-cat]::before,.ctile::before{pointer-events:none}
 @media (prefers-reduced-motion:reduce){
   .ctile,.ctile__go,.prem .chip[data-cat]{transition:none}
   .ctile:hover,.prem .chip[data-cat]:hover{transform:none}
