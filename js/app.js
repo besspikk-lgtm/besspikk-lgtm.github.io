@@ -659,7 +659,7 @@
     var eager = i < 8 ? 'eager' : 'lazy';
     return '<li class="card"><div class="card__in">' +
       '<div class="card__media"><button class="card__img is-ld" type="button" data-open="' + p.id + '" aria-label="' + esc(p.name) + '"><img ' + mainImg(p, SZ_CARD) + ' alt="' + esc(p.name) + '" loading="' + eager + '" decoding="async" width="400" height="400">' + promoHTML(p) + (spinOf(p) ? '<span class="spinb" title="Є обертання 360°">' + SPIN_IC + '360°</span>' : '') + '</button>' +
-      '<button class="card__add" type="button" data-add="' + p.id + '" aria-label="Додати «' + esc(p.name) + '» в кошик">+</button>' + favBtnHTML(p, 'favb--card') + viewsBadgeHTML(p.id, 'vw--card') + '</div>' +
+      favBtnHTML(p, 'favb--card') + viewsBadgeHTML(p.id, 'vw--card') + '</div>' +
       giftHTML(p, 'gift--card') +
       '<div class="card__body">' +
         '<span class="card__cat">' + esc(p.category_name) + (p.tds ? ' <span class="tdsb" title="Є технічні дані (ТДС)">ТДС</span>' : '') + (videosOf(p).length ? ' <span class="vidb" title="Є відео"><svg class="ico" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m16 13 5.22 3.48a.5.5 0 0 0 .78-.42V7.87a.5.5 0 0 0-.75-.43L16 10.5"/><rect x="2" y="6" width="14" height="12" rx="2"/></svg> Відео</span>' : '') + '</span>' +
@@ -668,6 +668,7 @@
         (!hasPrice(p) && p.price_uah_original ? '<span class="uah">у пості: ' + esc(p.price_uah_original) + '</span>' : '') +
         '</div>' +
         (isGun(p) ? cmpBtnHTML(p, 'cmpt--card') : '') +
+        '<button class="btn btn--y btn--full card__cart" type="button" data-add="' + p.id + '"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>В кошик</button>' +
       '</div></div></li>';
   }
   var PAGE = 48, curList = [], shown = 0, io = null;
@@ -1640,7 +1641,7 @@
           '<span class="rel__img"><img ' + mainImg(x, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="200" height="200">' + (pm ? '<span class="rel__tag">' + esc(pm) + '</span>' : '') + '</span>' +
           '<span class="rel__nm">' + esc(x.name) + '</span>' +
           '<span class="rel__pr">' + (pr != null ? uah(pr) + (po != null ? ' <s class="rel__old">' + uah(po) + '</s>' : '') + (lb ? ' <small>· ' + esc(uahText(lb)) + '</small>' : '') : '<small>Ціну уточнюйте</small>') + '</span></button>' +
-          '<button class="rel__add" type="button" data-radd="' + esc(x.id) + '" aria-label="Додати «' + esc(x.name) + '» в кошик">+</button></li>';
+          '<button class="rel__add" type="button" data-radd="' + esc(x.id) + '">В кошик</button></li>';
       }).join('') + '</ul></section>';
   }
   function renderProduct() {
@@ -1701,17 +1702,22 @@
     vi = vi || 0; qty = Math.max(1, qty || 1);
     var l = cart.filter(function (x) { return x.id === id && x.vi === vi; })[0];
     if (l) l.qty += qty; else cart.push({ id: id, vi: vi, qty: qty });
-    lastOrder = null; saveCart(); updateBadges();
+    lastOrder = null; saveCart(); updateBadges(true);
     stat('cart', 'cart:' + id + ':' + vi);
     var p = byId[id];
     cartEvent(p, vi, qty, src);
     toast('Додано: ' + p.name + (variantOf(p, vi) ? ' (' + uahText(variantOf(p, vi).label) + ')' : ''));
   }
-  function updateBadges() {
+  function updateBadges(bump) {
     var n = cartCount();
     $$('[data-cart-count]').forEach(function (b) { b.textContent = n; b.hidden = n === 0; });
     var nf = favList().length; // «Вибране» у нижньому меню
     $$('[data-fav-count]').forEach(function (b) { b.textContent = nf > 99 ? '99+' : nf; b.hidden = nf === 0; });
+    if (bump && n) {
+      $$('.cartbtn, [data-open-cart] .tab__ico').forEach(function (el) {
+        el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump');
+      });
+    }
   }
   // кошик → start-параметр бота: c_<індекс36>-<к-сть>[-<варіант>]_..._m<невідомі> (ліміт Telegram 64 символи)
   // 19.10.2026: стабільний код товару для посилань у бот (замість позиції в списку): FNV-1a(id) % 36^4 у base36, 4 символи
@@ -2075,6 +2081,28 @@
     if (d.length) o += ' ' + d.slice(0, 2); if (d.length > 2) o += ' ' + d.slice(2, 5); if (d.length > 5) o += ' ' + d.slice(5, 7); if (d.length > 7) o += ' ' + d.slice(7, 9);
     return o;
   }
+  function cartVarHTML(p, l, i) {
+    var vs = p.variants || [];
+    if (vs.length > 1) {
+      return '<label class="citem__vl"><span class="sr-only">Варіант</span><select class="citem__var" data-cvi="' + i + '" aria-label="Варіант: ' + esc(p.name) + '">' +
+        vs.map(function (v, k) {
+          var lb = uahText((v && v.label) || ('Варіант ' + (k + 1)));
+          var pr = v && v.price_eur != null ? ' — ' + uah(v.price_eur) : '';
+          return '<option value="' + k + '"' + (k === (l.vi | 0) ? ' selected' : '') + '>' + esc(lb + pr) + '</option>';
+        }).join('') + '</select></label>';
+    }
+    var lab = uahText((variantOf(p, l.vi) || {}).label || p.price_label || '');
+    return lab ? '<div class="citem__v">' + esc(lab) + '</div>' : '';
+  }
+  function setCartVariant(i, vi) {
+    vi = Math.max(0, vi | 0);
+    var line = cart[i];
+    if (!line || (line.vi | 0) === vi) return;
+    var other = -1;
+    for (var j = 0; j < cart.length; j++) if (j !== i && cart[j].id === line.id && (cart[j].vi | 0) === vi) { other = j; break; }
+    if (other >= 0) { cart[other].qty += line.qty; cart.splice(i, 1); } else line.vi = vi;
+    saveCart(); updateBadges(); renderCart();
+  }
   function renderCart() {
     var body = $('#cartbody');
     if (!cart.length && lastOrder && Date.now() - lastOrder.t < 30 * 60000) { body.innerHTML = orderDoneHTML(); return; }
@@ -2088,11 +2116,13 @@
       if (up != null) sum += toUah(up) * l.qty; else ask++;
       if (uo != null) saved += (toUah(uo) - toUah(up)) * l.qty;
       return '<li class="citem"><img ' + mainImg(p, SZ_SM) + ' alt="" loading="lazy" decoding="async" width="72" height="72">' +
-        '<div><div class="citem__n">' + esc(p.name) + '</div><div class="citem__v">' + esc(uahText(v ? v.label : (p.price_label || ''))) + '</div>' +
+        '<div><div class="citem__n">' + esc(p.name) + '</div>' +
+        ((p.variants || []).length > 1 ? '' : cartVarHTML(p, l, i)) +
         '<div class="citem__p">' + (up != null ? uah(up) + ' × ' + l.qty : 'Ціну уточнюйте') + (uo != null ? oldHTML(uo, up, 'pold--sm') : '') + '</div>' +
         (up != null && l.qty > 1 ? '<div class="citem__t">' + fmtUah(toUah(up) * l.qty).replace(/ /g, '\u00a0') + '</div>' : '') + '</div>' +
         '<div class="citem__r"><div class="qty"><button type="button" data-cq="' + i + '" data-d="-1" aria-label="Менше">−</button><input type="number" min="1" value="' + l.qty + '" data-ci="' + i + '" aria-label="Кількість"><button type="button" data-cq="' + i + '" data-d="1" aria-label="Більше">+</button></div>' +
-        '<button class="rm" type="button" data-rm="' + i + '">видалити</button></div></li>';
+        '<button class="rm" type="button" data-rm="' + i + '">видалити</button></div>' +
+        ((p.variants || []).length > 1 ? cartVarHTML(p, l, i) : '') + '</li>';
     }).join('');
     var fail = orderFail && Date.now() - orderFail.t < 30 * 60000 ? orderFailHTML() : '';
     body.innerHTML = fail + cstepsHTML() + '<div class="csec" data-csec="1"><ul class="citems">' + items + '</ul>' +
@@ -2544,11 +2574,19 @@
     if (t.hasAttribute('data-order')) { var op = byId[t.getAttribute('data-order')]; if (op) track('замовити/' + op.id, 'Замовити: ' + op.name); return; } // no preventDefault: link opens the bot as usual
     if (t.hasAttribute('data-open')) { location.hash = '#/p/' + t.getAttribute('data-open'); return; }
     if (t.hasAttribute('data-add')) {
+      e.preventDefault(); e.stopPropagation();
       var p = byId[t.getAttribute('data-add')];
-      if (p.variants && p.variants.length > 1) { location.hash = '#/p/' + p.id; toast('Оберіть варіант'); return; }
-      addToCart(p.id, 0, 1, cartSrc(t)); return;
+      if (!p) return;
+      addToCart(p.id, 0, 1, cartSrc(t)); // 22.11: перший / типовий варіант; змінити можна в кошику
+      t.classList.add('is-added'); setTimeout(function () { t.classList.remove('is-added'); }, 700);
+      return;
     }
-    if (t.hasAttribute('data-radd')) { var rp = byId[t.getAttribute('data-radd')]; if (rp) addToCart(rp.id, 0, 1, cartSrc(t)); return; } // «Разом з цим купують»: в кошик без закриття картки (варіант 1)
+    if (t.hasAttribute('data-radd')) {
+      e.preventDefault(); e.stopPropagation();
+      var rp = byId[t.getAttribute('data-radd')];
+      if (rp) { addToCart(rp.id, 0, 1, cartSrc(t)); t.classList.add('is-added'); setTimeout(function () { t.classList.remove('is-added'); }, 700); }
+      return;
+    } // «Разом з цим купують»: в кошик без закриття картки (перший варіант; зміна в кошику)
     if (t.hasAttribute('data-var')) { selectVariant(+t.getAttribute('data-var')); return; }
     if (t.hasAttribute('data-gal-step')) { galGo(+t.getAttribute('data-gal-step'), true); return; }
     if (t.hasAttribute('data-gal-to')) { galGo(+t.getAttribute('data-gal-to'), false); return; }
@@ -2623,6 +2661,7 @@
   });
   document.addEventListener('change', function (e) {
     var t = e.target;
+    if (t && t.getAttribute && t.hasAttribute('data-cvi')) { setCartVariant(+t.getAttribute('data-cvi'), t.value); return; }
     if (t && t.getAttribute && t.getAttribute('data-f') === 'payment') {
       form.payment = t.value; save('alexbes_form', form);
       var o = $('#otext'); if (o) o.textContent = orderText();
