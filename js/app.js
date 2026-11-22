@@ -424,7 +424,7 @@
     "shinemate-rotorna-125-mm-zminna-pidoshva": 'polish_mat',
     "titan-pidoshva-150-dlia-tda15-21-usbp150": 'polish_mat',
     "tuba-rehuliator-tysku-z-manometrom-dlia-farbopulta": 'guns',
-    "tuba-rehuliator-tysku-z-manometrom-dlia-farbopulta-1677": 'guns',
+
     "zaklepuvalnyk-rizbovyi-go-35-m3-m6": 'tools',
     "zvizzer-rotorna-125-mm-zminna-pidoshva": 'polish_mat',
     "copyfarbopult-iwata-ls-400-sr2-1-versiia-2026r-1-3-digital": 'guns',
@@ -606,7 +606,7 @@
     "markiii-lhr-15-std": 'polishers',
     "markiii-lhr-21-std": 'polishers',
     "meguiars-cutting-dmc5-fibrovyi-kruh-rotor-ekstsentryk-140-mm": 'polish_mat',
-    "meiji-finer-core-1-3-hvlp": 'guns',
+
     "mirka-abralon-p180-150mm": 'abrasives',
     "mirka-aos-b-130nv-orbitalna-shlifuvalna-mashynka-z-orbitoiu-3-mm": 'sanders',
     "mirka-aquastar-ruchnyi-blok-rakel-dlia-roboty-z-abrazyvamy-na-mokru-dvostoronnii": 'abrasives',
@@ -762,16 +762,8 @@
     "rupes-mark-iii-lhr-21-bas-ekstsenryk-21mm-pidoshva-150mm": 'polishers',
     "rupes-rotorna-125-mm-zminna-pidoshva": 'polish_mat',
     "rupes-rotorna-150-mm-zminna-pidoshva": 'polish_mat',
-    "sagola-3300-gto-tech-13-mm-manometr": 'air',
-    "sagola-4600-base-1-3-farbopult-dlia-bazy": 'guns',
-    "sagola-4600-clear-1-3-farbopult-dlia-laka": 'guns',
-    "sagola-4600-clear-pro-1-3-farbopult-dlia-laka": 'guns',
-    "sagola-4600-digital-base-1-3-farbopult-dlia-bazy-z-vbudovanym-manometrom": 'guns',
-    "sagola-4600-digital-clear-1-3-farbopult-dlia-laka-z-vbudovanym-manometrom": 'guns',
-    "sagola-4600-digital-clear-pro-1-3-farbopult-dlia-laka-z-vbudovanym-manometrom": 'guns',
-    "sagola-4600-hvlp-1-3-farbopult-dlia-bazy-laka": 'guns',
-    "sagola-4600-hvlp-digital-1-3-farbopult-dlia-bazy-laka-z-vbudovanym-manometrom": 'guns',
-    "sagola-shvydkoroziemne-ziednania-mama-tato-9mm": 'air',
+
+
     "sandwox-elektrychna-ekstsentrykova-shlifuvalna-mashyna-150mm-krok-3mm": 'sanders',
     "sandwox-pnevmatychna-ekstsentrykova-shlifuvalna-mashyna-150mm-krok-5mm": 'sanders',
     "sata-bachok-mnohorazovyi-600-ml": 'guns',
@@ -822,14 +814,11 @@
     "titan-1483": 'polishers',
     "tolecut-1341": 'abrasives',
     "trymach-nastinnyi-dlia-obduvalnykh-pistoletiv-prevost": 'other',
-    "tuba-myika-farbopultiv": 'other',
-    "tuba-th201-mp-1-4mm": 'guns',
-    "tuba-th301ag-mp-kit-1-3-1-8": 'guns',
-    "tuba-tr200bg-p-2-5mm-1539": 'guns',
-    "tuba-tr220-hvlp-1-3mm": 'guns',
-    "tuba-tr300-hvlp-1-3mm": 'guns',
-    "tuba-tr300-lvmp-1-3mm": 'guns',
-    "tuba-1141-1678": 'guns',
+
+
+
+
+
     "universalna-poliruvalna-pasta-compound-4800-cartec-3-kh": 'polish_mat',
     "walcom-ego-carbonio-190-hvlp-1-0-mm": 'guns',
     "walcom-farbopult-slim-xlight-halo-hte-1-3-mm": 'guns',
