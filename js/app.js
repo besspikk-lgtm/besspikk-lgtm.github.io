@@ -154,6 +154,16 @@
       { k: 'reg', t: 'Регулятори тиску', f: function (p) { return bdType(p) === 'reg'; } },
       { k: 'other', t: 'Інше', f: function (p) { return bdType(p) === 'other'; } }
     ] },
+    // 22.11.2026: підрозділи «Пропозиція від партнерів» — за id (кожний товар рівно в одній групі)
+    partners: { label: 'Тип', items: [
+      { k: 'guns', t: 'Фарбопульти', f: function (p) { return ptType(p) === 'guns'; } },
+      { k: 'sanders', t: 'Шліфувальні машинки', f: function (p) { return ptType(p) === 'sanders'; } },
+      { k: 'polishers', t: 'Полірувальні машинки', f: function (p) { return ptType(p) === 'polishers'; } },
+      { k: 'hand', t: 'Ручне шліфування та проявка', f: function (p) { return ptType(p) === 'hand'; } },
+      { k: 'air', t: 'Підготовка повітря та обдув', f: function (p) { return ptType(p) === 'air'; } },
+      { k: 'cups', t: 'Стакани, кришки та PPS', f: function (p) { return ptType(p) === 'cups'; } },
+      { k: 'other', t: 'Герметик, пиловидалення та інше', f: function (p) { return ptType(p) === 'other'; } }
+    ] },
   };
   var BD_TYPE = {
     'italco-gloss-x1': 'guns',
@@ -258,6 +268,90 @@
     if (/брусок|бруск|рубанок/.test(n)) return 'blocks';
     if (/диск|стрічк|губк|борфрез/.test(n)) return 'abr';
     if (/пдр|вм[’']ятин|рихтуван|шпател|кузовн|розмітник/.test(n)) return 'pdr';
+    return 'other';
+  }
+
+  var PT_TYPE = {
+    'avalon-a30-08': 'guns',
+    'avalon-a30-10': 'guns',
+    'avalon-a30-12': 'guns',
+    'avalon-a60-ump-14': 'guns',
+    'avalon-a60-hte-14': 'guns',
+    'avalon-a60-hvlp-13': 'guns',
+    'devilbiss-gti-pro-lite-gold-te20': 'guns',
+    'walcom-slim-kombat-hte-14': 'guns',
+    'walcom-slim-kombat-killer-hte-14': 'guns',
+    'walcom-slim-xlight-hte-14': 'guns',
+    'tekwey-sander-5': 'sanders',
+    'sander-brushless-2-5': 'sanders',
+    'sander-brushless-5': 'sanders',
+    'sander-brushless-8': 'sanders',
+    'sander-brushless-70x198-3': 'sanders',
+    'rupes-slp41a': 'sanders',
+    'mirka-deros-650cv': 'sanders',
+    'rupes-er03te': 'sanders',
+    'rupes-er05te': 'sanders',
+    'sigma-orbital-sander-150': 'sanders',
+    'cars-gift-idemon': 'polishers',
+    'cars-gift-mini-orbital-75-cordless': 'polishers',
+    'cars-gift-orbital-125-15': 'polishers',
+    'cars-gift-orbital-75-12': 'polishers',
+    'cars-gift-rotary-mini': 'polishers',
+    'cars-gift-rotary-125': 'polishers',
+    'rupes-lhr-21es': 'polishers',
+    'mirka-premium-8391150111': 'hand',
+    'mirka-hand-block-70x198-kit': 'hand',
+    'auarita-block-dust-70x400': 'hand',
+    'auarita-block-70x400': 'hand',
+    'auarita-platform-dust-70x125': 'hand',
+    'auarita-platform-dust-70x200': 'hand',
+    'auarita-platform-velcro-70x123': 'hand',
+    'auarita-platform-velcro-70x198': 'hand',
+    'olym-marker-50': 'hand',
+    'olym-kit-blue-red-marker': 'hand',
+    'olym-guide-coat-blue-500': 'hand',
+    'olym-guide-coat-red-500': 'hand',
+    'mirka-guide-coat-black-100': 'hand',
+    'italco-ac6002': 'air',
+    'italco-ac6003': 'air',
+    'sigma-refine-filter-12': 'air',
+    'sigma-refine-filter-reg-12': 'air',
+    'irad-super-hose-10': 'air',
+    'avalon-ionguard-pro': 'air',
+    'mixing-cup-lid-0385': 'cups',
+    'mixing-cup-lid-075': 'cups',
+    'mixing-cup-lid-14': 'cups',
+    'mixing-cup-lid-23': 'cups',
+    'mixing-cup-0385': 'cups',
+    'mixing-cup-075': 'cups',
+    'mixing-cup-14': 'cups',
+    'mixing-cup-23': 'cups',
+    'pps-cups-650-190-10': 'cups',
+    'pps-cups-650-190-50': 'cups',
+    'pps-adapter-auarita-iwata-w400': 'cups',
+    'pps-adapter-devilbiss-italco': 'cups',
+    'pps-adapter-iwata-ls-ws-kiwami': 'cups',
+    'pps-adapter-sata-avalon': 'cups',
+    'ntools-sealant-gun': 'other',
+    'ani-f1-sam-sealant-gun': 'other',
+    'rupes-s130epl': 'other',
+    'mixon-tornador-m2020': 'other',
+    'sico-stand-p': 'other',
+    'sico-stand-rotary': 'other',
+    'sico-stand-x': 'other',
+    'sico-magnetic-gun-holder': 'other',
+  };
+  /* 22.11.2026: типи «Пропозиція від партнерів» — за id (кожний товар рівно в одній групі). Для нових з адмінки — за назвою. */
+  function ptType(p) {
+    if (p && p.id && PT_TYPE[p.id]) return PT_TYPE[p.id];
+    var n = ((p && p.name) || '').toLowerCase();
+    if (/полірувальн/.test(n) && /машинк/.test(n)) return 'polishers';
+    if (/тримач|стійка \(стіл\)|стійка для фарбування/.test(n)) return 'other';
+    if (/фарбопульт/.test(n)) return 'guns';
+    if (/шліфувальн/.test(n) && /машинк|рубанок/.test(n)) return 'sanders';
+    if (/блок|платформ|проявн|заправний маркер/.test(n)) return 'hand';
+    if (/\bpps\b|мірний стакан|кришка для мірного|перехідник для системи pps/.test(n)) return 'cups';
+    if (/фільтр|вологовідділ|шланг для стисненого|обдувн|підготовк.\s*стисненого повітря|ionguard/.test(n)) return 'air';
     return 'other';
   }
 
