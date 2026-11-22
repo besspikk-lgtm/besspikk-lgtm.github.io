@@ -361,7 +361,7 @@
       <g:condition>new</g:condition>
       <g:brand>3M</g:brand>
       <g:google_product_category>8269</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>wall-mount-gun-holder</g:id>
@@ -376,7 +376,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>pal-223-ultra-komplekt-1-l</g:id>
@@ -1130,7 +1130,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>detailing-set</g:id>
@@ -1142,7 +1142,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>sanding-block-kit-7</g:id>
@@ -1155,7 +1155,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>4419</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>savex-acrylic-1l-1-l</g:id>
@@ -4887,7 +4887,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>1202</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>hardy-japonki</g:id>
@@ -4903,7 +4903,7 @@
       <g:condition>new</g:condition>
       <g:brand>HARDY</g:brand>
       <g:google_product_category>1202</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>app-sts3</g:id>
@@ -4918,7 +4918,7 @@
       <g:condition>new</g:condition>
       <g:brand>APP</g:brand>
       <g:google_product_category>1202</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>devilbiss-haf507</g:id>
@@ -5545,7 +5545,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>mercator-gogrip-l</g:id>
@@ -5561,7 +5561,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>mercator-gogrip-xl</g:id>
@@ -5577,7 +5577,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>mercator-gogrip-xxl</g:id>
@@ -5593,7 +5593,7 @@
       <g:condition>new</g:condition>
       <g:brand>MERCATOR</g:brand>
       <g:google_product_category>5591</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>mobihel-coverall-l</g:id>
@@ -5877,8 +5877,7 @@
       <g:item_group_id>italco-gloss-x1</g:item_group_id>
       <title>ITALCO GLOSS X1 HVLP — фарбопульт — Дюза 1,3 мм</title>
       <description>ITALCO GLOSS X1 — фарбопульт HVLP з верхнім бачком 600 мл для фінішних шарів: базових фарб, зокрема металіків, лаків і водорозчинних фарб. Дюза та голка з нержавіючої сталі 303, корпус з антипригарним покриттям TEFLON — легко чиститься. Частково полегшена рукоятка зменшує вагу корпусу приблизно на 10 % і менше втомлює руку. Дюза на вибір: 1,3 або 1,4 мм.</description>
-      <g:price>5616.00 UAH</g:price>
-      <g:sale_price>5054.00 UAH</g:sale_price>
+      <g:price>5770.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/italco-gloss-x1/</link>
       <g:image_link>https://alexbes.com.ua/img/p/italco-gloss-x1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/italco-gloss-x1-2.webp</g:additional_image_link>
@@ -5889,15 +5888,14 @@
       <g:condition>new</g:condition>
       <g:brand>ITALCO</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>italco-gloss-x1-diuza-1-4-mm</g:id>
       <g:item_group_id>italco-gloss-x1</g:item_group_id>
       <title>ITALCO GLOSS X1 HVLP — фарбопульт — Дюза 1,4 мм</title>
       <description>ITALCO GLOSS X1 — фарбопульт HVLP з верхнім бачком 600 мл для фінішних шарів: базових фарб, зокрема металіків, лаків і водорозчинних фарб. Дюза та голка з нержавіючої сталі 303, корпус з антипригарним покриттям TEFLON — легко чиститься. Частково полегшена рукоятка зменшує вагу корпусу приблизно на 10 % і менше втомлює руку. Дюза на вибір: 1,3 або 1,4 мм.</description>
-      <g:price>5616.00 UAH</g:price>
-      <g:sale_price>5054.00 UAH</g:sale_price>
+      <g:price>5770.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/italco-gloss-x1/</link>
       <g:image_link>https://alexbes.com.ua/img/p/italco-gloss-x1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/italco-gloss-x1-2.webp</g:additional_image_link>
@@ -5908,14 +5906,13 @@
       <g:condition>new</g:condition>
       <g:brand>ITALCO</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-sutu-rp5800-kit</g:id>
       <title>Фарбопульт SUTU Vreio-RP5800 з ППС, дюзи 1.3 + 1.7 (графіті)</title>
       <description>Набір: фарбопульт SUTU Vreio-RP5800 B з двома комплектами дюз — 1,3 мм і 1,7 мм — та PPS-системою. Дюза 1,3 мм — для бази й лаку, 1,7 мм — для ґрунту, тож один фарбопульт закриває ґрунт, базу, лак та акрил. Можна працювати зі звичайним верхнім пластиковим бачком або з PPS: фарбу змішують і розпилюють прямо з одноразового стакана 600 мл з мірною шкалою — менше миття й швидша зміна матеріалу. Подача гравітаційна, корпус з графіті-малюнком. У комплекті (за фото) — фарбопульт з повітряною головою 1,3, верхній пластиковий бачок, додаткова повітряна голова 1,7, додаткові голка й дюза, PPS-стакан 600 мл і червоний перехідник для PPS.</description>
-      <g:price>4800.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4390.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-sutu-rp5800-kit/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-sutu-rp5800-kit.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/gun-sutu-rp5800-kit-2.webp</g:additional_image_link>
@@ -5923,14 +5920,13 @@
       <g:condition>new</g:condition>
       <g:brand>SUTU</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-ntools-tested</g:id>
       <title>Фарбопульт NTools 1.3 RP розрізна дюза(відтестований)</title>
       <description>Фарбопульт NTools X-4 системи RP з дюзою 1,3 мм і розрізною повітряною головкою з V-подібним розрізом («квітка сливи») — на головці маркування «X4 RP PLUS 1.3» і NTools. Сірий матовий корпус, регулювання факела, подачі матеріалу та повітря, гравітаційна подача з верхнього бачка. У комплекті — пластиковий бачок з кришкою, універсальний ключ, щіточка для чищення та штуцер для підключення повітря. Пістолет відтестований перед продажем — відео в коментарях до поста.</description>
-      <g:price>4539.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4800.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-ntools-tested/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-ntools-tested-x4-1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/gun-ntools-tested-x4-2.webp</g:additional_image_link>
@@ -5941,14 +5937,13 @@
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-hvlp-graffiti</g:id>
       <title>Фарбопульт HVLP 1.3 з бачком (графіті)</title>
       <description>Фарбопульт системи HVLP з дюзою 1,3 мм і верхнім пластиковим бачком (гравітаційна подача). Корпус з графіті-малюнком, хромований курок, регулятори факела та подачі матеріалу зверху. Для ґрунту, бази, лаку та акрилу. У комплекті (за фото) — фарбопульт, пластиковий бачок, універсальний ключ, щіточка для чищення, штуцер для повітря, ущільнювальна шайба, шестигранний ключ та інструкція, у фірмовій коробці.</description>
-      <g:price>4500.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4360.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-hvlp-graffiti/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-hvlp-graffiti.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/gun-hvlp-graffiti-2.webp</g:additional_image_link>
@@ -5956,14 +5951,13 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>ntools-te20</g:id>
       <title>Фарбопульт NTools High Efficiency TE20 1.3 з розрізною дюзою.</title>
       <description>Фарбопульт NTools з повітряною головою High Efficiency TE20 і розрізною (щілинною) дюзою 1,3 мм — для нанесення фарб і лаків, зокрема водних. Чорний корпус, хромовані курок і повітряна голова, жовте кільце на штуцері повітря; регулювання факела, подачі матеріалу та повітря. Дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл. Робочий тиск — 2,5–3,0 бар, витрата повітря — 270 л/хв при 2,0 бар, ширина факела — 25–35 см. У комплекті — верхній пластиковий бачок, ключ, щіточка для чищення, перехідник і ущільнювачі в пакеті.</description>
-      <g:price>4446.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4380.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/ntools-te20/</link>
       <g:image_link>https://alexbes.com.ua/img/p/ntools-te20-w1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/ntools-te20-w2.webp</g:additional_image_link>
@@ -5973,28 +5967,26 @@
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-m9-pps</g:id>
       <title>Фарбопульт M9 HVLP 1.3 з ППС (графіті)</title>
       <description>Фарбопульт M9 системи HVLP з дюзою 1,3 мм і PPS-системою: фарбу змішують і розпилюють прямо з одноразового стакана з мірною шкалою, тож менше миття бачка й швидша зміна матеріалу. Стакан ставиться на червоний перехідник зверху, подача гравітаційна. Корпус з графіті-малюнком, чорні курок і регулятори. Для ґрунту, бази, лаку та акрилу. У комплекті (за фото) — фарбопульт з PPS-стаканом і перехідником, ущільнювальна шайба, штуцер для повітря, фільтр, щіточка для чищення та ключ.</description>
-      <g:price>4300.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4410.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-m9-pps/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-m9-pps.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>spi-pro-te20-sticker-bomb</g:id>
       <title>SPI Pro TE20 High Efficiency 1.3 — дизайн Sticker Bomb</title>
       <description>Фарбопульт SPI Pro з повітряною головою High Efficiency TE20 і дюзою 1,3 мм для нанесення бази та лаку. Корпус з анодованим покриттям і яскравим різнокольоровим візерунком у стилі Sticker Bomb — такий пістолет не сплутаєш з жодним іншим. Хромовані повітряна голова та регулятори, червоний ковпачок на вході повітря, гравітаційна подача з кріпленням бачка зверху; на фото — без бачка, комплектацію уточнюйте.</description>
-      <g:price>4140.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4380.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/spi-pro-te20-sticker-bomb/</link>
       <g:image_link>https://alexbes.com.ua/img/p/spi-pro-te20-sticker-bomb.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/spi-pro-te20-sticker-bomb-2.webp</g:additional_image_link>
@@ -6004,28 +5996,26 @@
       <g:condition>new</g:condition>
       <g:brand>SPI Pro</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-374</g:id>
       <title>Фарбопульт з чорною рукояткою</title>
       <description>Комплектація — як на фото в пості.</description>
-      <g:price>4071.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4290.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-374/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-374.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-375</g:id>
       <title>Фарбопульт NTools 4000B Upgrades (чорний, карбон)</title>
       <description>Фарбопульт NTools 4000B Upgrades системи HVLP у чорному корпусі з малюнком під карбон: на рукоятці — напис «NTOOLS 4000B UPGRADES», на повітряній голові — «NTOOLS 4000B HVLP». Чорні регулятори факела, подачі матеріалу та повітря, чорний курок; дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. Модель випускається з дюзою 1,3 або 1,4 мм — розмір уточнюйте. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг, червоний повітряний фільтр і рожеве кільце.</description>
-      <g:price>4071.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4220.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-375/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-375-w1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/gun-375-w2.webp</g:additional_image_link>
@@ -6034,14 +6024,13 @@
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-376</g:id>
       <title>Фарбопульт NTools 4000B Upgrades 1.4 (кольоровий дизайн)</title>
       <description>Фарбопульт NTools 4000B Upgrades системи HVLP з дюзою 1,4 мм у яскравому різнокольоровому дизайні в стилі графіті: на повітряній голові — напис «NTOOLS 4000B HVLP 1.4», на рукоятці — «NTOOLS 4000B UPGRADES». Чорні регулятори й курок, дюза й голка з нержавіючої сталі, гравітаційна подача з верхнього бачка 600 мл, робочий тиск — 2,0–3,0 бар. У комплекті (за фото): верхній пластиковий бачок, ключ, щіточка для чищення, фітинг і блакитний повітряний фільтр.</description>
-      <g:price>4071.00 UAH</g:price>
-      <g:sale_price>4000.00 UAH</g:sale_price>
+      <g:price>4560.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-376/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-376-w1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/gun-376-w2.webp</g:additional_image_link>
@@ -6051,26 +6040,26 @@
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-primer-17-pps</g:id>
       <title>Ґрунтовочний фарбопульт 1.7 (PPS)</title>
       <description>Ґрунтовочний фарбопульт з дюзою 1.7, працює на системі PPS.Чудово підходить під грунти наповнювачі та густі матеріали.Витрата повітря до 300 л/хв</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4600.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-primer-17-pps/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-primer-17-pps.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>ntools-5000b-upgrades</g:id>
       <title>Фарбопульт NTools 5000 B Upgrades HVLP 1.3</title>
       <description>Фарбопульт NTools 5000 B Upgrades системи HVLP з дюзою 1,3 мм — на повітряній голові напис «NTOOLS 5000 B HVLP 1.3». Червоно-помаранчевий корпус з алюмінієвого сплаву, чорні регулятори факела, подачі матеріалу та повітря, чорний курок; гравітаційна подача з верхнього бачка 600 мл, підключення повітря 1/4". Робочий тиск — 2–3,5 бар, витрата повітря — 140 л/хв, ширина факела — 160–240 мм, відстань розпилення — 200–300 мм. Підійде для ґрунтів, фарб і лаків. У комплекті — верхній пластиковий бачок, універсальний ключ, щіточка для чищення та дрібні запчастини й ущільнювачі в пакеті.</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4450.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/ntools-5000b-upgrades/</link>
       <g:image_link>https://alexbes.com.ua/img/p/ntools-5000b-upgrades-w1.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/ntools-5000b-upgrades-w2.webp</g:additional_image_link>
@@ -6079,40 +6068,39 @@
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-hvlp-13</g:id>
       <title>Фарбопульт HVLP 1.3</title>
       <description>Фарбопульт HVLP з дюзою 1.3.</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4430.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-hvlp-13/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-hvlp-13.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-377</g:id>
       <title>Фарбопульт (червоний дизайн)</title>
       <description>Комплектація — як на фото в пості.</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4580.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-377/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-377.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>italco-mini-3003</g:id>
       <title>ITALCO MINI H-3003 HVLP — міні-фарбопульт 1,0 мм</title>
       <description>Компактний фарбопульт HVLP з верхнім пластиковим бачком для локального ремонту та дрібних деталей.</description>
-      <g:price>3744.00 UAH</g:price>
-      <g:sale_price>3369.00 UAH</g:sale_price>
+      <g:price>3800.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/italco-mini-3003/</link>
       <g:image_link>https://alexbes.com.ua/img/p/italco-mini-3003.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/italco-mini-3003-2.webp</g:additional_image_link>
@@ -6121,14 +6109,13 @@
       <g:condition>new</g:condition>
       <g:brand>ITALCO</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>ntools-mini-5002</g:id>
       <title>NTools MINI 5002 1.2 HVLP — міні-фарбопульт</title>
       <description>Міні-фарбопульт NTools MINI 5002 з дюзою 1,2 мм, система HVLP, витрата повітря — 200 л/хв. Сріблястий корпус з анодованим покриттям, помаранчеві регулятори й чорний курок, гравітаційна подача з верхнім бачком — чудово підійде для локальних фарбувань. У комплекті (за фото): пластиковий бачок з мірною шкалою, червоний повітряний фільтр, рожеве кільце, ключ, шестигранний ключ, щіточка для чищення та невеликий фітинг.</description>
-      <g:price>3600.00 UAH</g:price>
-      <g:sale_price>3240.00 UAH</g:sale_price>
+      <g:price>3730.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/ntools-mini-5002/</link>
       <g:image_link>https://alexbes.com.ua/img/p/ntools-mini-5002.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/ntools-mini-5002-2.webp</g:additional_image_link>
@@ -6139,27 +6126,27 @@
       <g:condition>new</g:condition>
       <g:brand>NTools</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>gun-pps-set</g:id>
       <title>Фарбопульт HVLP з адонованим покриттям на PPS-системі 1.3 /  1.7</title>
       <description>Усі на PPS-системі, дюзи 1.3, 1.4, 1.7 або 1.8.</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4540.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/gun-pps-set/</link>
       <g:image_link>https://alexbes.com.ua/img/p/gun-pps-set.webp</g:image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>auarita-lion-lion-velykyi</g:id>
       <g:item_group_id>auarita-lion</g:item_group_id>
       <title>Auarita LION 2 HVLP — фарбопульт — Lion великий</title>
       <description>Фарбопульт HVLP з пластиковим бачком і змінними соплами з нержавіючої сталі. Має регулювання подачі фарби, тиску повітря та ширини факела.</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4310.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/auarita-lion/</link>
       <g:image_link>https://alexbes.com.ua/img/p/auarita-lion.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/auarita-lion-2.webp</g:additional_image_link>
@@ -6167,14 +6154,14 @@
       <g:condition>new</g:condition>
       <g:brand>Auarita</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>auarita-lion-lion-malyi</g:id>
       <g:item_group_id>auarita-lion</g:item_group_id>
       <title>Auarita LION 2 HVLP — фарбопульт — Lion малий</title>
       <description>Фарбопульт HVLP з пластиковим бачком і змінними соплами з нержавіючої сталі. Має регулювання подачі фарби, тиску повітря та ширини факела.</description>
-      <g:price>4000.00 UAH</g:price>
+      <g:price>4310.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/auarita-lion/</link>
       <g:image_link>https://alexbes.com.ua/img/p/auarita-lion.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/auarita-lion-2.webp</g:additional_image_link>
@@ -6182,7 +6169,7 @@
       <g:condition>new</g:condition>
       <g:brand>Auarita</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>hw-300mini</g:id>
@@ -6195,14 +6182,13 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>auarita-mini</g:id>
       <title>Auarita — міні-фарбопульт</title>
       <description>Компактний фарбопульт Auarita з верхнім бачком для локального ремонту та дрібних деталей.</description>
-      <g:price>936.00 UAH</g:price>
-      <g:sale_price>842.00 UAH</g:sale_price>
+      <g:price>890.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/auarita-mini/</link>
       <g:image_link>https://alexbes.com.ua/img/p/auarita-mini.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/auarita-mini-2.webp</g:additional_image_link>
@@ -6210,21 +6196,20 @@
       <g:condition>new</g:condition>
       <g:brand>Auarita</g:brand>
       <g:google_product_category>2465</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>auarita-ps5</g:id>
       <title>Auarita PS-5 — пістолет для антигравію</title>
       <description>Пневматичний пістолет Auarita PS-5 для нанесення антигравійних та захисних покриттів кузова.</description>
-      <g:price>562.00 UAH</g:price>
-      <g:sale_price>505.00 UAH</g:sale_price>
+      <g:price>560.00 UAH</g:price>
       <link>https://alexbes.com.ua/p/auarita-ps5/</link>
       <g:image_link>https://alexbes.com.ua/img/p/auarita-ps5.webp</g:image_link>
       <g:additional_image_link>https://alexbes.com.ua/img/p/auarita-ps5-2.webp</g:additional_image_link>
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:brand>Auarita</g:brand>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>Фарбопульти/пістолети</g:product_type>
     </item>
     <item>
       <g:id>auarita-spj06</g:id>
@@ -6239,7 +6224,7 @@
       <g:condition>new</g:condition>
       <g:brand>Auarita</g:brand>
       <g:google_product_category>7019</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>baishangsi-sander</g:id>
@@ -6253,7 +6238,7 @@
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>1188</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>baishangsi-orbital-sander-10000</g:id>
@@ -6268,7 +6253,7 @@
       <g:condition>new</g:condition>
       <g:brand>BAISHANGSI</g:brand>
       <g:google_product_category>1188</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>air-regulator-gauge-adapter</g:id>
@@ -6280,7 +6265,7 @@
       <g:availability>in_stock</g:availability>
       <g:condition>new</g:condition>
       <g:identifier_exists>no</g:identifier_exists>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
   <item>
       <g:id>tuba-th102ag-mini-hvlp</g:id>
@@ -6753,7 +6738,7 @@
       <g:color>жовтий</g:color>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>4419</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>sanding-block-vacuum-400x70-red</g:id>
@@ -6769,7 +6754,7 @@
       <g:color>червоний</g:color>
       <g:identifier_exists>no</g:identifier_exists>
       <g:google_product_category>4419</g:google_product_category>
-      <g:product_type>Бюджетні товари</g:product_type>
+      <g:product_type>КИТАЙ</g:product_type>
     </item>
     <item>
       <g:id>3m-primer-94-5-ml</g:id>

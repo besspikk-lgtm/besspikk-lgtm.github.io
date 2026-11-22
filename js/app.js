@@ -246,7 +246,7 @@
     'ppf-squeegee-kit-5': 'other',
     'car-clips-925': 'other',
   };
-  /* 17.11.2026: типи «Бюджетні товари» — за id (кожний товар рівно в одній групі). sub=china не змінюємо. Для нових з адмінки — за назвою. */
+  /* 17.11.2026: типи «КИТАЙ» — за id (кожний товар рівно в одній групі). sub=china не змінюємо. Для нових з адмінки — за назвою. */
   function bdType(p) {
     if (p && p.id && BD_TYPE[p.id]) return BD_TYPE[p.id];
     var n = ((p && p.name) || '').toLowerCase();
@@ -443,7 +443,7 @@
     pdr: '<path d="M3 15.5c2-3.2 5-4.8 9-4.8s7 1.6 9 4.8"/><path d="M3 19.5h18"/><path d="M12 10.7V4.5"/><path d="M9.5 4.5h5"/><path d="M9.2 13.4c.8-.4 1.8-.6 2.8-.6s2 .2 2.8.6"/>',
     pnevmo: '<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/>',
     cn: '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.3 3.6 5.1 3.6 8.5s-1.2 6.2-3.6 8.5c-2.4-2.3-3.6-5.1-3.6-8.5s1.2-6.2 3.6-8.5z"/>',
-    budget: '<rect x="3" y="7.5" width="18" height="13" rx="1.8"/><path d="M3 10.5h18"/><path d="M3 7.5 5.2 4.5h13.6L21 7.5"/><circle cx="16.5" cy="14.2" r="1.15"/>', // 17.11.2026: «Бюджетні товари» — гаманець (без емодзі)
+    budget: '<rect x="3" y="7.5" width="18" height="13" rx="1.8"/><path d="M3 10.5h18"/><path d="M3 7.5 5.2 4.5h13.6L21 7.5"/><circle cx="16.5" cy="14.2" r="1.15"/>', // 17.11.2026: «КИТАЙ» — гаманець (без емодзі)
     fav: '<path d="M12 20.3s-7.4-4.5-9.1-9.3C1.7 7.5 4 4.5 7.4 4.5c1.9 0 3.5 1 4.6 2.7 1.1-1.7 2.7-2.7 4.6-2.7 3.4 0 5.7 3 4.5 6.5-1.7 4.8-9.1 9.3-9.1 9.3z"/>',
     guns: '<path d="M4 7h11.5a2.5 2.5 0 0 1 2.5 2.5V11h-4l-1.2 2.2H9.5L8.4 20H5l1.2-7H4z"/><path d="M18 9h2.5M10 4h3.5v3"/>',
     equip: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M9 8V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V8"/><path d="M3 13.5h18"/><path d="M10.5 12.5v2h3v-2"/>',
@@ -609,7 +609,7 @@
     }
     return list;
   }
-  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'ntools-5000b-upgrades': 'Новинка', 'ntools-te20': 'Новинка', 'spi-pro-te20-sticker-bomb': 'Новинка', 'ntools-mini-5002': 'Новинка', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ', 'pal-923-as90': 'ХІТ' }; // lakmerge-20261009: ХІТ з картки 5 л
+  var PROMO = { 'meiji-finer-core-liberty-walk': 'Новинка · Ексклюзив', 'meiji-finer-core-black': 'Ексклюзив', 'sata-jet-x-pro': 'Акція', 'antistatic-easy-paint': 'ХІТ', 'pal-923-as90': 'ХІТ' }; // 22.11: знято «Новинка» з фарбопультів, перенесених у «Фарбопульти/пістолети» // lakmerge-20261009: ХІТ з картки 5 л
   function promoOf(p) { return p.promo != null ? p.promo : PROMO[p.id]; }
   // позначка може бути: 'Акція' / 'ХІТ' / 'Новинка' / 'Ексклюзив' / свій текст, комбінації через ' · ' ('Новинка · Ексклюзив')
   // або короткі коди з адмінки через '+' ('new+excl', 'sale+excl', 'hit+excl', 'excl') — ліміт поля promo у Firestore 20 символів
@@ -2349,7 +2349,7 @@
     var prevCat = state.cat;
     var prevBrand = state.brand, prevSub = state.sub; state.brand = ''; state.sub = '';
     var CRE = /^#\/c\/([\w-]+)(?:\/([\w-]+))?(?:\/([\w-]+))?/;
-    if (/^#\/c\/(cn|china|pnevmo|equip)(\/|$)/.test(h)) { try { history.replaceState(null, '', '#/c/budget'); } catch (e) {} h = '#/c/budget'; } // 17.11: старі посилання «Товари з Китаю» / «Інструменти» / «Додаткове обладнання» -> «Бюджетні товари»
+    if (/^#\/c\/(cn|china|pnevmo|equip)(\/|$)/.test(h)) { try { history.replaceState(null, '', '#/c/budget'); } catch (e) {} h = '#/c/budget'; } // 17.11: старі посилання «Товари з Китаю» / «Інструменти» / «Додаткове обладнання» -> «КИТАЙ»
     if ((m = h.match(CRE)) && CAT_ALIAS[m[1]] && (!catById[m[1]] || !catById[m[1]].count)) { // 16.10: «ПДР» без видимих товарів -> «Товари з Китаю · ПДР» // старі посилання: розділи фарбопультів, Palinal-розділи
       var al = CAT_ALIAS[m[1]], nh = '#/c/' + al[0] + (al[1] ? '/' + al[1] : '');
       try { history.replaceState(null, '', nh); } catch (e) {}
