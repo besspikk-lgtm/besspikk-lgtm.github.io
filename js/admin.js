@@ -3,7 +3,7 @@ import { loadFirebase, isAdminUser, authErr, googleSignIn, esc, ADMIN_EMAIL, isN
 // rv2: admin-orders.js без відгуків
 import { initAdminExtras, startOrders, stopOrders, renderOrders, loadStats, loadClients, extrasClick, extrasChange, extrasInput } from './admin-orders.js?v=20';
 import { initCrm, loadCrmOrders } from './admin-crm.js?v=3';
-import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=6';
+import { renderSettings, settingsClick, settingsInput } from './admin-settings.js?v=7';
 
 const DATA = window.ALEXBES_DATA || { categories: [], products: [] };
 const CATS = DATA.categories;

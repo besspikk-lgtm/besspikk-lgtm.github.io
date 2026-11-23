@@ -2818,12 +2818,12 @@
     return lines.join('\n');
   }
   var I_TAG = '<svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>';
-  // 23.10.2026: прогрес до подарунка. Налаштування «Подарунок» в адмінці (products/_site): gift_on / gift_min / gift_txt; за замовчуванням увімкнено, 15777 грн (з 18.11.2026)
+  // 23.10.2026: прогрес до подарунка. Налаштування «Подарунок» в адмінці (products/_site): gift_on / gift_min / gift_txt; за замовчуванням увімкнено, 25000 грн (з 23.11.2026)
   var I_GIFT = '<svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></svg>';
   function giftCfg() {
     var S = window.ALEXBES_SITE || {}; if (S.gift_on === false) return null;
     var m = parseInt(String(S.gift_min || '').replace(/\D/g, ''), 10);
-    return { min: m > 0 ? m : 15777, txt: (typeof S.gift_txt === 'string' && S.gift_txt.trim()) || 'Подарунок від Alex_bes' };
+    return { min: m > 0 ? m : 25000, txt: (typeof S.gift_txt === 'string' && S.gift_txt.trim()) || 'Подарунок від Alex_bes' };
   }
   function giftOf(total) { var g = giftCfg(); if (!g) return null; g.ok = total >= g.min; g.left = Math.max(0, g.min - total); g.pct = Math.min(100, total / g.min * 100); return g; }
   function giftLow(s) { return s.charAt(0).toLowerCase() + s.slice(1); }
