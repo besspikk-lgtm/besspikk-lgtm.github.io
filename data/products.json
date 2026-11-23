@@ -7,7 +7,7 @@
    "id": "partners",
    "name": "Пропозиція від партнерів",
    "icon": "",
-   "count": 583
+   "count": 582
   },
   {
    "id": "palinal",
@@ -20994,49 +20994,6 @@
      [
       "Артикул",
       "RF2110/A"
-     ]
-    ],
-    "src": "За характеристиками, зазначеними в картці товару."
-   },
-   "home_cat": "partners",
-   "type": "partners",
-   "price_old_eur": null,
-   "category_set_at": "2026-11-22T10:51:51+02:00",
-   "price_set_at": "2026-11-22T10:51:51+02:00",
-   "supplier": "LKM"
-  },
-  {
-   "id": "cartec-4000-poliruvalnyi-kruh-pomaranchevyi-rizhuchyi-rotor-ekstsentryk-140x23mm",
-   "category": "partners",
-   "category_name": "Пропозиція від партнерів",
-   "name": "CARTEC 4000 / помаранчевий полірувальний круг Ø 125мм посадочний",
-   "description": "Представляємо новий полірувальний пад Cartec Unipad! Перероблена з нуля, щоб забезпечити: Велику потужність різання Неймовірну чистоту обробки Наднизький рівень пилу Підходить як для ротаційних, так і для орбітальних полірувальних машин подвійної дії.",
-   "price_eur": 721.88461538,
-   "price_label": null,
-   "variants": null,
-   "price_note": "",
-   "price_uah_original": 37538,
-   "source": [],
-   "photo": "img/p/cartec-4000-poliruvalnyi-kruh-pomaranchevyi-rizhuchyi-rotor-ekstsentryk-140x23mm.webp?v=20261122m",
-   "photo_is_placeholder": false,
-   "photo_source": "фото товару",
-   "in_stock": "В наявності",
-   "flag": null,
-   "intake": "2026-11-22",
-   "brand": "CARTEC",
-   "photos_extra": [
-    "img/p/cartec-4000-poliruvalnyi-kruh-pomaranchevyi-rizhuchyi-rotor-ekstsentryk-140x23mm-2.webp?v=20261122n",
-    "img/p/cartec-4000-poliruvalnyi-kruh-pomaranchevyi-rizhuchyi-rotor-ekstsentryk-140x23mm-3.webp?v=20261122n"
-   ],
-   "specs": {
-    "rows": [
-     [
-      "Бренд",
-      "CARTEC"
-     ],
-     [
-      "Артикул",
-      "RF2410"
      ]
     ],
     "src": "За характеристиками, зазначеними в картці товару."
