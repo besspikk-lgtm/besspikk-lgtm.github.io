@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22",
+ "updated": "2026-11-24",
  "currency": "EUR",
  "eur_rate_uah": 51.5,
  "categories": [
@@ -3351,21 +3351,21 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 223 ULTRA — лак",
    "description": "Один з топових лаків у лінійці Palinal. На банці: «Ultra rapid air / oven».",
-   "price_eur": 50,
+   "price_eur": 54,
    "price_label": null,
    "variants": [
     {
      "label": "комплект 1 л",
-     "price_eur": 50,
+     "price_eur": 54,
      "photo": "img/p/pal-223-ultra.webp?v=20261017g"
     },
     {
      "label": "комплект 5 л",
-     "price_eur": 220,
+     "price_eur": 237.6,
      "photo": "img/v/pal-223-ultra-5l.webp?v=20261017g"
     }
    ],
-   "price_note": "Прайс Palinal у € (пост 147); пост 244: 50€ — комплект 1 л, 220€ — комплект 5 л",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147",
@@ -3439,7 +3439,8 @@
    "photos_extra": [
     "img/v/pal-223-ultra-5l.webp?v=20261017g"
    ],
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.R010 — швидкий, 293.R020 — стандартний, 293.R030 — повільний</dd></div><div><dt>Розчинник</dt><dd>без розчинника</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-ultra-0\" id=\"mx-pal-223-ultra-0-w\" checked><label for=\"mx-pal-223-ultra-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-ultra-0\" id=\"mx-pal-223-ultra-0-v\"><label for=\"mx-pal-223-ultra-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>1,5 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>4 бар (стандарт) · 1,8–2,2 бар (HVLP/LVLP)</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223ULTRA.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D111, 01/2026</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.R010 — швидкий, 293.R020 — стандартний, 293.R030 — повільний</dd></div><div><dt>Розчинник</dt><dd>без розчинника</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-ultra-0\" id=\"mx-pal-223-ultra-0-w\" checked><label for=\"mx-pal-223-ultra-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-ultra-0\" id=\"mx-pal-223-ultra-0-v\"><label for=\"mx-pal-223-ultra-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>1,5 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>4 бар (стандарт) · 1,8–2,2 бар (HVLP/LVLP)</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223ULTRA.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D111, 01/2026</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-223-shine",
@@ -3447,21 +3448,21 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 223 SHINE — лак",
    "description": "Двокомпонентний акриловий UHS лак 2:1 EXTRA з високим глянцем, швидке сушіння в камері. Комплект 5 л: 5 л лаку + 2,5 л затверджувача HS.20.",
-   "price_eur": 50,
+   "price_eur": 54,
    "price_label": null,
    "variants": [
     {
      "label": "комплект 1 л",
-     "price_eur": 50,
+     "price_eur": 54,
      "photo": "img/p/pal-223-shine.webp?v=20261017g"
     },
     {
      "label": "комплект 5 л",
-     "price_eur": 220,
+     "price_eur": 237.6,
      "photo": "img/v/pal-223-shine-5l.webp?v=20261017g"
     }
    ],
-   "price_note": "Прайс Palinal у € (пост 147); 09.10.2026: картку pal-223-shine-5l (5 л) об’єднано сюди",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147",
@@ -3545,7 +3546,8 @@
    "merged_from": [
     "pal-223-shine-5l"
    ],
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS10 — швидкий, 293.HS20 — стандартний, 293.HS30 — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-shine-0\" id=\"mx-pal-223-shine-0-w\" checked><label for=\"mx-pal-223-shine-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-shine-0\" id=\"mx-pal-223-shine-0-v\"><label for=\"mx-pal-223-shine-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>1,5 год</dd></div><div><dt>В’язкість</dt><dd>20 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223SHINE.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D90, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS10 — швидкий, 293.HS20 — стандартний, 293.HS30 — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-shine-0\" id=\"mx-pal-223-shine-0-w\" checked><label for=\"mx-pal-223-shine-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-shine-0\" id=\"mx-pal-223-shine-0-v\"><label for=\"mx-pal-223-shine-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>1,5 год</dd></div><div><dt>В’язкість</dt><dd>20 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223SHINE.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D90, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-223-flash-new",
@@ -3553,21 +3555,21 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 223 FLASH NEW — лак",
    "description": "UHS лак 2:1 з швидким сушінням (близько 15 хв при 60 °C). Комплект 5 л: 5 л лаку + 2,5 л затверджувача HS.20.",
-   "price_eur": 47.2,
+   "price_eur": 50.98,
    "price_label": null,
    "variants": [
     {
      "label": "комплект 1 л",
-     "price_eur": 47.2,
+     "price_eur": 50.98,
      "photo": "img/p/pal-223-flash-new.webp?v=20261017g"
     },
     {
      "label": "комплект 5 л",
-     "price_eur": 210,
+     "price_eur": 226.8,
      "photo": "img/v/pal-223-flash-5l.webp?v=20261017g"
     }
    ],
-   "price_note": "Прайс Palinal у € (пост 147); 09.10.2026: картку pal-223-flash-5l (5 л) об’єднано сюди",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147",
@@ -3649,7 +3651,8 @@
    "merged_from": [
     "pal-223-flash-5l"
    ],
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS10 — швидкий, 293.HS20 — стандартний, 293.HS30 — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-flash-new-0\" id=\"mx-pal-223-flash-new-0-w\" checked><label for=\"mx-pal-223-flash-new-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-flash-new-0\" id=\"mx-pal-223-flash-new-0-v\"><label for=\"mx-pal-223-flash-new-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>5</td><td>155</td></tr><tr><td>250</td><td>125</td><td>12,5</td><td>387,5</td></tr><tr><td>500</td><td>250</td><td>25</td><td>775</td></tr><tr><td>1000</td><td>500</td><td>50</td><td>1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>5</td><td>155</td></tr><tr><td>250</td><td>125</td><td>12,5</td><td>387,5</td></tr><tr><td>500</td><td>250</td><td>25</td><td>775</td></tr><tr><td>1000</td><td>500</td><td>50</td><td>1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223FLASH-NEW.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS 223FLASH_NEW</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS10 — швидкий, 293.HS20 — стандартний, 293.HS30 — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-flash-new-0\" id=\"mx-pal-223-flash-new-0-w\" checked><label for=\"mx-pal-223-flash-new-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-flash-new-0\" id=\"mx-pal-223-flash-new-0-v\"><label for=\"mx-pal-223-flash-new-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>5</td><td>155</td></tr><tr><td>250</td><td>125</td><td>12,5</td><td>387,5</td></tr><tr><td>500</td><td>250</td><td>25</td><td>775</td></tr><tr><td>1000</td><td>500</td><td>50</td><td>1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>5</td><td>155</td></tr><tr><td>250</td><td>125</td><td>12,5</td><td>387,5</td></tr><tr><td>500</td><td>250</td><td>25</td><td>775</td></tr><tr><td>1000</td><td>500</td><td>50</td><td>1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223FLASH-NEW.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS 223FLASH_NEW</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-223-speed",
@@ -3657,10 +3660,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 223 SPEED — лак",
    "description": "Акриловий лак Palinal 223 SPEED.",
-   "price_eur": 47.2,
+   "price_eur": 50.98,
    "price_label": "комплект",
    "variants": null,
-   "price_note": "Прайс Palinal у € (пост 147)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147"
@@ -3729,7 +3732,8 @@
     ]
    },
    "sub": "lak",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.SP01 — швидкий, 293.SP25 — стандартний, 293.SP35 — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-speed-0\" id=\"mx-pal-223-speed-0-w\" checked><label for=\"mx-pal-223-speed-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-speed-0\" id=\"mx-pal-223-speed-0-v\"><label for=\"mx-pal-223-speed-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>1 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223SPEED.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D84, 11/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.SP01 — швидкий, 293.SP25 — стандартний, 293.SP35 — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-speed-0\" id=\"mx-pal-223-speed-0-w\" checked><label for=\"mx-pal-223-speed-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-speed-0\" id=\"mx-pal-223-speed-0-v\"><label for=\"mx-pal-223-speed-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>1 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223SPEED.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D84, 11/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-223-us90",
@@ -3737,10 +3741,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 223 US 90 — лак",
    "description": "Двокомпонентний акриловий лак Palinal 223.US90.",
-   "price_eur": 36,
+   "price_eur": 38.88,
    "price_label": "комплект",
    "variants": null,
-   "price_note": "Прайс Palinal у € (пост 147)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147",
@@ -3806,7 +3810,8 @@
     ]
    },
    "sub": "lak",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — стандартний, 993.FAST — швидкий, 993.SL0W — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-us90-0\" id=\"mx-pal-223-us90-0-w\" checked><label for=\"mx-pal-223-us90-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-us90-0\" id=\"mx-pal-223-us90-0-v\"><label for=\"mx-pal-223-us90-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>3 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 2 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>2–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223.US90.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D106, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — стандартний, 993.FAST — швидкий, 993.SL0W — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-223-us90-0\" id=\"mx-pal-223-us90-0-w\" checked><label for=\"mx-pal-223-us90-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-223-us90-0\" id=\"mx-pal-223-us90-0-v\"><label for=\"mx-pal-223-us90-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 0–5</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>0–5</td><td>150–155</td></tr><tr><td>250</td><td>125</td><td>0–12,5</td><td>375–387,5</td></tr><tr><td>500</td><td>250</td><td>0–25</td><td>750–775</td></tr><tr><td>1000</td><td>500</td><td>0–50</td><td>1500–1550</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>3 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 2 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>2–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-223.US90.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D106, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-923-smart",
@@ -3814,21 +3819,21 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 923 SMART — HS лак",
    "description": "Бюджетний варіант HS-лаку від Palinal — двокомпонентний антивандальний акриловий лак 2:1, стійкий до подряпин. Іде без додавання розчинника. Сушіння на повітрі або в камері. Комплект 5 л: 5 л лаку + 2,5 л затверджувача 999.HS98M.",
-   "price_eur": 23.1,
+   "price_eur": 24.25,
    "price_label": null,
    "variants": [
     {
      "label": "комплект 1 л",
-     "price_eur": 23.1,
+     "price_eur": 24.25,
      "photo": "img/p/pal-923-smart.webp?v=20261017g"
     },
     {
      "label": "комплект 5 л",
-     "price_eur": 107,
+     "price_eur": 110.78,
      "photo": "img/v/pal-923-smart-5l.webp?v=20261017g"
     }
    ],
-   "price_note": "1 л — прайс Palinal (пост 147); комплект 5 л — 107€ (пост 272, 04.08.2026; у квітневому прайсі було 105,5€); 09.10.2026: картку pal-923-smart-5l (5 л) об’єднано сюди",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147",
@@ -3898,7 +3903,8 @@
    "merged_from": [
     "pal-923-smart-5l"
    ],
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — стандартний, 993.FAST — швидкий, 993.SL0W — повільний; 999.HS98 — універсальний</dd></div><div><dt>Розчинник</dt><dd>у ТДС розчинник не вказано</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-smart-0\" id=\"mx-pal-923-smart-0-w\" checked><label for=\"mx-pal-923-smart-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-smart-0\" id=\"mx-pal-923-smart-0-v\"><label for=\"mx-pal-923-smart-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>4 год</dd></div><div><dt>В’язкість</dt><dd>17 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,7–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>2 повні шари</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5–10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923SMART.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>ТДС Palinal 923SMART (PDF, RU, palinal.ru) ↗</a> <span>· TDS D84, 04/2019</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — стандартний, 993.FAST — швидкий, 993.SL0W — повільний; 999.HS98 — універсальний</dd></div><div><dt>Розчинник</dt><dd>у ТДС розчинник не вказано</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-smart-0\" id=\"mx-pal-923-smart-0-w\" checked><label for=\"mx-pal-923-smart-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-smart-0\" id=\"mx-pal-923-smart-0-v\"><label for=\"mx-pal-923-smart-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>4 год</dd></div><div><dt>В’язкість</dt><dd>17 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,7–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>2 повні шари</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5–10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923SMART.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>ТДС Palinal 923SMART (PDF, RU, palinal.ru) ↗</a> <span>· TDS D84, 04/2019</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-923-as90",
@@ -3906,21 +3912,21 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 923 AS 90 — лак",
    "description": "Прозорий 2K акриловий HS лак 2:1 Anti Scratch — тверде покриття, стійке до подряпин. Комплект 5 л: 5 л лаку + 2,5 л затверджувача 993.MS.",
-   "price_eur": 32.9,
+   "price_eur": 35.53,
    "price_label": null,
    "variants": [
     {
      "label": "комплект 1 л",
-     "price_eur": 32.9,
+     "price_eur": 35.53,
      "photo": "img/p/pal-923-as90.webp?v=20261017g"
     },
     {
      "label": "комплект 5 л",
-     "price_eur": 157,
+     "price_eur": 169.6,
      "photo": "img/v/pal-923-as90-5l.webp?v=20261017g"
     }
    ],
-   "price_note": "Прайс Palinal у € (пост 147); 09.10.2026: картку pal-923-as90-5l (5 л) об’єднано сюди",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147",
@@ -4003,7 +4009,8 @@
    "merged_from": [
     "pal-923-as90-5l"
    ],
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — стандартний, 993.FAST — швидкий, 993.SL0W — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-as90-0\" id=\"mx-pal-923-as90-0-w\" checked><label for=\"mx-pal-923-as90-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-as90-0\" id=\"mx-pal-923-as90-0-v\"><label for=\"mx-pal-923-as90-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>10</td><td>160</td></tr><tr><td>250</td><td>125</td><td>25</td><td>400</td></tr><tr><td>500</td><td>250</td><td>50</td><td>800</td></tr><tr><td>1000</td><td>500</td><td>100</td><td>1600</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>10</td><td>160</td></tr><tr><td>250</td><td>125</td><td>25</td><td>400</td></tr><tr><td>500</td><td>250</td><td>50</td><td>800</td></tr><tr><td>1000</td><td>500</td><td>100</td><td>1600</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>4 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,7–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923.AS90.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D105, 10/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — стандартний, 993.FAST — швидкий, 993.SL0W — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-as90-0\" id=\"mx-pal-923-as90-0-w\" checked><label for=\"mx-pal-923-as90-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-as90-0\" id=\"mx-pal-923-as90-0-v\"><label for=\"mx-pal-923-as90-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>10</td><td>160</td></tr><tr><td>250</td><td>125</td><td>25</td><td>400</td></tr><tr><td>500</td><td>250</td><td>50</td><td>800</td></tr><tr><td>1000</td><td>500</td><td>100</td><td>1600</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>10</td><td>160</td></tr><tr><td>250</td><td>125</td><td>25</td><td>400</td></tr><tr><td>500</td><td>250</td><td>50</td><td>800</td></tr><tr><td>1000</td><td>500</td><td>100</td><td>1600</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>4 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,7–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>½ + 1</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923.AS90.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D105, 10/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-923-hs90",
@@ -4011,10 +4018,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 923 HS 90 — лак",
    "description": "Акриловий HS-лак Palinal 923.HS90.",
-   "price_eur": 32.9,
+   "price_eur": 35.53,
    "price_label": "комплект",
    "variants": null,
-   "price_note": "Прайс Palinal у € (пост 147)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147"
@@ -4078,7 +4085,8 @@
     ]
    },
    "sub": "lak",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.FAST — швидкий (рекомендований при 20 °C), 993.MS — стандартний, 993.SL0W — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний, 075.0040 — дуже повільний (понад 35 °C)</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-hs90-0\" id=\"mx-pal-923-hs90-0-w\" checked><label for=\"mx-pal-923-hs90-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-hs90-0\" id=\"mx-pal-923-hs90-0-v\"><label for=\"mx-pal-923-hs90-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>20</td><td>170</td></tr><tr><td>250</td><td>125</td><td>50</td><td>425</td></tr><tr><td>500</td><td>250</td><td>100</td><td>850</td></tr><tr><td>1000</td><td>500</td><td>200</td><td>1700</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>20</td><td>170</td></tr><tr><td>250</td><td>125</td><td>50</td><td>425</td></tr><tr><td>500</td><td>250</td><td>100</td><td>850</td></tr><tr><td>1000</td><td>500</td><td>200</td><td>1700</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>17 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,7–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>2 (перший ≈80 %, другий повний)</dd></div><div><dt>Між шарами</dt><dd>15 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>20 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923.HS90.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>ТДС Palinal 923.HS90 (PDF, RU, копія дилера) ↗</a><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.FAST — швидкий (рекомендований при 20 °C), 993.MS — стандартний, 993.SL0W — повільний</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний, 075.0040 — дуже повільний (понад 35 °C)</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-hs90-0\" id=\"mx-pal-923-hs90-0-w\" checked><label for=\"mx-pal-923-hs90-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-hs90-0\" id=\"mx-pal-923-hs90-0-v\"><label for=\"mx-pal-923-hs90-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 50 : 20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>20</td><td>170</td></tr><tr><td>250</td><td>125</td><td>50</td><td>425</td></tr><tr><td>500</td><td>250</td><td>100</td><td>850</td></tr><tr><td>1000</td><td>500</td><td>200</td><td>1700</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 50 : 20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>50</td><td>20</td><td>170</td></tr><tr><td>250</td><td>125</td><td>50</td><td>425</td></tr><tr><td>500</td><td>250</td><td>100</td><td>850</td></tr><tr><td>1000</td><td>500</td><td>200</td><td>1700</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>17 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (RP)</dd></div><div><dt>Тиск</dt><dd>1,7–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>2 (перший ≈80 %, другий повний)</dd></div><div><dt>Між шарами</dt><dd>15 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>20 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923.HS90.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>ТДС Palinal 923.HS90 (PDF, RU, копія дилера) ↗</a><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-923-mat5",
@@ -4086,10 +4094,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 923 MAT5 — матовий лак",
    "description": "Матовий лак Palinal 923 (мат 5).",
-   "price_eur": 30,
+   "price_eur": 32.4,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс Palinal у € (пост 147)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/147"
@@ -4158,7 +4166,8 @@
     ]
    },
    "sub": "lak",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS20 — стандартний (у таблиці ТДС також 293.HS30)</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний, 075.0040 — дуже повільний</dd></div></dl><p class=\"mix__note\">Для чистого 923 MAT5 (≈2–3 од. глянцю). Суміші з лаком 223 для іншого глянцю — у таблиці A.1 ТДС (за вагою).</p><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-mat5-0\" id=\"mx-pal-923-mat5-0-w\" checked><label for=\"mx-pal-923-mat5-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-mat5-0\" id=\"mx-pal-923-mat5-0-v\"><label for=\"mx-pal-923-mat5-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 15 : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>15</td><td>50</td><td>165</td></tr><tr><td>250</td><td>37,5</td><td>125</td><td>412,5</td></tr><tr><td>500</td><td>75</td><td>250</td><td>825</td></tr><tr><td>1000</td><td>150</td><td>500</td><td>1650</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 15 : 40–50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>15</td><td>40–50</td><td>155–165</td></tr><tr><td>250</td><td>37,5</td><td>100–125</td><td>387,5–412,5</td></tr><tr><td>500</td><td>75</td><td>200–250</td><td>775–825</td></tr><tr><td>1000</td><td>150</td><td>400–500</td><td>1550–1650</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (HVLP/LVLP, RP)</dd></div><div><dt>Тиск</dt><dd>2 бар</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923.MAT5.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D108, 12/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS20 — стандартний (у таблиці ТДС також 293.HS30)</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний, 075.0040 — дуже повільний</dd></div></dl><p class=\"mix__note\">Для чистого 923 MAT5 (≈2–3 од. глянцю). Суміші з лаком 223 для іншого глянцю — у таблиці A.1 ТДС (за вагою).</p><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-923-mat5-0\" id=\"mx-pal-923-mat5-0-w\" checked><label for=\"mx-pal-923-mat5-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-923-mat5-0\" id=\"mx-pal-923-mat5-0-v\"><label for=\"mx-pal-923-mat5-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 15 : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>15</td><td>50</td><td>165</td></tr><tr><td>250</td><td>37,5</td><td>125</td><td>412,5</td></tr><tr><td>500</td><td>75</td><td>250</td><td>825</td></tr><tr><td>1000</td><td>150</td><td>500</td><td>1650</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 15 : 40–50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>15</td><td>40–50</td><td>155–165</td></tr><tr><td>250</td><td>37,5</td><td>100–125</td><td>387,5–412,5</td></tr><tr><td>500</td><td>75</td><td>200–250</td><td>775–825</td></tr><tr><td>1000</td><td>150</td><td>400–500</td><td>1550–1650</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм (HVLP/LVLP, RP)</dd></div><div><dt>Тиск</dt><dd>2 бар</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-923.MAT5.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS D108, 12/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-873-filler-51",
@@ -4166,27 +4175,27 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 873 Acryl Filler 5:1 — акриловий ґрунт-наповнювач",
    "description": "Акриловий 2K ґрунт-наповнювач 5:1, комплект 1 л. Кольори: білий (873.1151), темно-сірий (873.ST51), світло-сірий (873.2K51), чорний (873.2251).",
-   "price_eur": 19.3077,
+   "price_eur": 21.1,
    "price_label": null,
    "variants": [
     {
      "label": "Білий (873.1151)",
-     "price_eur": 19.3077
+     "price_eur": 21.1
     },
     {
      "label": "Темно-сірий (873.ST51)",
-     "price_eur": 19.3077
+     "price_eur": 21.1
     },
     {
      "label": "Світло-сірий (873.2K51)",
-     "price_eur": 19.3077
+     "price_eur": 21.1
     },
     {
      "label": "Чорний (873.2251)",
-     "price_eur": 19.3077
+     "price_eur": 21.1
     }
    ],
-   "price_note": "1 л — комплект",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/343",
@@ -4258,7 +4267,8 @@
     ]
    },
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><h3 class=\"mix__mode\">Високонаповнювальний</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid); за вагою також 293.HS20 — 11 г на 100 г</dd></div><div><dt>Розчинник</dt><dd>без розчинника</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-filler-51-0\" id=\"mx-pal-873-filler-51-0-w\" checked><label for=\"mx-pal-873-filler-51-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-filler-51-0\" id=\"mx-pal-873-filler-51-0-v\"><label for=\"mx-pal-873-filler-51-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>113</td></tr><tr><td>250</td><td>32,5</td><td>282,5</td></tr><tr><td>500</td><td>65</td><td>565</td></tr><tr><td>1000</td><td>130</td><td>1130</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>120</td></tr><tr><td>250</td><td>50</td><td>300</td></tr><tr><td>500</td><td>100</td><td>600</td></tr><tr><td>1000</td><td>200</td><td>1200</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">Наповнювач</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid); за вагою також 293.HS20 — 11 г на 100 г</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-filler-51-1\" id=\"mx-pal-873-filler-51-1-w\" checked><label for=\"mx-pal-873-filler-51-1-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-filler-51-1\" id=\"mx-pal-873-filler-51-1-v\"><label for=\"mx-pal-873-filler-51-1-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 6</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>6</td><td>119</td></tr><tr><td>250</td><td>32,5</td><td>15</td><td>297,5</td></tr><tr><td>500</td><td>65</td><td>30</td><td>595</td></tr><tr><td>1000</td><td>130</td><td>60</td><td>1190</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>10</td><td>130</td></tr><tr><td>250</td><td>50</td><td>25</td><td>325</td></tr><tr><td>500</td><td>100</td><td>50</td><td>650</td></tr><tr><td>1000</td><td>200</td><td>100</td><td>1300</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">Ізолятор</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid); за вагою також 293.HS20 — 11 г на 100 г</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-filler-51-2\" id=\"mx-pal-873-filler-51-2-w\" checked><label for=\"mx-pal-873-filler-51-2-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-filler-51-2\" id=\"mx-pal-873-filler-51-2-v\"><label for=\"mx-pal-873-filler-51-2-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 12</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>12</td><td>125</td></tr><tr><td>250</td><td>32,5</td><td>30</td><td>312,5</td></tr><tr><td>500</td><td>65</td><td>60</td><td>625</td></tr><tr><td>1000</td><td>130</td><td>120</td><td>1250</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>20</td><td>140</td></tr><tr><td>250</td><td>50</td><td>50</td><td>350</td></tr><tr><td>500</td><td>100</td><td>100</td><td>700</td></tr><tr><td>1000</td><td>200</td><td>200</td><td>1400</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>30 хв · 60 хв · 90 хв (за режимами)</dd></div><div><dt>В’язкість</dt><dd>50 ± 5 с · 30 ± 3 с · 20 ± 2 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,6–1,8 · 1,6–1,8 · 1,4–1,6 мм</dd></div><div><dt>Тиск</dt><dd>3–4 бар (стандарт) · HVLP/LVLP: 2,0–2,5 · 1,8–2,2 · 1,8–2,2 бар</dd></div><div><dt>Шари</dt><dd>2–3 · 2 · 2</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-873.2K51.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS C17, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><h3 class=\"mix__mode\">Високонаповнювальний</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid); за вагою також 293.HS20 — 11 г на 100 г</dd></div><div><dt>Розчинник</dt><dd>без розчинника</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-filler-51-0\" id=\"mx-pal-873-filler-51-0-w\" checked><label for=\"mx-pal-873-filler-51-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-filler-51-0\" id=\"mx-pal-873-filler-51-0-v\"><label for=\"mx-pal-873-filler-51-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>113</td></tr><tr><td>250</td><td>32,5</td><td>282,5</td></tr><tr><td>500</td><td>65</td><td>565</td></tr><tr><td>1000</td><td>130</td><td>1130</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 0</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>120</td></tr><tr><td>250</td><td>50</td><td>300</td></tr><tr><td>500</td><td>100</td><td>600</td></tr><tr><td>1000</td><td>200</td><td>1200</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">Наповнювач</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid); за вагою також 293.HS20 — 11 г на 100 г</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-filler-51-1\" id=\"mx-pal-873-filler-51-1-w\" checked><label for=\"mx-pal-873-filler-51-1-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-filler-51-1\" id=\"mx-pal-873-filler-51-1-v\"><label for=\"mx-pal-873-filler-51-1-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 6</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>6</td><td>119</td></tr><tr><td>250</td><td>32,5</td><td>15</td><td>297,5</td></tr><tr><td>500</td><td>65</td><td>30</td><td>595</td></tr><tr><td>1000</td><td>130</td><td>60</td><td>1190</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>10</td><td>130</td></tr><tr><td>250</td><td>50</td><td>25</td><td>325</td></tr><tr><td>500</td><td>100</td><td>50</td><td>650</td></tr><tr><td>1000</td><td>200</td><td>100</td><td>1300</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">Ізолятор</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid); за вагою також 293.HS20 — 11 г на 100 г</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-filler-51-2\" id=\"mx-pal-873-filler-51-2-w\" checked><label for=\"mx-pal-873-filler-51-2-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-filler-51-2\" id=\"mx-pal-873-filler-51-2-v\"><label for=\"mx-pal-873-filler-51-2-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 12</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>12</td><td>125</td></tr><tr><td>250</td><td>32,5</td><td>30</td><td>312,5</td></tr><tr><td>500</td><td>65</td><td>60</td><td>625</td></tr><tr><td>1000</td><td>130</td><td>120</td><td>1250</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>20</td><td>140</td></tr><tr><td>250</td><td>50</td><td>50</td><td>350</td></tr><tr><td>500</td><td>100</td><td>100</td><td>700</td></tr><tr><td>1000</td><td>200</td><td>200</td><td>1400</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>30 хв · 60 хв · 90 хв (за режимами)</dd></div><div><dt>В’язкість</dt><dd>50 ± 5 с · 30 ± 3 с · 20 ± 2 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,6–1,8 · 1,6–1,8 · 1,4–1,6 мм</dd></div><div><dt>Тиск</dt><dd>3–4 бар (стандарт) · HVLP/LVLP: 2,0–2,5 · 1,8–2,2 · 1,8–2,2 бар</dd></div><div><dt>Шари</dt><dd>2–3 · 2 · 2</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-873.2K51.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS C17, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-873-fast",
@@ -4266,23 +4276,23 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 873.6005 / 6011 / 6022 — швидкий акриловий ґрунт 5:1",
    "description": "Palinal FAST-AIR HS Filler — швидкий 2K акриловий HS ґрунт-наповнювач 5:1. Висихає за 60 хв при 20 °C або за 10 хв при 60 °C (із затверджувачем 293.6010). Змішування 5 : 1 : 0,5 за об’ємом — ґрунт, затверджувач 293.6020 або 293.6010, розчинник 075.0020 або 075.0030. До 120 ± 10 мкм за шар (до 3 шарів); шліфування ексцентриком насухо P360–P400. Кольори: білий (873.6011), сірий (873.6005), чорний (873.6022). Об’єм 1 л.",
-   "price_eur": 22.1154,
+   "price_eur": 22.14,
    "price_label": "1 л",
    "variants": [
     {
      "label": "Білий (873.6011)",
-     "price_eur": 22.1154
+     "price_eur": 22.14
     },
     {
      "label": "Сірий (873.6005)",
-     "price_eur": 22.1154
+     "price_eur": 22.14
     },
     {
      "label": "Чорний (873.6022)",
-     "price_eur": 22.1154
+     "price_eur": 22.14
     }
    ],
-   "price_note": "",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/146",
@@ -4352,7 +4362,8 @@
     ]
    },
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.6020 — стандартний, 293.6010 — швидкий</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-fast-0\" id=\"mx-pal-873-fast-0-w\" checked><label for=\"mx-pal-873-fast-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-fast-0\" id=\"mx-pal-873-fast-0-v\"><label for=\"mx-pal-873-fast-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 6</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>6</td><td>119</td></tr><tr><td>250</td><td>32,5</td><td>15</td><td>297,5</td></tr><tr><td>500</td><td>65</td><td>30</td><td>595</td></tr><tr><td>1000</td><td>130</td><td>60</td><td>1190</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>10</td><td>130</td></tr><tr><td>250</td><td>50</td><td>25</td><td>325</td></tr><tr><td>500</td><td>100</td><td>50</td><td>650</td></tr><tr><td>1000</td><td>200</td><td>100</td><td>1300</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>30 хв</dd></div><div><dt>В’язкість</dt><dd>30 ± 3 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,6–1,8 мм</dd></div><div><dt>Тиск</dt><dd>3–4 бар (стандарт) · 1,8–2,2 бар (HVLP/LVLP)</dd></div><div><dt>Шари</dt><dd>2–3</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-873.6005-FAST-AIR.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS C30, 01/2024</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.6020 — стандартний, 293.6010 — швидкий</dd></div><div><dt>Розчинник</dt><dd>075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-fast-0\" id=\"mx-pal-873-fast-0-w\" checked><label for=\"mx-pal-873-fast-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-fast-0\" id=\"mx-pal-873-fast-0-v\"><label for=\"mx-pal-873-fast-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 13 : 6</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>13</td><td>6</td><td>119</td></tr><tr><td>250</td><td>32,5</td><td>15</td><td>297,5</td></tr><tr><td>500</td><td>65</td><td>30</td><td>595</td></tr><tr><td>1000</td><td>130</td><td>60</td><td>1190</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 20 : 10</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>20</td><td>10</td><td>130</td></tr><tr><td>250</td><td>50</td><td>25</td><td>325</td></tr><tr><td>500</td><td>100</td><td>50</td><td>650</td></tr><tr><td>1000</td><td>200</td><td>100</td><td>1300</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>30 хв</dd></div><div><dt>В’язкість</dt><dd>30 ± 3 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,6–1,8 мм</dd></div><div><dt>Тиск</dt><dd>3–4 бар (стандарт) · 1,8–2,2 бар (HVLP/LVLP)</dd></div><div><dt>Шари</dt><dd>2–3</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-873.6005-FAST-AIR.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS C30, 01/2024</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-873-gt-wet",
@@ -4360,27 +4371,27 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 873.GT — ґрунт «мокрий по мокрому»",
    "description": "Акриловий ґрунт «мокрий по мокрому» 873.GT05 / GT11 / GT22 / GT00. Іде як сілер. Прозорий, білий, сірий, чорний.",
-   "price_eur": 36.0,
+   "price_eur": 38.67,
    "price_label": null,
    "variants": [
     {
      "label": "Прозорий (GT00)",
-     "price_eur": 36.0
+     "price_eur": 38.67
     },
     {
      "label": "Білий (GT11)",
-     "price_eur": 36.0
+     "price_eur": 38.67
     },
     {
      "label": "Сірий (GT05)",
-     "price_eur": 36.0
+     "price_eur": 38.67
     },
     {
      "label": "Чорний (GT22)",
-     "price_eur": 36.0
+     "price_eur": 38.67
     }
    ],
-   "price_note": "Ціна в € — за прайсом постачальника (2026-09-26)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/56",
@@ -4449,7 +4460,8 @@
     "https://www.tiktok.com/@alex_bespik/video/7637210388873972999"
    ],
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><h3 class=\"mix__mode\">З затверджувачем 993.MS</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid)</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-gt-wet-0\" id=\"mx-pal-873-gt-wet-0-w\" checked><label for=\"mx-pal-873-gt-wet-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-gt-wet-0\" id=\"mx-pal-873-gt-wet-0-v\"><label for=\"mx-pal-873-gt-wet-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 30 : 30</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>30</td><td>30</td><td>160</td></tr><tr><td>250</td><td>75</td><td>75</td><td>400</td></tr><tr><td>500</td><td>150</td><td>150</td><td>800</td></tr><tr><td>1000</td><td>300</td><td>300</td><td>1600</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 40 : 40</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>40</td><td>40</td><td>180</td></tr><tr><td>250</td><td>100</td><td>100</td><td>450</td></tr><tr><td>500</td><td>200</td><td>200</td><td>900</td></tr><tr><td>1000</td><td>400</td><td>400</td><td>1800</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">З затверджувачем 293.HS20</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS20 (UHS); 293.HS10 — швидкий</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-gt-wet-1\" id=\"mx-pal-873-gt-wet-1-w\" checked><label for=\"mx-pal-873-gt-wet-1-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-gt-wet-1\" id=\"mx-pal-873-gt-wet-1-v\"><label for=\"mx-pal-873-gt-wet-1-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 25 : 40</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>25</td><td>40</td><td>165</td></tr><tr><td>250</td><td>62,5</td><td>100</td><td>412,5</td></tr><tr><td>500</td><td>125</td><td>200</td><td>825</td></tr><tr><td>1000</td><td>250</td><td>400</td><td>1650</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 33 : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>33</td><td>50</td><td>183</td></tr><tr><td>250</td><td>82,5</td><td>125</td><td>457,5</td></tr><tr><td>500</td><td>165</td><td>250</td><td>915</td></tr><tr><td>1000</td><td>330</td><td>500</td><td>1830</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>16 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (HVLP, RP)</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-873.GT.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS C21, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><h3 class=\"mix__mode\">З затверджувачем 993.MS</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS (Maxi Solid)</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-gt-wet-0\" id=\"mx-pal-873-gt-wet-0-w\" checked><label for=\"mx-pal-873-gt-wet-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-gt-wet-0\" id=\"mx-pal-873-gt-wet-0-v\"><label for=\"mx-pal-873-gt-wet-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 30 : 30</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>30</td><td>30</td><td>160</td></tr><tr><td>250</td><td>75</td><td>75</td><td>400</td></tr><tr><td>500</td><td>150</td><td>150</td><td>800</td></tr><tr><td>1000</td><td>300</td><td>300</td><td>1600</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 40 : 40</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>40</td><td>40</td><td>180</td></tr><tr><td>250</td><td>100</td><td>100</td><td>450</td></tr><tr><td>500</td><td>200</td><td>200</td><td>900</td></tr><tr><td>1000</td><td>400</td><td>400</td><td>1800</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">З затверджувачем 293.HS20</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>293.HS20 (UHS); 293.HS10 — швидкий</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-873-gt-wet-1\" id=\"mx-pal-873-gt-wet-1-w\" checked><label for=\"mx-pal-873-gt-wet-1-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-873-gt-wet-1\" id=\"mx-pal-873-gt-wet-1-v\"><label for=\"mx-pal-873-gt-wet-1-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 25 : 40</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>25</td><td>40</td><td>165</td></tr><tr><td>250</td><td>62,5</td><td>100</td><td>412,5</td></tr><tr><td>500</td><td>125</td><td>200</td><td>825</td></tr><tr><td>1000</td><td>250</td><td>400</td><td>1650</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 33 : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>33</td><td>50</td><td>183</td></tr><tr><td>250</td><td>82,5</td><td>125</td><td>457,5</td></tr><tr><td>500</td><td>165</td><td>250</td><td>915</td></tr><tr><td>1000</td><td>330</td><td>500</td><td>1830</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>2 год</dd></div><div><dt>В’язкість</dt><dd>16 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (HVLP, RP)</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>5–10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-873.GT.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS C21, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-844-upp",
@@ -4457,19 +4469,19 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 844 UPP — ґрунт-праймер по пластику",
    "description": "Palinal 844 UPP — універсальний пігментований поліуретановий праймер для пластикових деталей авто, зовнішніх і салонних. Добра адгезія та швидке висихання. Завдяки білому або чорному кольору (змішуванням — сірому) вже за два шари дає основу, на яку фарби наносяться «мокрим по мокрому». Змінюючи розведення, можна отримати різну фактуру. З 10 % затверджувача 993.MS-- тримається й на алюмінії та залізі. Кольори: білий (844UPP11), чорний (844UPP22).",
-   "price_eur": 29.0,
+   "price_eur": 31.4,
    "price_label": null,
    "variants": [
     {
      "label": "Білий (844UPP11)",
-     "price_eur": 29.0
+     "price_eur": 31.4
     },
     {
      "label": "Чорний (844UPP22)",
-     "price_eur": 29.0
+     "price_eur": 31.4
     }
    ],
-   "price_note": "Ціна в € — за прайсом постачальника (2026-09-26)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/162"
@@ -4538,7 +4550,8 @@
     "https://www.tiktok.com/@alex_bespik/video/7631431381666630920"
    ],
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — необов’язково, 10 частин (для алюмінію й заліза); у ТДС вага затверджувача не вказана</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-844-upp-0\" id=\"mx-pal-844-upp-0-w\" checked><label for=\"mx-pal-844-upp-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-844-upp-0\" id=\"mx-pal-844-upp-0-v\"><label for=\"mx-pal-844-upp-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : — : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 0–10 : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>0–10</td><td>50</td><td>150–160</td></tr><tr><td>250</td><td>0–25</td><td>125</td><td>375–400</td></tr><tr><td>500</td><td>0–50</td><td>250</td><td>750–800</td></tr><tr><td>1000</td><td>0–100</td><td>500</td><td>1500–1600</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>8 год (з затверджувачем)</dd></div><div><dt>В’язкість</dt><dd>18 ± 3 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>2 бар (HVLP/LVLP, RP)</dd></div><div><dt>Шари</dt><dd>2 тонкі</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-844UPP.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, IT/EN) ↗</a> <span>· TDS B23, 09/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>993.MS — необов’язково, 10 частин (для алюмінію й заліза); у ТДС вага затверджувача не вказана</dd></div><div><dt>Розчинник</dt><dd>075.0015 — швидкий, 075.0020 — стандартний, 075.0030 — повільний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-844-upp-0\" id=\"mx-pal-844-upp-0-w\" checked><label for=\"mx-pal-844-upp-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-844-upp-0\" id=\"mx-pal-844-upp-0-v\"><label for=\"mx-pal-844-upp-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : — : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>50</td><td>150</td></tr><tr><td>250</td><td>125</td><td>375</td></tr><tr><td>500</td><td>250</td><td>750</td></tr><tr><td>1000</td><td>500</td><td>1500</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 0–10 : 50</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>0–10</td><td>50</td><td>150–160</td></tr><tr><td>250</td><td>0–25</td><td>125</td><td>375–400</td></tr><tr><td>500</td><td>0–50</td><td>250</td><td>750–800</td></tr><tr><td>1000</td><td>0–100</td><td>500</td><td>1500–1600</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>8 год (з затверджувачем)</dd></div><div><dt>В’язкість</dt><dd>18 ± 3 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>2 бар (HVLP/LVLP, RP)</dd></div><div><dt>Шари</dt><dd>2 тонкі</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-844UPP.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, IT/EN) ↗</a> <span>· TDS B23, 09/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-844-1k",
@@ -4546,10 +4559,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 844 — 1K адгезійний ґрунт по пластику",
    "description": "Однокомпонентний адгезійний ґрунт по пластику.",
-   "price_eur": 22.0,
+   "price_eur": 23.22,
    "price_label": null,
    "variants": null,
-   "price_note": "Ціна в € — за прайсом постачальника (2026-09-26)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/383"
@@ -4597,7 +4610,8 @@
     ]
    },
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><p class=\"mix__ready\">Готовий до використання — за ТДС не потребує затверджувача й розчинника, тому таблиць змішування немає.</p><dl class=\"tds__dl mix__app\"><div><dt>Змішування</dt><dd>Готовий до використання: без затверджувача й розчинника</dd></div><div><dt>В’язкість</dt><dd>10 ± 3 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>1,5–2 бар (HVLP/RP)</dd></div><div><dt>Шари</dt><dd>2 тонкі</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка</dt><dd>10 хв; наступне покриття — не пізніше ніж через 10–12 хв</dd></div><div><dt>Температура</dt><dd>не застосовувати нижче 15 °C</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-844.2000.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>ТДС Palinal 844.2000 (PDF, RU, palinal.ru) ↗</a> <span>· TDS D84, 04/2019</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><p class=\"mix__ready\">Готовий до використання — за ТДС не потребує затверджувача й розчинника, тому таблиць змішування немає.</p><dl class=\"tds__dl mix__app\"><div><dt>Змішування</dt><dd>Готовий до використання: без затверджувача й розчинника</dd></div><div><dt>В’язкість</dt><dd>10 ± 3 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>1,5–2 бар (HVLP/RP)</dd></div><div><dt>Шари</dt><dd>2 тонкі</dd></div><div><dt>Між шарами</dt><dd>10 хв</dd></div><div><dt>Витримка</dt><dd>10 хв; наступне покриття — не пізніше ніж через 10–12 хв</dd></div><div><dt>Температура</dt><dd>не застосовувати нижче 15 °C</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-844.2000.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>ТДС Palinal 844.2000 (PDF, RU, palinal.ru) ↗</a> <span>· TDS D84, 04/2019</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-881-epoxy",
@@ -4605,10 +4619,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 881.7777 — епоксидний ґрунт",
    "description": "Епоксидний ґрунт Palinal 881.7777.",
-   "price_eur": 22.1,
+   "price_eur": 22.22,
    "price_label": null,
    "variants": null,
-   "price_note": "Ціна в € — за прайсом постачальника (2026-09-26)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/383"
@@ -4681,7 +4695,8 @@
     ]
    },
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>897.2000 — стандартний</dd></div><div><dt>Розчинник</dt><dd>077 — стандартний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-881-epoxy-0\" id=\"mx-pal-881-epoxy-0-w\" checked><label for=\"mx-pal-881-epoxy-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-881-epoxy-0\" id=\"mx-pal-881-epoxy-0-v\"><label for=\"mx-pal-881-epoxy-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 20 : 25</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>20</td><td>25</td><td>145</td></tr><tr><td>250</td><td>50</td><td>62,5</td><td>362,5</td></tr><tr><td>500</td><td>100</td><td>125</td><td>725</td></tr><tr><td>1000</td><td>200</td><td>250</td><td>1450</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 33 : 15–20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>33</td><td>15–20</td><td>148–153</td></tr><tr><td>250</td><td>82,5</td><td>37,5–50</td><td>370–382,5</td></tr><tr><td>500</td><td>165</td><td>75–100</td><td>740–765</td></tr><tr><td>1000</td><td>330</td><td>150–200</td><td>1480–1530</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>8 год</dd></div><div><dt>В’язкість</dt><dd>17 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,5–1,7 мм</dd></div><div><dt>Тиск</dt><dd>2–2,5 бар (HVLP/LVLP, RP)</dd></div><div><dt>Шари</dt><dd>1–2</dd></div><div><dt>Між шарами</dt><dd>20 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>20 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-881.7777.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, IT/EN) ↗</a> <span>· TDS B01A, 12/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>897.2000 — стандартний</dd></div><div><dt>Розчинник</dt><dd>077 — стандартний</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-881-epoxy-0\" id=\"mx-pal-881-epoxy-0-w\" checked><label for=\"mx-pal-881-epoxy-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-881-epoxy-0\" id=\"mx-pal-881-epoxy-0-v\"><label for=\"mx-pal-881-epoxy-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 20 : 25</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>20</td><td>25</td><td>145</td></tr><tr><td>250</td><td>50</td><td>62,5</td><td>362,5</td></tr><tr><td>500</td><td>100</td><td>125</td><td>725</td></tr><tr><td>1000</td><td>200</td><td>250</td><td>1450</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 33 : 15–20</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>33</td><td>15–20</td><td>148–153</td></tr><tr><td>250</td><td>82,5</td><td>37,5–50</td><td>370–382,5</td></tr><tr><td>500</td><td>165</td><td>75–100</td><td>740–765</td></tr><tr><td>1000</td><td>330</td><td>150–200</td><td>1480–1530</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>8 год</dd></div><div><dt>В’язкість</dt><dd>17 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,5–1,7 мм</dd></div><div><dt>Тиск</dt><dd>2–2,5 бар (HVLP/LVLP, RP)</dd></div><div><dt>Шари</dt><dd>1–2</dd></div><div><dt>Між шарами</dt><dd>20 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>20 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-881.7777.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, IT/EN) ↗</a> <span>· TDS B01A, 12/2021</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-868-wash",
@@ -4689,10 +4704,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal Wash Primer 868.2000 + затверджувач 009",
    "description": "Реактивний ґрунт (Wash Primer) з затверджувачем 009.",
-   "price_eur": 35.8,
+   "price_eur": 38.67,
    "price_label": null,
    "variants": null,
-   "price_note": "Ціна в € — за прайсом постачальника (2026-09-26)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/383"
@@ -4753,7 +4768,8 @@
     ]
    },
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>009</dd></div><div><dt>Розчинник</dt><dd>без розчинника</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-868-wash-0\" id=\"mx-pal-868-wash-0-w\" checked><label for=\"mx-pal-868-wash-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-868-wash-0\" id=\"mx-pal-868-wash-0-v\"><label for=\"mx-pal-868-wash-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 80 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>80</td><td>180</td></tr><tr><td>250</td><td>200</td><td>450</td></tr><tr><td>500</td><td>400</td><td>900</td></tr><tr><td>1000</td><td>800</td><td>1800</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 100 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>100</td><td>200</td></tr><tr><td>250</td><td>250</td><td>500</td></tr><tr><td>500</td><td>500</td><td>1000</td></tr><tr><td>1000</td><td>1000</td><td>2000</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>7 днів</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,3–1,4 мм</dd></div><div><dt>Тиск</dt><dd>3–4 бар (стандарт) · 1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-868.2000.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS B13, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>009</dd></div><div><dt>Розчинник</dt><dd>без розчинника</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-868-wash-0\" id=\"mx-pal-868-wash-0-w\" checked><label for=\"mx-pal-868-wash-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-868-wash-0\" id=\"mx-pal-868-wash-0-v\"><label for=\"mx-pal-868-wash-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : 80 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Затверджувач,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>80</td><td>180</td></tr><tr><td>250</td><td>200</td><td>450</td></tr><tr><td>500</td><td>400</td><td>900</td></tr><tr><td>1000</td><td>800</td><td>1800</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : 100 : —</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Затверджувач,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>100</td><td>200</td></tr><tr><td>250</td><td>250</td><td>500</td></tr><tr><td>500</td><td>500</td><td>1000</td></tr><tr><td>1000</td><td>1000</td><td>2000</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>Життєздатність (20 °C)</dt><dd>7 днів</dd></div><div><dt>В’язкість</dt><dd>18 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,3–1,4 мм</dd></div><div><dt>Тиск</dt><dd>3–4 бар (стандарт) · 1,8–2,2 бар (RP)</dd></div><div><dt>Шари</dt><dd>2</dd></div><div><dt>Між шарами</dt><dd>5 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-868.2000.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS B13, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-hydropal-filler",
@@ -4761,10 +4777,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal Hydropal Filler 1K",
    "description": "Ґрунт-наповнювач Hydropal Filler 1K.",
-   "price_eur": 32.5,
+   "price_eur": 35.1,
    "price_label": null,
    "variants": null,
-   "price_note": "Ціна в € — за прайсом постачальника (2026-09-26)",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/383"
@@ -4821,7 +4837,8 @@
     ]
    },
    "sub": "grunt",
-   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><h3 class=\"mix__mode\">Ізолятор</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>без затверджувача (1K)</dd></div><div><dt>Розчинник</dt><dd>100D — водний розчинник</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-hydropal-filler-0\" id=\"mx-pal-hydropal-filler-0-w\" checked><label for=\"mx-pal-hydropal-filler-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-hydropal-filler-0\" id=\"mx-pal-hydropal-filler-0-v\"><label for=\"mx-pal-hydropal-filler-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : — : 8–12</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>8–12</td><td>108–112</td></tr><tr><td>250</td><td>20–30</td><td>270–280</td></tr><tr><td>500</td><td>40–60</td><td>540–560</td></tr><tr><td>1000</td><td>80–120</td><td>1080–1120</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : — : 10–15</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>10–15</td><td>110–115</td></tr><tr><td>250</td><td>25–37,5</td><td>275–287,5</td></tr><tr><td>500</td><td>50–75</td><td>550–575</td></tr><tr><td>1000</td><td>100–150</td><td>1100–1150</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">«Мокре по мокрому»</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>без затверджувача (1K)</dd></div><div><dt>Розчинник</dt><dd>100D — водний розчинник</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-hydropal-filler-1\" id=\"mx-pal-hydropal-filler-1-w\" checked><label for=\"mx-pal-hydropal-filler-1-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-hydropal-filler-1\" id=\"mx-pal-hydropal-filler-1-v\"><label for=\"mx-pal-hydropal-filler-1-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : — : 24</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>24</td><td>124</td></tr><tr><td>250</td><td>60</td><td>310</td></tr><tr><td>500</td><td>120</td><td>620</td></tr><tr><td>1000</td><td>240</td><td>1240</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : — : 30</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>30</td><td>130</td></tr><tr><td>250</td><td>75</td><td>325</td></tr><tr><td>500</td><td>150</td><td>650</td></tr><tr><td>1000</td><td>300</td><td>1300</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>В’язкість</dt><dd>30 ± 3 с · 16 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,4–1,5 · 1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (HVLP, RP)</dd></div><div><dt>Шари</dt><dd>2–3 · 2</dd></div><div><dt>Між шарами</dt><dd>10–15 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10–15 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-100F7035.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS X147, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>"
+   "mix_html": "<details class=\"tds mix\" open><summary><svg class=\"ico\" viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M12 3v3M5 21h14l-1.5-9h-11z\"/><path d=\"M8 12V8h8v4\"/></svg> Як розводити за вагою та об’ємом</summary><div class=\"mix__in\"><h3 class=\"mix__mode\">Ізолятор</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>без затверджувача (1K)</dd></div><div><dt>Розчинник</dt><dd>100D — водний розчинник</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-hydropal-filler-0\" id=\"mx-pal-hydropal-filler-0-w\" checked><label for=\"mx-pal-hydropal-filler-0-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-hydropal-filler-0\" id=\"mx-pal-hydropal-filler-0-v\"><label for=\"mx-pal-hydropal-filler-0-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : — : 8–12</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>8–12</td><td>108–112</td></tr><tr><td>250</td><td>20–30</td><td>270–280</td></tr><tr><td>500</td><td>40–60</td><td>540–560</td></tr><tr><td>1000</td><td>80–120</td><td>1080–1120</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : — : 10–15</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>10–15</td><td>110–115</td></tr><tr><td>250</td><td>25–37,5</td><td>275–287,5</td></tr><tr><td>500</td><td>50–75</td><td>550–575</td></tr><tr><td>1000</td><td>100–150</td><td>1100–1150</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><h3 class=\"mix__mode\">«Мокре по мокрому»</h3><dl class=\"mix__codes\"><div><dt>Затверджувач</dt><dd>без затверджувача (1K)</dd></div><div><dt>Розчинник</dt><dd>100D — водний розчинник</dd></div></dl><div class=\"mix__tabs\"><input type=\"radio\" name=\"mx-pal-hydropal-filler-1\" id=\"mx-pal-hydropal-filler-1-w\" checked><label for=\"mx-pal-hydropal-filler-1-w\">За вагою (г)</label><input type=\"radio\" name=\"mx-pal-hydropal-filler-1\" id=\"mx-pal-hydropal-filler-1-v\"><label for=\"mx-pal-hydropal-filler-1-v\">За об’ємом (мл)</label><div class=\"mix__panes\"><section class=\"mix__pane mix__pane--w\"><h4>За вагою</h4><p class=\"mix__ratio\">На 100 г: <b>100 : — : 24</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>г</th><th>Розчинник,<br>г</th><th>Разом,<br>г</th></tr><tr><td>100</td><td>24</td><td>124</td></tr><tr><td>250</td><td>60</td><td>310</td></tr><tr><td>500</td><td>120</td><td>620</td></tr><tr><td>1000</td><td>240</td><td>1240</td></tr></table><p class=\"mix__fine\">Грами — з таблиці змішування ТДС Palinal.</p></section><section class=\"mix__pane mix__pane--v\"><h4>За об’ємом</h4><p class=\"mix__ratio\">Об’ємні частини за ТДС: <b>100 : — : 30</b> (основа : затверджувач : розчинник)</p><table class=\"mix__tbl\"><tr><th>Основа,<br>мл</th><th>Розчинник,<br>мл</th><th>Разом,<br>мл</th></tr><tr><td>100</td><td>30</td><td>130</td></tr><tr><td>250</td><td>75</td><td>325</td></tr><tr><td>500</td><td>150</td><td>650</td></tr><tr><td>1000</td><td>300</td><td>1300</td></tr></table><p class=\"mix__fine\">Мілілітри — та сама пропорція ТДС за об’ємом. Об’єм не переводимо у вагу: густини ТДС не наводить.</p></section></div></div><dl class=\"tds__dl mix__app\"><div><dt>В’язкість</dt><dd>30 ± 3 с · 16 ± 1 с DIN4</dd></div><div><dt>Дюза</dt><dd>1,4–1,5 · 1,2–1,3 мм</dd></div><div><dt>Тиск</dt><dd>1,8–2,2 бар (HVLP, RP)</dd></div><div><dt>Шари</dt><dd>2–3 · 2</dd></div><div><dt>Між шарами</dt><dd>10–15 хв</dd></div><div><dt>Витримка перед сушінням</dt><dd>10–15 хв</dd></div></dl><p class=\"tds__src\">Джерело — технічний паспорт (ТДС) виробника: <a href=\"tds/palinal-100F7035.pdf\" target=\"_blank\" rel=\"noopener\" data-tds-link>Оригінал ТДС від виробника (PDF, EN) ↗</a> <span>· TDS X147, 07/2020</span><br><span>Значення за ТДС для стандартного нанесення; у разі розбіжностей діє оригінал.</span></p></div></details>",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-873-ff90",
@@ -4909,10 +4926,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 862.7777 — розпилювальна шпаклівка",
    "description": "Розпилювальна шпаклівка Palinal.",
-   "price_eur": 22,
+   "price_eur": 23.76,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс «Шпаклівки» у € (по курсу НБУ), пост 145",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/145"
@@ -4968,7 +4985,8 @@
     ]
    },
    "sub": "shpak",
-   "category_set_at": "2026-11-17T07:20:00+02:00"
+   "category_set_at": "2026-11-17T07:20:00+02:00",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-861-p028",
@@ -4976,10 +4994,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 861.P028 UNI — універсальна шпаклівка",
    "description": "Універсальна шпаклівка.",
-   "price_eur": 15.25,
+   "price_eur": 16.47,
    "price_label": null,
    "variants": null,
-   "price_note": "Прайс «Шпаклівки» у € (по курсу НБУ), пост 145",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/145"
@@ -5036,7 +5054,8 @@
     ]
    },
    "sub": "shpak",
-   "category_set_at": "2026-11-17T07:20:00+02:00"
+   "category_set_at": "2026-11-17T07:20:00+02:00",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-861-p001",
@@ -5044,10 +5063,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 861.P001 UNI LEGGERO — полегшена шпаклівка",
    "description": "Полегшена універсальна шпаклівка.",
-   "price_eur": 17.8,
+   "price_eur": 19.22,
    "price_label": null,
    "variants": null,
-   "price_note": "Прайс «Шпаклівки» у € (по курсу НБУ), пост 145",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/145"
@@ -5104,7 +5123,8 @@
     ]
    },
    "sub": "shpak",
-   "category_set_at": "2026-11-17T07:20:00+02:00"
+   "category_set_at": "2026-11-17T07:20:00+02:00",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-861-p044",
@@ -5112,10 +5132,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 861.P044 PLASTIC — шпаклівка по пластику",
    "description": "Шпаклівка для пластику.",
-   "price_eur": 11.5,
+   "price_eur": 12.42,
    "price_label": null,
    "variants": null,
-   "price_note": "Прайс «Шпаклівки» у € (по курсу НБУ), пост 145",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/145"
@@ -5172,7 +5192,8 @@
     ]
    },
    "sub": "shpak",
-   "category_set_at": "2026-11-17T07:20:00+02:00"
+   "category_set_at": "2026-11-17T07:20:00+02:00",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-861-p088",
@@ -5180,10 +5201,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 861.P088 ALU — шпаклівка з алюмінієм",
    "description": "Шпаклівка з алюмінієвим наповнювачем.",
-   "price_eur": 37.5,
+   "price_eur": 40.5,
    "price_label": null,
    "variants": null,
-   "price_note": "Прайс «Шпаклівки» у € (по курсу НБУ), пост 145",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/145"
@@ -5240,7 +5261,8 @@
     ]
    },
    "sub": "shpak",
-   "category_set_at": "2026-11-17T07:20:00+02:00"
+   "category_set_at": "2026-11-17T07:20:00+02:00",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-075-0020",
@@ -5362,11 +5384,11 @@
     },
     {
      "label": "5 л",
-     "price_eur": 60.0,
+     "price_eur": 50,
      "photo": "img/v/pal-077-5l.webp?v=20261017g"
     }
    ],
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148. 09.10.2026: картку pal-077-5l (5 л) об’єднано сюди",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5385,7 +5407,8 @@
    "code_5l": "077-----5",
    "merged_from": [
     "pal-077-5l"
-   ]
+   ],
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-075-t926",
@@ -5393,10 +5416,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 075.T926 — розчинник для тришарових фарб",
    "description": "Multicryl Thinner — розчинник для тришарових фарб.",
-   "price_eur": 11,
+   "price_eur": 12.5,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5432,7 +5455,8 @@
     "https://www.tiktok.com/@alex_bespik/video/7571734066534419768",
     "https://www.tiktok.com/@alex_bespik/video/7664974390211251464"
    ],
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-958-1000m",
@@ -5440,10 +5464,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 958.1000M — прискорювач сушіння",
    "description": "2K Accelerante — прискорювач сушіння.",
-   "price_eur": 10,
+   "price_eur": 11,
    "price_label": "0,5 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5470,7 +5494,8 @@
      ]
     ]
    },
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-100d1998",
@@ -5478,10 +5503,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 100D1998 — водний антисилікон (Hydropal)",
    "description": "Antisilicon Thinner Hydropal — водний знежирювач, очищує від солей і статики.",
-   "price_eur": 5.8,
+   "price_eur": 7,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5491,7 +5516,8 @@
    "photo_source": "tg-prices/product-photos/palinal_thinners/100D1998_1l.png",
    "in_stock": "В наявності",
    "flag": null,
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-950",
@@ -5499,10 +5525,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 950 — антисилікон (сольвент)",
    "description": "Antisilicon Washing Thinner — сольвентний знежирювач по кузову і пластику.",
-   "price_eur": 7.2,
+   "price_eur": 7.8,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5532,7 +5558,8 @@
      ]
     ]
    },
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-981-1000m",
@@ -5540,10 +5567,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 981.1000M — антисиліконова добавка",
    "description": "Universal Antisilicon Additive — універсальна антисиліконова добавка.",
-   "price_eur": 29,
+   "price_eur": 18,
    "price_label": "0,5 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5579,7 +5606,8 @@
      ]
     ]
    },
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-957",
@@ -5587,10 +5615,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 957 — еластифікатор",
    "description": "2K Elastic Additive — еластична добавка.",
-   "price_eur": 19,
+   "price_eur": 25.5,
    "price_label": "0,75 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5630,7 +5658,8 @@
      ]
     ]
    },
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-900-3570-special-red",
@@ -5700,10 +5729,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 900.FIX1 — біндер для переходу по базі",
    "description": "FIX 1 — безбарвна база для переходів по металіках. «Фікс для переходів по базі — без нього ніяк».",
-   "price_eur": 29,
+   "price_eur": 31,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5742,7 +5771,8 @@
    "videos": [
     "https://www.tiktok.com/@alex_bespik/video/7657550933303299335"
    ],
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-955-blend",
@@ -5750,10 +5780,10 @@
    "category_name": "Продукція Palinal",
    "name": "Palinal 955 BLEND — Easy Blend",
    "description": "Easy Blend 955 — для переходів 2K емалей і лаків по блиску.",
-   "price_eur": 29,
+   "price_eur": 31,
    "price_label": "1 л",
    "variants": null,
-   "price_note": "Прайс «Розчинники та добавки» у €, пост 148",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [
     "https://t.me/alex_bes_shoping/148"
@@ -5788,7 +5818,8 @@
      ]
     ]
    },
-   "sub": "rozch"
+   "sub": "rozch",
+   "price_set_at": "2026-11-24T18:40:00+02:00"
   },
   {
    "id": "pal-074-ds",
@@ -6265,10 +6296,10 @@
    "category_name": "Продукція Palinal",
    "name": "Каталог готових фарб PALINAL (більше 80 кольорів)",
    "description": "Фірмовий каталог-викраска готових фарб PALINAL: більше 80 кольорів — білі, сірі, чорні, червоні, сині, зелені, жовті та металік. Фарбовані зразки зібрані на кільці, тож колір зручно розглянути й порівняти. Допомагає підібрати колір готової фарби PALINAL. Виробництво — Італія.",
-   "price_eur": 23.0769,
+   "price_eur": 25,
    "price_label": null,
    "variants": null,
-   "price_note": "",
+   "price_note": "Ціна за прайсом Palinal, дійсним з 01.12.2026",
    "price_uah_original": null,
    "source": [],
    "photo": "img/p/palinal-catalog-ready-colors.webp?v=20261017p",
@@ -6281,7 +6312,7 @@
    "sub": "emal2k",
    "pin": 1,
    "is_catalog": true,
-   "price_set_at": "2026-10-17T10:40:00+03:00",
+   "price_set_at": "2026-11-24T18:40:00+02:00",
    "specs": {
     "rows": [
      [
