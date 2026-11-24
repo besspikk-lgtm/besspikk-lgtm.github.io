@@ -22,6 +22,12 @@
    "count": 68
   },
   {
+   "id": "druk3d",
+   "name": "3D друк",
+   "icon": "",
+   "count": 9
+  },
+  {
    "id": "budget",
    "name": "КИТАЙ",
    "icon": "",
@@ -18356,6 +18362,414 @@
    "price_old_eur": null,
    "category_set_at": "2026-11-22T11:30:00+02:00",
    "price_set_at": "2026-11-22T11:30:00+02:00"
+  },
+  {
+   "id": "nizh-dlya-plivky-ta-maskuvalnoho-paperu",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Ніж для плівки та маскувального паперу",
+   "description": "Компактний ніж із змінним лезом для швидкого й акуратного різання маскувальної плівки та паперу під час укриття кузовних деталей перед фарбуванням. Компактний розмір дозволяє тримати його під рукою. Такий самий ніж входить у комплект тримача маскувального паперу та стрічки.",
+   "price_eur": 3.846154,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 200,
+   "source": [],
+   "photo": "img/p/nizh-dlya-plivky-ta-maskuvalnoho-paperu.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/nizh-dlya-plivky-ta-maskuvalnoho-paperu-2.webp?v=20261124a",
+    "img/p/nizh-dlya-plivky-ta-maskuvalnoho-paperu-3.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "Маскувальна плівка та маскувальний папір"
+     ],
+     [
+      "Лезо",
+      "Змінне"
+     ],
+     [
+      "Комплектація",
+      "Ніж — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00"
+  },
+  {
+   "id": "rysuvalka-kantiv-kolisnykh-arok",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Рисувалка для кантів колісних арок",
+   "description": "Інструмент для розмітки контуру колісної арки на деталі під час відновлення арки, ремонту пошкоджень і підготовки до фарбування. Положення олівця регулюється під потрібний профіль, тож лінію можна перенести й повторити на ремонтованій ділянці.",
+   "price_eur": 6.730769,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 350,
+   "source": [],
+   "photo": "img/p/rysuvalka-kantiv-kolisnykh-arok.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/rysuvalka-kantiv-kolisnykh-arok-2.webp?v=20261124a",
+    "img/p/rysuvalka-kantiv-kolisnykh-arok-3.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "Розмітка контуру колісних арок"
+     ],
+     [
+      "Регулювання",
+      "Положення олівця"
+     ],
+     [
+      "Комплектація",
+      "Рисувалка — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00"
+  },
+  {
+   "id": "komplekt-shchupiv-dlia-rehuliuvannia-zazoriv",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Комплект щупів для регулювання зазорів",
+   "description": "Набір вимірювальних щупів різної товщини для перевірки та регулювання зазорів між деталями. Ним зручно контролювати відстань під час ремонту, обслуговування й налаштування механізмів, зокрема в важкодоступних місцях. У описі виробника згадано застосування для регулювання клапанних зазорів двигунів та перевірки проміжків між механічними деталями.",
+   "price_eur": 6.730769,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 350,
+   "source": [],
+   "photo": "img/p/komplekt-shchupiv-dlia-rehuliuvannia-zazoriv.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/komplekt-shchupiv-dlia-rehuliuvannia-zazoriv-2.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "Вимірювання та регулювання зазорів"
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00"
+  },
+  {
+   "id": "nastinnyi-trymach-shlifuvalnoi-mashynky-150mm",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Настінний тримач для шліфувальної машинки 150 мм",
+   "description": "Настінний тримач для зберігання шліфувальної машинки з підошвою 150 мм. Кріпиться на стіну майстерні: машинка не займає робочий стіл і залишається під рукою під час кузовних і малярних робіт. Сумісність — машинки з діаметром підошви 150 мм за відповідності форми корпусу.",
+   "price_eur": 7.692308,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 400,
+   "source": [],
+   "photo": "img/p/nastinnyi-trymach-shlifuvalnoi-mashynky-150mm.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [],
+   "specs": {
+    "rows": [
+     [
+      "Діаметр підошви машинки",
+      "150 мм"
+     ],
+     [
+      "Монтаж",
+      "Настінний"
+     ],
+     [
+      "Комплектація",
+      "Тримач — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00"
+  },
+  {
+   "id": "zavertach-maliarnoi-strichky-dlia-perekhodu-laku",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Завертач малярної стрічки для переходу лаку",
+   "description": "Інструмент для швидкого й рівномірного підгинання краю малярної стрічки. Формує м’яку межу нанесення лаку або фарби, щоб після локального ремонту перехід між новим і наявним покриттям був без різких країв і помітних сходинок. Прискорює підготовку порівняно з ручним загортанням скотчу.",
+   "price_eur": 30.769231,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 1600,
+   "source": [],
+   "photo": "img/p/zavertach-maliarnoi-strichky-dlia-perekhodu-laku.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/zavertach-maliarnoi-strichky-dlia-perekhodu-laku-2.webp?v=20261124a",
+    "img/p/zavertach-maliarnoi-strichky-dlia-perekhodu-laku-3.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "Підгин краю малярної стрічки для переходу лаку"
+     ],
+     [
+      "Комплектація",
+      "Завертач — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": 38.461538,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00",
+   "promo": "Новинка"
+  },
+  {
+   "id": "trymach-maskuvalnoho-paperu-50-75mm",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Тримач маскувального паперу та стрічки",
+   "description": "Тримач для одночасної подачі маскувального паперу та малярної стрічки: коли витягуєте папір, стрічка сама наклеюється вздовж його краю — виходить готова смуга для маскування без ручного проклеювання. Підходить для паперу шириною 50 або 75 мм. Найбільше часу економить на великих поверхнях: дверних прорізах, крилах, капоті. У комплекті ніж для паперу та плівки.",
+   "price_eur": 44.230769,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 2300,
+   "source": [],
+   "photo": "img/p/trymach-maskuvalnoho-paperu-50-75mm.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/trymach-maskuvalnoho-paperu-50-75mm-2.webp?v=20261124a",
+    "img/p/trymach-maskuvalnoho-paperu-50-75mm-3.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Ширина паперу",
+      "50 або 75 мм"
+     ],
+     [
+      "Подача",
+      "Папір і малярна стрічка одночасно"
+     ],
+     [
+      "Комплектація",
+      "Тримач — 1 шт., ніж для маскувальної плівки та паперу — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00"
+  },
+  {
+   "id": "likhtaryk-na-farbopult",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Ліхтарик на фарбопульт",
+   "description": "LED-ліхтарик, який встановлюється безпосередньо на фарбопульт і освітлює ділянку, на яку наноситься матеріал. Так легше контролювати рівномірність нанесення та обробку складних ділянок кузова без окремого ручного джерела світла. Живлення — від вбудованого акумулятора 3700 мА·год. У комплекті п’ять змінних монтажних кілець різного розміру під різні моделі фарбопультів.",
+   "price_eur": 86.538462,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 4500,
+   "source": [],
+   "photo": "img/p/likhtaryk-na-farbopult.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/likhtaryk-na-farbopult-2.webp?v=20261124a",
+    "img/p/likhtaryk-na-farbopult-3.webp?v=20261124a",
+    "img/p/likhtaryk-na-farbopult-4.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Тип освітлення",
+      "LED"
+     ],
+     [
+      "Акумулятор",
+      "Вбудований, 3700 мА·год"
+     ],
+     [
+      "Кріплення",
+      "На фарбопульт, 5 змінних кілець різного розміру"
+     ],
+     [
+      "Комплектація",
+      "LED-ліхтарик — 1 шт., змінне монтажне кільце — 5 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00"
+  },
+  {
+   "id": "antystatychnyi-pistolet-dlia-farbuvannia",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Антистатичний пістолет для зняття статики",
+   "description": "Пістолет з іонізацією стисненого повітря для зняття статичного заряду з металевих і пластикових деталей перед фарбуванням. Іонізований потік нейтралізує заряд і одночасно здуває пил, тож на підготовленій поверхні менше забруднень — особливо на пластикових бамперах і накладках. Електроніка живиться від змінного акумулятора 3700 мА·год; у комплекті два акумулятори та захисний кейс.",
+   "price_eur": 307.692308,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 16000,
+   "source": [],
+   "photo": "img/p/antystatychnyi-pistolet-dlia-farbuvannia.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото товару: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "Під замовлення",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/antystatychnyi-pistolet-dlia-farbuvannia-2.webp?v=20261124a",
+    "img/p/antystatychnyi-pistolet-dlia-farbuvannia-3.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Принцип роботи",
+      "Іонізація стисненого повітря"
+     ],
+     [
+      "Живлення",
+      "Змінний акумулятор 3700 мА·год"
+     ],
+     [
+      "Матеріали деталей",
+      "Метал, пластик"
+     ],
+     [
+      "Комплектація",
+      "Пістолет — 1 шт., змінний акумулятор 3700 мА·год — 2 шт., кейс — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "price_old_eur": null,
+   "category_set_at": "2026-11-24T10:40:00+02:00",
+   "price_set_at": "2026-11-24T10:40:00+02:00",
+   "promo": "ХІТ"
+  },
+  {
+   "id": "pistolet-dlia-2-komponentnoho-hermetyka",
+   "category": "druk3d",
+   "category_name": "3D друк",
+   "name": "Пістолет для 2-компонентного герметика",
+   "description": "Ручний пістолет для видавлювання 2-компонентного герметика зі спарених картриджів. Корпус надрукований на 3D-принтері: білий корпус і червоні рукоятки. На фото товар показано з установленими картриджами.",
+   "price_eur": 34.615385,
+   "price_label": null,
+   "variants": null,
+   "price_note": "",
+   "price_uah_original": 1800,
+   "source": [],
+   "photo": "img/p/pistolet-dlia-2-komponentnoho-hermetyka.webp?v=20261124a",
+   "photo_is_placeholder": false,
+   "photo_source": "фото Alex: фон прибрано, чистий білий фон #fff (як у фото товарів від партнерів)",
+   "in_stock": "В наявності",
+   "flag": null,
+   "intake": "2026-11-24",
+   "brand": null,
+   "photos_extra": [
+    "img/p/pistolet-dlia-2-komponentnoho-hermetyka-2.webp?v=20261124a",
+    "img/p/pistolet-dlia-2-komponentnoho-hermetyka-3.webp?v=20261124a"
+   ],
+   "specs": {
+    "rows": [
+     [
+      "Призначення",
+      "Видавлювання 2-компонентного герметика зі спарених картриджів"
+     ],
+     [
+      "Корпус",
+      "3D-друк"
+     ],
+     [
+      "Комплектація",
+      "Пістолет — 1 шт."
+     ]
+    ],
+    "src": "За характеристиками, зазначеними в картці товару."
+   },
+   "home_cat": "druk3d",
+   "type": "druk3d",
+   "category_set_at": "2026-11-24T11:20:00+02:00",
+   "price_set_at": "2026-11-24T11:20:00+02:00"
   }
  ],
  "tiktok": {
