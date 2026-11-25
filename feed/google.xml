@@ -4,7 +4,7 @@
     <title>Alex_bes — фарбопульти Meiji, PALINAL та матеріали для малярів</title>
     <link>https://alexbes.com.ua/</link>
     <description>Каталог Alex_bes, Чернівці: фарбопульти, автоемалі PALINAL, абразиви, полірування та аксесуари для малярів.</description>
-    <lastBuildDate>Tue, 24 Nov 2026 09:25:45 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 25 Nov 2026 09:53:50 +0000</lastBuildDate>
     <item>
       <g:id>palinal-coverall-hydropal120-l</g:id>
       <g:item_group_id>palinal-coverall-hydropal120</g:item_group_id>
@@ -7522,5 +7522,32 @@
       <g:identifier_exists>no</g:identifier_exists>
       <g:product_type>3D друк</g:product_type>
     </item>
-  </channel>
+      <item>
+      <g:id>sponge-sanding-discs-2in-108-p2000</g:id>
+      <title>Шліфувальні диски на поролоні 50,8 мм (2″), 108 шт, P2000</title>
+      <description>Набір із 108 шліфувальних дисків на поролоні діаметром 50,8 мм (2″), зернистість P2000. Диски червоні, з основою на липучці, запаковані в картонну коробку. Підходять до підошви 50,8 мм (2″) на липучці.</description>
+      <g:price>1250.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/sponge-sanding-discs-2in-108-p2000/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/sponge-sanding-discs-2in-108-p2000.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/sponge-sanding-discs-2in-108-p2000-2.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>КИТАЙ</g:product_type>
+    </item>
+    <item>
+      <g:id>dms-peel-film-sanding-block</g:id>
+      <title>Шліфувальний брусок DMS з відривними плівковими аркушами</title>
+      <description>Шліфувальний брусок DMS (DIMEISI) з відривними плівковими аркушами. На чорному бруску з помаранчевою вставкою напис DMS DIMEISI, зверху — фіолетовий абразивний шар. Аркуші знімаються з бруска по одному. На аркушах маркування Q22T; на фото комплекту видно зернистості P1000, P1200, P1500, P2000 і P2500.</description>
+      <g:price>850.00 UAH</g:price>
+      <link>https://alexbes.com.ua/p/dms-peel-film-sanding-block/</link>
+      <g:image_link>https://alexbes.com.ua/img/p/dms-peel-film-sanding-block.webp</g:image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/dms-peel-film-sanding-block-2.webp</g:additional_image_link>
+      <g:additional_image_link>https://alexbes.com.ua/img/p/dms-peel-film-sanding-block-3.webp</g:additional_image_link>
+      <g:availability>in_stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:identifier_exists>no</g:identifier_exists>
+      <g:product_type>КИТАЙ</g:product_type>
+    </item>
+</channel>
 </rss>
